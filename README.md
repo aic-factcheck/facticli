@@ -1,35 +1,104 @@
 # facticli
 
-An agentic CLI fact-checking framework built at the [AI Center, Czech Technical University in Prague](https://aic.fel.cvut.cz/).
+`facticli` is a pip-installable Python CLI for agentic claim verification built on `openai-agents`.
 
-**facticli** reimagines state-of-the-art academic fact-checking as a modular, agentic CLI tool. By moving beyond static RAG pipelines toward tool-augmented, multi-step reasoning, it explores what new capabilities emerge when a fact-checker can autonomously plan, retrieve, and verify claims through composable CLI actions.
+It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
+- open web search,
+- orchestrated parallel subroutines,
+- final veracity verdict + justification,
+- explicit source output.
 
-## Key Ideas
+The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with a thin orchestrator layer.
 
-- 🔍 **Agentic fact-checking** — the system autonomously decomposes claims, plans verification strategies, and iterates on evidence
-- 🛠️ **CLI-native** — built around composable command-line tooling, not notebooks or web UIs
-- 🔌 **Model-agnostic** — currently supports GPT-5.3, designed to swap in any LLM backend
-- 📐 **Research-first** — developed as a research tool to probe the boundaries of agentic fact verification
+## Install
 
-## Getting Started
+From this repository:
 
 ```bash
-pip install facticli
+pip install -e .
+```
+
+## Configure
+
+Set your API key:
+
+```bash
+export OPENAI_API_KEY=...
+```
+
+Optional defaults:
+
+```bash
+export FACTICLI_MODEL=gpt-4.1-mini
+```
+
+## Usage
+
+Run a claim check:
+
+```bash
 facticli check "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
-## Citation
+Show the generated plan:
 
-If you use facticli in your research, please cite:
-
-```bibtex
-@misc{ullrich2025facticli,
-  title={facticli: ...},
-  author={Ullrich, Herbert and ...},
-  year={2025}
-}
+```bash
+facticli check --show-plan "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
+
+Machine-readable output:
+
+```bash
+facticli check --json --include-artifacts "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
+List built-in agent skills:
+
+```bash
+facticli skills
+```
+
+## CLI options
+
+```text
+facticli check [--model MODEL] [--max-checks N] [--parallel N]
+               [--search-context-size {low,medium,high}]
+               [--show-plan] [--json] [--include-artifacts]
+               "<claim>"
+```
+
+## Current architecture (bootstrap)
+
+- `plan` skill: decomposes claim into independent checks and search queries.
+- `research` skill: runs one check using hosted web search (`WebSearchTool`).
+- `judge` skill: merges findings into one verdict:
+  - `Supported`
+  - `Refuted`
+  - `Not Enough Evidence`
+  - `Conflicting Evidence/Cherrypicking`
+
+The orchestrator runs all check-research jobs concurrently (bounded by `--parallel`) and then performs final judgment.
+
+## Repository layout
+
+```text
+src/facticli/
+  cli.py             # command-line interface
+  orchestrator.py    # planner -> parallel research -> judge pipeline
+  agents.py          # openai-agents definitions
+  skills.py          # skill registry and prompt loading
+  types.py           # typed plan/finding/report contracts
+  prompts/
+    plan.md
+    research.md
+    judge.md
+```
+
+## Notes
+
+- This is an initial bootstrap and intentionally leaves room for deeper evaluator tooling, benchmark harnesses, and richer source quality scoring.
+- If you installed in editable mode, updates in `src/` are reflected immediately.
 
 ## License
 
-cc-by-sa-4.0
+CC-BY-SA-4.0

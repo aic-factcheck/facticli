@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "facticli"
+version = "0.1.0"
+description = "Agentic fact-checking CLI with parallel web investigation and veracity judgment."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "CC-BY-SA-4.0" }
+authors = [
+  { name = "facticli contributors" },
+]
+dependencies = [
+  "openai-agents>=0.9.2",
+  "pydantic>=2.7.0",
+]
+keywords = ["fact-checking", "cli", "agents", "openai", "verification"]
+
+[project.scripts]
+facticli = "facticli.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/facticli"]
+include = ["src/facticli/prompts/*.md"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/README.md",
+  "/TODO.md",
+  "/src/facticli",
+  "/pyproject.toml",
+]
+
