@@ -94,6 +94,11 @@ src/facticli/
     judge.md
 ```
 
+## Contributor guide
+
+- Project contributor/agent guidance lives in `/Users/bertik/PhD/facticli/AGENTS.md`.
+- `/Users/bertik/PhD/facticli/CLAUDE.md` is a symlink to the same file.
+
 ## Notes
 
 - This is an initial bootstrap and intentionally leaves room for deeper evaluator tooling, benchmark harnesses, and richer source quality scoring.
