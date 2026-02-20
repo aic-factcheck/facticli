@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(brew outdated:*)",
-      "Bash(brew info:*)",
-      "Bash(python3:*)"
-    ]
-  }
-}

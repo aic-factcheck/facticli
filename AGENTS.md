@@ -20,8 +20,9 @@ This repository is currently a bootstrap implementation focused on architecture 
 
 Implemented:
 - pip-installable package (`pyproject.toml`),
-- CLI with `facticli check` and `facticli skills`,
+- CLI with `facticli check`, `facticli extract-claims`, and `facticli skills`,
 - modular prompt “skills” (`plan`, `research`, `judge`),
+- claim extraction skill (`extract_claims`) for arbitrary text,
 - orchestrator with bounded parallelism for sub-checks,
 - typed output contracts for plans, findings, verdicts, and sources.
 
@@ -54,6 +55,7 @@ Not yet implemented (expected future work):
 - `src/facticli/__main__.py`: `python -m facticli` runner
 - `src/facticli/cli.py`: CLI parser and command handlers
 - `src/facticli/orchestrator.py`: pipeline coordinator (plan -> parallel research -> judge)
+- `src/facticli/claim_extraction.py`: check-worthy claim extraction module
 - `src/facticli/agents.py`: agent construction and model settings
 - `src/facticli/types.py`: Pydantic schemas for plan/findings/report
 - `src/facticli/skills.py`: skill registry + prompt loading
@@ -144,6 +146,7 @@ Prompt design principles:
 - `--search-context-size`
 - `--inference-provider`
 - `--gemini-model`
+- `--max-claims` (extract-claims command)
 - `--show-plan`
 - `--json`
 - `--include-artifacts`

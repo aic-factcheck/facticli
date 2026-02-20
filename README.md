@@ -80,6 +80,18 @@ List built-in agent skills:
 facticli skills
 ```
 
+Extract decontextualized atomic check-worthy claims from arbitrary text:
+
+```bash
+facticli extract-claims "In last year’s debate, the minister said inflation fell below 3% while wages rose 10%."
+```
+
+Extract claims from a transcript file:
+
+```bash
+facticli extract-claims --from-file ./data/debate_excerpt.txt --json
+```
+
 ## CLI options
 
 ```text
@@ -90,6 +102,12 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                [--search-context-size {low,medium,high}]
                [--show-plan] [--json] [--include-artifacts]
                "<claim>"
+
+facticli extract-claims [--from-file PATH]
+                        [--inference-provider {openai-agents,gemini}]
+                        [--model MODEL] [--gemini-model GEMINI_MODEL]
+                        [--max-claims N] [--json]
+                        [text]
 ```
 
 ## Current architecture (bootstrap)
@@ -115,11 +133,13 @@ Inference backends:
 ```text
 src/facticli/
   cli.py             # command-line interface
+  claim_extraction.py# check-worthy claim extraction module
   orchestrator.py    # planner -> parallel research -> judge pipeline
   agents.py          # openai-agents definitions
   skills.py          # skill registry and prompt loading
   types.py           # typed plan/finding/report contracts
   prompts/
+    extract_claims.md
     plan.md
     research.md
     judge.md
@@ -133,6 +153,7 @@ Interactive demos live in `/Users/bertik/PhD/facticli/notebooks`:
 - `02_research_subroutine_demo.ipynb`
 - `03_judge_subroutine_demo.ipynb`
 - `04_full_checker_demo.ipynb`
+- `05_claim_extraction_demo.ipynb`
 
 Each notebook includes:
 - auto-reload setup (`%load_ext autoreload`, `%autoreload 2`),

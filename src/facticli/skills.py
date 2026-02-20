@@ -5,7 +5,7 @@ from importlib.resources import files
 
 from pydantic import BaseModel
 
-from .types import AspectFinding, FactCheckReport, InvestigationPlan
+from .types import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan
 
 
 @dataclass(frozen=True)
@@ -39,6 +39,13 @@ SKILLS: dict[str, SkillSpec] = {
         output_model=FactCheckReport,
         uses_web_search=False,
     ),
+    "extract_claims": SkillSpec(
+        name="extract_claims",
+        description="Extract decontextualized atomic check-worthy claims from arbitrary text.",
+        prompt_file="extract_claims.md",
+        output_model=ClaimExtractionResult,
+        uses_web_search=False,
+    ),
 }
 
 
@@ -52,5 +59,4 @@ def load_skill_prompt(skill_name: str) -> str:
 
 
 def list_skills() -> list[SkillSpec]:
-    return [SKILLS[name] for name in ("plan", "research", "judge")]
-
+    return [SKILLS[name] for name in ("plan", "research", "judge", "extract_claims")]
