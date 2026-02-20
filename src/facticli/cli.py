@@ -8,6 +8,7 @@ import sys
 import traceback
 from pathlib import Path
 
+from .application.progress import ProgressEvent
 from .claim_extraction import ClaimExtractor, ClaimExtractorConfig
 from .core.artifacts import RunArtifacts
 from .orchestrator import FactCheckOrchestrator, OrchestratorConfig
@@ -78,6 +79,67 @@ def _serialize_run_artifacts(artifacts: RunArtifacts) -> dict[str, object]:
         "report_raw": artifacts.report_raw.model_dump() if artifacts.report_raw else None,
         "report_final": artifacts.report_final.model_dump() if artifacts.report_final else None,
     }
+
+
+def _truncate_text(value: str, max_length: int = 140) -> str:
+    normalized = " ".join(value.split())
+    if len(normalized) <= max_length:
+        return normalized
+    return normalized[: max_length - 3] + "..."
+
+
+def _format_progress_event(event: ProgressEvent) -> list[str]:
+    payload = event.payload
+    if event.kind == "run_started":
+        return [f"[progress] Starting fact-check: {payload.get('claim', '')}"]
+    if event.kind == "planning_started":
+        return ["[progress] Planning verification checks..."]
+    if event.kind == "planning_completed":
+        lines = [f"[progress] Plan ready with {payload.get('check_count', 0)} check(s):"]
+        checks = payload.get("checks", [])
+        if isinstance(checks, list):
+            for check in checks:
+                if not isinstance(check, dict):
+                    continue
+                aspect_id = check.get("aspect_id", "")
+                question = check.get("question", "")
+                lines.append(f"  - [{aspect_id}] {question}")
+        return lines
+    if event.kind == "research_started":
+        return [f"[progress] Running research for {payload.get('check_count', 0)} check(s)..."]
+    if event.kind == "research_check_completed":
+        aspect_id = payload.get("aspect_id", "")
+        signal = payload.get("signal", "")
+        confidence = float(payload.get("confidence", 0.0))
+        summary = _truncate_text(str(payload.get("summary", "")))
+        return [
+            f"[progress] [{aspect_id}] {signal} | confidence {confidence:.2f}",
+            f"           {summary}",
+        ]
+    if event.kind == "research_check_failed":
+        aspect_id = payload.get("aspect_id", "")
+        error = payload.get("error", "")
+        return [f"[progress] [{aspect_id}] failed: {error}"]
+    if event.kind == "judging_started":
+        return ["[progress] Synthesizing final verdict..."]
+    if event.kind == "judging_completed":
+        verdict = payload.get("verdict", "")
+        confidence = float(payload.get("verdict_confidence", 0.0))
+        return [f"[progress] Verdict draft: {verdict} (confidence {confidence:.2f})"]
+    if event.kind == "run_completed":
+        return ["[progress] Fact-check run completed."]
+    return []
+
+
+def _build_progress_callback(stream_progress: bool):
+    if not stream_progress:
+        return None
+
+    def callback(event: ProgressEvent) -> None:
+        for line in _format_progress_event(event):
+            print(line, file=sys.stderr, flush=True)
+
+    return callback
 
 
 def _validate_inference_provider_keys(inference_provider: str) -> int:
@@ -158,7 +220,12 @@ def build_parser() -> argparse.ArgumentParser:
     check_parser.add_argument(
         "--include-artifacts",
         action="store_true",
-        help="When used with --json, include plan and per-check findings.",
+        help="When used with --json, include plan, findings, and run artifacts.",
+    )
+    check_parser.add_argument(
+        "--stream-progress",
+        action="store_true",
+        help="Stream plan and per-check progress updates to stderr while the run executes.",
     )
 
     extract_parser = subparsers.add_parser(
@@ -225,8 +292,10 @@ async def run_check_command(args: argparse.Namespace) -> int:
         return 2
 
     orchestrator = FactCheckOrchestrator(config=config)
+    stream_progress = bool(getattr(args, "stream_progress", False))
+    progress_callback = _build_progress_callback(stream_progress)
     try:
-        run = await orchestrator.check_claim(args.claim)
+        run = await orchestrator.check_claim(args.claim, progress_callback=progress_callback)
     except Exception as exc:
         if getattr(args, "debug", False):
             traceback.print_exc(file=sys.stderr)

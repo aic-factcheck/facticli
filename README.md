@@ -68,6 +68,12 @@ Show the generated plan:
 facticli check --show-plan "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
+Stream plan and per-check progress while the run executes:
+
+```bash
+facticli check --stream-progress "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
 Machine-readable output:
 
 ```bash
@@ -101,7 +107,8 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                [--search-provider {openai,brave}]
                [--search-results N]
                [--search-context-size {low,medium,high}]
-               [--show-plan] [--json] [--include-artifacts]
+               [--show-plan] [--stream-progress]
+               [--json] [--include-artifacts]
                "<claim>"
 
 facticli extract-claims [--from-file PATH]

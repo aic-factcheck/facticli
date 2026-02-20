@@ -5,10 +5,11 @@ import io
 import json
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
+from facticli.application.progress import ProgressEvent
 from facticli.cli import _load_extract_input_text, run_check_command, run_extract_claims_command
 from facticli.core.artifacts import RunArtifacts
 from facticli.orchestrator import FactCheckRun
@@ -143,6 +144,74 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("plan", payload)
         self.assertIn("findings", payload)
         self.assertIn("artifacts", payload)
+
+    async def test_check_command_streams_progress_to_stderr(self):
+        fake_run = FactCheckRun(
+            claim="The Eiffel Tower was built in 1889.",
+            plan=InvestigationPlan(claim="The Eiffel Tower was built in 1889.", checks=[], assumptions=[]),
+            findings=[],
+            report=FactCheckReport(
+                claim="The Eiffel Tower was built in 1889.",
+                verdict=VeracityVerdict.SUPPORTED,
+                verdict_confidence=0.9,
+                justification="Supported.",
+                key_points=[],
+                findings=[],
+                sources=[],
+            ),
+            artifacts=RunArtifacts(
+                claim="The Eiffel Tower was built in 1889.",
+                normalized_claim="The Eiffel Tower was built in 1889.",
+            ),
+        )
+
+        class _FakeOrchestrator:
+            async def check_claim(self, _claim: str, progress_callback=None):
+                if progress_callback is not None:
+                    progress_callback(
+                        ProgressEvent(
+                            kind="planning_completed",
+                            payload={
+                                "check_count": 1,
+                                "checks": [
+                                    {
+                                        "aspect_id": "timeline_1",
+                                        "question": "Was it completed in 1889?",
+                                    }
+                                ],
+                            },
+                        )
+                    )
+                return fake_run
+
+        args = argparse.Namespace(
+            claim="The Eiffel Tower was built in 1889.",
+            inference_provider="openai-agents",
+            model="gpt-4.1-mini",
+            gemini_model="gemini-2.0-flash",
+            max_checks=4,
+            parallel=2,
+            search_provider="openai",
+            search_context_size="high",
+            search_results_per_query=5,
+            show_plan=False,
+            json=False,
+            include_artifacts=False,
+            stream_progress=True,
+        )
+
+        with (
+            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
+            patch("facticli.cli.FactCheckOrchestrator", return_value=_FakeOrchestrator()),
+        ):
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with redirect_stdout(stdout), redirect_stderr(stderr):
+                code = await run_check_command(args)
+
+        self.assertEqual(code, 0)
+        self.assertIn("[progress] Plan ready", stderr.getvalue())
+        self.assertIn("[timeline_1] Was it completed in 1889?", stderr.getvalue())
 
 
 class LoadExtractInputTextTests(unittest.TestCase):

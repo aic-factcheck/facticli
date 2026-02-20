@@ -166,6 +166,7 @@ Prompt design principles:
 - `--gemini-model`
 - `--max-claims` (extract-claims command)
 - `--show-plan`
+- `--stream-progress`
 - `--json`
 - `--include-artifacts`
 

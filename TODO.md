@@ -19,6 +19,7 @@
 - [x] Replace silent CLI coercion with strict argument validation for positive/ranged integer flags.
 - [x] Reject ambiguous claim-extraction input (`text` + `--from-file`) with explicit error.
 - [x] Tighten prompt guidance around source quality, corroboration, and time-sensitive claims.
+- [x] Add optional CLI progress streaming for plan + per-check research updates.
 
 - [ ] Add provider-agnostic retry/backoff taxonomy (timeouts, rate limits, transient network, schema mismatch).
 - [ ] Add source quality scoring and ranking (authority, recency, primary-source preference, duplication).

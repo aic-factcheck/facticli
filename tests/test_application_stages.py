@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 
 from facticli.application.stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage
+from facticli.application.progress import ProgressEvent
 from facticli.core.artifacts import RunArtifacts
 from facticli.types import (
     AspectFinding,
@@ -111,8 +112,12 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
     async def test_plan_stage_normalizes_checks(self):
         stage = PlanStage(planner=_FakePlanner(), max_checks=3, max_search_queries_per_check=4)
         artifacts = RunArtifacts(claim="raw", normalized_claim="raw")
+        events: list[ProgressEvent] = []
 
-        plan = await stage.execute("Eiffel claim", artifacts)
+        def progress_callback(event: ProgressEvent) -> None:
+            events.append(event)
+
+        plan = await stage.execute("Eiffel claim", artifacts, progress_callback=progress_callback)
 
         self.assertEqual(len(plan.checks), 2)
         self.assertEqual(plan.checks[0].aspect_id, "timeline_1")
@@ -121,6 +126,8 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("Eiffel claim", plan.checks[0].search_queries)
         self.assertIsNotNone(artifacts.plan_raw)
         self.assertIsNotNone(artifacts.plan_normalized)
+        self.assertEqual(events[0].kind, "planning_started")
+        self.assertEqual(events[-1].kind, "planning_completed")
 
     async def test_research_stage_retries_and_converts_failures(self):
         researcher = _FakeResearcher()
@@ -131,6 +138,7 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
             research_retry_attempts=1,
         )
         artifacts = RunArtifacts(claim="raw", normalized_claim="raw")
+        events: list[ProgressEvent] = []
         plan = InvestigationPlan(
             claim="claim",
             checks=[
@@ -150,7 +158,10 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
             assumptions=[],
         )
 
-        findings = await stage.execute("claim", plan, artifacts)
+        def progress_callback(event: ProgressEvent) -> None:
+            events.append(event)
+
+        findings = await stage.execute("claim", plan, artifacts, progress_callback=progress_callback)
 
         self.assertEqual(len(findings), 2)
         bad = [finding for finding in findings if finding.aspect_id == "bad_1"][0]
@@ -158,10 +169,16 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         bad_artifact = [entry for entry in artifacts.research_checks if entry.check.aspect_id == "bad_1"][0]
         self.assertEqual(bad_artifact.attempts, 2)
         self.assertEqual(len(bad_artifact.errors), 2)
+        event_kinds = [event.kind for event in events]
+        self.assertIn("research_started", event_kinds)
+        self.assertIn("research_check_completed", event_kinds)
+        self.assertIn("research_check_failed", event_kinds)
+        self.assertEqual(event_kinds[-1], "research_completed")
 
     async def test_judge_stage_backfills_findings_and_deduplicates_sources(self):
         stage = JudgeStage(judge=_FakeJudge())
         artifacts = RunArtifacts(claim="raw", normalized_claim="raw")
+        events: list[ProgressEvent] = []
         findings = [
             AspectFinding(
                 aspect_id="timeline_1",
@@ -190,12 +207,15 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
             plan=InvestigationPlan(claim="x", checks=[], assumptions=[]),
             findings=findings,
             artifacts=artifacts,
+            progress_callback=events.append,
         )
 
         self.assertEqual(len(report.findings), 1)
         self.assertEqual(len(report.sources), 2)
         self.assertIsNotNone(artifacts.report_raw)
         self.assertIsNotNone(artifacts.report_final)
+        self.assertEqual(events[0].kind, "judging_started")
+        self.assertEqual(events[-1].kind, "judging_completed")
 
     async def test_claim_extraction_stage_normalizes_output(self):
         stage = ClaimExtractionStage(backend=_FakeExtractionBackend(), max_claims=2)

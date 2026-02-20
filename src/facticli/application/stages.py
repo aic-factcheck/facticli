@@ -16,6 +16,7 @@ from facticli.core.contracts import (
 from facticli.core.normalize import normalize_plan_checks, normalize_query_list, normalize_source_url
 
 from .interfaces import ClaimExtractionBackend, Judge, Planner, Researcher
+from .progress import ProgressCallback, emit_progress
 
 
 @dataclass(frozen=True)
@@ -24,7 +25,13 @@ class PlanStage:
     max_checks: int
     max_search_queries_per_check: int
 
-    async def execute(self, claim: str, artifacts: RunArtifacts) -> InvestigationPlan:
+    async def execute(
+        self,
+        claim: str,
+        artifacts: RunArtifacts,
+        progress_callback: ProgressCallback | None = None,
+    ) -> InvestigationPlan:
+        await emit_progress(progress_callback, "planning_started", {"claim": claim})
         plan_raw = await self.planner.plan(claim=claim, max_checks=self.max_checks)
         artifacts.plan_raw = plan_raw
 
@@ -48,6 +55,21 @@ class PlanStage:
 
         plan = plan_raw.model_copy(update={"claim": claim, "checks": checks})
         artifacts.plan_normalized = plan
+        await emit_progress(
+            progress_callback,
+            "planning_completed",
+            {
+                "claim": claim,
+                "check_count": len(plan.checks),
+                "checks": [
+                    {
+                        "aspect_id": check.aspect_id,
+                        "question": check.question,
+                    }
+                    for check in plan.checks
+                ],
+            },
+        )
         return plan
 
 
@@ -63,12 +85,18 @@ class ResearchStage:
         claim: str,
         plan: InvestigationPlan,
         artifacts: RunArtifacts,
+        progress_callback: ProgressCallback | None = None,
     ) -> list[AspectFinding]:
         semaphore = asyncio.Semaphore(max(1, self.max_parallel_research))
         timeout = self.research_timeout_seconds or None
         max_attempts = 1 + max(0, self.research_retry_attempts)
+        await emit_progress(
+            progress_callback,
+            "research_started",
+            {"claim": claim, "check_count": len(plan.checks)},
+        )
 
-        async def run_check(check: VerificationCheck) -> AspectFinding:
+        async def run_check(index: int, check: VerificationCheck) -> tuple[int, VerificationCheck, AspectFinding | Exception]:
             artifact = artifacts.get_or_create_check(check)
             async with semaphore:
                 last_error: Exception | None = None
@@ -81,40 +109,70 @@ class ResearchStage:
                         else:
                             finding = await task
                         artifact.finding = finding
-                        return finding
+                        return index, check, finding
                     except Exception as exc:  # pragma: no cover
                         last_error = exc
                         artifact.errors.append(f"{type(exc).__name__}: {exc}")
 
                 assert last_error is not None
-                raise last_error
+                return index, check, last_error
 
-        tasks = [asyncio.create_task(run_check(check)) for check in plan.checks]
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+        tasks = [
+            asyncio.create_task(run_check(index, check)) for index, check in enumerate(plan.checks)
+        ]
 
-        findings: list[AspectFinding] = []
-        for check, result in zip(plan.checks, results, strict=False):
-            if isinstance(result, Exception):
-                findings.append(
-                    AspectFinding(
-                        aspect_id=check.aspect_id,
-                        question=check.question,
-                        signal=EvidenceSignal.INSUFFICIENT,
-                        summary=(
-                            f"Research subroutine failed after {max_attempts} attempt(s): "
-                            f"{type(result).__name__}: {result}"
-                        ),
-                        confidence=0.0,
-                        sources=[],
-                        caveats=[
-                            "This check failed and was downgraded to insufficient evidence."
-                        ],
-                    )
+        ordered_findings: list[AspectFinding | None] = [None] * len(plan.checks)
+        for task in asyncio.as_completed(tasks):
+            index, check, outcome = await task
+            if isinstance(outcome, Exception):
+                finding = AspectFinding(
+                    aspect_id=check.aspect_id,
+                    question=check.question,
+                    signal=EvidenceSignal.INSUFFICIENT,
+                    summary=(
+                        f"Research subroutine failed after {max_attempts} attempt(s): "
+                        f"{type(outcome).__name__}: {outcome}"
+                    ),
+                    confidence=0.0,
+                    sources=[],
+                    caveats=[
+                        "This check failed and was downgraded to insufficient evidence."
+                    ],
+                )
+                ordered_findings[index] = finding
+                await emit_progress(
+                    progress_callback,
+                    "research_check_failed",
+                    {
+                        "aspect_id": check.aspect_id,
+                        "question": check.question,
+                        "error": f"{type(outcome).__name__}: {outcome}",
+                        "attempts": max_attempts,
+                        "finding": finding.model_dump(),
+                    },
                 )
                 continue
 
-            findings.append(result)
+            ordered_findings[index] = outcome
+            await emit_progress(
+                progress_callback,
+                "research_check_completed",
+                {
+                    "aspect_id": outcome.aspect_id,
+                    "question": outcome.question,
+                    "signal": outcome.signal.value,
+                    "confidence": outcome.confidence,
+                    "summary": outcome.summary,
+                    "source_count": len(outcome.sources),
+                },
+            )
 
+        findings = [finding for finding in ordered_findings if finding is not None]
+        await emit_progress(
+            progress_callback,
+            "research_completed",
+            {"finding_count": len(findings)},
+        )
         return findings
 
 
@@ -128,7 +186,13 @@ class JudgeStage:
         plan: InvestigationPlan,
         findings: list[AspectFinding],
         artifacts: RunArtifacts,
+        progress_callback: ProgressCallback | None = None,
     ) -> FactCheckReport:
+        await emit_progress(
+            progress_callback,
+            "judging_started",
+            {"claim": claim, "finding_count": len(findings)},
+        )
         report_raw = await self.judge.judge(claim=claim, plan=plan, findings=findings)
         artifacts.report_raw = report_raw
 
@@ -140,6 +204,15 @@ class JudgeStage:
             }
         )
         artifacts.report_final = report_final
+        await emit_progress(
+            progress_callback,
+            "judging_completed",
+            {
+                "verdict": report_final.verdict.value,
+                "verdict_confidence": report_final.verdict_confidence,
+                "source_count": len(report_final.sources),
+            },
+        )
         return report_final
 
     def _merge_sources(
