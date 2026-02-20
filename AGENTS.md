@@ -184,6 +184,7 @@ After significant changes, run:
 2. `python3 -m facticli --help`
 3. `python3 -m facticli skills`
 4. `facticli --help` (if package installed in environment)
+5. `python3 -m unittest discover -s tests -p "test_*.py" -v`
 
 If API key is available, also run at least one live smoke test:
 

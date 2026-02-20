@@ -160,6 +160,14 @@ Each notebook includes:
 - emoji-based headings for quick navigation,
 - multiple example claims as commented-out variable redefinitions.
 
+## Testing
+
+Run the integrated unit tests:
+
+```bash
+python3 -m unittest discover -s tests -p "test_*.py" -v
+```
+
 ## Contributor guide
 
 - Project contributor/agent guidance lives in `/Users/bertik/PhD/facticli/AGENTS.md`.
