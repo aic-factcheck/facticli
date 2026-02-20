@@ -15,13 +15,7 @@ from facticli.types import (
     VeracityVerdict,
 )
 
-
-class _FakeRunResult:
-    def __init__(self, output):
-        self.output = output
-
-    def final_output_as(self, _cls, raise_if_incorrect_type: bool = False):
-        return self.output
+from helpers import FakeRunResult as _FakeRunResult
 
 
 class OrchestratorTests(unittest.IsolatedAsyncioTestCase):

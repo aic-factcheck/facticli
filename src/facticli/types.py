@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class VeracityVerdict(str, Enum):
@@ -54,6 +54,14 @@ class SourceEvidence(BaseModel):
     publisher: str | None = Field(default=None)
     published_at: str | None = Field(default=None)
 
+    @field_validator("url")
+    @classmethod
+    def url_must_be_http(cls, v: str) -> str:
+        stripped = v.strip()
+        if stripped and not stripped.startswith(("http://", "https://")):
+            raise ValueError(f"url must start with http:// or https://, got: {stripped!r}")
+        return stripped
+
 
 class VerificationCheck(BaseModel):
     aspect_id: str = Field(description="Stable check identifier, e.g. 'timeline_1'.")
@@ -66,7 +74,7 @@ class VerificationCheck(BaseModel):
 
 
 class InvestigationPlan(BaseModel):
-    claim: str
+    claim: str = Field(description="Exact claim text being investigated.")
     checks: list[VerificationCheck] = Field(default_factory=list)
     assumptions: list[str] = Field(default_factory=list)
 
@@ -76,7 +84,7 @@ class AspectFinding(BaseModel):
     question: str
     signal: EvidenceSignal
     summary: str = Field(description="What the collected evidence says for this aspect.")
-    confidence: float = Field(description="0 to 1 confidence score for this aspect.")
+    confidence: float = Field(ge=0.0, le=1.0, description="0 to 1 confidence score for this aspect.")
     sources: list[SourceEvidence] = Field(default_factory=list)
     caveats: list[str] = Field(default_factory=list)
 
@@ -84,7 +92,7 @@ class AspectFinding(BaseModel):
 class FactCheckReport(BaseModel):
     claim: str
     verdict: VeracityVerdict
-    verdict_confidence: float = Field(description="0 to 1 confidence in final verdict.")
+    verdict_confidence: float = Field(ge=0.0, le=1.0, description="0 to 1 confidence in final verdict.")
     justification: str = Field(description="Tight synthesis of why the verdict is assigned.")
     key_points: list[str] = Field(default_factory=list)
     findings: list[AspectFinding] = Field(default_factory=list)

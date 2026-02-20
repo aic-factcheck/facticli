@@ -5,18 +5,15 @@ from dataclasses import dataclass
 
 from agents import Agent, ModelSettings, Runner
 
+from .config import InferenceConfig
 from .gemini_inference import GeminiStructuredClient
 from .skills import load_skill_prompt
 from .types import ClaimExtractionResult
 
 
 @dataclass(frozen=True)
-class ClaimExtractorConfig:
-    inference_provider: str = "openai-agents"
-    model: str = "gpt-4.1-mini"
-    gemini_model: str = "gemini-3-pro"
+class ClaimExtractorConfig(InferenceConfig):
     max_claims: int = 12
-    max_turns: int = 8
 
 
 class ClaimExtractor:
@@ -79,9 +76,14 @@ class ClaimExtractor:
 
         extraction.input_text = normalized_text
         extraction.claims = extraction.claims[: self.config.max_claims]
+
+        # Assign fallback IDs and resolve any collisions introduced by the model.
+        seen_ids: set[str] = set()
         for idx, claim in enumerate(extraction.claims, start=1):
             if not claim.claim_id.strip():
                 claim.claim_id = f"claim_{idx}"
+            if claim.claim_id in seen_ids:
+                claim.claim_id = f"{claim.claim_id}_{idx}"
+            seen_ids.add(claim.claim_id)
 
         return extraction
-

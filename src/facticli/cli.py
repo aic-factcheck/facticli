@@ -5,6 +5,7 @@ import asyncio
 import json
 import os
 import sys
+import traceback
 from pathlib import Path
 
 from .claim_extraction import ClaimExtractor, ClaimExtractorConfig
@@ -30,7 +31,7 @@ def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> Non
     )
     command_parser.add_argument(
         "--gemini-model",
-        default=os.getenv("FACTICLI_GEMINI_MODEL", "gemini-3-pro"),
+        default=os.getenv("FACTICLI_GEMINI_MODEL", "gemini-2.0-flash"),
         help="Model used when --inference-provider gemini.",
     )
 
@@ -57,6 +58,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="facticli",
         description="Agentic fact-checking CLI with pluggable inference providers.",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        default=False,
+        help="Print full stack traces on errors instead of one-line messages.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -86,6 +93,13 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["low", "medium", "high"],
         default="high",
         help="Context size for hosted OpenAI web search tool (used when --search-provider openai).",
+    )
+    check_parser.add_argument(
+        "--search-results",
+        type=int,
+        default=5,
+        dest="search_results_per_query",
+        help="Number of search results to fetch per query (1-20, default 5).",
     )
     check_parser.add_argument(
         "--show-plan",
@@ -149,6 +163,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
         max_parallel_research=max(1, args.parallel),
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
+        search_results_per_query=max(1, min(20, args.search_results_per_query)),
     )
 
     if args.inference_provider == "gemini" and args.search_provider != "brave":
@@ -169,7 +184,10 @@ async def run_check_command(args: argparse.Namespace) -> int:
     try:
         run = await orchestrator.check_claim(args.claim)
     except Exception as exc:
-        print(f"Fact-check failed: {exc}", file=sys.stderr)
+        if getattr(args, "debug", False):
+            traceback.print_exc(file=sys.stderr)
+        else:
+            print(f"Fact-check failed: {exc}", file=sys.stderr)
         return 1
 
     if args.json:
@@ -219,7 +237,10 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
     try:
         result = await extractor.extract(input_text)
     except Exception as exc:
-        print(f"Claim extraction failed: {exc}", file=sys.stderr)
+        if getattr(args, "debug", False):
+            traceback.print_exc(file=sys.stderr)
+        else:
+            print(f"Claim extraction failed: {exc}", file=sys.stderr)
         return 1
 
     if args.json:
@@ -259,16 +280,16 @@ def run_skills_command() -> int:
     return 0
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
 
     if args.command == "check":
-        return asyncio.run(run_check_command(args))
+        sys.exit(asyncio.run(run_check_command(args)))
     if args.command == "extract-claims":
-        return asyncio.run(run_extract_claims_command(args))
+        sys.exit(asyncio.run(run_extract_claims_command(args)))
     if args.command == "skills":
-        return run_skills_command()
+        sys.exit(run_skills_command())
 
     parser.print_help()
-    return 1
+    sys.exit(1)

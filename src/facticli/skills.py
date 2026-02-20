@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 from importlib.resources import files
 
 from pydantic import BaseModel
@@ -32,6 +33,13 @@ SKILLS: dict[str, SkillSpec] = {
         output_model=AspectFinding,
         uses_web_search=True,
     ),
+    "research_gemini": SkillSpec(
+        name="research_gemini",
+        description="Investigate one check using pre-fetched search results (Gemini path).",
+        prompt_file="research_gemini.md",
+        output_model=AspectFinding,
+        uses_web_search=False,
+    ),
     "judge": SkillSpec(
         name="judge",
         description="Synthesize findings into a final veracity verdict with justification.",
@@ -49,6 +57,7 @@ SKILLS: dict[str, SkillSpec] = {
 }
 
 
+@lru_cache(maxsize=None)
 def load_skill_prompt(skill_name: str) -> str:
     if skill_name not in SKILLS:
         raise KeyError(f"Unknown skill: {skill_name}")

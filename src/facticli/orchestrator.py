@@ -3,12 +3,15 @@ from __future__ import annotations
 import asyncio
 import json
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, TypeVar
+
+from pydantic import BaseModel
 
 from agents import Runner
 
 from .agents import build_judge_agent, build_planner_agent, build_research_agent
 from .brave_search import run_brave_web_search
+from .config import InferenceConfig
 from .gemini_inference import GeminiStructuredClient
 from .skills import load_skill_prompt
 from .types import (
@@ -20,18 +23,20 @@ from .types import (
     VerificationCheck,
 )
 
+_T = TypeVar("_T", bound=BaseModel)
+
 
 @dataclass(frozen=True)
-class OrchestratorConfig:
-    inference_provider: str = "openai-agents"
-    model: str = "gpt-4.1-mini"
-    gemini_model: str = "gemini-3-pro"
+class OrchestratorConfig(InferenceConfig):
     max_checks: int = 4
     max_parallel_research: int = 4
     search_context_size: str = "high"
     search_provider: str = "openai"
     search_results_per_query: int = 5
-    max_turns: int = 10
+    # Extra turns given to the judge over other agents (synthesis is more complex).
+    judge_extra_turns: int = 2
+    # Per-research-task wall-clock timeout in seconds; 0 means no limit.
+    research_timeout_seconds: float = 120.0
 
 
 @dataclass
@@ -72,10 +77,11 @@ class FactCheckOrchestrator:
         findings = await self._run_parallel_research(normalized_claim, plan)
         report = await self._judge_claim(normalized_claim, plan, findings)
 
-        if not report.findings:
-            report.findings = findings
-        report.sources = self._merge_sources(report.sources, findings)
-        report.claim = normalized_claim
+        report = report.model_copy(update={
+            "claim": normalized_claim,
+            "findings": report.findings or findings,
+            "sources": self._merge_sources(report.sources, findings),
+        })
 
         return FactCheckRun(
             claim=normalized_claim,
@@ -92,7 +98,7 @@ class FactCheckOrchestrator:
             plan_input = (
                 "Build a fact-checking plan for this claim.\n\n"
                 f"Claim:\n{claim}\n\n"
-                "Output at most 6 checks."
+                f"Output at most {self.config.max_checks} checks."
             )
             result = await Runner.run(
                 self.planner_agent,
@@ -105,7 +111,7 @@ class FactCheckOrchestrator:
                 skill_name="plan",
                 payload={
                     "claim": claim,
-                    "max_checks": min(self.config.max_checks, 6),
+                    "max_checks": self.config.max_checks,
                 },
                 output_model=InvestigationPlan,
             )
@@ -122,9 +128,7 @@ class FactCheckOrchestrator:
                 )
             ]
 
-        plan.claim = claim
-        plan.checks = checks
-        return plan
+        return plan.model_copy(update={"claim": claim, "checks": checks})
 
     async def _run_parallel_research(
         self,
@@ -132,10 +136,14 @@ class FactCheckOrchestrator:
         plan: InvestigationPlan,
     ) -> list[AspectFinding]:
         semaphore = asyncio.Semaphore(max(1, self.config.max_parallel_research))
+        timeout = self.config.research_timeout_seconds or None
 
         async def run_check(check: VerificationCheck) -> AspectFinding:
             async with semaphore:
-                return await self._research_check(claim, check)
+                coro = self._research_check(claim, check)
+                if timeout:
+                    return await asyncio.wait_for(coro, timeout=timeout)
+                return await coro
 
         tasks = [asyncio.create_task(run_check(check)) for check in plan.checks]
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -195,16 +203,17 @@ class FactCheckOrchestrator:
             prompt_payload["search_results"] = search_payload
 
             finding = await self._run_gemini_structured(
-                skill_name="research",
+                skill_name="research_gemini",
                 payload=prompt_payload,
                 output_model=AspectFinding,
             )
 
+        updates: dict[str, Any] = {}
         if not finding.aspect_id.strip():
-            finding.aspect_id = check.aspect_id
+            updates["aspect_id"] = check.aspect_id
         if not finding.question.strip():
-            finding.question = check.question
-        return finding
+            updates["question"] = check.question
+        return finding.model_copy(update=updates) if updates else finding
 
     async def _judge_claim(
         self,
@@ -224,7 +233,7 @@ class FactCheckOrchestrator:
             result = await Runner.run(
                 self.judge_agent,
                 json.dumps(judge_payload, indent=2),
-                max_turns=self.config.max_turns + 2,
+                max_turns=self.config.max_turns + self.config.judge_extra_turns,
             )
             report = result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
         else:
@@ -239,8 +248,8 @@ class FactCheckOrchestrator:
         self,
         skill_name: str,
         payload: dict[str, Any],
-        output_model: type[InvestigationPlan | AspectFinding | FactCheckReport],
-    ) -> InvestigationPlan | AspectFinding | FactCheckReport:
+        output_model: type[_T],
+    ) -> _T:
         if self.gemini_client is None:
             raise RuntimeError("Gemini client is not initialized.")
 
@@ -252,15 +261,11 @@ class FactCheckOrchestrator:
         )
 
     async def _run_brave_queries(self, queries: list[str]) -> list[dict[str, Any]]:
-        results: list[dict[str, Any]] = []
-        for query in queries:
-            query_result = await asyncio.to_thread(
-                run_brave_web_search,
-                query,
-                self.config.search_results_per_query,
-            )
-            results.append(query_result)
-        return results
+        tasks = [
+            asyncio.to_thread(run_brave_web_search, q, self.config.search_results_per_query)
+            for q in queries
+        ]
+        return list(await asyncio.gather(*tasks))
 
     def _merge_sources(
         self,

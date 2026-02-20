@@ -6,13 +6,7 @@ from unittest.mock import AsyncMock, patch
 from facticli.claim_extraction import ClaimExtractor, ClaimExtractorConfig
 from facticli.types import CheckworthyClaim, ClaimExtractionResult
 
-
-class _FakeRunResult:
-    def __init__(self, output: ClaimExtractionResult):
-        self.output = output
-
-    def final_output_as(self, _cls, raise_if_incorrect_type: bool = False):
-        return self.output
+from helpers import FakeRunResult as _FakeRunResult
 
 
 class ClaimExtractionTests(unittest.IsolatedAsyncioTestCase):
@@ -78,7 +72,7 @@ class ClaimExtractionTests(unittest.IsolatedAsyncioTestCase):
             extractor = ClaimExtractor(
                 ClaimExtractorConfig(
                     inference_provider="gemini",
-                    gemini_model="gemini-3-pro",
+                    gemini_model="gemini-2.0-flash",
                 )
             )
             result = await extractor.extract("The first iPhone was released in 2007.")
@@ -95,4 +89,3 @@ class ClaimExtractionTests(unittest.IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
