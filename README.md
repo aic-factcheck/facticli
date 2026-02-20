@@ -106,6 +106,20 @@ src/facticli/
     judge.md
 ```
 
+## Demo notebooks
+
+Interactive demos live in `/Users/bertik/PhD/facticli/notebooks`:
+
+- `01_planner_subroutine_demo.ipynb`
+- `02_research_subroutine_demo.ipynb`
+- `03_judge_subroutine_demo.ipynb`
+- `04_full_checker_demo.ipynb`
+
+Each notebook includes:
+- auto-reload setup (`%load_ext autoreload`, `%autoreload 2`),
+- emoji-based headings for quick navigation,
+- multiple example claims as commented-out variable redefinitions.
+
 ## Contributor guide
 
 - Project contributor/agent guidance lives in `/Users/bertik/PhD/facticli/AGENTS.md`.
