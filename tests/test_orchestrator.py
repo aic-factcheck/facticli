@@ -15,7 +15,7 @@ from facticli.types import (
     VeracityVerdict,
 )
 
-from helpers import FakeRunResult as _FakeRunResult
+from tests.helpers import FakeRunResult as _FakeRunResult
 
 
 class OrchestratorTests(unittest.IsolatedAsyncioTestCase):
@@ -197,7 +197,85 @@ class OrchestratorTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("search_results", payload)
         self.assertEqual(payload["search_results"][0]["provider"], "brave")
 
+    async def test_plan_normalization_sanitizes_ids_and_queries(self):
+        planner_agent = object()
+        with (
+            patch("facticli.orchestrator.build_planner_agent", return_value=planner_agent),
+            patch("facticli.orchestrator.build_research_agent", return_value=object()),
+            patch("facticli.orchestrator.build_judge_agent", return_value=object()),
+        ):
+            orchestrator = FactCheckOrchestrator(
+                OrchestratorConfig(
+                    inference_provider="openai-agents",
+                    max_checks=4,
+                    max_search_queries_per_check=4,
+                )
+            )
+
+        messy_plan = InvestigationPlan(
+            claim="placeholder",
+            checks=[
+                VerificationCheck(
+                    aspect_id="Timeline 1",
+                    question="  Was the event in 1889?  ",
+                    rationale="  date check  ",
+                    search_queries=["", "event 1889", "EVENT 1889", "event 1889 "],
+                ),
+                VerificationCheck(
+                    aspect_id="timeline_1",
+                    question="Was it tied to the World Fair?",
+                    rationale="event check",
+                    search_queries=[],
+                ),
+                VerificationCheck(
+                    aspect_id="",
+                    question="   ",
+                    rationale="should be dropped",
+                    search_queries=["unused"],
+                ),
+            ],
+        )
+
+        with patch(
+            "facticli.orchestrator.Runner.run",
+            new=AsyncMock(return_value=_FakeRunResult(messy_plan)),
+        ):
+            normalized_plan = await orchestrator._plan_claim("Eiffel Tower claim")
+
+        self.assertEqual(len(normalized_plan.checks), 2)
+        self.assertEqual(normalized_plan.checks[0].aspect_id, "timeline_1")
+        self.assertEqual(normalized_plan.checks[1].aspect_id, "timeline_1_2")
+        self.assertEqual(normalized_plan.checks[0].question, "Was the event in 1889?")
+        self.assertEqual(normalized_plan.checks[0].rationale, "date check")
+        self.assertIn("event 1889", normalized_plan.checks[0].search_queries)
+        self.assertIn("Eiffel Tower claim", normalized_plan.checks[0].search_queries)
+
+    async def test_brave_query_collection_keeps_partial_results(self):
+        with (
+            patch("facticli.orchestrator.build_planner_agent", return_value=object()),
+            patch("facticli.orchestrator.build_research_agent", return_value=object()),
+            patch("facticli.orchestrator.build_judge_agent", return_value=object()),
+        ):
+            orchestrator = FactCheckOrchestrator(OrchestratorConfig(inference_provider="openai-agents"))
+
+        def fake_brave(query: str, _count: int) -> dict[str, object]:
+            if query == "bad query":
+                raise RuntimeError("boom")
+            return {
+                "provider": "brave",
+                "query": query,
+                "result_count": 1,
+                "results": [{"title": "x", "url": "https://example.org", "description": "d"}],
+            }
+
+        with patch("facticli.orchestrator.run_brave_web_search", side_effect=fake_brave):
+            payloads = await orchestrator._run_brave_queries(["good query", "bad query"])
+
+        self.assertEqual(len(payloads), 2)
+        self.assertEqual(payloads[0]["result_count"], 1)
+        self.assertEqual(payloads[1]["result_count"], 0)
+        self.assertIn("error", payloads[1])
+
 
 if __name__ == "__main__":
     unittest.main()
-

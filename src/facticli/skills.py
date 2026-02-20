@@ -16,6 +16,7 @@ class SkillSpec:
     prompt_file: str
     output_model: type[BaseModel]
     uses_web_search: bool = False
+    public: bool = True
 
 
 SKILLS: dict[str, SkillSpec] = {
@@ -39,6 +40,7 @@ SKILLS: dict[str, SkillSpec] = {
         prompt_file="research_gemini.md",
         output_model=AspectFinding,
         uses_web_search=False,
+        public=False,
     ),
     "judge": SkillSpec(
         name="judge",
@@ -68,4 +70,4 @@ def load_skill_prompt(skill_name: str) -> str:
 
 
 def list_skills() -> list[SkillSpec]:
-    return [SKILLS[name] for name in ("plan", "research", "judge", "extract_claims")]
+    return [skill for skill in SKILLS.values() if skill.public]

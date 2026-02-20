@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 from dataclasses import dataclass
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -33,10 +35,13 @@ class OrchestratorConfig(InferenceConfig):
     search_context_size: str = "high"
     search_provider: str = "openai"
     search_results_per_query: int = 5
+    max_search_queries_per_check: int = 5
     # Extra turns given to the judge over other agents (synthesis is more complex).
     judge_extra_turns: int = 2
     # Per-research-task wall-clock timeout in seconds; 0 means no limit.
     research_timeout_seconds: float = 120.0
+    # Number of retries for each check after the first failed attempt.
+    research_retry_attempts: int = 1
 
 
 @dataclass
@@ -116,15 +121,14 @@ class FactCheckOrchestrator:
                 output_model=InvestigationPlan,
             )
 
-        checks = [check for check in plan.checks if check.question.strip()]
-        checks = checks[: self.config.max_checks]
+        checks = self._normalize_plan_checks(claim, plan.checks)
         if not checks:
             checks = [
                 VerificationCheck(
                     aspect_id="claim_direct_check",
                     question=f"Is this claim accurate: {claim}",
                     rationale="Fallback direct verification when planning fails.",
-                    search_queries=[claim],
+                    search_queries=self._normalize_query_list([claim]),
                 )
             ]
 
@@ -137,13 +141,22 @@ class FactCheckOrchestrator:
     ) -> list[AspectFinding]:
         semaphore = asyncio.Semaphore(max(1, self.config.max_parallel_research))
         timeout = self.config.research_timeout_seconds or None
+        max_attempts = 1 + max(0, self.config.research_retry_attempts)
 
         async def run_check(check: VerificationCheck) -> AspectFinding:
             async with semaphore:
-                coro = self._research_check(claim, check)
-                if timeout:
-                    return await asyncio.wait_for(coro, timeout=timeout)
-                return await coro
+                last_error: Exception | None = None
+                for _attempt in range(max_attempts):
+                    try:
+                        coro = self._research_check(claim, check)
+                        if timeout:
+                            return await asyncio.wait_for(coro, timeout=timeout)
+                        return await coro
+                    except Exception as exc:  # pragma: no cover - exercised via gather exception path.
+                        last_error = exc
+
+                assert last_error is not None
+                raise last_error
 
         tasks = [asyncio.create_task(run_check(check)) for check in plan.checks]
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -156,10 +169,15 @@ class FactCheckOrchestrator:
                         aspect_id=check.aspect_id,
                         question=check.question,
                         signal=EvidenceSignal.INSUFFICIENT,
-                        summary=f"Research subroutine failed: {result}",
+                        summary=(
+                            f"Research subroutine failed after {max_attempts} attempt(s): "
+                            f"{type(result).__name__}: {result}"
+                        ),
                         confidence=0.0,
                         sources=[],
-                        caveats=["This check failed and needs rerun."],
+                        caveats=[
+                            "This check failed and was downgraded to insufficient evidence."
+                        ],
                     )
                 )
                 continue
@@ -198,7 +216,7 @@ class FactCheckOrchestrator:
                     "Gemini inference currently supports search_provider='brave' only."
                 )
 
-            search_queries = check.search_queries or [check.question, claim]
+            search_queries = self._normalize_search_queries(check, claim)
             search_payload = await self._run_brave_queries(search_queries)
             prompt_payload["search_results"] = search_payload
 
@@ -260,12 +278,106 @@ class FactCheckOrchestrator:
             output_model=output_model,
         )
 
+    def _normalize_plan_checks(
+        self,
+        claim: str,
+        checks: list[VerificationCheck],
+    ) -> list[VerificationCheck]:
+        normalized_checks: list[VerificationCheck] = []
+        used_aspect_ids: set[str] = set()
+
+        for index, check in enumerate(checks, start=1):
+            question = check.question.strip()
+            if not question:
+                continue
+
+            base_aspect_id = self._sanitize_aspect_id(check.aspect_id, fallback_index=index)
+            aspect_id = base_aspect_id
+            suffix = 2
+            while aspect_id in used_aspect_ids:
+                aspect_id = f"{base_aspect_id}_{suffix}"
+                suffix += 1
+            used_aspect_ids.add(aspect_id)
+
+            normalized_checks.append(
+                check.model_copy(
+                    update={
+                        "aspect_id": aspect_id,
+                        "question": question,
+                        "rationale": check.rationale.strip(),
+                        "search_queries": self._normalize_query_list(
+                            check.search_queries,
+                            fallback=[question, claim],
+                        ),
+                    }
+                )
+            )
+
+            if len(normalized_checks) >= self.config.max_checks:
+                break
+
+        return normalized_checks
+
+    def _normalize_search_queries(self, check: VerificationCheck, claim: str) -> list[str]:
+        return self._normalize_query_list(
+            check.search_queries,
+            fallback=[check.question, claim],
+        )
+
+    def _normalize_query_list(
+        self,
+        queries: list[str],
+        fallback: list[str] | None = None,
+    ) -> list[str]:
+        candidates = [*queries, *(fallback or [])]
+        normalized: list[str] = []
+        seen: set[str] = set()
+
+        for candidate in candidates:
+            query = candidate.strip()
+            if not query:
+                continue
+            key = query.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            normalized.append(query)
+            if len(normalized) >= max(1, self.config.max_search_queries_per_check):
+                break
+
+        return normalized
+
+    def _sanitize_aspect_id(self, raw_aspect_id: str, fallback_index: int) -> str:
+        lowered = raw_aspect_id.strip().lower()
+        cleaned = re.sub(r"[^a-z0-9_]+", "_", lowered).strip("_")
+        return cleaned or f"check_{fallback_index}"
+
     async def _run_brave_queries(self, queries: list[str]) -> list[dict[str, Any]]:
+        if not queries:
+            return []
+
         tasks = [
-            asyncio.to_thread(run_brave_web_search, q, self.config.search_results_per_query)
-            for q in queries
+            asyncio.to_thread(run_brave_web_search, query, self.config.search_results_per_query)
+            for query in queries
         ]
-        return list(await asyncio.gather(*tasks))
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        payloads: list[dict[str, Any]] = []
+        for query, result in zip(queries, results, strict=False):
+            if isinstance(result, Exception):
+                payloads.append(
+                    {
+                        "provider": "brave",
+                        "query": query,
+                        "result_count": 0,
+                        "results": [],
+                        "error": f"{type(result).__name__}: {result}",
+                    }
+                )
+                continue
+            payloads.append(result)
+
+        return payloads
 
     def _merge_sources(
         self,
@@ -276,16 +388,44 @@ class FactCheckOrchestrator:
         seen_urls: set[str] = set()
 
         for source in report_sources:
-            normalized = source.url.strip().lower()
+            normalized = self._normalize_source_url(source.url)
             if normalized and normalized not in seen_urls:
                 seen_urls.add(normalized)
                 combined.append(source)
 
         for finding in findings:
             for source in finding.sources:
-                normalized = source.url.strip().lower()
+                normalized = self._normalize_source_url(source.url)
                 if normalized and normalized not in seen_urls:
                     seen_urls.add(normalized)
                     combined.append(source)
 
         return combined
+
+    def _normalize_source_url(self, url: str) -> str:
+        stripped = url.strip()
+        if not stripped:
+            return ""
+
+        try:
+            parts = urlsplit(stripped)
+        except ValueError:
+            return stripped.lower()
+
+        filtered_query = [
+            (key, value)
+            for key, value in parse_qsl(parts.query, keep_blank_values=True)
+            if not key.lower().startswith("utm_")
+        ]
+        normalized_query = urlencode(filtered_query, doseq=True)
+        normalized_path = parts.path.rstrip("/")
+
+        return urlunsplit(
+            (
+                parts.scheme.lower(),
+                parts.netloc.lower(),
+                normalized_path,
+                normalized_query,
+                "",
+            )
+        )

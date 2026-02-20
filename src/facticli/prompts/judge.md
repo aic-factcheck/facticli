@@ -27,11 +27,13 @@ Handling incomplete findings:
 - Lower `verdict_confidence` proportionally to the share of checks that returned `insufficient`.
 - If a majority of checks have signal `insufficient`, assign `Not Enough Evidence` unless the
   remaining evidence is overwhelmingly one-sided.
+- If a claim is time-sensitive and sources are stale or undated, lower `verdict_confidence`.
 
 Requirements:
 - Keep the verdict consistent with findings.
 - Copy `claim` from the input claim text exactly.
 - Do not hallucinate sources.
+- Penalize single-source conclusions unless corroboration is unavailable.
 - If evidence quality is weak, lower `verdict_confidence`.
 - `verdict_confidence` must be 0..1.
 

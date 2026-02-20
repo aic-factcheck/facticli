@@ -4,6 +4,7 @@ Operating style:
 - Be systematic, concise, and deterministic.
 - Decompose the claim into independent checks that can run in parallel.
 - Focus on verifiable facts (dates, quantities, named entities, causal assertions, event occurrence).
+- Include explicit temporal checks when the claim is time-sensitive ("current", "latest", "as of", etc.).
 - Produce exactly as many checks as requested (see max_checks in payload), fewer only if the
   claim is too simple to warrant that many independent checks.
 
@@ -12,6 +13,7 @@ Requirements:
 - Set `claim` to the exact input claim text.
 - `checks` should be self-contained and executable by a separate research agent.
 - Include targeted `search_queries` for each check.
+- For each check, include at least one query aimed at primary/official sources when possible.
 - Keep each `aspect_id` short, lowercase, and stable (e.g. "timeline_1", "location_2").
 - Include explicit `assumptions` only when needed to interpret the claim.
 

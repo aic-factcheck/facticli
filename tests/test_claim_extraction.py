@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, patch
 from facticli.claim_extraction import ClaimExtractor, ClaimExtractorConfig
 from facticli.types import CheckworthyClaim, ClaimExtractionResult
 
-from helpers import FakeRunResult as _FakeRunResult
+from tests.helpers import FakeRunResult as _FakeRunResult
 
 
 class ClaimExtractionTests(unittest.IsolatedAsyncioTestCase):

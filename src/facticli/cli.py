@@ -14,6 +14,29 @@ from .render import format_run_text
 from .skills import list_skills
 
 
+def _positive_int(raw_value: str) -> int:
+    try:
+        value = int(raw_value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
+    if value < 1:
+        raise argparse.ArgumentTypeError(f"Value must be >= 1, got: {value}")
+    return value
+
+
+def _bounded_int(raw_value: str, *, minimum: int, maximum: int) -> int:
+    value = _positive_int(raw_value)
+    if value < minimum or value > maximum:
+        raise argparse.ArgumentTypeError(
+            f"Value must be between {minimum} and {maximum}, got: {value}"
+        )
+    return value
+
+
+def _search_results_int(raw_value: str) -> int:
+    return _bounded_int(raw_value, minimum=1, maximum=20)
+
+
 def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> None:
     command_parser.add_argument(
         "--inference-provider",
@@ -72,13 +95,13 @@ def build_parser() -> argparse.ArgumentParser:
     _add_inference_provider_args(check_parser)
     check_parser.add_argument(
         "--max-checks",
-        type=int,
+        type=_positive_int,
         default=4,
         help="Maximum number of verification sub-checks.",
     )
     check_parser.add_argument(
         "--parallel",
-        type=int,
+        type=_positive_int,
         default=4,
         help="Maximum parallel research workers.",
     )
@@ -96,7 +119,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check_parser.add_argument(
         "--search-results",
-        type=int,
+        type=_search_results_int,
         default=5,
         dest="search_results_per_query",
         help="Number of search results to fetch per query (1-20, default 5).",
@@ -136,7 +159,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_inference_provider_args(extract_parser)
     extract_parser.add_argument(
         "--max-claims",
-        type=int,
+        type=_positive_int,
         default=12,
         help="Maximum number of extracted claims.",
     )
@@ -159,11 +182,11 @@ async def run_check_command(args: argparse.Namespace) -> int:
         inference_provider=args.inference_provider,
         model=args.model,
         gemini_model=args.gemini_model,
-        max_checks=max(1, args.max_checks),
-        max_parallel_research=max(1, args.parallel),
+        max_checks=args.max_checks,
+        max_parallel_research=args.parallel,
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
-        search_results_per_query=max(1, min(20, args.search_results_per_query)),
+        search_results_per_query=args.search_results_per_query,
     )
 
     if args.inference_provider == "gemini" and args.search_provider != "brave":
@@ -203,10 +226,17 @@ async def run_check_command(args: argparse.Namespace) -> int:
 
 
 def _load_extract_input_text(args: argparse.Namespace) -> str:
+    if args.from_file and args.text:
+        raise ValueError(
+            "Provide input text either as positional argument or with --from-file, not both."
+        )
+
     if args.from_file:
         path = Path(args.from_file)
         if not path.exists():
             raise FileNotFoundError(f"Input file does not exist: {path}")
+        if not path.is_file():
+            raise ValueError(f"Input path is not a file: {path}")
         return path.read_text(encoding="utf-8")
 
     if args.text:
@@ -231,7 +261,7 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
             inference_provider=args.inference_provider,
             model=args.model,
             gemini_model=args.gemini_model,
-            max_claims=max(1, args.max_claims),
+            max_claims=args.max_claims,
         )
     )
     try:

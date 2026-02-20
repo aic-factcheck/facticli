@@ -157,6 +157,17 @@ class LoadExtractInputTextTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             _load_extract_input_text(args)
 
+    def test_load_extract_input_text_rejects_ambiguous_input(self):
+        args = argparse.Namespace(text="Inline text", from_file="input.txt")
+        with self.assertRaises(ValueError):
+            _load_extract_input_text(args)
+
+    def test_load_extract_input_text_rejects_directory(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            args = argparse.Namespace(text=None, from_file=tmpdir)
+            with self.assertRaises(ValueError):
+                _load_extract_input_text(args)
+
 
 if __name__ == "__main__":
     unittest.main()

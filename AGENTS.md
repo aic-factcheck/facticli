@@ -143,6 +143,8 @@ Prompt design principles:
 - `--model`
 - `--max-checks`
 - `--parallel`
+- `--search-provider`
+- `--search-results`
 - `--search-context-size`
 - `--inference-provider`
 - `--gemini-model`
@@ -150,6 +152,11 @@ Prompt design principles:
 - `--show-plan`
 - `--json`
 - `--include-artifacts`
+
+Input/validation rules:
+- `extract-claims` accepts either positional text or `--from-file` (mutually exclusive).
+- `--max-checks`, `--parallel`, and `--max-claims` are positive integers.
+- `--search-results` accepts integers in the range `1..20`.
 
 ### 8.3 Environment Variables
 

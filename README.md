@@ -99,6 +99,7 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                [--inference-provider {openai-agents,gemini}]
                [--gemini-model GEMINI_MODEL]
                [--search-provider {openai,brave}]
+               [--search-results N]
                [--search-context-size {low,medium,high}]
                [--show-plan] [--json] [--include-artifacts]
                "<claim>"
@@ -109,6 +110,11 @@ facticli extract-claims [--from-file PATH]
                         [--max-claims N] [--json]
                         [text]
 ```
+
+Validation notes:
+- `--max-checks`, `--parallel`, and `--max-claims` must be integers `>= 1`.
+- `--search-results` must be an integer in `1..20`.
+- For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
 ## Current architecture (bootstrap)
 
