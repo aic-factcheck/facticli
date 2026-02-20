@@ -8,6 +8,58 @@ import requests
 from agents import FunctionTool, function_tool
 
 
+def run_brave_web_search(
+    query: str,
+    count: int = 5,
+    country: str = "us",
+    search_lang: str = "en",
+) -> dict[str, Any]:
+    api_key = os.getenv("BRAVE_SEARCH_API_KEY")
+    if not api_key:
+        raise RuntimeError("BRAVE_SEARCH_API_KEY is not set.")
+
+    safe_count = min(max(count, 1), 20)
+    response = requests.get(
+        "https://api.search.brave.com/res/v1/web/search",
+        headers={
+            "Accept": "application/json",
+            "Accept-Encoding": "gzip",
+            "X-Subscription-Token": api_key,
+        },
+        params={
+            "q": query,
+            "count": safe_count,
+            "country": country,
+            "search_lang": search_lang,
+            "extra_snippets": "true",
+        },
+        timeout=20,
+    )
+    response.raise_for_status()
+
+    payload: dict[str, Any] = response.json()
+    web_results = payload.get("web", {}).get("results", [])
+
+    normalized_results: list[dict[str, Any]] = []
+    for item in web_results:
+        normalized_results.append(
+            {
+                "title": item.get("title", ""),
+                "url": item.get("url", ""),
+                "description": item.get("description", ""),
+                "age": item.get("age"),
+                "extra_snippets": item.get("extra_snippets", [])[:3],
+            }
+        )
+
+    return {
+        "provider": "brave",
+        "query": query,
+        "result_count": len(normalized_results),
+        "results": normalized_results,
+    }
+
+
 def build_brave_web_search_tool() -> FunctionTool:
     @function_tool
     def brave_web_search(
@@ -28,53 +80,12 @@ def build_brave_web_search_tool() -> FunctionTool:
         Returns:
             A JSON string with query metadata and normalized web results.
         """
-        api_key = os.getenv("BRAVE_SEARCH_API_KEY")
-        if not api_key:
-            raise RuntimeError("BRAVE_SEARCH_API_KEY is not set.")
-
-        safe_count = min(max(count, 1), 20)
-        response = requests.get(
-            "https://api.search.brave.com/res/v1/web/search",
-            headers={
-                "Accept": "application/json",
-                "Accept-Encoding": "gzip",
-                "X-Subscription-Token": api_key,
-            },
-            params={
-                "q": query,
-                "count": safe_count,
-                "country": country,
-                "search_lang": search_lang,
-                "extra_snippets": "true",
-            },
-            timeout=20,
+        result = run_brave_web_search(
+            query=query,
+            count=count,
+            country=country,
+            search_lang=search_lang,
         )
-        response.raise_for_status()
-
-        payload: dict[str, Any] = response.json()
-        web_results = payload.get("web", {}).get("results", [])
-
-        normalized_results: list[dict[str, Any]] = []
-        for item in web_results:
-            normalized_results.append(
-                {
-                    "title": item.get("title", ""),
-                    "url": item.get("url", ""),
-                    "description": item.get("description", ""),
-                    "age": item.get("age"),
-                    "extra_snippets": item.get("extra_snippets", [])[:3],
-                }
-            )
-
-        return json.dumps(
-            {
-                "provider": "brave",
-                "query": query,
-                "result_count": len(normalized_results),
-                "results": normalized_results,
-            },
-            ensure_ascii=False,
-        )
+        return json.dumps(result, ensure_ascii=False)
 
     return brave_web_search
-

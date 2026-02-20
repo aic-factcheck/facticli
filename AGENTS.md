@@ -37,10 +37,13 @@ Not yet implemented (expected future work):
 - Packaging: `pyproject.toml` (Hatchling backend)
 - Runtime dependencies:
   - `openai-agents` (Agents SDK)
+  - `google-genai` (Gemini client SDK)
   - `pydantic` (typed schemas/contracts)
 - Model/tool runtime:
   - OpenAI Responses-compatible models via Agents SDK
+  - Gemini models via `genai.Client`
   - hosted `WebSearchTool` for open web retrieval
+  - Brave Search API for custom retrieval
 
 ## 4) Repository Layout
 
@@ -73,6 +76,11 @@ The orchestrator follows a 3-stage pipeline:
 3. Judge agent (`judge` skill)
    - Input: claim + plan + all findings
    - Output: `FactCheckReport` with final verdict, justification, findings, sources
+
+Inference providers:
+- `openai-agents` (default): planner/research/judge run through Agents SDK.
+- `gemini`: planner/research/judge run through `genai.Client` structured prompting.
+  - Current constraint: Gemini path uses `search_provider=brave`.
 
 ### 5.2 Parallelism Model
 
@@ -134,6 +142,8 @@ Prompt design principles:
 - `--max-checks`
 - `--parallel`
 - `--search-context-size`
+- `--inference-provider`
+- `--gemini-model`
 - `--show-plan`
 - `--json`
 - `--include-artifacts`
@@ -141,7 +151,10 @@ Prompt design principles:
 ### 8.3 Environment Variables
 
 - `OPENAI_API_KEY` (required for live checks)
+- `GEMINI_API_KEY` (required for Gemini provider)
 - `FACTICLI_MODEL` (optional default model override)
+- `FACTICLI_GEMINI_MODEL` (optional Gemini model override)
+- `FACTICLI_INFERENCE_PROVIDER`
 
 ## 9) Important Design Constraints
 
@@ -189,4 +202,3 @@ Recommended next increments:
 - Keep stage contracts backwards compatible when possible.
 - If you change data contracts, update prompt requirements and renderers together.
 - If you change CLI semantics, update `README.md` and this file in the same change.
-

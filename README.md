@@ -1,6 +1,6 @@
 # facticli
 
-`facticli` is a pip-installable Python CLI for agentic claim verification built on `openai-agents`.
+`facticli` is a pip-installable Python CLI for agentic claim verification with pluggable inference providers (`openai-agents` and `gemini`).
 
 It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
 - open web search,
@@ -30,6 +30,9 @@ Optional defaults:
 
 ```bash
 export FACTICLI_MODEL=gpt-4.1-mini
+export GEMINI_API_KEY=...
+export FACTICLI_GEMINI_MODEL=gemini-3-pro
+export FACTICLI_INFERENCE_PROVIDER=openai-agents
 export FACTICLI_SEARCH_PROVIDER=openai
 # only needed when FACTICLI_SEARCH_PROVIDER=brave
 export BRAVE_SEARCH_API_KEY=...
@@ -47,6 +50,16 @@ Run with Brave Search API retrieval:
 
 ```bash
 facticli check --search-provider brave "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
+Run with Gemini inference provider:
+
+```bash
+facticli check \
+  --inference-provider gemini \
+  --gemini-model gemini-3-pro \
+  --search-provider brave \
+  "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
 Show the generated plan:
@@ -71,6 +84,8 @@ facticli skills
 
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
+               [--inference-provider {openai-agents,gemini}]
+               [--gemini-model GEMINI_MODEL]
                [--search-provider {openai,brave}]
                [--search-context-size {low,medium,high}]
                [--show-plan] [--json] [--include-artifacts]
@@ -90,6 +105,10 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
   - `Conflicting Evidence/Cherrypicking`
 
 The orchestrator runs all check-research jobs concurrently (bounded by `--parallel`) and then performs final judgment.
+
+Inference backends:
+- `openai-agents` (default): uses OpenAI Agents SDK (`Runner`, tools, structured output).
+- `gemini`: uses `genai.Client` structured prompting; currently requires `--search-provider brave`.
 
 ## Repository layout
 

@@ -3,10 +3,14 @@ from __future__ import annotations
 import asyncio
 import json
 from dataclasses import dataclass
+from typing import Any
 
 from agents import Runner
 
 from .agents import build_judge_agent, build_planner_agent, build_research_agent
+from .brave_search import run_brave_web_search
+from .gemini_inference import GeminiStructuredClient
+from .skills import load_skill_prompt
 from .types import (
     AspectFinding,
     EvidenceSignal,
@@ -19,11 +23,14 @@ from .types import (
 
 @dataclass(frozen=True)
 class OrchestratorConfig:
+    inference_provider: str = "openai-agents"
     model: str = "gpt-4.1-mini"
+    gemini_model: str = "gemini-3-pro"
     max_checks: int = 4
     max_parallel_research: int = 4
     search_context_size: str = "high"
     search_provider: str = "openai"
+    search_results_per_query: int = 5
     max_turns: int = 10
 
 
@@ -38,13 +45,23 @@ class FactCheckRun:
 class FactCheckOrchestrator:
     def __init__(self, config: OrchestratorConfig):
         self.config = config
-        self.planner_agent = build_planner_agent(model=config.model)
-        self.research_agent = build_research_agent(
-            model=config.model,
-            search_context_size=config.search_context_size,
-            search_provider=config.search_provider,
-        )
-        self.judge_agent = build_judge_agent(model=config.model)
+        self.gemini_client: GeminiStructuredClient | None = None
+        self.planner_agent = None
+        self.research_agent = None
+        self.judge_agent = None
+
+        if config.inference_provider == "openai-agents":
+            self.planner_agent = build_planner_agent(model=config.model)
+            self.research_agent = build_research_agent(
+                model=config.model,
+                search_context_size=config.search_context_size,
+                search_provider=config.search_provider,
+            )
+            self.judge_agent = build_judge_agent(model=config.model)
+        elif config.inference_provider == "gemini":
+            self.gemini_client = GeminiStructuredClient(model=config.gemini_model)
+        else:
+            raise ValueError(f"Unsupported inference provider: {config.inference_provider}")
 
     async def check_claim(self, claim: str) -> FactCheckRun:
         normalized_claim = claim.strip()
@@ -68,17 +85,30 @@ class FactCheckOrchestrator:
         )
 
     async def _plan_claim(self, claim: str) -> InvestigationPlan:
-        plan_input = (
-            "Build a fact-checking plan for this claim.\n\n"
-            f"Claim:\n{claim}\n\n"
-            "Output at most 6 checks."
-        )
-        result = await Runner.run(
-            self.planner_agent,
-            plan_input,
-            max_turns=self.config.max_turns,
-        )
-        plan = result.final_output_as(InvestigationPlan, raise_if_incorrect_type=True)
+        if self.config.inference_provider == "openai-agents":
+            if self.planner_agent is None:
+                raise RuntimeError("Planner agent is not initialized.")
+
+            plan_input = (
+                "Build a fact-checking plan for this claim.\n\n"
+                f"Claim:\n{claim}\n\n"
+                "Output at most 6 checks."
+            )
+            result = await Runner.run(
+                self.planner_agent,
+                plan_input,
+                max_turns=self.config.max_turns,
+            )
+            plan = result.final_output_as(InvestigationPlan, raise_if_incorrect_type=True)
+        else:
+            plan = await self._run_gemini_structured(
+                skill_name="plan",
+                payload={
+                    "claim": claim,
+                    "max_checks": min(self.config.max_checks, 6),
+                },
+                output_model=InvestigationPlan,
+            )
 
         checks = [check for check in plan.checks if check.question.strip()]
         checks = checks[: self.config.max_checks]
@@ -144,12 +174,31 @@ class FactCheckOrchestrator:
                 "preferred_provider": self.config.search_provider,
             },
         }
-        result = await Runner.run(
-            self.research_agent,
-            json.dumps(prompt_payload, indent=2),
-            max_turns=self.config.max_turns,
-        )
-        finding = result.final_output_as(AspectFinding, raise_if_incorrect_type=True)
+        if self.config.inference_provider == "openai-agents":
+            if self.research_agent is None:
+                raise RuntimeError("Research agent is not initialized.")
+
+            result = await Runner.run(
+                self.research_agent,
+                json.dumps(prompt_payload, indent=2),
+                max_turns=self.config.max_turns,
+            )
+            finding = result.final_output_as(AspectFinding, raise_if_incorrect_type=True)
+        else:
+            if self.config.search_provider != "brave":
+                raise RuntimeError(
+                    "Gemini inference currently supports search_provider='brave' only."
+                )
+
+            search_queries = check.search_queries or [check.question, claim]
+            search_payload = await self._run_brave_queries(search_queries)
+            prompt_payload["search_results"] = search_payload
+
+            finding = await self._run_gemini_structured(
+                skill_name="research",
+                payload=prompt_payload,
+                output_model=AspectFinding,
+            )
 
         if not finding.aspect_id.strip():
             finding.aspect_id = check.aspect_id
@@ -168,13 +217,50 @@ class FactCheckOrchestrator:
             "plan": plan.model_dump(),
             "findings": [finding.model_dump() for finding in findings],
         }
-        result = await Runner.run(
-            self.judge_agent,
-            json.dumps(judge_payload, indent=2),
-            max_turns=self.config.max_turns + 2,
-        )
-        report = result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
+        if self.config.inference_provider == "openai-agents":
+            if self.judge_agent is None:
+                raise RuntimeError("Judge agent is not initialized.")
+
+            result = await Runner.run(
+                self.judge_agent,
+                json.dumps(judge_payload, indent=2),
+                max_turns=self.config.max_turns + 2,
+            )
+            report = result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
+        else:
+            report = await self._run_gemini_structured(
+                skill_name="judge",
+                payload=judge_payload,
+                output_model=FactCheckReport,
+            )
         return report
+
+    async def _run_gemini_structured(
+        self,
+        skill_name: str,
+        payload: dict[str, Any],
+        output_model: type[InvestigationPlan | AspectFinding | FactCheckReport],
+    ) -> InvestigationPlan | AspectFinding | FactCheckReport:
+        if self.gemini_client is None:
+            raise RuntimeError("Gemini client is not initialized.")
+
+        instructions = load_skill_prompt(skill_name)
+        return await self.gemini_client.generate_structured(
+            instructions=instructions,
+            payload=payload,
+            output_model=output_model,
+        )
+
+    async def _run_brave_queries(self, queries: list[str]) -> list[dict[str, Any]]:
+        results: list[dict[str, Any]] = []
+        for query in queries:
+            query_result = await asyncio.to_thread(
+                run_brave_web_search,
+                query,
+                self.config.search_results_per_query,
+            )
+            results.append(query_result)
+        return results
 
     def _merge_sources(
         self,

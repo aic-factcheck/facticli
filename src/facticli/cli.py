@@ -14,16 +14,30 @@ from .skills import list_skills
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="facticli",
-        description="Agentic fact-checking CLI built on openai-agents.",
+        description="Agentic fact-checking CLI with pluggable inference providers.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     check_parser = subparsers.add_parser("check", help="Fact-check a claim.")
     check_parser.add_argument("claim", help="Claim text to verify.")
     check_parser.add_argument(
+        "--inference-provider",
+        choices=["openai-agents", "gemini"],
+        default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai-agents"),
+        help=(
+            "Inference backend (default: FACTICLI_INFERENCE_PROVIDER or openai-agents). "
+            "openai-agents uses OpenAI Agents SDK, gemini uses google genai.Client."
+        ),
+    )
+    check_parser.add_argument(
         "--model",
         default=os.getenv("FACTICLI_MODEL", "gpt-4.1-mini"),
-        help="Model name passed to openai-agents (default: FACTICLI_MODEL or gpt-4.1-mini).",
+        help="Model used when --inference-provider openai-agents.",
+    )
+    check_parser.add_argument(
+        "--gemini-model",
+        default=os.getenv("FACTICLI_GEMINI_MODEL", "gemini-3-pro"),
+        help="Model used when --inference-provider gemini.",
     )
     check_parser.add_argument(
         "--max-checks",
@@ -70,20 +84,36 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 async def run_check_command(args: argparse.Namespace) -> int:
-    if not os.getenv("OPENAI_API_KEY"):
+    if args.inference_provider == "openai-agents" and not os.getenv("OPENAI_API_KEY"):
         print(
-            "OPENAI_API_KEY is not set. Export it before running facticli.",
+            "OPENAI_API_KEY is not set. Export it or use --inference-provider gemini.",
+            file=sys.stderr,
+        )
+        return 2
+
+    if args.inference_provider == "gemini" and not os.getenv("GEMINI_API_KEY"):
+        print(
+            "GEMINI_API_KEY is not set. Export it or use --inference-provider openai-agents.",
             file=sys.stderr,
         )
         return 2
 
     config = OrchestratorConfig(
+        inference_provider=args.inference_provider,
         model=args.model,
+        gemini_model=args.gemini_model,
         max_checks=max(1, args.max_checks),
         max_parallel_research=max(1, args.parallel),
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
     )
+
+    if args.inference_provider == "gemini" and args.search_provider != "brave":
+        print(
+            "Gemini inference currently requires --search-provider brave.",
+            file=sys.stderr,
+        )
+        return 2
 
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
         print(
