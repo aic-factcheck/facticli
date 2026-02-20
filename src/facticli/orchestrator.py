@@ -23,6 +23,7 @@ class OrchestratorConfig:
     max_checks: int = 4
     max_parallel_research: int = 4
     search_context_size: str = "high"
+    search_provider: str = "openai"
     max_turns: int = 10
 
 
@@ -41,6 +42,7 @@ class FactCheckOrchestrator:
         self.research_agent = build_research_agent(
             model=config.model,
             search_context_size=config.search_context_size,
+            search_provider=config.search_provider,
         )
         self.judge_agent = build_judge_agent(model=config.model)
 
@@ -138,7 +140,8 @@ class FactCheckOrchestrator:
             "check": check.model_dump(),
             "requirements": {
                 "min_sources": 2,
-                "must_use_web_search_tool": True,
+                "must_use_search_tool": True,
+                "preferred_provider": self.config.search_provider,
             },
         }
         result = await Runner.run(
@@ -195,4 +198,3 @@ class FactCheckOrchestrator:
                     combined.append(source)
 
         return combined
-

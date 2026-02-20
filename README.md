@@ -30,6 +30,9 @@ Optional defaults:
 
 ```bash
 export FACTICLI_MODEL=gpt-4.1-mini
+export FACTICLI_SEARCH_PROVIDER=openai
+# only needed when FACTICLI_SEARCH_PROVIDER=brave
+export BRAVE_SEARCH_API_KEY=...
 ```
 
 ## Usage
@@ -38,6 +41,12 @@ Run a claim check:
 
 ```bash
 facticli check "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
+Run with Brave Search API retrieval:
+
+```bash
+facticli check --search-provider brave "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
 Show the generated plan:
@@ -62,6 +71,7 @@ facticli skills
 
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
+               [--search-provider {openai,brave}]
                [--search-context-size {low,medium,high}]
                [--show-plan] [--json] [--include-artifacts]
                "<claim>"
@@ -70,7 +80,9 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
 ## Current architecture (bootstrap)
 
 - `plan` skill: decomposes claim into independent checks and search queries.
-- `research` skill: runs one check using hosted web search (`WebSearchTool`).
+- `research` skill: runs one check using selectable web retrieval:
+  - OpenAI hosted web search tool (`--search-provider openai`)
+  - Brave Search API custom tool (`--search-provider brave`)
 - `judge` skill: merges findings into one verdict:
   - `Supported`
   - `Refuted`

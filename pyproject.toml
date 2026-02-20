@@ -15,6 +15,7 @@ authors = [
 dependencies = [
   "openai-agents>=0.9.2",
   "pydantic>=2.7.0",
+  "requests>=2.31.0",
 ]
 keywords = ["fact-checking", "cli", "agents", "openai", "verification"]
 
@@ -32,4 +33,3 @@ include = [
   "/src/facticli",
   "/pyproject.toml",
 ]
-

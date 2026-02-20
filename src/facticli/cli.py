@@ -38,10 +38,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Maximum parallel research workers.",
     )
     check_parser.add_argument(
+        "--search-provider",
+        choices=["openai", "brave"],
+        default=os.getenv("FACTICLI_SEARCH_PROVIDER", "openai"),
+        help="Search backend for research stage (default: FACTICLI_SEARCH_PROVIDER or openai).",
+    )
+    check_parser.add_argument(
         "--search-context-size",
         choices=["low", "medium", "high"],
         default="high",
-        help="Web search context size for hosted web search tool.",
+        help="Context size for hosted OpenAI web search tool (used when --search-provider openai).",
     )
     check_parser.add_argument(
         "--show-plan",
@@ -76,7 +82,16 @@ async def run_check_command(args: argparse.Namespace) -> int:
         max_checks=max(1, args.max_checks),
         max_parallel_research=max(1, args.parallel),
         search_context_size=args.search_context_size,
+        search_provider=args.search_provider,
     )
+
+    if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
+        print(
+            "BRAVE_SEARCH_API_KEY is not set. Export it or switch to --search-provider openai.",
+            file=sys.stderr,
+        )
+        return 2
+
     orchestrator = FactCheckOrchestrator(config=config)
     run = await orchestrator.check_claim(args.claim)
 
@@ -110,4 +125,3 @@ def main(argv: list[str] | None = None) -> int:
 
     parser.print_help()
     return 1
-
