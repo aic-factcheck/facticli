@@ -50,14 +50,17 @@ Not yet implemented (expected future work):
 
 - `pyproject.toml`: packaging metadata and console entrypoint
 - `README.md`: user-facing setup and usage docs
-- `TODO.md`: project-level bootstrap checklist
+- `TODO.md`: project-level TODO checklist
 - `src/facticli/__init__.py`: package metadata
 - `src/facticli/__main__.py`: `python -m facticli` runner
+- `src/facticli/core/*`: domain contracts, normalization, run artifacts
+- `src/facticli/application/*`: strategy interfaces, explicit stages, services, provider wiring
+- `src/facticli/adapters/*`: OpenAI/Gemini provider adapters and Brave retriever
 - `src/facticli/cli.py`: CLI parser and command handlers
-- `src/facticli/orchestrator.py`: pipeline coordinator (plan -> parallel research -> judge)
-- `src/facticli/claim_extraction.py`: check-worthy claim extraction module
-- `src/facticli/agents.py`: agent construction and model settings
-- `src/facticli/types.py`: Pydantic schemas for plan/findings/report
+- `src/facticli/orchestrator.py`: compatibility facade for fact-check service
+- `src/facticli/claim_extraction.py`: compatibility facade for extraction service
+- `src/facticli/agents.py`: OpenAI Agents SDK builder functions
+- `src/facticli/types.py`: compatibility re-export for domain contracts
 - `src/facticli/skills.py`: skill registry + prompt loading
 - `src/facticli/render.py`: human-readable output formatter
 - `src/facticli/prompts/*.md`: reusable prompt instructions per skill
@@ -66,16 +69,29 @@ Not yet implemented (expected future work):
 
 ### 5.1 Pipeline
 
-The orchestrator follows a 3-stage pipeline:
+The runtime uses layered architecture:
 
-1. Planner agent (`plan` skill)
+1. `core` layer
+   - Typed contracts and normalization logic
+   - Run artifact models for debugging/evaluation
+2. `application` layer
+   - Provider-agnostic strategy interfaces (`Planner`, `Researcher`, `Judge`, `Retriever`)
+   - Explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, extraction stage)
+   - Service orchestration and artifact repository integration
+3. `adapters` layer
+   - OpenAI and Gemini concrete strategy implementations
+   - Brave retrieval strategy
+
+Fact-check pipeline stages:
+
+1. Planner stage (`plan` skill)
    - Input: claim text
    - Output: `InvestigationPlan` with independent `VerificationCheck` entries
-2. Research agent (`research` skill), one run per check
+2. Research stage (`research` skill), one run per check
    - Input: claim + one check payload
    - Tooling: web search
    - Output: `AspectFinding` with signal, summary, confidence, and sources
-3. Judge agent (`judge` skill)
+3. Judge stage (`judge` skill)
    - Input: claim + plan + all findings
    - Output: `FactCheckReport` with final verdict, justification, findings, sources
 
@@ -88,7 +104,7 @@ Inference providers:
 
 - Check-level runs execute concurrently via `asyncio` tasks.
 - Concurrency is bounded by a semaphore (`max_parallel_research`) to avoid overload.
-- Failure of one check should not fail the whole run; failed checks are converted into `insufficient` findings.
+- Failure of one check should not fail the whole run; failed checks are retried and then converted into `insufficient` findings.
 
 ### 5.3 Verdict Contract
 
@@ -105,7 +121,7 @@ Every final report should include:
 
 ## 6) Data Contracts
 
-Primary schemas in `src/facticli/types.py`:
+Primary schemas in `src/facticli/core/contracts.py` (re-exported via `src/facticli/types.py`):
 - `InvestigationPlan`
 - `VerificationCheck`
 - `AspectFinding`

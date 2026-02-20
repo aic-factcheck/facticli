@@ -25,3 +25,10 @@
 - [ ] Add contradiction-focused synthesis checks for `Conflicting Evidence/Cherrypicking`.
 - [ ] Expand deterministic tests for prompt/schema drift and renderer behavior.
 - [ ] Add dataset-driven regression/evaluation CLI with artifact logging.
+
+## Architecture refactor (completed)
+
+- [x] Introduce provider strategy interfaces (`Planner`, `Researcher`, `Judge`, `Retriever`) and concrete adapters.
+- [x] Introduce explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`).
+- [x] Split code into layered runtime modules (`core`, `application`, `adapters`) while keeping CLI-compatible facades.
+- [x] Add first-class run artifacts model and repository wired through the fact-check service and JSON output.

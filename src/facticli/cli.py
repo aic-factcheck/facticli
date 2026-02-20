@@ -9,6 +9,7 @@ import traceback
 from pathlib import Path
 
 from .claim_extraction import ClaimExtractor, ClaimExtractorConfig
+from .core.artifacts import RunArtifacts
 from .orchestrator import FactCheckOrchestrator, OrchestratorConfig
 from .render import format_run_text
 from .skills import list_skills
@@ -57,6 +58,26 @@ def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> Non
         default=os.getenv("FACTICLI_GEMINI_MODEL", "gemini-2.0-flash"),
         help="Model used when --inference-provider gemini.",
     )
+
+
+def _serialize_run_artifacts(artifacts: RunArtifacts) -> dict[str, object]:
+    return {
+        "claim": artifacts.claim,
+        "normalized_claim": artifacts.normalized_claim,
+        "plan_raw": artifacts.plan_raw.model_dump() if artifacts.plan_raw else None,
+        "plan_normalized": artifacts.plan_normalized.model_dump() if artifacts.plan_normalized else None,
+        "research_checks": [
+            {
+                "check": check.check.model_dump(),
+                "attempts": check.attempts,
+                "errors": list(check.errors),
+                "finding": check.finding.model_dump() if check.finding else None,
+            }
+            for check in artifacts.research_checks
+        ],
+        "report_raw": artifacts.report_raw.model_dump() if artifacts.report_raw else None,
+        "report_final": artifacts.report_final.model_dump() if artifacts.report_final else None,
+    }
 
 
 def _validate_inference_provider_keys(inference_provider: str) -> int:
@@ -218,6 +239,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
         if args.include_artifacts:
             payload["plan"] = run.plan.model_dump()
             payload["findings"] = [finding.model_dump() for finding in run.findings]
+            payload["artifacts"] = _serialize_run_artifacts(run.artifacts)
         print(json.dumps(payload, indent=2))
     else:
         print(format_run_text(run, show_plan=args.show_plan))

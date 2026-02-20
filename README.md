@@ -8,7 +8,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 - final veracity verdict + justification,
 - explicit source output.
 
-The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with a thin orchestrator layer.
+The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with explicit pipeline stages and pluggable provider adapters.
 
 ## Install
 
@@ -116,34 +116,45 @@ Validation notes:
 - `--search-results` must be an integer in `1..20`.
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
-## Current architecture (bootstrap)
+## Current architecture
 
-- `plan` skill: decomposes claim into independent checks and search queries.
-- `research` skill: runs one check using selectable web retrieval:
-  - OpenAI hosted web search tool (`--search-provider openai`)
-  - Brave Search API custom tool (`--search-provider brave`)
-- `judge` skill: merges findings into one verdict:
-  - `Supported`
-  - `Refuted`
-  - `Not Enough Evidence`
-  - `Conflicting Evidence/Cherrypicking`
+Layered runtime:
+- `core`: typed contracts, normalization helpers, and run artifacts.
+- `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
+- `adapters`: concrete provider strategies (`openai-agents`, `gemini`) and retrievers (Brave Search).
 
-The orchestrator runs all check-research jobs concurrently (bounded by `--parallel`) and then performs final judgment.
+Pipeline behavior:
+- `plan` skill decomposes claims into independent checks.
+- `research` runs per-check concurrently with bounded parallelism and retry.
+- `judge` synthesizes findings into one verdict with merged deduplicated sources.
+- claim extraction runs through a dedicated extraction stage/backend.
 
 Inference backends:
 - `openai-agents` (default): uses OpenAI Agents SDK (`Runner`, tools, structured output).
-- `gemini`: uses `genai.Client` structured prompting; currently requires `--search-provider brave`.
+- `gemini`: uses `genai.Client` structured prompting and Brave retrieval payloads.
 
 ## Repository layout
 
 ```text
 src/facticli/
+  core/
+    contracts.py     # typed plan/finding/report/extraction contracts
+    normalize.py     # deterministic normalization helpers
+    artifacts.py     # run artifact schemas
+  application/
+    interfaces.py    # planner/research/judge/retriever strategy contracts
+    stages.py        # explicit pipeline stages
+    services.py      # fact-check and extraction application services
+    factory.py       # provider wiring composition root
+  adapters/
+    openai_provider.py
+    gemini_provider.py
+    retrievers.py
   cli.py             # command-line interface
-  claim_extraction.py# check-worthy claim extraction module
-  orchestrator.py    # planner -> parallel research -> judge pipeline
-  agents.py          # openai-agents definitions
-  skills.py          # skill registry and prompt loading
-  types.py           # typed plan/finding/report contracts
+  orchestrator.py    # compatibility facade over application service
+  claim_extraction.py# compatibility facade over extraction service
+  skills.py          # skill registry + prompt loading
+  types.py           # compatibility re-export for contracts
   prompts/
     extract_claims.md
     plan.md

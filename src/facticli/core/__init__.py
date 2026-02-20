@@ -1,6 +1,5 @@
-from __future__ import annotations
-
-from facticli.core.contracts import (
+from .artifacts import ResearchCheckArtifact, RunArtifacts
+from .contracts import (
     AspectFinding,
     CheckworthyClaim,
     ClaimExtractionResult,
@@ -19,6 +18,8 @@ __all__ = [
     "EvidenceSignal",
     "FactCheckReport",
     "InvestigationPlan",
+    "ResearchCheckArtifact",
+    "RunArtifacts",
     "SourceEvidence",
     "VeracityVerdict",
     "VerificationCheck",

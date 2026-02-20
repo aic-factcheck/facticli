@@ -1,280 +1,53 @@
 from __future__ import annotations
 
-import json
 import unittest
 from unittest.mock import AsyncMock, patch
 
+from facticli.core.artifacts import RunArtifacts
 from facticli.orchestrator import FactCheckOrchestrator, OrchestratorConfig
-from facticli.types import (
-    AspectFinding,
-    EvidenceSignal,
-    FactCheckReport,
-    InvestigationPlan,
-    SourceEvidence,
-    VerificationCheck,
-    VeracityVerdict,
-)
-
-from tests.helpers import FakeRunResult as _FakeRunResult
+from facticli.types import FactCheckReport, InvestigationPlan, VeracityVerdict
+from facticli.application.services import FactCheckRun
 
 
-class OrchestratorTests(unittest.IsolatedAsyncioTestCase):
-    async def test_full_check_flow_openai_matches_notebook_scenario(self):
-        planner_agent = object()
-        research_agent = object()
-        judge_agent = object()
-
-        plan = InvestigationPlan(
-            claim="unused",
-            checks=[
-                VerificationCheck(
-                    aspect_id="timeline_1",
-                    question="Was Eiffel Tower completed in 1889?",
-                    rationale="Date check",
-                    search_queries=["Eiffel Tower completion year"],
-                ),
-                VerificationCheck(
-                    aspect_id="event_1",
-                    question="Was it linked to the World's Fair?",
-                    rationale="Event linkage check",
-                    search_queries=["Eiffel Tower 1889 Exposition Universelle"],
-                ),
-            ],
+class OrchestratorWrapperTests(unittest.IsolatedAsyncioTestCase):
+    async def test_check_claim_delegates_to_service(self):
+        fake_run = FactCheckRun(
+            claim="The Eiffel Tower was built in 1889.",
+            plan=InvestigationPlan(claim="The Eiffel Tower was built in 1889.", checks=[], assumptions=[]),
+            findings=[],
+            report=FactCheckReport(
+                claim="The Eiffel Tower was built in 1889.",
+                verdict=VeracityVerdict.SUPPORTED,
+                verdict_confidence=0.8,
+                justification="Supported.",
+                key_points=[],
+                findings=[],
+                sources=[],
+            ),
+            artifacts=RunArtifacts(
+                claim="The Eiffel Tower was built in 1889.",
+                normalized_claim="The Eiffel Tower was built in 1889.",
+            ),
         )
 
-        async def fake_runner(agent, input, max_turns=10):  # noqa: A002
-            if agent is planner_agent:
-                return _FakeRunResult(plan)
+        fake_service = AsyncMock()
+        fake_service.check_claim = AsyncMock(return_value=fake_run)
 
-            if agent is research_agent:
-                payload = json.loads(input)
-                check = payload["check"]
-                return _FakeRunResult(
-                    AspectFinding(
-                        aspect_id=check["aspect_id"],
-                        question=check["question"],
-                        signal=EvidenceSignal.SUPPORTS,
-                        summary=f"Evidence supports {check['aspect_id']}.",
-                        confidence=0.82,
-                        sources=[
-                            SourceEvidence(
-                                title=f"Source for {check['aspect_id']}",
-                                url="https://example.org/shared-source",
-                                snippet=f"Snippet for {check['aspect_id']}",
-                            )
-                        ],
-                    )
-                )
+        with patch("facticli.orchestrator.build_fact_check_service", return_value=fake_service):
+            orchestrator = FactCheckOrchestrator(OrchestratorConfig(inference_provider="openai-agents"))
+            run = await orchestrator.check_claim("The Eiffel Tower was built in 1889.")
 
-            if agent is judge_agent:
-                payload = json.loads(input)
-                return _FakeRunResult(
-                    FactCheckReport(
-                        claim=payload["claim"],
-                        verdict=VeracityVerdict.SUPPORTED,
-                        verdict_confidence=0.83,
-                        justification="Both checks are supported by cited sources.",
-                        key_points=["Timeline and event linkage are supported."],
-                        findings=[],
-                        sources=[],
-                    )
-                )
-
-            raise AssertionError("Unexpected agent passed to Runner.run")
-
-        with (
-            patch("facticli.orchestrator.build_planner_agent", return_value=planner_agent),
-            patch("facticli.orchestrator.build_research_agent", return_value=research_agent),
-            patch("facticli.orchestrator.build_judge_agent", return_value=judge_agent),
-            patch("facticli.orchestrator.Runner.run", new=AsyncMock(side_effect=fake_runner)),
-        ):
-            orchestrator = FactCheckOrchestrator(
-                OrchestratorConfig(
-                    inference_provider="openai-agents",
-                    max_checks=4,
-                    max_parallel_research=2,
-                )
-            )
-            run = await orchestrator.check_claim("The Eiffel Tower was built in 1889 for the World's Fair.")
-
-        self.assertEqual(run.report.claim, "The Eiffel Tower was built in 1889 for the World's Fair.")
         self.assertEqual(run.report.verdict, VeracityVerdict.SUPPORTED)
-        self.assertEqual(len(run.findings), 2)
-        # Judge returned no findings/sources, so orchestrator should backfill and dedupe.
-        self.assertEqual(len(run.report.findings), 2)
-        self.assertEqual(len(run.report.sources), 1)
-        self.assertEqual(run.report.sources[0].url, "https://example.org/shared-source")
+        fake_service.check_claim.assert_awaited_once()
 
-    async def test_parallel_research_converts_exceptions_into_insufficient_findings(self):
-        with (
-            patch("facticli.orchestrator.build_planner_agent", return_value=object()),
-            patch("facticli.orchestrator.build_research_agent", return_value=object()),
-            patch("facticli.orchestrator.build_judge_agent", return_value=object()),
-        ):
+    async def test_latest_artifacts_returns_none_before_any_run(self):
+        fake_service = AsyncMock()
+        fake_service.check_claim = AsyncMock()
+
+        with patch("facticli.orchestrator.build_fact_check_service", return_value=fake_service):
             orchestrator = FactCheckOrchestrator(OrchestratorConfig(inference_provider="openai-agents"))
 
-        plan = InvestigationPlan(
-            claim="x",
-            checks=[
-                VerificationCheck(
-                    aspect_id="ok_1",
-                    question="Question 1",
-                    rationale="r",
-                    search_queries=["q1"],
-                ),
-                VerificationCheck(
-                    aspect_id="bad_1",
-                    question="Question 2",
-                    rationale="r",
-                    search_queries=["q2"],
-                ),
-            ],
-        )
-
-        async def fake_research(_claim: str, check: VerificationCheck) -> AspectFinding:
-            if check.aspect_id == "bad_1":
-                raise RuntimeError("simulated failure")
-            return AspectFinding(
-                aspect_id=check.aspect_id,
-                question=check.question,
-                signal=EvidenceSignal.SUPPORTS,
-                summary="ok",
-                confidence=0.9,
-                sources=[],
-            )
-
-        orchestrator._research_check = fake_research  # type: ignore[method-assign]
-        findings = await orchestrator._run_parallel_research("claim", plan)
-
-        self.assertEqual(len(findings), 2)
-        failure = [f for f in findings if f.aspect_id == "bad_1"][0]
-        self.assertEqual(failure.signal, EvidenceSignal.INSUFFICIENT)
-        self.assertIn("failed", failure.summary.lower())
-
-    async def test_gemini_research_uses_brave_search_payload(self):
-        with patch("facticli.orchestrator.GeminiStructuredClient", return_value=object()):
-            orchestrator = FactCheckOrchestrator(
-                OrchestratorConfig(
-                    inference_provider="gemini",
-                    search_provider="brave",
-                )
-            )
-
-        check = VerificationCheck(
-            aspect_id="timeline_1",
-            question="Was it completed in 1889?",
-            rationale="Date check",
-            search_queries=["Eiffel Tower completion year"],
-        )
-
-        orchestrator._run_brave_queries = AsyncMock(
-            return_value=[
-                {
-                    "provider": "brave",
-                    "query": "Eiffel Tower completion year",
-                    "result_count": 1,
-                    "results": [{"title": "x", "url": "https://example.org", "description": "d"}],
-                }
-            ]
-        )
-        orchestrator._run_gemini_structured = AsyncMock(
-            return_value=AspectFinding(
-                aspect_id="",
-                question="",
-                signal=EvidenceSignal.SUPPORTS,
-                summary="Supported by search results.",
-                confidence=0.8,
-                sources=[],
-            )
-        )
-
-        finding = await orchestrator._research_check("claim text", check)
-        self.assertEqual(finding.aspect_id, "timeline_1")
-        self.assertEqual(finding.question, "Was it completed in 1889?")
-
-        kwargs = orchestrator._run_gemini_structured.await_args.kwargs
-        payload = kwargs["payload"]
-        self.assertIn("search_results", payload)
-        self.assertEqual(payload["search_results"][0]["provider"], "brave")
-
-    async def test_plan_normalization_sanitizes_ids_and_queries(self):
-        planner_agent = object()
-        with (
-            patch("facticli.orchestrator.build_planner_agent", return_value=planner_agent),
-            patch("facticli.orchestrator.build_research_agent", return_value=object()),
-            patch("facticli.orchestrator.build_judge_agent", return_value=object()),
-        ):
-            orchestrator = FactCheckOrchestrator(
-                OrchestratorConfig(
-                    inference_provider="openai-agents",
-                    max_checks=4,
-                    max_search_queries_per_check=4,
-                )
-            )
-
-        messy_plan = InvestigationPlan(
-            claim="placeholder",
-            checks=[
-                VerificationCheck(
-                    aspect_id="Timeline 1",
-                    question="  Was the event in 1889?  ",
-                    rationale="  date check  ",
-                    search_queries=["", "event 1889", "EVENT 1889", "event 1889 "],
-                ),
-                VerificationCheck(
-                    aspect_id="timeline_1",
-                    question="Was it tied to the World Fair?",
-                    rationale="event check",
-                    search_queries=[],
-                ),
-                VerificationCheck(
-                    aspect_id="",
-                    question="   ",
-                    rationale="should be dropped",
-                    search_queries=["unused"],
-                ),
-            ],
-        )
-
-        with patch(
-            "facticli.orchestrator.Runner.run",
-            new=AsyncMock(return_value=_FakeRunResult(messy_plan)),
-        ):
-            normalized_plan = await orchestrator._plan_claim("Eiffel Tower claim")
-
-        self.assertEqual(len(normalized_plan.checks), 2)
-        self.assertEqual(normalized_plan.checks[0].aspect_id, "timeline_1")
-        self.assertEqual(normalized_plan.checks[1].aspect_id, "timeline_1_2")
-        self.assertEqual(normalized_plan.checks[0].question, "Was the event in 1889?")
-        self.assertEqual(normalized_plan.checks[0].rationale, "date check")
-        self.assertIn("event 1889", normalized_plan.checks[0].search_queries)
-        self.assertIn("Eiffel Tower claim", normalized_plan.checks[0].search_queries)
-
-    async def test_brave_query_collection_keeps_partial_results(self):
-        with (
-            patch("facticli.orchestrator.build_planner_agent", return_value=object()),
-            patch("facticli.orchestrator.build_research_agent", return_value=object()),
-            patch("facticli.orchestrator.build_judge_agent", return_value=object()),
-        ):
-            orchestrator = FactCheckOrchestrator(OrchestratorConfig(inference_provider="openai-agents"))
-
-        def fake_brave(query: str, _count: int) -> dict[str, object]:
-            if query == "bad query":
-                raise RuntimeError("boom")
-            return {
-                "provider": "brave",
-                "query": query,
-                "result_count": 1,
-                "results": [{"title": "x", "url": "https://example.org", "description": "d"}],
-            }
-
-        with patch("facticli.orchestrator.run_brave_web_search", side_effect=fake_brave):
-            payloads = await orchestrator._run_brave_queries(["good query", "bad query"])
-
-        self.assertEqual(len(payloads), 2)
-        self.assertEqual(payloads[0]["result_count"], 1)
-        self.assertEqual(payloads[1]["result_count"], 0)
-        self.assertIn("error", payloads[1])
+        self.assertIsNone(orchestrator.latest_artifacts())
 
 
 if __name__ == "__main__":

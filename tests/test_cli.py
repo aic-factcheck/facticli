@@ -10,6 +10,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from facticli.cli import _load_extract_input_text, run_check_command, run_extract_claims_command
+from facticli.core.artifacts import RunArtifacts
 from facticli.orchestrator import FactCheckRun
 from facticli.types import (
     CheckworthyClaim,
@@ -104,6 +105,10 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
                     )
                 ],
             ),
+            artifacts=RunArtifacts(
+                claim="The first iPhone was released in 2007.",
+                normalized_claim="The first iPhone was released in 2007.",
+            ),
         )
 
         fake_orchestrator = AsyncMock()
@@ -137,6 +142,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("report", payload)
         self.assertIn("plan", payload)
         self.assertIn("findings", payload)
+        self.assertIn("artifacts", payload)
 
 
 class LoadExtractInputTextTests(unittest.TestCase):
