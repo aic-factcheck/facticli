@@ -1,4 +1,5 @@
 # facticli
+[![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
 `facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference profiles (`openai`, `gemini`).
 
@@ -10,7 +11,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 
 The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with explicit pipeline stages and pluggable provider adapters.
 
-## Install
+## 📦 Install
 
 From this repository:
 
@@ -18,7 +19,7 @@ From this repository:
 pip install -e .
 ```
 
-## Configure
+## ⚙️ Configure
 
 Set your API key:
 
@@ -39,7 +40,7 @@ export FACTICLI_BASE_URL=...
 export BRAVE_SEARCH_API_KEY=...
 ```
 
-## Usage
+## 🚀 Usage
 
 Run a claim check:
 
@@ -99,7 +100,7 @@ Extract claims from a transcript file:
 facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 ```
 
-## CLI options
+## 🧰 CLI options
 
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
@@ -124,7 +125,7 @@ Validation notes:
 - `--search-results` must be an integer in `1..20`.
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
-## Current architecture
+## 🧠 Current architecture
 
 Layered runtime:
 - `core`: typed contracts, normalization helpers, and run artifacts.
@@ -141,7 +142,7 @@ Inference backend:
 - one OpenAI Agents SDK path (`Runner`, tools, structured output) for all profiles.
 - provider profile only swaps API key/base URL/API mode.
 
-## Repository layout
+## 🗂️ Repository layout
 
 ```text
 src/facticli/
@@ -169,7 +170,7 @@ src/facticli/
     judge.md
 ```
 
-## Demo notebooks
+## 📓 Demo notebooks
 
 Interactive demos live in `/Users/bertik/PhD/facticli/notebooks`:
 
@@ -184,7 +185,7 @@ Each notebook includes:
 - emoji-based headings for quick navigation,
 - multiple example claims as commented-out variable redefinitions.
 
-## Testing
+## ✅ Testing
 
 Run the integrated unit tests:
 
@@ -208,7 +209,7 @@ Notes:
 - Live smoke tests are guarded by `FACTICLI_RUN_LIVE_SMOKE=1`.
 - The live smoke test currently validates the OpenAI profile path.
 
-## GitHub automation
+## 🤖 GitHub automation
 
 This repo includes two GitHub Actions workflows:
 - `.github/workflows/ci.yml`: runs on every push and pull request (compile + CLI checks + unit tests).
@@ -219,16 +220,16 @@ To enable live smoke in GitHub:
 2. Add secret `OPENAI_API_KEY`.
 3. Optionally edit `.github/workflows/live-smoke.yml` to remove or change the schedule.
 
-## Contributor guide
+## 🤝 Contributor guide
 
 - Project contributor/agent guidance lives in `/Users/bertik/PhD/facticli/AGENTS.md`.
 - `/Users/bertik/PhD/facticli/CLAUDE.md` is a symlink to the same file.
 
-## Notes
+## 📝 Notes
 
 - This is an initial bootstrap and intentionally leaves room for deeper evaluator tooling, benchmark harnesses, and richer source quality scoring.
 - If you installed in editable mode, updates in `src/` are reflected immediately.
 
-## License
+## 📄 License
 
 CC-BY-SA-4.0
