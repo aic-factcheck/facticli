@@ -15,10 +15,6 @@ class SkillRegistryTests(unittest.TestCase):
         self.assertIn("decontextualized", prompt.lower())
         self.assertIn("atomic", prompt.lower())
 
-    def test_internal_gemini_research_prompt_is_loadable(self):
-        prompt = load_skill_prompt("research_gemini")
-        self.assertIn("pre-fetched search results", prompt.lower())
-
 
 if __name__ == "__main__":
     unittest.main()

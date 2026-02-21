@@ -9,6 +9,7 @@ import traceback
 from pathlib import Path
 
 from .application.progress import ProgressEvent
+from .adapters import resolve_model_name, resolve_provider_profile
 from .claim_extraction import ClaimExtractor, ClaimExtractorConfig
 from .core.artifacts import RunArtifacts
 from .orchestrator import FactCheckOrchestrator, OrchestratorConfig
@@ -42,22 +43,25 @@ def _search_results_int(raw_value: str) -> int:
 def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> None:
     command_parser.add_argument(
         "--inference-provider",
-        choices=["openai-agents", "gemini"],
-        default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai-agents"),
+        choices=["openai", "gemini", "openai-agents"],
+        default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai"),
         help=(
-            "Inference backend (default: FACTICLI_INFERENCE_PROVIDER or openai-agents). "
-            "openai-agents uses OpenAI Agents SDK, gemini uses google genai.Client."
+            "OpenAI-compatible provider profile (default: FACTICLI_INFERENCE_PROVIDER or openai). "
+            "openai and gemini use the same Agents SDK path with different key/base-url profiles."
         ),
     )
     command_parser.add_argument(
         "--model",
-        default=os.getenv("FACTICLI_MODEL", "gpt-4.1-mini"),
-        help="Model used when --inference-provider openai-agents.",
+        default=None,
+        help=(
+            "Model name for selected provider profile. Defaults to FACTICLI_MODEL for openai "
+            "or FACTICLI_GEMINI_MODEL for gemini."
+        ),
     )
     command_parser.add_argument(
-        "--gemini-model",
-        default=os.getenv("FACTICLI_GEMINI_MODEL", "gemini-2.0-flash"),
-        help="Model used when --inference-provider gemini.",
+        "--base-url",
+        default=os.getenv("FACTICLI_BASE_URL"),
+        help="Optional OpenAI-compatible base URL override for selected provider profile.",
     )
 
 
@@ -143,16 +147,11 @@ def _build_progress_callback(stream_progress: bool):
 
 
 def _validate_inference_provider_keys(inference_provider: str) -> int:
-    if inference_provider == "openai-agents" and not os.getenv("OPENAI_API_KEY"):
+    profile = resolve_provider_profile(inference_provider)
+    if not os.getenv(profile.api_key_env):
+        other = "gemini" if profile.name == "openai" else "openai"
         print(
-            "OPENAI_API_KEY is not set. Export it or use --inference-provider gemini.",
-            file=sys.stderr,
-        )
-        return 2
-
-    if inference_provider == "gemini" and not os.getenv("GEMINI_API_KEY"):
-        print(
-            "GEMINI_API_KEY is not set. Export it or use --inference-provider openai-agents.",
+            f"{profile.api_key_env} is not set. Export it or use --inference-provider {other}.",
             file=sys.stderr,
         )
         return 2
@@ -268,21 +267,14 @@ async def run_check_command(args: argparse.Namespace) -> int:
 
     config = OrchestratorConfig(
         inference_provider=args.inference_provider,
-        model=args.model,
-        gemini_model=args.gemini_model,
+        model=resolve_model_name(args.inference_provider, args.model),
+        base_url=args.base_url,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
         search_results_per_query=args.search_results_per_query,
     )
-
-    if args.inference_provider == "gemini" and args.search_provider != "brave":
-        print(
-            "Gemini inference currently requires --search-provider brave.",
-            file=sys.stderr,
-        )
-        return 2
 
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
         print(
@@ -350,8 +342,8 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
     extractor = ClaimExtractor(
         config=ClaimExtractorConfig(
             inference_provider=args.inference_provider,
-            model=args.model,
-            gemini_model=args.gemini_model,
+            model=resolve_model_name(args.inference_provider, args.model),
+            base_url=args.base_url,
             max_claims=args.max_claims,
         )
     )

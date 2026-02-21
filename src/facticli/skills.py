@@ -34,14 +34,6 @@ SKILLS: dict[str, SkillSpec] = {
         output_model=AspectFinding,
         uses_web_search=True,
     ),
-    "research_gemini": SkillSpec(
-        name="research_gemini",
-        description="Investigate one check using pre-fetched search results (Gemini path).",
-        prompt_file="research_gemini.md",
-        output_model=AspectFinding,
-        uses_web_search=False,
-        public=False,
-    ),
     "judge": SkillSpec(
         name="judge",
         description="Synthesize findings into a final veracity verdict with justification.",

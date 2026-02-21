@@ -38,11 +38,9 @@ Not yet implemented (expected future work):
 - Packaging: `pyproject.toml` (Hatchling backend)
 - Runtime dependencies:
   - `openai-agents` (Agents SDK)
-  - `google-genai` (Gemini client SDK)
   - `pydantic` (typed schemas/contracts)
 - Model/tool runtime:
-  - OpenAI Responses-compatible models via Agents SDK
-  - Gemini models via `genai.Client`
+  - OpenAI-compatible models via Agents SDK
   - hosted `WebSearchTool` for open web retrieval
   - Brave Search API for custom retrieval
 
@@ -55,7 +53,7 @@ Not yet implemented (expected future work):
 - `src/facticli/__main__.py`: `python -m facticli` runner
 - `src/facticli/core/*`: domain contracts, normalization, run artifacts
 - `src/facticli/application/*`: strategy interfaces, explicit stages, services, provider wiring
-- `src/facticli/adapters/*`: OpenAI/Gemini provider adapters and Brave retriever
+- `src/facticli/adapters/*`: shared OpenAI-compatible adapters + provider profile bootstrap
 - `src/facticli/cli.py`: CLI parser and command handlers
 - `src/facticli/orchestrator.py`: compatibility facade for fact-check service
 - `src/facticli/claim_extraction.py`: compatibility facade for extraction service
@@ -75,12 +73,12 @@ The runtime uses layered architecture:
    - Typed contracts and normalization logic
    - Run artifact models for debugging/evaluation
 2. `application` layer
-   - Provider-agnostic strategy interfaces (`Planner`, `Researcher`, `Judge`, `Retriever`)
+   - Provider-agnostic strategy interfaces (`Planner`, `Researcher`, `Judge`)
    - Explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, extraction stage)
    - Service orchestration and artifact repository integration
 3. `adapters` layer
-   - OpenAI and Gemini concrete strategy implementations
-   - Brave retrieval strategy
+   - Shared OpenAI-compatible strategy implementations
+   - Provider profile resolution (key/base URL/API mode)
 
 Fact-check pipeline stages:
 
@@ -96,9 +94,9 @@ Fact-check pipeline stages:
    - Output: `FactCheckReport` with final verdict, justification, findings, sources
 
 Inference providers:
-- `openai-agents` (default): planner/research/judge run through Agents SDK.
-- `gemini`: planner/research/judge run through `genai.Client` structured prompting.
-  - Current constraint: Gemini path uses `search_provider=brave`.
+- `openai` (default): OpenAI profile via Agents SDK.
+- `gemini`: Gemini OpenAI-compatible profile via the same Agents SDK codepath.
+- `openai-agents`: legacy alias for `openai`.
 
 ### 5.2 Parallelism Model
 
@@ -163,7 +161,7 @@ Prompt design principles:
 - `--search-results`
 - `--search-context-size`
 - `--inference-provider`
-- `--gemini-model`
+- `--base-url`
 - `--max-claims` (extract-claims command)
 - `--show-plan`
 - `--stream-progress`
@@ -182,6 +180,7 @@ Input/validation rules:
 - `FACTICLI_MODEL` (optional default model override)
 - `FACTICLI_GEMINI_MODEL` (optional Gemini model override)
 - `FACTICLI_INFERENCE_PROVIDER`
+- `FACTICLI_BASE_URL`
 
 ## 9) Important Design Constraints
 

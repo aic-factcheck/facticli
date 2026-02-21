@@ -29,7 +29,8 @@
 
 ## Architecture refactor (completed)
 
-- [x] Introduce provider strategy interfaces (`Planner`, `Researcher`, `Judge`, `Retriever`) and concrete adapters.
+- [x] Introduce provider strategy interfaces (`Planner`, `Researcher`, `Judge`) and concrete adapters.
 - [x] Introduce explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`).
 - [x] Split code into layered runtime modules (`core`, `application`, `adapters`) while keeping CLI-compatible facades.
 - [x] Add first-class run artifacts model and repository wired through the fact-check service and JSON output.
+- [x] Consolidate OpenAI/Gemini execution into one OpenAI-compatible adapter path with profile-based key/base-url switching.

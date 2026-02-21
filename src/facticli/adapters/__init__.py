@@ -1,25 +1,23 @@
-from .gemini_provider import (
-    GeminiClaimExtractionAdapter,
-    GeminiJudgeAdapter,
-    GeminiPlannerAdapter,
-    GeminiResearchAdapter,
-)
 from .openai_provider import (
-    OpenAIClaimExtractionAdapter,
-    OpenAIJudgeAdapter,
-    OpenAIPlannerAdapter,
-    OpenAIResearchAdapter,
+    CompatibleClaimExtractionAdapter,
+    CompatibleJudgeAdapter,
+    CompatiblePlannerAdapter,
+    CompatibleResearchAdapter,
 )
-from .retrievers import BraveSearchRetriever
+from .provider_profile import (
+    ProviderProfile,
+    configure_openai_compatible_client,
+    resolve_model_name,
+    resolve_provider_profile,
+)
 
 __all__ = [
-    "BraveSearchRetriever",
-    "GeminiClaimExtractionAdapter",
-    "GeminiJudgeAdapter",
-    "GeminiPlannerAdapter",
-    "GeminiResearchAdapter",
-    "OpenAIClaimExtractionAdapter",
-    "OpenAIJudgeAdapter",
-    "OpenAIPlannerAdapter",
-    "OpenAIResearchAdapter",
+    "CompatibleClaimExtractionAdapter",
+    "CompatibleJudgeAdapter",
+    "CompatiblePlannerAdapter",
+    "CompatibleResearchAdapter",
+    "ProviderProfile",
+    "configure_openai_compatible_client",
+    "resolve_model_name",
+    "resolve_provider_profile",
 ]

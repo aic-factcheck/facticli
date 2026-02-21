@@ -40,9 +40,9 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         fake_extractor.extract = AsyncMock(return_value=fake_result)
 
         args = argparse.Namespace(
-            inference_provider="openai-agents",
+            inference_provider="openai",
             model="gpt-4.1-mini",
-            gemini_model="gemini-3-pro",
+            base_url=None,
             max_claims=10,
             from_file=None,
             text="Inflation fell below 3%.",
@@ -61,12 +61,12 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         payload = json.loads(output.getvalue())
         self.assertEqual(payload["claims"][0]["claim_id"], "c1")
 
-    async def test_check_command_rejects_gemini_without_brave_search(self):
+    async def test_check_command_rejects_missing_profile_key(self):
         args = argparse.Namespace(
             claim="Some claim",
             inference_provider="gemini",
-            model="gpt-4.1-mini",
-            gemini_model="gemini-2.0-flash",
+            model="gemini-2.0-flash",
+            base_url=None,
             max_checks=4,
             parallel=2,
             search_provider="openai",
@@ -75,9 +75,10 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             show_plan=False,
             json=False,
             include_artifacts=False,
+            stream_progress=False,
         )
 
-        with patch.dict("os.environ", {"GEMINI_API_KEY": "dummy"}, clear=False):
+        with patch.dict("os.environ", {}, clear=True):
             code = await run_check_command(args)
 
         self.assertEqual(code, 2)
@@ -117,9 +118,9 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         args = argparse.Namespace(
             claim="The first iPhone was released in 2007.",
-            inference_provider="openai-agents",
+            inference_provider="openai",
             model="gpt-4.1-mini",
-            gemini_model="gemini-2.0-flash",
+            base_url=None,
             max_checks=4,
             parallel=2,
             search_provider="openai",
@@ -186,9 +187,9 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         args = argparse.Namespace(
             claim="The Eiffel Tower was built in 1889.",
-            inference_provider="openai-agents",
+            inference_provider="openai",
             model="gpt-4.1-mini",
-            gemini_model="gemini-2.0-flash",
+            base_url=None,
             max_checks=4,
             parallel=2,
             search_provider="openai",

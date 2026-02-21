@@ -1,6 +1,6 @@
 # facticli
 
-`facticli` is a pip-installable Python CLI for agentic claim verification with pluggable inference providers (`openai-agents` and `gemini`).
+`facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference profiles (`openai`, `gemini`).
 
 It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
 - open web search,
@@ -32,8 +32,9 @@ Optional defaults:
 export FACTICLI_MODEL=gpt-4.1-mini
 export GEMINI_API_KEY=...
 export FACTICLI_GEMINI_MODEL=gemini-3-pro
-export FACTICLI_INFERENCE_PROVIDER=openai-agents
+export FACTICLI_INFERENCE_PROVIDER=openai
 export FACTICLI_SEARCH_PROVIDER=openai
+export FACTICLI_BASE_URL=...
 # only needed when FACTICLI_SEARCH_PROVIDER=brave
 export BRAVE_SEARCH_API_KEY=...
 ```
@@ -57,7 +58,7 @@ Run with Gemini inference provider:
 ```bash
 facticli check \
   --inference-provider gemini \
-  --gemini-model gemini-3-pro \
+  --model gemini-3-pro \
   --search-provider brave \
   "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
@@ -102,8 +103,8 @@ facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
-               [--inference-provider {openai-agents,gemini}]
-               [--gemini-model GEMINI_MODEL]
+               [--inference-provider {openai,gemini,openai-agents}]
+               [--base-url BASE_URL]
                [--search-provider {openai,brave}]
                [--search-results N]
                [--search-context-size {low,medium,high}]
@@ -112,8 +113,8 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                "<claim>"
 
 facticli extract-claims [--from-file PATH]
-                        [--inference-provider {openai-agents,gemini}]
-                        [--model MODEL] [--gemini-model GEMINI_MODEL]
+                        [--inference-provider {openai,gemini,openai-agents}]
+                        [--model MODEL] [--base-url BASE_URL]
                         [--max-claims N] [--json]
                         [text]
 ```
@@ -128,7 +129,7 @@ Validation notes:
 Layered runtime:
 - `core`: typed contracts, normalization helpers, and run artifacts.
 - `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
-- `adapters`: concrete provider strategies (`openai-agents`, `gemini`) and retrievers (Brave Search).
+- `adapters`: a shared OpenAI-compatible strategy implementation plus provider profile bootstrap.
 
 Pipeline behavior:
 - `plan` skill decomposes claims into independent checks.
@@ -136,9 +137,9 @@ Pipeline behavior:
 - `judge` synthesizes findings into one verdict with merged deduplicated sources.
 - claim extraction runs through a dedicated extraction stage/backend.
 
-Inference backends:
-- `openai-agents` (default): uses OpenAI Agents SDK (`Runner`, tools, structured output).
-- `gemini`: uses `genai.Client` structured prompting and Brave retrieval payloads.
+Inference backend:
+- one OpenAI Agents SDK path (`Runner`, tools, structured output) for all profiles.
+- provider profile only swaps API key/base URL/API mode.
 
 ## Repository layout
 
@@ -149,14 +150,13 @@ src/facticli/
     normalize.py     # deterministic normalization helpers
     artifacts.py     # run artifact schemas
   application/
-    interfaces.py    # planner/research/judge/retriever strategy contracts
+    interfaces.py    # planner/research/judge strategy contracts
     stages.py        # explicit pipeline stages
     services.py      # fact-check and extraction application services
     factory.py       # provider wiring composition root
   adapters/
-    openai_provider.py
-    gemini_provider.py
-    retrievers.py
+    openai_provider.py # shared OpenAI-compatible stage adapters
+    provider_profile.py# provider profile resolution + client bootstrap
   cli.py             # command-line interface
   orchestrator.py    # compatibility facade over application service
   claim_extraction.py# compatibility facade over extraction service

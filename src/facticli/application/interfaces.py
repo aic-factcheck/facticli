@@ -21,11 +21,6 @@ class Researcher(Protocol):
         ...
 
 
-class Retriever(Protocol):
-    async def search(self, queries: list[str], results_per_query: int) -> list[dict[str, object]]:
-        ...
-
-
 class Judge(Protocol):
     async def judge(
         self,

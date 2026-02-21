@@ -16,7 +16,7 @@ from facticli.core.contracts import (
 from facticli.skills import load_skill_prompt
 
 
-class OpenAIPlannerAdapter(Planner):
+class CompatiblePlannerAdapter(Planner):
     def __init__(self, model: str, max_turns: int):
         self._agent = build_planner_agent(model=model)
         self._max_turns = max_turns
@@ -31,7 +31,7 @@ class OpenAIPlannerAdapter(Planner):
         return result.final_output_as(InvestigationPlan, raise_if_incorrect_type=True)
 
 
-class OpenAIResearchAdapter(Researcher):
+class CompatibleResearchAdapter(Researcher):
     def __init__(
         self,
         model: str,
@@ -68,7 +68,7 @@ class OpenAIResearchAdapter(Researcher):
         return finding.model_copy(update=updates) if updates else finding
 
 
-class OpenAIJudgeAdapter(Judge):
+class CompatibleJudgeAdapter(Judge):
     def __init__(self, model: str, max_turns: int, judge_extra_turns: int):
         self._agent = build_judge_agent(model=model)
         self._max_turns = max_turns
@@ -93,7 +93,7 @@ class OpenAIJudgeAdapter(Judge):
         return result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
 
 
-class OpenAIClaimExtractionAdapter(ClaimExtractionBackend):
+class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
     def __init__(self, model: str, max_turns: int):
         instructions = load_skill_prompt("extract_claims")
         self._agent: Agent[None] = Agent(
@@ -125,3 +125,10 @@ class OpenAIClaimExtractionAdapter(ClaimExtractionBackend):
             max_turns=self._max_turns,
         )
         return result.final_output_as(ClaimExtractionResult, raise_if_incorrect_type=True)
+
+
+# Backward-compatible aliases for older imports/tests.
+OpenAIPlannerAdapter = CompatiblePlannerAdapter
+OpenAIResearchAdapter = CompatibleResearchAdapter
+OpenAIJudgeAdapter = CompatibleJudgeAdapter
+OpenAIClaimExtractionAdapter = CompatibleClaimExtractionAdapter

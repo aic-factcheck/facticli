@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 from facticli.adapters import (
-    BraveSearchRetriever,
-    GeminiClaimExtractionAdapter,
-    GeminiJudgeAdapter,
-    GeminiPlannerAdapter,
-    GeminiResearchAdapter,
-    OpenAIClaimExtractionAdapter,
-    OpenAIJudgeAdapter,
-    OpenAIPlannerAdapter,
-    OpenAIResearchAdapter,
+    CompatibleClaimExtractionAdapter,
+    CompatibleJudgeAdapter,
+    CompatiblePlannerAdapter,
+    CompatibleResearchAdapter,
+    configure_openai_compatible_client,
 )
 
 from .config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
@@ -22,33 +18,23 @@ def build_fact_check_service(
     config: FactCheckRuntimeConfig,
     artifact_repository: RunArtifactRepository | None = None,
 ) -> FactCheckService:
-    if config.inference_provider == "openai-agents":
-        planner = OpenAIPlannerAdapter(model=config.model, max_turns=config.max_turns)
-        researcher = OpenAIResearchAdapter(
-            model=config.model,
-            max_turns=config.max_turns,
-            search_context_size=config.search_context_size,
-            search_provider=config.search_provider,
-        )
-        judge = OpenAIJudgeAdapter(
-            model=config.model,
-            max_turns=config.max_turns,
-            judge_extra_turns=config.judge_extra_turns,
-        )
-    elif config.inference_provider == "gemini":
-        if config.search_provider != "brave":
-            raise ValueError("Gemini inference currently supports search_provider='brave' only.")
-        retriever = BraveSearchRetriever()
-        planner = GeminiPlannerAdapter(model=config.gemini_model)
-        researcher = GeminiResearchAdapter(
-            model=config.gemini_model,
-            retriever=retriever,
-            results_per_query=config.search_results_per_query,
-            max_search_queries_per_check=config.max_search_queries_per_check,
-        )
-        judge = GeminiJudgeAdapter(model=config.gemini_model)
-    else:
-        raise ValueError(f"Unsupported inference provider: {config.inference_provider}")
+    configure_openai_compatible_client(
+        inference_provider=config.inference_provider,
+        base_url=config.base_url,
+    )
+
+    planner = CompatiblePlannerAdapter(model=config.model, max_turns=config.max_turns)
+    researcher = CompatibleResearchAdapter(
+        model=config.model,
+        max_turns=config.max_turns,
+        search_context_size=config.search_context_size,
+        search_provider=config.search_provider,
+    )
+    judge = CompatibleJudgeAdapter(
+        model=config.model,
+        max_turns=config.max_turns,
+        judge_extra_turns=config.judge_extra_turns,
+    )
 
     return FactCheckService(
         plan_stage=PlanStage(
@@ -68,12 +54,11 @@ def build_fact_check_service(
 
 
 def build_claim_extraction_service(config: ClaimExtractionRuntimeConfig) -> ClaimExtractionService:
-    if config.inference_provider == "openai-agents":
-        backend = OpenAIClaimExtractionAdapter(model=config.model, max_turns=config.max_turns)
-    elif config.inference_provider == "gemini":
-        backend = GeminiClaimExtractionAdapter(model=config.gemini_model)
-    else:
-        raise ValueError(f"Unsupported inference provider: {config.inference_provider}")
+    configure_openai_compatible_client(
+        inference_provider=config.inference_provider,
+        base_url=config.base_url,
+    )
+    backend = CompatibleClaimExtractionAdapter(model=config.model, max_turns=config.max_turns)
 
     return ClaimExtractionService(
         extraction_stage=ClaimExtractionStage(backend=backend, max_claims=config.max_claims)

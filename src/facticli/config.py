@@ -7,7 +7,7 @@ from dataclasses import dataclass
 class InferenceConfig:
     """Shared inference provider settings for all pipeline stages."""
 
-    inference_provider: str = "openai-agents"
+    inference_provider: str = "openai"
     model: str = "gpt-4.1-mini"
-    gemini_model: str = "gemini-2.0-flash"
+    base_url: str | None = None
     max_turns: int = 10
