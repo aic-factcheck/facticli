@@ -192,6 +192,33 @@ Run the integrated unit tests:
 python3 -m unittest discover -s tests -p "test_*.py" -v
 ```
 
+Run the standard test routine (loads `.env` if present):
+
+```bash
+./scripts/test_routine.sh
+```
+
+Run with live smoke enabled:
+
+```bash
+./scripts/test_routine.sh --live-smoke
+```
+
+Notes:
+- Live smoke tests are guarded by `FACTICLI_RUN_LIVE_SMOKE=1`.
+- The live smoke test currently validates the OpenAI profile path.
+
+## GitHub automation
+
+This repo includes two GitHub Actions workflows:
+- `.github/workflows/ci.yml`: runs on every push and pull request (compile + CLI checks + unit tests).
+- `.github/workflows/live-smoke.yml`: runs live smoke tests manually (`workflow_dispatch`) and on a daily schedule.
+
+To enable live smoke in GitHub:
+1. Go to repository `Settings` -> `Secrets and variables` -> `Actions`.
+2. Add secret `OPENAI_API_KEY`.
+3. Optionally edit `.github/workflows/live-smoke.yml` to remove or change the schedule.
+
 ## Contributor guide
 
 - Project contributor/agent guidance lives in `/Users/bertik/PhD/facticli/AGENTS.md`.

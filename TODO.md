@@ -27,6 +27,11 @@
 - [ ] Expand deterministic tests for prompt/schema drift and renderer behavior.
 - [ ] Add dataset-driven regression/evaluation CLI with artifact logging.
 
+## Testing operations
+
+- [x] Add opt-in live smoke test guarded by environment flags.
+- [x] Add a routine runner script for compile + test flow with optional live smoke execution.
+
 ## Architecture refactor (completed)
 
 - [x] Introduce provider strategy interfaces (`Planner`, `Researcher`, `Judge`) and concrete adapters.

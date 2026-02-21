@@ -208,10 +208,15 @@ After significant changes, run:
 3. `python3 -m facticli skills`
 4. `facticli --help` (if package installed in environment)
 5. `python3 -m unittest discover -s tests -p "test_*.py" -v`
+6. `./scripts/test_routine.sh` (loads `.env`, same checks as above)
+7. CI mirrors these checks via `.github/workflows/ci.yml`
 
 If API key is available, also run at least one live smoke test:
 
-`facticli check "The Eiffel Tower was built in 1889."`
+`FACTICLI_RUN_LIVE_SMOKE=1 python3 -m unittest tests.test_live_smoke -v`
+
+GitHub live smoke automation:
+- `.github/workflows/live-smoke.yml` runs smoke tests on manual dispatch and schedule when `OPENAI_API_KEY` secret is configured.
 
 ## 12) Extension Roadmap
 
