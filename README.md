@@ -88,6 +88,21 @@ List built-in agent skills:
 facticli skills
 ```
 
+Generate an Averitec submission file from Averitec-formatted input claims:
+
+```bash
+python3 scripts/run_averitec_submission.py \
+  --input data/averitec/dev.json \
+  --output data/averitec/submission_generated.json \
+  --inference-provider openai \
+  --search-provider openai
+```
+
+Notes:
+- If input rows have no claim id field, fallback `claim_id` is the zero-based row index.
+- Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
+- `evidence` entries include `question`, `answer`, `url`, `scraped_text`.
+
 Extract decontextualized atomic check-worthy claims from arbitrary text:
 
 ```bash
