@@ -194,6 +194,7 @@ Interactive demos live in `/Users/bertik/PhD/facticli/notebooks`:
 - `03_judge_subroutine_demo.ipynb`
 - `04_full_checker_demo.ipynb`
 - `05_claim_extraction_demo.ipynb`
+- `06_averitec_submission_workflow.ipynb`
 
 Each notebook includes:
 - auto-reload setup (`%load_ext autoreload`, `%autoreload 2`),
