@@ -157,6 +157,70 @@ Inference backend:
 - one OpenAI Agents SDK path (`Runner`, tools, structured output) for all profiles.
 - provider profile only swaps API key/base URL/API mode.
 
+### Fact-check pipeline flow
+
+```mermaid
+flowchart TD
+  A["CLI: facticli check <claim>"] --> B["run_check_command<br/>validate provider/search keys<br/>build OrchestratorConfig"]
+  B --> C["FactCheckOrchestrator(config)"]
+
+  subgraph S["Service construction"]
+    C --> D["build_fact_check_service"]
+    D --> E["configure_openai_compatible_client"]
+    E --> F["Create planner / researcher / judge adapters"]
+    F --> G["Create PlanStage / ResearchStage / JudgeStage"]
+    G --> H["FactCheckService"]
+  end
+
+  H --> I["check_claim<br/>normalize claim<br/>create RunArtifacts<br/>emit run_started"]
+
+  subgraph P["Plan stage"]
+    I --> J["PlanStage.execute"]
+    J --> K["CompatiblePlannerAdapter.plan"]
+    K --> L["Runner.run(claim_planner)"]
+    L --> M["InvestigationPlan (raw)"]
+    M --> N["Normalize checks<br/>limit queries<br/>fallback direct check if empty"]
+    N --> O["Store plan artifacts<br/>emit planning_completed"]
+  end
+
+  subgraph R["Research stage"]
+    O --> P1["ResearchStage.execute<br/>emit research_started"]
+    P1 --> P2["Create one asyncio task per check"]
+    P2 --> P3["Bound concurrency with semaphore"]
+    P3 --> P4["For each check: retry with timeout"]
+    P4 --> P5["CompatibleResearchAdapter.research"]
+    P5 --> P6["Runner.run(check_researcher)"]
+    P6 --> P7{"Search provider"}
+    P7 -->|openai| P8["WebSearchTool"]
+    P7 -->|brave| P9["brave_web_search function tool"]
+    P8 --> P10["AspectFinding"]
+    P9 --> P10
+    P10 --> P11{"Succeeded?"}
+    P11 -->|yes| P12["Store finding<br/>emit research_check_completed"]
+    P11 -->|no after retries| P13["Create insufficient finding<br/>record error<br/>emit research_check_failed"]
+    P12 --> P14["Ordered findings list"]
+    P13 --> P14
+    P14 --> P15["emit research_completed"]
+  end
+
+  subgraph JG["Judge stage"]
+    P15 --> Q["JudgeStage.execute<br/>emit judging_started"]
+    Q --> R1["CompatibleJudgeAdapter.judge"]
+    R1 --> R2["Runner.run(veracity_judge)"]
+    R2 --> R3["FactCheckReport (raw)"]
+    R3 --> R4["Merge + deduplicate sources<br/>store report artifacts<br/>emit judging_completed"]
+  end
+
+  R4 --> T["Save artifacts repository (if configured)<br/>emit run_completed"]
+  T --> U{"Output mode"}
+  U -->|text| V["format_run_text -> stdout"]
+  U -->|json| W["report JSON -> stdout<br/>optionally add plan / findings / artifacts"]
+```
+
+When `--stream-progress` is enabled, progress events are formatted in the CLI and written to `stderr` during the run. Validation failures and uncaught command errors also go to `stderr`.
+
+`facticli extract-claims` uses a separate path: CLI -> `ClaimExtractor` -> `ClaimExtractionService` -> `ClaimExtractionStage` -> `CompatibleClaimExtractionAdapter` -> `Runner.run(...)` -> `ClaimExtractionResult`.
+
 ## 🗂️ Repository layout
 
 ```text
