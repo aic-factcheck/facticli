@@ -1,0 +1,1025 @@
+[
+    {
+        "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+        "required_reannotation": false,
+        "label": "Supported",
+        "justification": "True, question mark required (?) ",
+        "claim_date": "30-10-2020",
+        "speaker": "Joe Biden",
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210212055748/https://www.washingtonpost.com/politics/2020/11/02/fact-checking-final-arguments-biden-trump/",
+        "reporting_source": null,
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "What was Trump's tax return in 2017",
+                "answers": [
+                    {
+                        "answer": "Trump Paid $750 in Federal Income Taxes in 2017",
+                        "answer_type": "Extractive",
+                        "source_url": "https://web.archive.org/web/20210212182804/https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210212182804/https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html"
+                    }
+                ]
+            },
+            {
+                "question": "When did Trump say he was smart for not paying taxes",
+                "answers": [
+                    {
+                        "answer": "He made the boast during the 2016 electoral debate with Hilary Clinton",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://web.archive.org/web/20210212190344/https://www.cnbc.com/2016/09/26/trump-brags-about-not-paying-taxes-that-makes-me-smart.html",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210212190344/https://www.cnbc.com/2016/09/26/trump-brags-about-not-paying-taxes-that-makes-me-smart.html"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 7
+    },
+    {
+        "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "The answers and sources clearly show that Fox news is available in Canada so the claim is refuted.",
+        "claim_date": "2-9-2020",
+        "speaker": null,
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20201108183711/https://leadstories.com/hoax-alert/2020/09/fact-check-fox-news-is-not-banned-in-canada-and-the-radio-act-does-not-exist.html",
+        "reporting_source": null,
+        "location_ISO_code": "CA",
+        "claim_types": [
+            "Position Statement"
+        ],
+        "fact_checking_strategies": [
+            "Satirical Source Identification"
+        ],
+        "questions": [
+            {
+                "question": "Does Canada have a Radio Act?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.laws.justice.gc.ca/eng/acts/C-22/",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "It has the Canadian Radio-televison and Telecommunications Commission Act.",
+                        "cached_source_url": "https://web.archive.org/web/20230406152231/https://www.laws.justice.gc.ca/eng/acts/C-22/"
+                    }
+                ]
+            },
+            {
+                "question": "Is Fox an approved broadcaster under the CRTC?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "CBC News · Posted: Nov 18, 2004 11:17 AM ET | Last Updated: November 19, 2004\nThe conservative-leaning Fox News Channel will soon be coming to Canadian digital television channels.\n\nThe Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+                        "cached_source_url": "https://web.archive.org/web/20230328160414/https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643"
+                    },
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.foxnews.com/story/where-in-the-world-is-fox",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "FOX News Channel is currently available internationally via the providers listed below.\nInc. Canada",
+                        "cached_source_url": "https://web.archive.org/web/20230406041414/https://www.foxnews.com/story/where-in-the-world-is-fox"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 425
+    },
+    {
+        "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "Quote verification - Answer and source refute the claim.",
+        "claim_date": "24-9-2020",
+        "speaker": null,
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210118141019/https://checkyourfact.com/2020/09/25/fact-check-nancy-pelosi-employers-cutting-hours-good/",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Quote Verification"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Did House Speaker Nancy Pelosi say, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://transcripts.cnn.com/show/sotu/date/2013-09-22/segment/01",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "The quote seems to be misinterpreted from a statement Pelosi made in 2013 in a CNN interview titled \"State of Union\" where she said, “Overwhelmingly for the American people, this is a liberation,” she answered, in part. “This is life, healthy life, liberty, the freedom to pursue your happiness which could be, follow your passion for good rather than follow your palate and be constrained by your policy.” after being asked if she was worried that the Affordable Care Act would result in employers reducing employee hours to keep the costs of providing health care to employees down.",
+                        "cached_source_url": "https://web.archive.org/web/20230312055734/https://transcripts.cnn.com/show/sotu/date/2013-09-22/segment/01"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 270
+    },
+    {
+        "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+        "required_reannotation": false,
+        "label": "Supported",
+        "justification": "Claim is correct",
+        "claim_date": "26-10-2020",
+        "speaker": null,
+        "original_claim_url": "https://web.archive.org/web/20210119183455/https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "fact_checking_article": "https://web.archive.org/web/20210122015529/https://www.usatoday.com/story/news/factcheck/2020/12/29/fact-check-ny-post-encourages-trump-accept-bidens-victory/4075001001/",
+        "reporting_source": "New York Post",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Was Donald Trump endorsed by the New York Post for reelection",
+                "answers": [
+                    {
+                        "answer": "The New York Post endorses President Donald J. Trump for re-election.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://web.archive.org/web/20210119183455/https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210119183455/https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20210119183455/https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "claim_id": 32
+    },
+    {
+        "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "Denied by Pogba.",
+        "claim_date": "26-10-2020",
+        "speaker": null,
+        "original_claim_url": "https://www.195sports.com/%D8%A8%D9%88%D9%84-%D8%A8%D9%88%D8%AC%D8%A8%D8%A7-%D9%8A%D8%B9%D8%AA%D8%B2%D9%84-%D8%A7%D9%84%D9%84%D8%B9%D8%A8-%D8%AF%D9%88%D9%84%D9%8A%D9%8B%D8%A7-%D8%A8%D8%B9%D8%AF-%D9%85%D8%A7-%D8%AD%D8%AF%D8%AB/?utm_campaign=nabdapp.com&utm_medium=referral&utm_source=nabdapp.com&ocid=Nabd_App",
+        "fact_checking_article": "https://web.archive.org/web/20201101025121/https://newsmeter.in/fact-check-paul-pogba-did-not-quit-french-football-team-after-president-macrons-remarks-on-islam/",
+        "reporting_source": "The Sun ",
+        "location_ISO_code": "GB",
+        "claim_types": [
+            "Causal Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Fact-checker Reference"
+        ],
+        "questions": [
+            {
+                "question": "Did paul Pogba comment on the claim?",
+                "answers": [
+                    {
+                        "answer": "I am appalled, angry, shocked and some ‘media’ sources use me to make total fake headlines in the sensible subject of French current events and adding my religion and the French National Team to the pot,” Pogba posted on Instagram.\n\n“I am taking legal action against the publishers and spreaders of these 100% Fake News,” he added.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://punchng.com/pogba-denies-quitting-france-team-over-macrons-comment/",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230324151028/https://punchng.com/pogba-denies-quitting-france-team-over-macrons-comment/"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20230327115549/https://195sports.com/%D8%A8%D9%88%D9%84-%D8%A8%D9%88%D8%AC%D8%A8%D8%A7-%D9%8A%D8%B9%D8%AA%D8%B2%D9%84-%D8%A7%D9%84%D9%84%D8%B9%D8%A8-%D8%AF%D9%88%D9%84%D9%8A%D9%8B%D8%A7-%D8%A8%D8%B9%D8%AF-%D9%85%D8%A7-%D8%AD%D8%AF%D8%AB/?ocid=Nabd_App",
+        "claim_id": 30
+    },
+    {
+        "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+        "required_reannotation": false,
+        "label": "Conflicting Evidence/Cherrypicking",
+        "justification": "The claim is cherrypicking as some states do accept the ballots and some do not.",
+        "claim_date": "28-10-2020",
+        "speaker": "Elizabeth Gilbert",
+        "original_claim_url": "https://web.archive.org/web/20201029195951/https://www.facebook.com/GilbertLiz/photos/a.356148997800555/3549940058421417/",
+        "fact_checking_article": "https://web.archive.org/web/20210721024443/https://factcheck.thedispatch.com/p/will-your-ballot-be-thrown-out-if",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Do some states accept ballots that were postmarked before election day?",
+                "answers": [
+                    {
+                        "answer": "There are 22 states plus the District of Columbia",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://www.buzzfeednews.com/article/addybaird/vote-by-mail-state-deadlines",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230324145811/https://www.buzzfeednews.com/article/addybaird/vote-by-mail-state-deadlines"
+                    }
+                ]
+            },
+            {
+                "question": "Are there states which do require votes to arrive by election day.",
+                "answers": [
+                    {
+                        "answer": "Wisconsin is one of about 30 states that require absentee ballots be received by Election Day to be counted.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.cbsnews.com/news/wisconsin-election-supreme-court-rules-againt-absentee-ballots-after-election-day/",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230324145915/https://www.cbsnews.com/news/wisconsin-election-supreme-court-rules-againt-absentee-ballots-after-election-day/"
+                    }
+                ]
+            },
+            {
+                "question": "Does the original posterLiz Gilbert mention the state that does not allow voting after deadline?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.facebook.com/GilbertLiz/photos/a.356148997800555/3549940058421417",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "Even if your mail-in ballot is postmarked today, if it arrives after Election Day, it will be thrown out. Discounted. Ignored. (Thanks, Supreme Court. Thanks, GOP.",
+                        "cached_source_url": "https://web.archive.org/web/20230327114412/https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2FGilbertLiz%2Fphotos%2Fa.356148997800555%2F3549940058421417"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20201029195951/https://www.facebook.com/GilbertLiz/photos/a.356148997800555/3549940058421417/",
+        "claim_id": 18
+    },
+    {
+        "claim": "IMAGE CLAIMS DONALD TRUMP CURRENTLY FACES A COURT CASE FOR ALLEGEDLY SEXUALLY ASSAULTING A 13-YEAR-OLD",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "Answer states trump attended no such court appearance and a case was dropped in 2016 which was similar.",
+        "claim_date": "14-10-2020",
+        "speaker": null,
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210111062415/https://checkyourfact.com/2020/10/19/fact-check-donald-trump-court-case-sexual-assault-minor/",
+        "reporting_source": null,
+        "location_ISO_code": null,
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Was Donald Trump due in  court on Oct 14 2020 accused of sexually assaulting a 13 year old?",
+                "answers": [
+                    {
+                        "answer": "Trump’s publicly available schedule for Oct. 14 shows no such appearance in court,",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://web.archive.org/web/20210110213522/https://factba.se/topic/calendar",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210110213522/https://factba.se/topic/calendar"
+                    }
+                ]
+            },
+            {
+                "question": "Has Donald Trump ever been accused of sexual assaulting a 13 year old?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://web.archive.org/web/20210117013453/https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "A 2016 lawsuit accusing Trump of raping a 13-year-old girl was dropped by the alleged victim.",
+                        "cached_source_url": "https://web.archive.org/web/20210117013453/https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 97
+    },
+    {
+        "claim": "US President Trump declared places of worship as essential services during COVID-19 pandemic.",
+        "required_reannotation": false,
+        "label": "Supported",
+        "justification": "STATE OF FLORIDA\nOFFICE OF THE GOVERNOR\nEXECUTIVE ORDER NUMBER 20-91 states this",
+        "claim_date": "1-9-2020",
+        "speaker": null,
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210711160610/https://www.usatoday.com/story/news/factcheck/2020/09/14/fact-check-list-10-donald-trump-accomplishments-3-true/3438025001/",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "What was an essential services during COVID-19 pandemic in the US?",
+                "answers": [
+                    {
+                        "answer": "For purposes of the Order and the conduct it limits, \"essential services\" means\nand encompasses the list detailed by the U.S. Department of Homeland Security in its Guidance\non the Essential Critical Infrastructure Workforce,",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-91-compressed.pdf",
+                        "source_medium": "PDF",
+                        "cached_source_url": "https://web.archive.org/web/20230316170721/https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-91-compressed.pdf"
+                    }
+                ]
+            },
+            {
+                "question": "Were places of worship included on the list of essential services?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-91-compressed.pdf",
+                        "source_medium": "PDF",
+                        "boolean_explanation": "Under Essential Activities as, \nreligious services conducted in churches, synagogues and houses\nof worship;",
+                        "cached_source_url": "https://web.archive.org/web/20230316170721/https://www.flgov.com/wp-content/uploads/orders/2020/EO_20-91-compressed.pdf"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 450
+    },
+    {
+        "claim": "From 8th October the UK government will combine weekly flu and covid reports.",
+        "required_reannotation": false,
+        "label": "Supported",
+        "justification": "Public health england combines the reports",
+        "claim_date": "10-10-2020",
+        "speaker": "Stuart Davies",
+        "original_claim_url": "https://www.facebook.com/photo.php?fbid=10158565756438911&set=a.487549238910&type=3&eid=ARDKC7FWwejpBMpEY1A0vRqn_uz5rE2i1h0I3LG3S36pqhRTtCivXxBANbIHJzPuKJMgkMcuflxB0mhk",
+        "fact_checking_article": "https://web.archive.org/web/20210205184251/https://fullfact.org/health/flu-covid-phe-not-combined/",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "GB",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Are UK weekly Influenza and Covid 19 infection statistics being combined when reported by the government?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://web.archive.org/web/20210224053252/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf",
+                        "source_medium": "PDF",
+                        "boolean_explanation": "Public Health England reports both Covid 19 and influenza statistics in a single report",
+                        "cached_source_url": "https://web.archive.org/web/20210224053252/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20230327151814/https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D10158565756438911%26set%3Da.487549238910%26type%3D3%26eid%3DARDKC7FWwejpBMpEY1A0vRqn_uz5rE2i1h0I3LG3S36pqhRTtCivXxBANbIHJzPuKJMgkMcuflxB0mhk",
+        "claim_id": 123
+    },
+    {
+        "claim": "Ruth Bader Ginsburg was nominated and confirmed 43 days before an election.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "This person is not known as common knowledge and the claim does not specify where and in what capacity it references. However, as the Q&A gives some definition,  the claim is marked as refuted.",
+        "claim_date": "19-9-2020",
+        "speaker": "Jon Cook",
+        "original_claim_url": "https://archive.ph/dnfaP",
+        "fact_checking_article": "https://web.archive.org/web/20201024123327/https://www.politifact.com/factchecks/2020/sep/22/facebook-posts/no-ruth-bader-ginsburg-wasnt-confirmed-supreme-cou/",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Numerical Claim",
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Numerical Comparison"
+        ],
+        "questions": [
+            {
+                "question": "When was Ruth Bader Ginsburg nominated and confirmed?",
+                "answers": [
+                    {
+                        "answer": "President Clinton announced Ruth Bader Ginsburg as White's replacement on June 15, 1993, and she was confirmed by the United States Senate on August 3, 1993.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://en.wikipedia.org/wiki/Bill_Clinton_Supreme_Court_candidates",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230307000231/https://en.wikipedia.org/wiki/Bill_Clinton_Supreme_Court_candidates"
+                    }
+                ]
+            },
+            {
+                "question": "Was there a US election 43 days after Ruth's confirmation in August 1993?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "Metadata",
+                        "source_medium": "Metadata",
+                        "boolean_explanation": "The US elections around that time took place in 1992 and 1994.",
+                        "cached_source_url": "Metadata"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://archive.ph/dnfaP",
+        "claim_id": 307
+    },
+    {
+        "claim": "Illegal drug, border crossings, and human smuggling activities have decreased in areas where barriers are deployed in the United States.",
+        "required_reannotation": false,
+        "label": "Not Enough Evidence",
+        "justification": "15 miles of new barriers seems unlikely to account for the halving of illegal crossing from 2019 to 2020. Particularly as 2019 is the outlier in the period 2018 to 2020.\n\nHowever the claim isn't about causation, only the fact that numbers have decreased in these areas. The 2018-2020 figures are for the whole border so it's impossible to assess if this trend is true in areas with barriers (which make up around half of the land border).",
+        "claim_date": "29-10-2020",
+        "speaker": "Chase Jennings",
+        "original_claim_url": "https://twitter.com/spoxdhs/status/1322031666739748864?s=21",
+        "fact_checking_article": "https://web.archive.org/web/20210304001822/https://www.polygraph.info/a/fact-check-twitter-trumps-wall-and-the-drop-in-border-crossings/30931153.html",
+        "reporting_source": "Twitter",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Numerical Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Numerical Comparison",
+            "Consultation"
+        ],
+        "questions": [
+            {
+                "question": "Which border is this claim referring to?",
+                "answers": [
+                    {
+                        "answer": "The US-Mexico border.",
+                        "answer_type": "Extractive",
+                        "source_url": "Metadata",
+                        "source_medium": "Metadata",
+                        "cached_source_url": "Metadata"
+                    }
+                ]
+            },
+            {
+                "question": "Did the US-Mexico border have barriers before President Tump took office?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.wsj.com/articles/the-border-wall-mile-by-mile-11550152535",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "About 654 miles of the 1,991-mile border already had some kind of fabricated barrier when Mr. Trump took office. Much of the rest has natural barriers; approximately 1,295 miles of the border are river, and 696 miles are land.",
+                        "cached_source_url": "https://web.archive.org/web/20230324145533/https://www.wsj.com/articles/the-border-wall-mile-by-mile-11550152535"
+                    },
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.bbc.com/news/world-us-canada-46824649",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "Before he took office, there were 654 miles (just over 1,000km) of barrier along the southern border - made up of 354 miles of barricades to stop pedestrians and 300 miles of anti-vehicle fencing.",
+                        "cached_source_url": "https://web.archive.org/web/20230322221316/https://www.bbc.com/news/world-us-canada-46824649"
+                    }
+                ]
+            },
+            {
+                "question": "How much of the border has barriers as of October 2020?",
+                "answers": [
+                    {
+                        "answer": "Now, according to US Customs and Border Protection (CBP) in its 6 October status report, the southern border has 669 miles of \"primary barrier\" - the first structure people heading from Mexico to the US will encounter - and 65 miles of \"secondary barrier\" - which usually runs behind the primary structure as a further obstacle.\n\nThis means that in areas where no barricades existed before, they have built 15 miles of new, primary barrier or \"border wall system\", as it is called by CBP.\n\n​​About a further 350 miles of barrier has been built, according to CBP, made up of replacement structures and some new secondary barrier.\n\nMore is planned, too, with 378 miles of new and replacement barrier either under construction or in the \"pre-construction phase\". Less than half of this will be in locations where no barriers currently exist, according to CBP.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.bbc.com/news/world-us-canada-46824649",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230322221316/https://www.bbc.com/news/world-us-canada-46824649"
+                    }
+                ]
+            },
+            {
+                "question": "How many border encounters were there in 2018-2020?",
+                "answers": [
+                    {
+                        "answer": "Fiscal years\n2018 - 521,090\n2019 - 977,509\n2020 - 458,088",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.cbp.gov/newsroom/stats/southwest-land-border-encounters",
+                        "source_medium": "Web table",
+                        "cached_source_url": "https://web.archive.org/web/20230326225859/https://www.cbp.gov/newsroom/stats/southwest-land-border-encounters"
+                    }
+                ]
+            },
+            {
+                "question": "When did the Covid-19 pandemic emerge?",
+                "answers": [
+                    {
+                        "answer": "The novel coronavirus (SARS-CoV-2) that causes COVID-19 first emerged in the Chinese city of Wuhan in 2019 and was declared a pandemic by the World Health Organization (WHO)",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.nfid.org/infectious-diseases/coronaviruses/",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230321143009/https://www.nfid.org/infectious-diseases/coronaviruses/"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20230327113411/https://twitter.com/spoxdhs/status/1322031666739748864?s=21",
+        "claim_id": 15
+    },
+    {
+        "claim": "The Indian government has launched an online health consultation scheme.",
+        "required_reannotation": false,
+        "label": "Supported",
+        "justification": "The source shows the number of completed online health consultations.",
+        "claim_date": "6-9-2020",
+        "speaker": "Manish Pangotra",
+        "original_claim_url": "https://web.archive.org/web/20200906154343/https://twitter.com/ManishPangotra5/status/1302632954393325568",
+        "fact_checking_article": "https://web.archive.org/web/20201026064418/https://newsmeter.in/fact-check-yes-indian-govt-has-launched-online-health-consultation-scheme/",
+        "reporting_source": "Twitter",
+        "location_ISO_code": "IN",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "What is name is given to an online health consultation?",
+                "answers": [
+                    {
+                        "answer": "Telemedicine, which is a method of providing medical care remotely, usually through video chat",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://www.medicalnewstoday.com/articles/telemedicine-benefits",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230328091511/https://www.medicalnewstoday.com/articles/telemedicine-benefits"
+                    }
+                ]
+            },
+            {
+                "question": "Does India' have a national telemedicine service?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://economictimes.indiatimes.com/news/politics-and-nation/national-telemedicine-service-completes-over-1-5-lakh-consultations-health-ministry/articleshow/77449268.cms?from=mdr",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "consulting a doctor from your home and getting medicines delivered has become second nature to many Indians",
+                        "cached_source_url": "https://web.archive.org/web/20230406141942/https://economictimes.indiatimes.com/news/politics-and-nation/national-telemedicine-service-completes-over-1-5-lakh-consultations-health-ministry/articleshow/77449268.cms?from=mdr"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20200906154343/https://twitter.com/ManishPangotra5/status/1302632954393325568",
+        "claim_id": 398
+    },
+    {
+        "claim": "The alleged concerns of the United States over Cuba's cooperation, in this case about the ‘More Doctors’ program, are neither legitimate nor pertinent to be discussed at PAHO [Pan American Health Organization].",
+        "required_reannotation": true,
+        "label": "Not Enough Evidence",
+        "justification": "The claim is simply not investigated i.e. were the cconcerns legitimate and/or pertinent.",
+        "claim_date": "30-9-2020",
+        "speaker": "Cuban Ministry of Foreign Affairs",
+        "original_claim_url": "https://web.archive.org/web/20201101000052/http://www.granma.cu/cuba-covid-19/2020-09-30/minrex-estados-unidos-arrecia-su-campana-contra-la-cooperacion-medica-internacional-de-cuba",
+        "fact_checking_article": "https://web.archive.org/web/20210322214935/https://www.polygraph.info/a/fact-check-more-doctors-for-brazil-more-cash-for-cuba/30881045.html",
+        "reporting_source": "Granma",
+        "location_ISO_code": "CU",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Are there issues with the more doctors program",
+                "answers": [
+                    {
+                        "answer": "The new legislation seeks to strengthen accountability for the Cuban regime’s documented human trafficking and exploitation of Cuban doctors, nurses, and other medical professionals through overseas medical missions.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://web.archive.org/web/20210319020517/https://www.foreign.senate.gov/press/ranking/release/menendez-rubio-unveil-new-effort-to-combat-trafficking-of-cuban-doctors",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210319020517/https://www.foreign.senate.gov/press/ranking/release/menendez-rubio-unveil-new-effort-to-combat-trafficking-of-cuban-doctors"
+                    }
+                ]
+            },
+            {
+                "question": "What are the alleged concerns of USA over \"More Doctors\" programme?",
+                "answers": [
+                    {
+                        "answer": "USA asked how “the programme came to be the middleman in a scheme to exploit Cuban medical workers in Brazil,” why the group sent $1.3 billion to Cuba, why it didn’t seek the approval from its executive council for involvement in the Brazilian program, and what PAHO did with $75 million it collected from Mais Medicos.",
+                        "answer_type": "Extractive",
+                        "source_url": "Metadata",
+                        "source_medium": "Metadata",
+                        "cached_source_url": "Metadata"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20201101000052/http://www.granma.cu/cuba-covid-19/2020-09-30/minrex-estados-unidos-arrecia-su-campana-contra-la-cooperacion-medica-internacional-de-cuba",
+        "claim_id": 237
+    },
+    {
+        "claim": "During the Obama/Biden administration, 18,000 people got clemency.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "1,927 people received clemency during the Obama Biden administration ",
+        "claim_date": "5-10-2020",
+        "speaker": "Joe Biden",
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210331122536/https://www.politifact.com/factchecks/2020/oct/06/joe-biden/biden-inflated-number-clemency-actions-obama/",
+        "reporting_source": null,
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Numerical Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "During the Obama/Biden administration, how many people got clemency?",
+                "answers": [
+                    {
+                        "answer": "A total of 1,927 acts of clemency.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://web.archive.org/web/20210331194313/https://www.justice.gov/pardon/clemency-statistics#obama",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20210331194313/https://www.justice.gov/pardon/clemency-statistics#obama"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 167
+    },
+    {
+        "claim": "There was a 40% drop in oil prices in Nigeria in 2020.",
+        "required_reannotation": true,
+        "label": "Not Enough Evidence",
+        "justification": "There isn't enough evidence in the answer provided to support the claim",
+        "claim_date": "1-10-2020",
+        "speaker": "Muhammadu Buhari",
+        "original_claim_url": "https://web.archive.org/web/20210118154309/https://www.channelstv.com/2020/10/01/nigeria-at-60-president-buharis-independence-anniversary-speech-full-text/",
+        "fact_checking_article": "https://web.archive.org/web/20210526202243/https://africacheck.org/fact-checks/reports/nigerias-population-economy-and-history-fact-checking-buharis-independence-day",
+        "reporting_source": "Channels Television",
+        "location_ISO_code": "NG",
+        "claim_types": [
+            "Numerical Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Numerical Comparison"
+        ],
+        "questions": [
+            {
+                "question": "How much did oil prices drop by in Nigeria in 2020?",
+                "answers": [
+                    {
+                        "answer": "In July 2020, Group operating revenue as compared to June 2020, increased by 11.00%\nor N34.62Billion to stand at N349.35Billion. Likewise, expenditure for the month\nincreased by 5.24% or N16.39Billion, at N328.99Billion.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://web.archive.org/web/20210526202243/https://www.nnpcgroup.com/NNPCDocuments/Performance%20Data/FullReports/NNPC%20Monthly%20Financial%20and%20Operations%20Report%20for%20the%20Month%20of%20July%202020.pdf",
+                        "source_medium": "PDF",
+                        "cached_source_url": "https://web.archive.org/web/20210526202243/https://www.nnpcgroup.com/NNPCDocuments/Performance%20Data/FullReports/NNPC%20Monthly%20Financial%20and%20Operations%20Report%20for%20the%20Month%20of%20July%202020.pdf"
+                    }
+                ]
+            },
+            {
+                "question": "Did the president make it clear in his speech when the oil prices dropped?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://web.archive.org/web/20210118154309/https://www.channelstv.com/2020/10/01/nigeria-at-60-president-buharis-independence-anniversary-speech-full-text/",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "He doesn't state a date or time.",
+                        "cached_source_url": "https://web.archive.org/web/20210118154309/https://www.channelstv.com/2020/10/01/nigeria-at-60-president-buharis-independence-anniversary-speech-full-text/"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20210118154309/https://www.channelstv.com/2020/10/01/nigeria-at-60-president-buharis-independence-anniversary-speech-full-text/",
+        "claim_id": 225
+    },
+    {
+        "claim": "Two Sigma Investments is owned by George Soros.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "George Soros is not mentioned as an owner of Two Sigma Investments.",
+        "claim_date": "19-9-2020",
+        "speaker": "Freya Ferdinand II",
+        "original_claim_url": "https://www.facebook.com/ethereal.essence.16718979/posts/3438164466263873",
+        "fact_checking_article": "https://web.archive.org/web/20201002180455/https://leadstories.com/hoax-alert/2020/09/fact-check-george-soros-does-not-own-two-sigma-investments.html",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Who owns Two Sigma Investments?",
+                "answers": [
+                    {
+                        "answer": "David Siegel and John Overdeck, cofounders of the $28 billion Two Sigma Investments",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.businessinsider.com/richest-hedge-fund-managers-in-america-2015-9?r=US&IR=T",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230403153650/https://www.businessinsider.com/richest-hedge-fund-managers-in-america-2015-9?r=US&amp;IR=T"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20230403153506/https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fethereal.essence.16718979%2Fposts%2F3438164466263873",
+        "claim_id": 302
+    },
+    {
+        "claim": "US President Trump issued an executive order for the White House to take over all electrical grids, which will include internet servers, broadcasting systems and electronic systems",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "An order to secure the bulk power system was misquoted as being an order to take over all electrical grids. ",
+        "claim_date": "1-9-2020",
+        "speaker": null,
+        "original_claim_url": null,
+        "fact_checking_article": "https://web.archive.org/web/20210711160610/https://www.usatoday.com/story/news/factcheck/2020/09/14/fact-check-list-10-donald-trump-accomplishments-3-true/3438025001/",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Who has control over all the electrical grids?",
+                "answers": [
+                    {
+                        "answer": "Federal Energy Regulatory Commission (FERC) imposes mandatory reliability standards on all generation and transmission owners that tie into power grid. FERC has authorized North American Electric Reliability Corporation to implement its standards.\n\nNorth American Electric Reliability Corporation (NERC) delegates its authority to 8 regional reliability councils (as of June 2018). These councils audit all participants (transmission owners, generation owners, and power grid operators) in their region to assure the standards are being followed.",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://peguru.com/2018/09/who-controls-the-power-grid-in-usa/",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230406153116/https://peguru.com/2018/09/who-controls-the-power-grid-in-usa/"
+                    }
+                ]
+            },
+            {
+                "question": "Does the White House control electrical grids, including internet servers, broadcasting systems and electronic systems?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://peguru.com/2018/09/who-controls-the-power-grid-in-usa/",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "Every state in USA has a commission that ensures the Owners are delivering safe and reliable electric power to its constituents. This oversight is in addition to the federal oversight.",
+                        "cached_source_url": "https://web.archive.org/web/20230406153116/https://peguru.com/2018/09/who-controls-the-power-grid-in-usa/"
+                    }
+                ]
+            },
+            {
+                "question": "Did Donald Trump issue an executive order to take over all electrical grids, which will include internet servers, broadcasting systems and electronic systems?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.reuters.com/article/us-usa-electricity-trump/trump-signs-order-to-protect-the-u-s-electricity-system-energy-department-idUSKBN22D5OD",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "The president did issue an executive order intended to secure the country’s bulk-power system, but the order does not allow the White House to “take over” electrical grids.\n\nThe order seeks to protect the U.S.’ electricity system from cyber and other attacks, Reuters reported.",
+                        "cached_source_url": "https://web.archive.org/web/20230118074226/http://www.reuters.com/article/us-usa-electricity-trump/trump-signs-order-to-protect-the-u-s-electricity-system-energy-department-idUSKBN22D5OD"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": null,
+        "claim_id": 431
+    },
+    {
+        "claim": "US president Joe Biden (candidate at the time of claim) supports the new green deal (The Green New Deal is a nonbinding resolution, introduced by Rep. Alexandria Ocasio-Cortez and Sen. Ed Markey last year, to tackle climate change.)",
+        "required_reannotation": true,
+        "label": "Conflicting Evidence/Cherrypicking",
+        "justification": "Biden did not openly say that he supports the new green deal but his plans aligns with the new green deal",
+        "claim_date": "14-10-2020",
+        "speaker": "Common Sense Voters Of America LLC",
+        "original_claim_url": "https://www.facebook.com/CommonSenseVotersOfAmericaLLC/photos/p.139373114577545/139373114577545/?type=3",
+        "fact_checking_article": "https://web.archive.org/web/20210120091947/https://leadstories.com/hoax-alert/2020/10/fact-check-joe-biden-does-not-support-the-green-new-deal.html",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Consultation"
+        ],
+        "questions": [
+            {
+                "question": "Does U.S Presidential candidate  Joe Biden support the Green New Deal resolution introduced by Rep. Alexandria Ocasio-Cortez and Sen. Ed Markey in 2019",
+                "answers": [
+                    {
+                        "answer": "If you set aside the most left-wing programs included in New York Representative Alexandria Ocasio-Cortez’s 2019 Green New Deal resolution, like Medicare for All and a federal job guarantee, Biden’s plans broadly align with an approach advocated by the green new deal.",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230324191647/https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name"
+                    }
+                ]
+            },
+            {
+                "question": "What are Joe Biden's environmental policies?",
+                "answers": [
+                    {
+                        "answer": "Part of Biden’s “Build Back Better” agenda, these plans are a Green New Deal in all but name. If you set aside the most attention-grabbing left-wing programs included in New York Representative Alexandria Ocasio-Cortez’s 2019 Green New Deal resolution, like Medicare for All and a federal job guarantee, Biden’s plans broadly align with an approach advocated by the left-wing of the Democratic party. Firstly, like the Green New Deal, Biden’s plans reframe climate action as a jobs, infrastructure and clean energy stimulus.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230324191647/https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name"
+                    }
+                ]
+            },
+            {
+                "question": "Is Medicare for all included in the green new deal?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "Medicare for all was in the Green New Deal.",
+                        "cached_source_url": "https://web.archive.org/web/20230324191647/https://www.theguardian.com/commentisfree/2020/jul/20/joe-biden-has-endorsed-the-green-new-deal-in-all-but-name"
+                    }
+                ]
+            },
+            {
+                "question": "Does Biden support Medicare for All?",
+                "answers": [
+                    {
+                        "answer": "Biden railed against the Trump administration's countless attacks on the Affordable Care Act. As president, he promised to protect and build on the ACA. Although he wants to ensure healthcare is a right and not a privilege, he does not support Medicare-for-all or eliminating private insurance because it would mean getting rid of Obamacare and starting over on political negotiations.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://www.investopedia.com/joe-biden-s-economic-plan-save-the-middle-class-4769869",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230326134031/https://www.investopedia.com/joe-biden-s-economic-plan-save-the-middle-class-4769869"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20230327134645/https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2FCommonSenseVotersOfAmericaLLC%2Fphotos%2Fp.139373114577545%2F139373114577545%2F%3Ftype%3D3",
+        "claim_id": 100
+    },
+    {
+        "claim": "A mail-in ballot application for voting in the US presidential election which was sent to a deceased grandfather in the State of New Mexico is evidence of potential widespread voter fraud via mail-in ballots.",
+        "required_reannotation": false,
+        "label": "Refuted",
+        "justification": "There is ample evidence provided that there was not widespread voter fraud.",
+        "claim_date": "25-9-2020",
+        "speaker": "Don Larkin",
+        "original_claim_url": "https://web.archive.org/web/20201030014600/https://perma.cc/2ARM-YUQE?type=image",
+        "fact_checking_article": "https://web.archive.org/web/20201030014600/https://factcheck.afp.com/mail-ballot-errors-spark-voter-fraud-claims-us",
+        "reporting_source": "Facebook",
+        "location_ISO_code": "US",
+        "claim_types": [
+            "Causal Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence",
+            "Consultation"
+        ],
+        "questions": [
+            {
+                "question": "What are some ways that mail-in ballots are protected from fraud?",
+                "answers": [
+                    {
+                        "answer": "Only valid voters can get a ballot in the mail",
+                        "answer_type": "Extractive",
+                        "source_url": "https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230110180609/https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666"
+                    },
+                    {
+                        "answer": "It is very hard to make fake ballots and mail-ballot envelopes.\nBallots feature particular design elements that are difficult to copy.\nIt’s very hard to duplicate mail-ballot envelopes\nIn general, voters cannot return their absentee ballots in just any old envelope. Rather, the ballots must be returned inside an official government envelope, which is typically mailed directly to voters along with the ballot itself.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230110180609/https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666"
+                    },
+                    {
+                        "answer": "Voters must affirm their identity\nEvery state has a process for verifying that absentee voters...\nIn most states, voters must sign the outside of their return envelope. This signature usually cannot deviate significantly from the signature on their original voter registration card, or the ballot will be rejected. If anything, the process of matching these signatures is often too strict, critics say, leading election administrators to unfairly reject authentic votes from registered voters due to slight signature discrepancies.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230110180609/https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666"
+                    }
+                ]
+            },
+            {
+                "question": "How does the US Postal Service assist to detect fraudulent ballots?",
+                "answers": [
+                    {
+                        "answer": "The Postal Service coordinates with state and local election departments to flag any ballots that deviate in even minor ways from typical procedure.",
+                        "answer_type": "Extractive",
+                        "source_url": "https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230110180609/https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666"
+                    }
+                ]
+            },
+            {
+                "question": "Is voter fraud a serious crime in the US?",
+                "answers": [
+                    {
+                        "answer": "Voter fraud is a serious federal and state crime\nFor a federal election, each act of voter fraud can be punished by five years in prison and a US$10,000 fine, plus any additional state penalties.\n\nBy contrast, all that work put into attempting fraud would net the perpetrator only a single vote in favor of their preferred candidate. As a report from the Brennan Center for Justice succinctly put it, “That single extra vote is simply not worth the price.”",
+                        "answer_type": "Extractive",
+                        "source_url": "https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666",
+                        "source_medium": "Web text",
+                        "cached_source_url": "https://web.archive.org/web/20230110180609/https://theconversation.com/6-ways-mail-in-ballots-are-protected-from-fraud-145666"
+                    }
+                ]
+            },
+            {
+                "question": "Why was a mail-in ballot application sent to a deceased person in the State of New Mexico?",
+                "answers": [
+                    {
+                        "answer": "In June 2020, due to the COVID-19 pandemic, a Senate Bill was signed, allowing mail-in applications to be sent automatically to all voters for their convenience.",
+                        "answer_type": "Abstractive",
+                        "source_url": "https://www.sos.state.nm.us/wp-content/uploads/2020/06/CH2-SB4-2020-Sp-Session.pdf",
+                        "source_medium": "PDF",
+                        "cached_source_url": "https://web.archive.org/web/20230403143023/https://www.sos.nm.gov/wp-content/uploads/2020/06/CH2-SB4-2020-Sp-Session.pdf"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "https://web.archive.org/web/20201030014600/https://perma.cc/2ARM-YUQE?type=image",
+        "claim_id": 265
+    },
+    {
+        "claim": "The PHE has began to combine Covid-19 and influenza statistics to make the numbers look worse.",
+        "required_reannotation": true,
+        "label": "Refuted",
+        "justification": "Although COVID-19 and influenza numbers are in the same PHE document, they are not combined. Therefore, the claim is refuted. ",
+        "claim_date": "11-10-2020",
+        "speaker": "Julia Hartley-Brewer",
+        "original_claim_url": "",
+        "fact_checking_article": "https://web.archive.org/web/20210116035044/https://fullfact.org/health/julia-hartley-brewer-flu-covid/",
+        "reporting_source": "Twitter",
+        "location_ISO_code": "GB",
+        "claim_types": [
+            "Event/Property Claim"
+        ],
+        "fact_checking_strategies": [
+            "Written Evidence"
+        ],
+        "questions": [
+            {
+                "question": "Are the Covid-19 and influenza statistics published in the same document?",
+                "answers": [
+                    {
+                        "answer": "Yes",
+                        "answer_type": "Boolean",
+                        "source_url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf",
+                        "source_medium": "PDF",
+                        "boolean_explanation": "The PHE document documents has influenza and Covid-19 numbers in the same document",
+                        "cached_source_url": "https://web.archive.org/web/20221216084553/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf"
+                    }
+                ]
+            },
+            {
+                "question": "Are the Covid-19 and influenza numbers combined together in PHE statistics?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf",
+                        "source_medium": "PDF",
+                        "boolean_explanation": "The PHE document does not combine influenza and Covid-19 statistics",
+                        "cached_source_url": "https://web.archive.org/web/20221216084553/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/925324/Weekly_Flu_and_COVID-19_report_W41_FINAL.pdf"
+                    }
+                ]
+            },
+            {
+                "question": "Does putting them in the same document, have any effect on the COVID-19 statistics themselves, or change the numbers about either disease?",
+                "answers": [
+                    {
+                        "answer": "No",
+                        "answer_type": "Boolean",
+                        "source_url": "https://web.archive.org/web/20210119235843/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/923668/Weekly_COVID19_Surveillance_Report_week_40.pdf#page=15",
+                        "source_medium": "Web text",
+                        "boolean_explanation": "The new report does contain combined data on the number of “acute respiratory infection incidents” (two or more lab confirmed cases or a suspected outbreak) reported by PHE Health Protection Teams, just as previous reports did before. These are presented as a total figure, before being broken down to show the figure for Covid-19 specifically.",
+                        "cached_source_url": "https://web.archive.org/web/20210119235843/https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/923668/Weekly_COVID19_Surveillance_Report_week_40.pdf#page=15"
+                    }
+                ]
+            }
+        ],
+        "cached_original_claim_url": "",
+        "claim_id": 119
+    }
+]
