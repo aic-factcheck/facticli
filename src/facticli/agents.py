@@ -4,7 +4,7 @@ from agents import Agent, ModelSettings, WebSearchTool
 
 from .brave_search import build_brave_web_search_tool
 from .skills import load_skill_prompt
-from .types import AspectFinding, FactCheckReport, InvestigationPlan
+from .types import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision
 
 
 def build_planner_agent(model: str) -> Agent[None]:
@@ -50,6 +50,19 @@ def build_judge_agent(model: str) -> Agent[None]:
         name="veracity_judge",
         instructions=load_skill_prompt("judge"),
         output_type=FactCheckReport,
+        model=model,
+        model_settings=ModelSettings(
+            temperature=0.1,
+            parallel_tool_calls=False,
+        ),
+    )
+
+
+def build_review_agent(model: str) -> Agent[None]:
+    return Agent(
+        name="evidence_review",
+        instructions=load_skill_prompt("review"),
+        output_type=ReviewDecision,
         model=model,
         model_settings=ModelSettings(
             temperature=0.1,

@@ -10,6 +10,8 @@ from facticli.types import (
     EvidenceSignal,
     FactCheckReport,
     InvestigationPlan,
+    ReviewAction,
+    ReviewDecision,
     VeracityVerdict,
     VerificationCheck,
 )
@@ -74,6 +76,46 @@ class _JudgeStage:
         return report
 
 
+class _ReviewStage:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    async def execute(
+        self,
+        claim: str,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+        artifacts: RunArtifacts,
+        *,
+        round_index: int,
+        progress_callback=None,
+    ):
+        self.calls += 1
+        await emit_progress(progress_callback, "review_completed", {"round_index": round_index})
+        if self.calls == 1:
+            return ReviewDecision(
+                claim=claim,
+                action=ReviewAction.FOLLOW_UP,
+                rationale="Need an extra targeted check.",
+                follow_up_checks=[
+                    VerificationCheck(
+                        aspect_id="check_2",
+                        question="Can this be corroborated by a second source?",
+                        rationale="Need corroboration.",
+                        search_queries=["claim corroboration"],
+                    )
+                ],
+                retry_aspect_ids=[],
+            )
+        return ReviewDecision(
+            claim=claim,
+            action=ReviewAction.FINALIZE,
+            rationale="Enough evidence collected.",
+            follow_up_checks=[],
+            retry_aspect_ids=[],
+        )
+
+
 class ApplicationServiceTests(unittest.IsolatedAsyncioTestCase):
     async def test_fact_check_service_emits_run_lifecycle_events(self):
         service = FactCheckService(
@@ -92,6 +134,49 @@ class ApplicationServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("planning_completed", event_kinds)
         self.assertIn("research_completed", event_kinds)
         self.assertIn("judging_completed", event_kinds)
+
+    async def test_fact_check_service_runs_one_follow_up_round_when_enabled(self):
+        class _LoopResearchStage:
+            def __init__(self) -> None:
+                self.calls: list[list[str]] = []
+
+            async def execute(
+                self,
+                claim: str,
+                plan: InvestigationPlan,
+                artifacts: RunArtifacts,
+                progress_callback=None,
+            ):
+                self.calls.append([check.aspect_id for check in plan.checks])
+                return [
+                    AspectFinding(
+                        aspect_id=check.aspect_id,
+                        question=check.question,
+                        signal=EvidenceSignal.SUPPORTS,
+                        summary=f"Supported {check.aspect_id}.",
+                        confidence=0.8,
+                        sources=[],
+                        caveats=[],
+                    )
+                    for check in plan.checks
+                ]
+
+        review_stage = _ReviewStage()
+        research_stage = _LoopResearchStage()
+        service = FactCheckService(
+            plan_stage=_PlanStage(),
+            research_stage=research_stage,
+            judge_stage=_JudgeStage(),
+            review_stage=review_stage,
+            max_feedback_rounds=1,
+        )
+
+        run = await service.check_claim("The Eiffel Tower was built in 1889.")
+
+        self.assertEqual(review_stage.calls, 1)
+        self.assertEqual(research_stage.calls, [["check_1"], ["check_2"]])
+        self.assertEqual([check.aspect_id for check in run.plan.checks], ["check_1", "check_2"])
+        self.assertEqual([finding.aspect_id for finding in run.findings], ["check_1", "check_2"])
 
 
 if __name__ == "__main__":

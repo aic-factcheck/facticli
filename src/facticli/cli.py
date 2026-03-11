@@ -36,6 +36,16 @@ def _bounded_int(raw_value: str, *, minimum: int, maximum: int) -> int:
     return value
 
 
+def _non_negative_int(raw_value: str) -> int:
+    try:
+        value = int(raw_value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
+    if value < 0:
+        raise argparse.ArgumentTypeError(f"Value must be >= 0, got: {value}")
+    return value
+
+
 def _search_results_int(raw_value: str) -> int:
     return _bounded_int(raw_value, minimum=1, maximum=20)
 
@@ -79,6 +89,16 @@ def _serialize_run_artifacts(artifacts: RunArtifacts) -> dict[str, object]:
                 "finding": check.finding.model_dump() if check.finding else None,
             }
             for check in artifacts.research_checks
+        ],
+        "review_rounds": [
+            {
+                "round_index": round.round_index,
+                "input_plan": round.input_plan.model_dump(),
+                "input_findings": [finding.model_dump() for finding in round.input_findings],
+                "decision": round.decision.model_dump() if round.decision else None,
+                "follow_up_plan": round.follow_up_plan.model_dump() if round.follow_up_plan else None,
+            }
+            for round in artifacts.review_rounds
         ],
         "report_raw": artifacts.report_raw.model_dump() if artifacts.report_raw else None,
         "report_final": artifacts.report_final.model_dump() if artifacts.report_final else None,
@@ -130,6 +150,27 @@ def _format_progress_event(event: ProgressEvent) -> list[str]:
         verdict = payload.get("verdict", "")
         confidence = float(payload.get("verdict_confidence", 0.0))
         return [f"[progress] Verdict draft: {verdict} (confidence {confidence:.2f})"]
+    if event.kind == "review_started":
+        round_index = int(payload.get("round_index", 0))
+        return [f"[progress] Reviewing evidence for follow-up round {round_index}..."]
+    if event.kind == "review_completed":
+        round_index = int(payload.get("round_index", 0))
+        action = payload.get("action", "")
+        follow_up_count = int(payload.get("follow_up_count", 0))
+        retry_count = int(payload.get("retry_count", 0))
+        return [
+            (
+                f"[progress] Review round {round_index}: {action} "
+                f"(retries {retry_count}, new checks {follow_up_count})"
+            )
+        ]
+    if event.kind == "feedback_round_started":
+        round_index = int(payload.get("round_index", 0))
+        check_count = int(payload.get("check_count", 0))
+        return [f"[progress] Running follow-up research round {round_index} for {check_count} check(s)..."]
+    if event.kind == "feedback_round_completed":
+        round_index = int(payload.get("round_index", 0))
+        return [f"[progress] Follow-up research round {round_index} completed."]
     if event.kind == "run_completed":
         return ["[progress] Fact-check run completed."]
     return []
@@ -186,6 +227,18 @@ def build_parser() -> argparse.ArgumentParser:
         type=_positive_int,
         default=4,
         help="Maximum parallel research workers.",
+    )
+    check_parser.add_argument(
+        "--feedback-rounds",
+        type=_non_negative_int,
+        default=0,
+        help="Maximum bounded follow-up research rounds after the initial pass (default: 0).",
+    )
+    check_parser.add_argument(
+        "--follow-up-checks",
+        type=_positive_int,
+        default=2,
+        help="Maximum new follow-up checks allowed per feedback round (default: 2).",
     )
     check_parser.add_argument(
         "--search-provider",
@@ -271,6 +324,8 @@ async def run_check_command(args: argparse.Namespace) -> int:
         base_url=args.base_url,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
+        max_feedback_rounds=args.feedback_rounds,
+        max_follow_up_checks=args.follow_up_checks,
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
         search_results_per_query=args.search_results_per_query,

@@ -7,6 +7,7 @@ from facticli.core.contracts import (
     ClaimExtractionResult,
     FactCheckReport,
     InvestigationPlan,
+    ReviewDecision,
     VerificationCheck,
 )
 
@@ -28,6 +29,16 @@ class Judge(Protocol):
         plan: InvestigationPlan,
         findings: list[AspectFinding],
     ) -> FactCheckReport:
+        ...
+
+
+class Reviewer(Protocol):
+    async def review(
+        self,
+        claim: str,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+    ) -> ReviewDecision:
         ...
 
 

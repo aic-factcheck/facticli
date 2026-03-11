@@ -3,6 +3,7 @@ from .openai_provider import (
     CompatibleJudgeAdapter,
     CompatiblePlannerAdapter,
     CompatibleResearchAdapter,
+    CompatibleReviewAdapter,
 )
 from .provider_profile import (
     ProviderProfile,
@@ -16,6 +17,7 @@ __all__ = [
     "CompatibleJudgeAdapter",
     "CompatiblePlannerAdapter",
     "CompatibleResearchAdapter",
+    "CompatibleReviewAdapter",
     "ProviderProfile",
     "configure_openai_compatible_client",
     "resolve_model_name",

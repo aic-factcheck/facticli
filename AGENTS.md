@@ -24,6 +24,7 @@ Implemented:
 - modular prompt “skills” (`plan`, `research`, `judge`),
 - claim extraction skill (`extract_claims`) for arbitrary text,
 - orchestrator with bounded parallelism for sub-checks,
+- opt-in bounded review loop for targeted follow-up research rounds,
 - typed output contracts for plans, findings, verdicts, and sources.
 
 Not yet implemented (expected future work):
@@ -37,8 +38,8 @@ Not yet implemented (expected future work):
 - Language: Python 3.11+
 - Packaging: `pyproject.toml` (Hatchling backend)
 - Runtime dependencies:
-  - `openai-agents` (Agents SDK)
-  - `pydantic` (typed schemas/contracts)
+- `openai-agents` (Agents SDK)
+- `pydantic` (typed schemas/contracts)
 - Model/tool runtime:
   - OpenAI-compatible models via Agents SDK
   - hosted `WebSearchTool` for open web retrieval
@@ -73,8 +74,8 @@ The runtime uses layered architecture:
    - Typed contracts and normalization logic
    - Run artifact models for debugging/evaluation
 2. `application` layer
-   - Provider-agnostic strategy interfaces (`Planner`, `Researcher`, `Judge`)
-   - Explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, extraction stage)
+   - Provider-agnostic strategy interfaces (`Planner`, `Researcher`, `Reviewer`, `Judge`)
+   - Explicit stage objects (`PlanStage`, `ResearchStage`, `ReviewStage`, `JudgeStage`, extraction stage)
    - Service orchestration and artifact repository integration
 3. `adapters` layer
    - Shared OpenAI-compatible strategy implementations
@@ -89,7 +90,10 @@ Fact-check pipeline stages:
    - Input: claim + one check payload
    - Tooling: web search
    - Output: `AspectFinding` with signal, summary, confidence, and sources
-3. Judge stage (`judge` skill)
+3. Review stage (`review` skill), optional bounded follow-up controller
+   - Input: claim + current plan + current findings
+   - Output: `ReviewDecision` with either finalize or targeted follow-up requests
+4. Judge stage (`judge` skill)
    - Input: claim + plan + all findings
    - Output: `FactCheckReport` with final verdict, justification, findings, sources
 
@@ -124,6 +128,7 @@ Primary schemas in `src/facticli/core/contracts.py` (re-exported via `src/factic
 - `VerificationCheck`
 - `AspectFinding`
 - `SourceEvidence`
+- `ReviewDecision`
 - `FactCheckReport`
 
 Design intent:
@@ -136,6 +141,7 @@ Design intent:
 Prompt files are local and modular:
 - `plan.md`: decomposition/planning behavior
 - `research.md`: web-grounded evidence collection behavior
+- `review.md`: bounded follow-up decision behavior
 - `judge.md`: synthesis and verdict policy
 
 Prompt design principles:
@@ -157,6 +163,8 @@ Prompt design principles:
 - `--model`
 - `--max-checks`
 - `--parallel`
+- `--feedback-rounds`
+- `--follow-up-checks`
 - `--search-provider`
 - `--search-results`
 - `--search-context-size`
@@ -171,6 +179,8 @@ Prompt design principles:
 Input/validation rules:
 - `extract-claims` accepts either positional text or `--from-file` (mutually exclusive).
 - `--max-checks`, `--parallel`, and `--max-claims` are positive integers.
+- `--feedback-rounds` is a non-negative integer.
+- `--follow-up-checks` is a positive integer.
 - `--search-results` accepts integers in the range `1..20`.
 
 ### 8.3 Environment Variables
@@ -187,6 +197,7 @@ Input/validation rules:
 - Always keep source attribution visible in final output.
 - Never treat model output as evidence without external source URLs.
 - Preserve stage boundaries; avoid collapsing all logic into one prompt.
+- Keep review/follow-up loops bounded and explicit.
 - Keep orchestrator resilient to partial failures.
 - Prefer explicit typed schemas over ad-hoc dict contracts.
 - Keep this project CLI-first and automation-friendly.

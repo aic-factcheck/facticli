@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from facticli.application.stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage
+from facticli.application.stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, ReviewStage
 from facticli.application.progress import ProgressEvent
 from facticli.core.artifacts import RunArtifacts
 from facticli.types import (
@@ -12,6 +12,8 @@ from facticli.types import (
     EvidenceSignal,
     FactCheckReport,
     InvestigationPlan,
+    ReviewAction,
+    ReviewDecision,
     SourceEvidence,
     VeracityVerdict,
     VerificationCheck,
@@ -78,6 +80,29 @@ class _FakeJudge:
                     snippet="Evidence A.",
                 )
             ],
+        )
+
+
+class _FakeReviewer:
+    async def review(
+        self,
+        claim: str,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+    ) -> ReviewDecision:
+        return ReviewDecision(
+            claim="placeholder",
+            action=ReviewAction.FOLLOW_UP,
+            rationale="Need a second check.",
+            follow_up_checks=[
+                VerificationCheck(
+                    aspect_id="Timeline 1",
+                    question="  Need another source? ",
+                    rationale=" corroboration ",
+                    search_queries=["", "Eiffel corroboration", "eiffel corroboration"],
+                )
+            ],
+            retry_aspect_ids=["timeline_1", "missing"],
         )
 
 
@@ -226,6 +251,43 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(result.claims), 2)
         self.assertEqual(result.claims[0].claim_id, "claim_1")
         self.assertEqual(result.claims[1].claim_id, "claim_1_2")
+
+    async def test_review_stage_normalizes_follow_up_requests(self):
+        stage = ReviewStage(
+            reviewer=_FakeReviewer(),
+            max_follow_up_checks=2,
+            max_search_queries_per_check=4,
+        )
+        artifacts = RunArtifacts(claim="raw", normalized_claim="raw")
+        events: list[ProgressEvent] = []
+        plan = InvestigationPlan(
+            claim="claim",
+            checks=[
+                VerificationCheck(
+                    aspect_id="timeline_1",
+                    question="Q1",
+                    rationale="R1",
+                    search_queries=["q1"],
+                )
+            ],
+            assumptions=[],
+        )
+
+        decision = await stage.execute(
+            claim="claim",
+            plan=plan,
+            findings=[],
+            artifacts=artifacts,
+            round_index=1,
+            progress_callback=events.append,
+        )
+
+        self.assertEqual(decision.action, ReviewAction.FOLLOW_UP)
+        self.assertEqual(decision.retry_aspect_ids, ["timeline_1"])
+        self.assertEqual(decision.follow_up_checks[0].aspect_id, "timeline_1_2")
+        self.assertEqual(decision.follow_up_checks[0].question, "Need another source?")
+        self.assertEqual(events[0].kind, "review_started")
+        self.assertEqual(events[-1].kind, "review_completed")
 
 
 if __name__ == "__main__":

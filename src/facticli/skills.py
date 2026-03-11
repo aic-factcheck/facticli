@@ -6,7 +6,7 @@ from importlib.resources import files
 
 from pydantic import BaseModel
 
-from .types import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan
+from .types import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan, ReviewDecision
 
 
 @dataclass(frozen=True)
@@ -39,6 +39,13 @@ SKILLS: dict[str, SkillSpec] = {
         description="Synthesize findings into a final veracity verdict with justification.",
         prompt_file="judge.md",
         output_model=FactCheckReport,
+        uses_web_search=False,
+    ),
+    "review": SkillSpec(
+        name="review",
+        description="Decide whether targeted follow-up research is needed before final judgment.",
+        prompt_file="review.md",
+        output_model=ReviewDecision,
         uses_web_search=False,
     ),
     "extract_claims": SkillSpec(

@@ -12,11 +12,13 @@ class FactoryTests(unittest.TestCase):
         planner = object()
         researcher = object()
         judge = object()
+        review = object()
         with (
             patch("facticli.application.factory.configure_openai_compatible_client") as configure,
             patch("facticli.application.factory.CompatiblePlannerAdapter", return_value=planner),
             patch("facticli.application.factory.CompatibleResearchAdapter", return_value=researcher),
             patch("facticli.application.factory.CompatibleJudgeAdapter", return_value=judge),
+            patch("facticli.application.factory.CompatibleReviewAdapter", return_value=review),
         ):
             service = build_fact_check_service(
                 FactCheckRuntimeConfig(
@@ -29,6 +31,7 @@ class FactoryTests(unittest.TestCase):
         self.assertIs(service.plan_stage.planner, planner)
         self.assertIs(service.research_stage.researcher, researcher)
         self.assertIs(service.judge_stage.judge, judge)
+        self.assertIs(service.review_stage.reviewer, review)
 
     def test_build_fact_check_service_bootstraps_gemini_profile_with_same_codepath(self):
         with (
@@ -36,6 +39,7 @@ class FactoryTests(unittest.TestCase):
             patch("facticli.application.factory.CompatiblePlannerAdapter"),
             patch("facticli.application.factory.CompatibleResearchAdapter"),
             patch("facticli.application.factory.CompatibleJudgeAdapter"),
+            patch("facticli.application.factory.CompatibleReviewAdapter"),
         ):
             build_fact_check_service(
                 FactCheckRuntimeConfig(

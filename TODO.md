@@ -20,8 +20,12 @@
 - [x] Reject ambiguous claim-extraction input (`text` + `--from-file`) with explicit error.
 - [x] Tighten prompt guidance around source quality, corroboration, and time-sensitive claims.
 - [x] Add optional CLI progress streaming for plan + per-check research updates.
+- [x] Add an opt-in bounded review loop that can request targeted follow-up research rounds.
 
 - [ ] Add provider-agnostic retry/backoff taxonomy (timeouts, rate limits, transient network, schema mismatch).
+- [ ] Add heuristic source-quality triggers to seed review decisions before model review.
+- [ ] Persist per-round metrics/artifacts for evaluation of follow-up loop effectiveness.
+- [ ] Add contradiction-specific follow-up planning so mixed findings trigger resolution checks automatically.
 - [ ] Add source quality scoring and ranking (authority, recency, primary-source preference, duplication).
 - [ ] Add contradiction-focused synthesis checks for `Conflicting Evidence/Cherrypicking`.
 - [ ] Expand deterministic tests for prompt/schema drift and renderer behavior.
@@ -35,7 +39,7 @@
 ## Architecture refactor (completed)
 
 - [x] Introduce provider strategy interfaces (`Planner`, `Researcher`, `Judge`) and concrete adapters.
-- [x] Introduce explicit stage objects (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`).
+- [x] Introduce explicit stage objects (`PlanStage`, `ResearchStage`, `ReviewStage`, `JudgeStage`, `ClaimExtractionStage`).
 - [x] Split code into layered runtime modules (`core`, `application`, `adapters`) while keeping CLI-compatible facades.
 - [x] Add first-class run artifacts model and repository wired through the fact-check service and JSON output.
 - [x] Consolidate OpenAI/Gemini execution into one OpenAI-compatible adapter path with profile-based key/base-url switching.

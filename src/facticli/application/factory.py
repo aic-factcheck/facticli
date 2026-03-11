@@ -5,13 +5,14 @@ from facticli.adapters import (
     CompatibleJudgeAdapter,
     CompatiblePlannerAdapter,
     CompatibleResearchAdapter,
+    CompatibleReviewAdapter,
     configure_openai_compatible_client,
 )
 
 from .config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
 from .repository import RunArtifactRepository
 from .services import ClaimExtractionService, FactCheckService
-from .stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage
+from .stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, ReviewStage
 
 
 def build_fact_check_service(
@@ -35,6 +36,7 @@ def build_fact_check_service(
         max_turns=config.max_turns,
         judge_extra_turns=config.judge_extra_turns,
     )
+    review = CompatibleReviewAdapter(model=config.model, max_turns=config.max_turns)
 
     return FactCheckService(
         plan_stage=PlanStage(
@@ -49,6 +51,12 @@ def build_fact_check_service(
             research_retry_attempts=config.research_retry_attempts,
         ),
         judge_stage=JudgeStage(judge=judge),
+        review_stage=ReviewStage(
+            reviewer=review,
+            max_follow_up_checks=config.max_follow_up_checks,
+            max_search_queries_per_check=config.max_search_queries_per_check,
+        ),
+        max_feedback_rounds=config.max_feedback_rounds,
         artifact_repository=artifact_repository,
     )
 

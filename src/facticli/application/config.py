@@ -9,6 +9,8 @@ from facticli.config import InferenceConfig
 class FactCheckRuntimeConfig(InferenceConfig):
     max_checks: int = 4
     max_parallel_research: int = 4
+    max_feedback_rounds: int = 0
+    max_follow_up_checks: int = 2
     search_context_size: str = "high"
     search_provider: str = "openai"
     search_results_per_query: int = 5

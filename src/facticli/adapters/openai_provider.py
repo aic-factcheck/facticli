@@ -4,13 +4,14 @@ import json
 
 from agents import Agent, ModelSettings, Runner
 
-from facticli.agents import build_judge_agent, build_planner_agent, build_research_agent
-from facticli.application.interfaces import ClaimExtractionBackend, Judge, Planner, Researcher
+from facticli.agents import build_judge_agent, build_planner_agent, build_research_agent, build_review_agent
+from facticli.application.interfaces import ClaimExtractionBackend, Judge, Planner, Researcher, Reviewer
 from facticli.core.contracts import (
     AspectFinding,
     ClaimExtractionResult,
     FactCheckReport,
     InvestigationPlan,
+    ReviewDecision,
     VerificationCheck,
 )
 from facticli.skills import load_skill_prompt
@@ -93,6 +94,30 @@ class CompatibleJudgeAdapter(Judge):
         return result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
 
 
+class CompatibleReviewAdapter(Reviewer):
+    def __init__(self, model: str, max_turns: int):
+        self._agent = build_review_agent(model=model)
+        self._max_turns = max_turns
+
+    async def review(
+        self,
+        claim: str,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+    ) -> ReviewDecision:
+        payload = {
+            "claim": claim,
+            "plan": plan.model_dump(),
+            "findings": [finding.model_dump() for finding in findings],
+        }
+        result = await Runner.run(
+            self._agent,
+            json.dumps(payload, indent=2),
+            max_turns=self._max_turns,
+        )
+        return result.final_output_as(ReviewDecision, raise_if_incorrect_type=True)
+
+
 class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
     def __init__(self, model: str, max_turns: int):
         instructions = load_skill_prompt("extract_claims")
@@ -131,4 +156,5 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
 OpenAIPlannerAdapter = CompatiblePlannerAdapter
 OpenAIResearchAdapter = CompatibleResearchAdapter
 OpenAIJudgeAdapter = CompatibleJudgeAdapter
+OpenAIReviewAdapter = CompatibleReviewAdapter
 OpenAIClaimExtractionAdapter = CompatibleClaimExtractionAdapter

@@ -76,6 +76,13 @@ Stream plan and per-check progress while the run executes:
 facticli check --stream-progress "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
+Enable one bounded follow-up review round before the final verdict:
+
+```bash
+facticli check --feedback-rounds 1 --follow-up-checks 2 \
+  "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
 Machine-readable output:
 
 ```bash
@@ -119,6 +126,7 @@ facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
+               [--feedback-rounds N] [--follow-up-checks N]
                [--inference-provider {openai,gemini,openai-agents}]
                [--base-url BASE_URL]
                [--search-provider {openai,brave}]
@@ -137,6 +145,8 @@ facticli extract-claims [--from-file PATH]
 
 Validation notes:
 - `--max-checks`, `--parallel`, and `--max-claims` must be integers `>= 1`.
+- `--feedback-rounds` must be an integer `>= 0`.
+- `--follow-up-checks` must be an integer `>= 1`.
 - `--search-results` must be an integer in `1..20`.
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
@@ -144,12 +154,13 @@ Validation notes:
 
 Layered runtime:
 - `core`: typed contracts, normalization helpers, and run artifacts.
-- `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
+- `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `ReviewStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
 - `adapters`: a shared OpenAI-compatible strategy implementation plus provider profile bootstrap.
 
 Pipeline behavior:
 - `plan` skill decomposes claims into independent checks.
 - `research` runs per-check concurrently with bounded parallelism and retry.
+- `review` optionally requests one or more targeted follow-up checks before final judgment.
 - `judge` synthesizes findings into one verdict with merged deduplicated sources.
 - claim extraction runs through a dedicated extraction stage/backend.
 
@@ -167,8 +178,8 @@ flowchart TD
   subgraph S["Service construction"]
     C --> D["build_fact_check_service"]
     D --> E["configure_openai_compatible_client"]
-    E --> F["Create planner / researcher / judge adapters"]
-    F --> G["Create PlanStage / ResearchStage / JudgeStage"]
+    E --> F["Create planner / researcher / review / judge adapters"]
+    F --> G["Create PlanStage / ResearchStage / ReviewStage / JudgeStage"]
     G --> H["FactCheckService"]
   end
 
@@ -204,11 +215,19 @@ flowchart TD
   end
 
   subgraph JG["Judge stage"]
-    P15 --> Q["JudgeStage.execute<br/>emit judging_started"]
-    Q --> R1["CompatibleJudgeAdapter.judge"]
-    R1 --> R2["Runner.run(veracity_judge)"]
-    R2 --> R3["FactCheckReport (raw)"]
-    R3 --> R4["Merge + deduplicate sources<br/>store report artifacts<br/>emit judging_completed"]
+    P15 --> Q{"feedback rounds enabled?"}
+    Q -->|yes| Q1["ReviewStage.execute<br/>emit review_started"]
+    Q1 --> Q2["CompatibleReviewAdapter.review"]
+    Q2 --> Q3["Runner.run(evidence_review)"]
+    Q3 --> Q4{"follow-up requested?"}
+    Q4 -->|yes| Q5["Build follow-up plan<br/>retry selected checks<br/>add new targeted checks"]
+    Q5 --> Q6["ResearchStage.execute for follow-up round"]
+    Q6 --> Q1
+    Q4 -->|no| R1["JudgeStage.execute<br/>emit judging_started"]
+    Q -->|no| R1
+    R1 --> R2["CompatibleJudgeAdapter.judge"]
+    R2 --> R3["Runner.run(veracity_judge)"]
+    R3 --> R4["FactCheckReport (raw)<br/>merge + deduplicate sources<br/>store report artifacts<br/>emit judging_completed"]
   end
 
   R4 --> T["Save artifacts repository (if configured)<br/>emit run_completed"]
@@ -230,7 +249,7 @@ src/facticli/
     normalize.py     # deterministic normalization helpers
     artifacts.py     # run artifact schemas
   application/
-    interfaces.py    # planner/research/judge strategy contracts
+    interfaces.py    # planner/research/review/judge strategy contracts
     stages.py        # explicit pipeline stages
     services.py      # fact-check and extraction application services
     factory.py       # provider wiring composition root
@@ -247,6 +266,7 @@ src/facticli/
     plan.md
     research.md
     judge.md
+    review.md
 ```
 
 ## 📓 Demo notebooks

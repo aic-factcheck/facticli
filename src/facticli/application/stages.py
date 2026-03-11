@@ -10,12 +10,14 @@ from facticli.core.contracts import (
     EvidenceSignal,
     FactCheckReport,
     InvestigationPlan,
+    ReviewAction,
+    ReviewDecision,
     SourceEvidence,
     VerificationCheck,
 )
 from facticli.core.normalize import normalize_plan_checks, normalize_query_list, normalize_source_url
 
-from .interfaces import ClaimExtractionBackend, Judge, Planner, Researcher
+from .interfaces import ClaimExtractionBackend, Judge, Planner, Researcher, Reviewer
 from .progress import ProgressCallback, emit_progress
 
 
@@ -237,6 +239,113 @@ class JudgeStage:
                     combined.append(source)
 
         return combined
+
+
+@dataclass(frozen=True)
+class ReviewStage:
+    reviewer: Reviewer
+    max_follow_up_checks: int
+    max_search_queries_per_check: int
+
+    async def execute(
+        self,
+        claim: str,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+        artifacts: RunArtifacts,
+        *,
+        round_index: int,
+        progress_callback: ProgressCallback | None = None,
+    ) -> ReviewDecision:
+        await emit_progress(
+            progress_callback,
+            "review_started",
+            {
+                "claim": claim,
+                "round_index": round_index,
+                "finding_count": len(findings),
+            },
+        )
+        review_artifact = artifacts.add_review_round(
+            round_index=round_index,
+            input_plan=plan,
+            input_findings=findings,
+        )
+        decision_raw = await self.reviewer.review(claim=claim, plan=plan, findings=findings)
+
+        normalized_action = decision_raw.action
+        retry_aspect_ids = self._normalize_retry_aspect_ids(decision_raw.retry_aspect_ids, plan)
+        follow_up_checks = normalize_plan_checks(
+            claim=claim,
+            checks=decision_raw.follow_up_checks,
+            max_checks=self.max_follow_up_checks,
+            max_search_queries_per_check=self.max_search_queries_per_check,
+        )
+        follow_up_checks = self._dedupe_follow_up_checks(follow_up_checks, plan)
+
+        if normalized_action == ReviewAction.FOLLOW_UP and not retry_aspect_ids and not follow_up_checks:
+            normalized_action = ReviewAction.FINALIZE
+
+        decision_final = decision_raw.model_copy(
+            update={
+                "claim": claim,
+                "action": normalized_action,
+                "retry_aspect_ids": retry_aspect_ids,
+                "follow_up_checks": follow_up_checks,
+            }
+        )
+        review_artifact.decision = decision_final
+        if follow_up_checks:
+            review_artifact.follow_up_plan = InvestigationPlan(
+                claim=claim,
+                checks=follow_up_checks,
+                assumptions=[],
+            )
+
+        await emit_progress(
+            progress_callback,
+            "review_completed",
+            {
+                "round_index": round_index,
+                "action": decision_final.action.value,
+                "retry_count": len(decision_final.retry_aspect_ids),
+                "follow_up_count": len(decision_final.follow_up_checks),
+            },
+        )
+        return decision_final
+
+    def _normalize_retry_aspect_ids(
+        self,
+        retry_aspect_ids: list[str],
+        plan: InvestigationPlan,
+    ) -> list[str]:
+        available = {check.aspect_id for check in plan.checks}
+        normalized: list[str] = []
+        seen: set[str] = set()
+        for aspect_id in retry_aspect_ids:
+            candidate = aspect_id.strip()
+            if not candidate or candidate not in available or candidate in seen:
+                continue
+            seen.add(candidate)
+            normalized.append(candidate)
+        return normalized
+
+    def _dedupe_follow_up_checks(
+        self,
+        follow_up_checks: list[VerificationCheck],
+        plan: InvestigationPlan,
+    ) -> list[VerificationCheck]:
+        used_aspect_ids = {check.aspect_id for check in plan.checks}
+        deduped: list[VerificationCheck] = []
+        for check in follow_up_checks:
+            aspect_id = check.aspect_id
+            suffix = 2
+            while aspect_id in used_aspect_ids:
+                aspect_id = f"{check.aspect_id}_{suffix}"
+                suffix += 1
+            used_aspect_ids.add(aspect_id)
+            deduped.append(check.model_copy(update={"aspect_id": aspect_id}))
+        return deduped
 
 
 @dataclass(frozen=True)

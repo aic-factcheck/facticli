@@ -19,6 +19,11 @@ class EvidenceSignal(str, Enum):
     INSUFFICIENT = "insufficient"
 
 
+class ReviewAction(str, Enum):
+    FINALIZE = "finalize"
+    FOLLOW_UP = "follow_up"
+
+
 class CheckworthyClaim(BaseModel):
     claim_id: str = Field(description="Stable identifier for the extracted claim.")
     claim_text: str = Field(
@@ -97,3 +102,19 @@ class FactCheckReport(BaseModel):
     key_points: list[str] = Field(default_factory=list)
     findings: list[AspectFinding] = Field(default_factory=list)
     sources: list[SourceEvidence] = Field(default_factory=list)
+
+
+class ReviewDecision(BaseModel):
+    claim: str = Field(description="Exact claim text being reviewed for follow-up research.")
+    action: ReviewAction = Field(
+        description="Whether to finalize now or request targeted follow-up research."
+    )
+    rationale: str = Field(description="Why follow-up is or is not needed.")
+    follow_up_checks: list[VerificationCheck] = Field(
+        default_factory=list,
+        description="Additional targeted checks to run before the final judgment.",
+    )
+    retry_aspect_ids: list[str] = Field(
+        default_factory=list,
+        description="Existing aspect_ids that should be re-run due to weak or failed evidence.",
+    )
