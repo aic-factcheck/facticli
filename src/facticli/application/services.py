@@ -11,7 +11,6 @@ from facticli.core.contracts import (
     ReviewAction,
     VerificationCheck,
 )
-from facticli.core.normalize import normalize_plan_checks
 
 from .progress import ProgressCallback, emit_progress
 from .repository import RunArtifactRepository
@@ -34,6 +33,8 @@ class FactCheckService:
     judge_stage: JudgeStage
     review_stage: ReviewStage | None = None
     max_feedback_rounds: int = 0
+    max_follow_up_checks: int = 2
+    max_search_queries_per_check: int = 5
     artifact_repository: RunArtifactRepository | None = None
 
     async def check_claim(
@@ -121,6 +122,8 @@ class FactCheckService:
             if decision.action != ReviewAction.FOLLOW_UP:
                 break
 
+            # ReviewStage already normalized and deduped follow_up_checks.
+            # Here we just build the combined plan from retries + new checks.
             follow_up_plan = self._build_follow_up_plan(
                 claim=claim,
                 current_plan=current_plan,
@@ -175,20 +178,12 @@ class FactCheckService:
             for check in current_plan.checks
             if check.aspect_id in retry_aspect_ids and check.aspect_id in findings_by_aspect
         ]
-        normalized_follow_up_checks = normalize_plan_checks(
-            claim=claim,
-            checks=follow_up_checks,
-            max_checks=(
-                getattr(self.review_stage, "max_follow_up_checks", len(follow_up_checks))
-                if self.review_stage
-                else len(follow_up_checks)
-            ),
-            max_search_queries_per_check=getattr(self.plan_stage, "max_search_queries_per_check", 5),
-        )
 
+        # follow_up_checks are already normalized by ReviewStage; just dedupe
+        # against the current plan's aspect_ids.
         existing_aspect_ids = {check.aspect_id for check in current_plan.checks}
         unique_follow_up_checks = []
-        for check in normalized_follow_up_checks:
+        for check in follow_up_checks:
             if check.aspect_id in existing_aspect_ids:
                 continue
             unique_follow_up_checks.append(check)

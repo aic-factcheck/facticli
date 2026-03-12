@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import json
 
-from agents import Agent, ModelSettings, Runner
+from agents import Agent, ModelSettings, Runner, WebSearchTool
 
-from facticli.agents import build_judge_agent, build_planner_agent, build_research_agent, build_review_agent
 from facticli.application.interfaces import ClaimExtractionBackend, Judge, Planner, Researcher, Reviewer
+from facticli.brave_search import build_brave_web_search_tool
 from facticli.core.contracts import (
     AspectFinding,
     ClaimExtractionResult,
@@ -19,7 +19,16 @@ from facticli.skills import load_skill_prompt
 
 class CompatiblePlannerAdapter(Planner):
     def __init__(self, model: str, max_turns: int):
-        self._agent = build_planner_agent(model=model)
+        self._agent: Agent[None] = Agent(
+            name="claim_planner",
+            instructions=load_skill_prompt("plan"),
+            output_type=InvestigationPlan,
+            model=model,
+            model_settings=ModelSettings(
+                temperature=0.15,
+                parallel_tool_calls=False,
+            ),
+        )
         self._max_turns = max_turns
 
     async def plan(self, claim: str, max_checks: int) -> InvestigationPlan:
@@ -40,10 +49,23 @@ class CompatibleResearchAdapter(Researcher):
         search_context_size: str,
         search_provider: str,
     ):
-        self._agent = build_research_agent(
+        if search_provider == "openai":
+            tools = [WebSearchTool(search_context_size=search_context_size)]
+        elif search_provider == "brave":
+            tools = [build_brave_web_search_tool()]
+        else:
+            raise ValueError(f"Unsupported search provider: {search_provider}")
+
+        self._agent: Agent[None] = Agent(
+            name="check_researcher",
+            instructions=load_skill_prompt("research"),
+            tools=tools,
+            output_type=AspectFinding,
             model=model,
-            search_context_size=search_context_size,
-            search_provider=search_provider,
+            model_settings=ModelSettings(
+                temperature=0.2,
+                parallel_tool_calls=True,
+            ),
         )
         self._max_turns = max_turns
         self._search_provider = search_provider
@@ -70,10 +92,18 @@ class CompatibleResearchAdapter(Researcher):
 
 
 class CompatibleJudgeAdapter(Judge):
-    def __init__(self, model: str, max_turns: int, judge_extra_turns: int):
-        self._agent = build_judge_agent(model=model)
+    def __init__(self, model: str, max_turns: int):
+        self._agent: Agent[None] = Agent(
+            name="veracity_judge",
+            instructions=load_skill_prompt("judge"),
+            output_type=FactCheckReport,
+            model=model,
+            model_settings=ModelSettings(
+                temperature=0.1,
+                parallel_tool_calls=False,
+            ),
+        )
         self._max_turns = max_turns
-        self._judge_extra_turns = judge_extra_turns
 
     async def judge(
         self,
@@ -89,14 +119,23 @@ class CompatibleJudgeAdapter(Judge):
         result = await Runner.run(
             self._agent,
             json.dumps(payload, indent=2),
-            max_turns=self._max_turns + self._judge_extra_turns,
+            max_turns=self._max_turns,
         )
         return result.final_output_as(FactCheckReport, raise_if_incorrect_type=True)
 
 
 class CompatibleReviewAdapter(Reviewer):
     def __init__(self, model: str, max_turns: int):
-        self._agent = build_review_agent(model=model)
+        self._agent: Agent[None] = Agent(
+            name="evidence_review",
+            instructions=load_skill_prompt("review"),
+            output_type=ReviewDecision,
+            model=model,
+            model_settings=ModelSettings(
+                temperature=0.1,
+                parallel_tool_calls=False,
+            ),
+        )
         self._max_turns = max_turns
 
     async def review(
@@ -120,10 +159,9 @@ class CompatibleReviewAdapter(Reviewer):
 
 class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
     def __init__(self, model: str, max_turns: int):
-        instructions = load_skill_prompt("extract_claims")
         self._agent: Agent[None] = Agent(
             name="checkworthy_claim_extractor",
-            instructions=instructions,
+            instructions=load_skill_prompt("extract_claims"),
             output_type=ClaimExtractionResult,
             model=model,
             model_settings=ModelSettings(
@@ -150,11 +188,3 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
             max_turns=self._max_turns,
         )
         return result.final_output_as(ClaimExtractionResult, raise_if_incorrect_type=True)
-
-
-# Backward-compatible aliases for older imports/tests.
-OpenAIPlannerAdapter = CompatiblePlannerAdapter
-OpenAIResearchAdapter = CompatibleResearchAdapter
-OpenAIJudgeAdapter = CompatibleJudgeAdapter
-OpenAIReviewAdapter = CompatibleReviewAdapter
-OpenAIClaimExtractionAdapter = CompatibleClaimExtractionAdapter

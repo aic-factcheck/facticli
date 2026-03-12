@@ -11,34 +11,8 @@ from typing import Any
 from facticli.adapters import resolve_model_name, resolve_provider_profile
 from facticli.application.config import FactCheckRuntimeConfig
 from facticli.application.factory import build_fact_check_service
+from facticli.cli_validators import non_negative_int, positive_int, search_results_int
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
-
-
-def _positive_int(raw_value: str) -> int:
-    try:
-        value = int(raw_value)
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
-    if value < 1:
-        raise argparse.ArgumentTypeError(f"Value must be >= 1, got: {value}")
-    return value
-
-
-def _non_negative_int(raw_value: str) -> int:
-    try:
-        value = int(raw_value)
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
-    if value < 0:
-        raise argparse.ArgumentTypeError(f"Value must be >= 0, got: {value}")
-    return value
-
-
-def _search_results_int(raw_value: str) -> int:
-    value = _positive_int(raw_value)
-    if value > 20:
-        raise argparse.ArgumentTypeError(f"Value must be <= 20, got: {value}")
-    return value
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -65,25 +39,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--offset",
-        type=_non_negative_int,
+        type=non_negative_int,
         default=0,
         help="Zero-based index of first claim to process (default: 0).",
     )
     parser.add_argument(
         "--limit",
-        type=_positive_int,
+        type=positive_int,
         default=None,
         help="Maximum number of claims to process (default: all from offset).",
     )
     parser.add_argument(
         "--parallel-claims",
-        type=_positive_int,
+        type=positive_int,
         default=1,
         help="Number of claims to fact-check concurrently (default: 1).",
     )
     parser.add_argument(
         "--max-evidence",
-        type=_positive_int,
+        type=positive_int,
         default=10,
         help="Maximum evidence entries per submission row (default: 10).",
     )
@@ -118,13 +92,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--max-checks",
-        type=_positive_int,
+        type=positive_int,
         default=4,
         help="Maximum number of verification checks per claim.",
     )
     parser.add_argument(
         "--parallel",
-        type=_positive_int,
+        type=positive_int,
         default=4,
         help="Maximum parallel research workers within each claim.",
     )
@@ -142,7 +116,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--search-results",
-        type=_search_results_int,
+        type=search_results_int,
         default=5,
         dest="search_results_per_query",
         help="Number of search results per query (1..20).",

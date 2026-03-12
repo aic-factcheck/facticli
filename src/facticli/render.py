@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .orchestrator import FactCheckRun
+from .application.services import FactCheckRun
 
 
 def format_run_text(run: FactCheckRun, show_plan: bool = False) -> str:

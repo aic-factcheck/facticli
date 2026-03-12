@@ -33,8 +33,7 @@ def build_fact_check_service(
     )
     judge = CompatibleJudgeAdapter(
         model=config.model,
-        max_turns=config.max_turns,
-        judge_extra_turns=config.judge_extra_turns,
+        max_turns=config.judge_max_turns,
     )
     review = CompatibleReviewAdapter(model=config.model, max_turns=config.max_turns)
 
@@ -57,6 +56,8 @@ def build_fact_check_service(
             max_search_queries_per_check=config.max_search_queries_per_check,
         ),
         max_feedback_rounds=config.max_feedback_rounds,
+        max_follow_up_checks=config.max_follow_up_checks,
+        max_search_queries_per_check=config.max_search_queries_per_check,
         artifact_repository=artifact_repository,
     )
 

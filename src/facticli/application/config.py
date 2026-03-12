@@ -2,7 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from facticli.config import InferenceConfig
+
+@dataclass(frozen=True)
+class InferenceConfig:
+    inference_provider: str = "openai"
+    model: str = "gpt-4.1-mini"
+    base_url: str | None = None
+    max_turns: int = 10
 
 
 @dataclass(frozen=True)
@@ -15,7 +21,7 @@ class FactCheckRuntimeConfig(InferenceConfig):
     search_provider: str = "openai"
     search_results_per_query: int = 5
     max_search_queries_per_check: int = 5
-    judge_extra_turns: int = 2
+    judge_max_turns: int = 12
     research_timeout_seconds: float = 120.0
     research_retry_attempts: int = 1
 

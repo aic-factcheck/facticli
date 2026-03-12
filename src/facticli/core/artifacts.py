@@ -1,20 +1,18 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
 
 from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision, VerificationCheck
 
 
-@dataclass
-class ResearchCheckArtifact:
+class ResearchCheckArtifact(BaseModel):
     check: VerificationCheck
     attempts: int = 0
-    errors: list[str] = field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
     finding: AspectFinding | None = None
 
 
-@dataclass
-class ReviewRoundArtifact:
+class ReviewRoundArtifact(BaseModel):
     round_index: int
     input_plan: InvestigationPlan
     input_findings: list[AspectFinding]
@@ -22,14 +20,13 @@ class ReviewRoundArtifact:
     follow_up_plan: InvestigationPlan | None = None
 
 
-@dataclass
-class RunArtifacts:
+class RunArtifacts(BaseModel):
     claim: str
     normalized_claim: str
     plan_raw: InvestigationPlan | None = None
     plan_normalized: InvestigationPlan | None = None
-    research_checks: list[ResearchCheckArtifact] = field(default_factory=list)
-    review_rounds: list[ReviewRoundArtifact] = field(default_factory=list)
+    research_checks: list[ResearchCheckArtifact] = Field(default_factory=list)
+    review_rounds: list[ReviewRoundArtifact] = Field(default_factory=list)
     report_raw: FactCheckReport | None = None
     report_final: FactCheckReport | None = None
 

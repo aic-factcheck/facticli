@@ -8,46 +8,14 @@ import sys
 import traceback
 from pathlib import Path
 
-from .application.progress import ProgressEvent
 from .adapters import resolve_model_name, resolve_provider_profile
-from .claim_extraction import ClaimExtractor, ClaimExtractorConfig
-from .core.artifacts import RunArtifacts
-from .orchestrator import FactCheckOrchestrator, OrchestratorConfig
+from .application.config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
+from .application.factory import build_claim_extraction_service, build_fact_check_service
+from .application.progress import ProgressEvent
+from .application.services import FactCheckRun
+from .cli_validators import non_negative_int, positive_int, search_results_int
 from .render import format_run_text
 from .skills import list_skills
-
-
-def _positive_int(raw_value: str) -> int:
-    try:
-        value = int(raw_value)
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
-    if value < 1:
-        raise argparse.ArgumentTypeError(f"Value must be >= 1, got: {value}")
-    return value
-
-
-def _bounded_int(raw_value: str, *, minimum: int, maximum: int) -> int:
-    value = _positive_int(raw_value)
-    if value < minimum or value > maximum:
-        raise argparse.ArgumentTypeError(
-            f"Value must be between {minimum} and {maximum}, got: {value}"
-        )
-    return value
-
-
-def _non_negative_int(raw_value: str) -> int:
-    try:
-        value = int(raw_value)
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError(f"Expected integer, got: {raw_value!r}") from exc
-    if value < 0:
-        raise argparse.ArgumentTypeError(f"Value must be >= 0, got: {value}")
-    return value
-
-
-def _search_results_int(raw_value: str) -> int:
-    return _bounded_int(raw_value, minimum=1, maximum=20)
 
 
 def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> None:
@@ -74,35 +42,6 @@ def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> Non
         help="Optional OpenAI-compatible base URL override for selected provider profile.",
     )
 
-
-def _serialize_run_artifacts(artifacts: RunArtifacts) -> dict[str, object]:
-    return {
-        "claim": artifacts.claim,
-        "normalized_claim": artifacts.normalized_claim,
-        "plan_raw": artifacts.plan_raw.model_dump() if artifacts.plan_raw else None,
-        "plan_normalized": artifacts.plan_normalized.model_dump() if artifacts.plan_normalized else None,
-        "research_checks": [
-            {
-                "check": check.check.model_dump(),
-                "attempts": check.attempts,
-                "errors": list(check.errors),
-                "finding": check.finding.model_dump() if check.finding else None,
-            }
-            for check in artifacts.research_checks
-        ],
-        "review_rounds": [
-            {
-                "round_index": round.round_index,
-                "input_plan": round.input_plan.model_dump(),
-                "input_findings": [finding.model_dump() for finding in round.input_findings],
-                "decision": round.decision.model_dump() if round.decision else None,
-                "follow_up_plan": round.follow_up_plan.model_dump() if round.follow_up_plan else None,
-            }
-            for round in artifacts.review_rounds
-        ],
-        "report_raw": artifacts.report_raw.model_dump() if artifacts.report_raw else None,
-        "report_final": artifacts.report_final.model_dump() if artifacts.report_final else None,
-    }
 
 
 def _truncate_text(value: str, max_length: int = 140) -> str:
@@ -218,25 +157,25 @@ def build_parser() -> argparse.ArgumentParser:
     _add_inference_provider_args(check_parser)
     check_parser.add_argument(
         "--max-checks",
-        type=_positive_int,
+        type=positive_int,
         default=4,
         help="Maximum number of verification sub-checks.",
     )
     check_parser.add_argument(
         "--parallel",
-        type=_positive_int,
+        type=positive_int,
         default=4,
         help="Maximum parallel research workers.",
     )
     check_parser.add_argument(
         "--feedback-rounds",
-        type=_non_negative_int,
+        type=non_negative_int,
         default=0,
         help="Maximum bounded follow-up research rounds after the initial pass (default: 0).",
     )
     check_parser.add_argument(
         "--follow-up-checks",
-        type=_positive_int,
+        type=positive_int,
         default=2,
         help="Maximum new follow-up checks allowed per feedback round (default: 2).",
     )
@@ -254,7 +193,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check_parser.add_argument(
         "--search-results",
-        type=_search_results_int,
+        type=search_results_int,
         default=5,
         dest="search_results_per_query",
         help="Number of search results to fetch per query (1-20, default 5).",
@@ -299,7 +238,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_inference_provider_args(extract_parser)
     extract_parser.add_argument(
         "--max-claims",
-        type=_positive_int,
+        type=positive_int,
         default=12,
         help="Maximum number of extracted claims.",
     )
@@ -318,7 +257,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
     if provider_validation_code:
         return provider_validation_code
 
-    config = OrchestratorConfig(
+    config = FactCheckRuntimeConfig(
         inference_provider=args.inference_provider,
         model=resolve_model_name(args.inference_provider, args.model),
         base_url=args.base_url,
@@ -338,11 +277,11 @@ async def run_check_command(args: argparse.Namespace) -> int:
         )
         return 2
 
-    orchestrator = FactCheckOrchestrator(config=config)
+    service = build_fact_check_service(config=config)
     stream_progress = bool(getattr(args, "stream_progress", False))
     progress_callback = _build_progress_callback(stream_progress)
     try:
-        run = await orchestrator.check_claim(args.claim, progress_callback=progress_callback)
+        run = await service.check_claim(args.claim, progress_callback=progress_callback)
     except Exception as exc:
         if getattr(args, "debug", False):
             traceback.print_exc(file=sys.stderr)
@@ -355,7 +294,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
         if args.include_artifacts:
             payload["plan"] = run.plan.model_dump()
             payload["findings"] = [finding.model_dump() for finding in run.findings]
-            payload["artifacts"] = _serialize_run_artifacts(run.artifacts)
+            payload["artifacts"] = run.artifacts.model_dump()
         print(json.dumps(payload, indent=2))
     else:
         print(format_run_text(run, show_plan=args.show_plan))
@@ -394,8 +333,8 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
         print(str(exc), file=sys.stderr)
         return 2
 
-    extractor = ClaimExtractor(
-        config=ClaimExtractorConfig(
+    extraction_service = build_claim_extraction_service(
+        ClaimExtractionRuntimeConfig(
             inference_provider=args.inference_provider,
             model=resolve_model_name(args.inference_provider, args.model),
             base_url=args.base_url,
@@ -403,7 +342,7 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
         )
     )
     try:
-        result = await extractor.extract(input_text)
+        result = await extraction_service.extract_claims(input_text)
     except Exception as exc:
         if getattr(args, "debug", False):
             traceback.print_exc(file=sys.stderr)

@@ -7,7 +7,7 @@ from facticli.averitec_submission import (
     build_submission_evidence,
     build_submission_row,
 )
-from facticli.types import (
+from facticli.core.contracts import (
     AspectFinding,
     EvidenceSignal,
     FactCheckReport,

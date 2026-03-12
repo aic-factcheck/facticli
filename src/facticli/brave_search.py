@@ -4,11 +4,11 @@ import json
 import os
 from typing import Any
 
-import requests
+import httpx
 from agents import FunctionTool, function_tool
 
 
-def run_brave_web_search(
+async def run_brave_web_search(
     query: str,
     count: int = 5,
     country: str = "us",
@@ -19,22 +19,22 @@ def run_brave_web_search(
         raise RuntimeError("BRAVE_SEARCH_API_KEY is not set.")
 
     safe_count = min(max(count, 1), 20)
-    response = requests.get(
-        "https://api.search.brave.com/res/v1/web/search",
-        headers={
-            "Accept": "application/json",
-            "Accept-Encoding": "gzip",
-            "X-Subscription-Token": api_key,
-        },
-        params={
-            "q": query,
-            "count": safe_count,
-            "country": country,
-            "search_lang": search_lang,
-            "extra_snippets": "true",
-        },
-        timeout=20,
-    )
+    async with httpx.AsyncClient(timeout=20) as client:
+        response = await client.get(
+            "https://api.search.brave.com/res/v1/web/search",
+            headers={
+                "Accept": "application/json",
+                "Accept-Encoding": "gzip",
+                "X-Subscription-Token": api_key,
+            },
+            params={
+                "q": query,
+                "count": safe_count,
+                "country": country,
+                "search_lang": search_lang,
+                "extra_snippets": "true",
+            },
+        )
     response.raise_for_status()
 
     payload: dict[str, Any] = response.json()
@@ -62,7 +62,7 @@ def run_brave_web_search(
 
 def build_brave_web_search_tool() -> FunctionTool:
     @function_tool
-    def brave_web_search(
+    async def brave_web_search(
         query: str,
         count: int = 5,
         country: str = "us",
@@ -80,7 +80,7 @@ def build_brave_web_search_tool() -> FunctionTool:
         Returns:
             A JSON string with query metadata and normalized web results.
         """
-        result = run_brave_web_search(
+        result = await run_brave_web_search(
             query=query,
             count=count,
             country=country,

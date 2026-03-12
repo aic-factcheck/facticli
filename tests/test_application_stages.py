@@ -5,7 +5,7 @@ import unittest
 from facticli.application.stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, ReviewStage
 from facticli.application.progress import ProgressEvent
 from facticli.core.artifacts import RunArtifacts
-from facticli.types import (
+from facticli.core.contracts import (
     AspectFinding,
     CheckworthyClaim,
     ClaimExtractionResult,

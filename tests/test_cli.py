@@ -10,10 +10,10 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from facticli.application.progress import ProgressEvent
+from facticli.application.services import FactCheckRun
 from facticli.cli import _load_extract_input_text, run_check_command, run_extract_claims_command
 from facticli.core.artifacts import RunArtifacts
-from facticli.orchestrator import FactCheckRun
-from facticli.types import (
+from facticli.core.contracts import (
     CheckworthyClaim,
     ClaimExtractionResult,
     FactCheckReport,
@@ -36,9 +36,6 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
                 )
             ],
         )
-        fake_extractor = AsyncMock()
-        fake_extractor.extract = AsyncMock(return_value=fake_result)
-
         args = argparse.Namespace(
             inference_provider="openai",
             model="gpt-4.1-mini",
@@ -49,9 +46,12 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             json=True,
         )
 
+        fake_service = AsyncMock()
+        fake_service.extract_claims = AsyncMock(return_value=fake_result)
+
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
-            patch("facticli.cli.ClaimExtractor", return_value=fake_extractor),
+            patch("facticli.cli.build_claim_extraction_service", return_value=fake_service),
         ):
             output = io.StringIO()
             with redirect_stdout(output):
@@ -115,8 +115,8 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             ),
         )
 
-        fake_orchestrator = AsyncMock()
-        fake_orchestrator.check_claim = AsyncMock(return_value=fake_run)
+        fake_service = AsyncMock()
+        fake_service.check_claim = AsyncMock(return_value=fake_run)
 
         args = argparse.Namespace(
             claim="The first iPhone was released in 2007.",
@@ -137,7 +137,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
-            patch("facticli.cli.FactCheckOrchestrator", return_value=fake_orchestrator),
+            patch("facticli.cli.build_fact_check_service", return_value=fake_service),
         ):
             output = io.StringIO()
             with redirect_stdout(output):
@@ -170,7 +170,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             ),
         )
 
-        class _FakeOrchestrator:
+        class _FakeService:
             async def check_claim(self, _claim: str, progress_callback=None):
                 if progress_callback is not None:
                     progress_callback(
@@ -209,7 +209,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
-            patch("facticli.cli.FactCheckOrchestrator", return_value=_FakeOrchestrator()),
+            patch("facticli.cli.build_fact_check_service", return_value=_FakeService()),
         ):
             stdout = io.StringIO()
             stderr = io.StringIO()

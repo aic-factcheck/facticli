@@ -5,7 +5,7 @@ import unittest
 from facticli.application.progress import ProgressEvent, emit_progress
 from facticli.application.services import FactCheckService
 from facticli.core.artifacts import RunArtifacts
-from facticli.types import (
+from facticli.core.contracts import (
     AspectFinding,
     EvidenceSignal,
     FactCheckReport,

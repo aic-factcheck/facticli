@@ -6,7 +6,7 @@ from importlib.resources import files
 
 from pydantic import BaseModel
 
-from .types import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan, ReviewDecision
+from .core.contracts import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan, ReviewDecision
 
 
 @dataclass(frozen=True)
