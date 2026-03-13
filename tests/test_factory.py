@@ -44,7 +44,7 @@ class FactoryTests(unittest.TestCase):
             build_fact_check_service(
                 FactCheckRuntimeConfig(
                     inference_provider="gemini",
-                    model="gemini-2.0-flash",
+                    model="gemini-3.1-pro",
                     base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
                 )
             )

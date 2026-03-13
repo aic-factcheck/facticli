@@ -32,7 +32,7 @@ Optional defaults:
 ```bash
 export FACTICLI_MODEL=gpt-5.4
 export GEMINI_API_KEY=...
-export FACTICLI_GEMINI_MODEL=gemini-3-pro
+export FACTICLI_GEMINI_MODEL=gemini-3.1-pro
 export FACTICLI_INFERENCE_PROVIDER=openai
 export FACTICLI_SEARCH_PROVIDER=openai
 export FACTICLI_BASE_URL=...
@@ -59,7 +59,7 @@ Run with Gemini inference provider:
 ```bash
 facticli check \
   --inference-provider gemini \
-  --model gemini-3-pro \
+  --model gemini-3.1-pro \
   --search-provider brave \
   "The Eiffel Tower was built in 1889 for the World's Fair."
 ```

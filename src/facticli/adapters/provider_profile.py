@@ -38,7 +38,7 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
     "gemini": ProviderProfile(
         name="gemini",
         api_key_env="GEMINI_API_KEY",
-        default_model="gemini-2.0-flash",
+        default_model="gemini-3.1-pro",
         default_base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         default_api_mode="chat_completions",
     ),

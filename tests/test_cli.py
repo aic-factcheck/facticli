@@ -65,7 +65,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         args = argparse.Namespace(
             claim="Some claim",
             inference_provider="gemini",
-            model="gemini-2.0-flash",
+            model="gemini-3.1-pro",
             base_url=None,
             max_checks=4,
             parallel=2,
