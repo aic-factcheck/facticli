@@ -12,6 +12,7 @@ ProviderName = Literal["openai", "gemini"]
 
 @dataclass(frozen=True)
 class ProviderProfile:
+    """Provider defaults used to bootstrap OpenAI-compatible inference clients."""
     name: ProviderName
     api_key_env: str
     default_model: str
@@ -23,14 +24,14 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
     "openai": ProviderProfile(
         name="openai",
         api_key_env="OPENAI_API_KEY",
-        default_model="gpt-4.1-mini",
+        default_model="gpt-5.4",
         default_base_url=None,
         default_api_mode="responses",
     ),
     "openai-agents": ProviderProfile(
         name="openai",
         api_key_env="OPENAI_API_KEY",
-        default_model="gpt-4.1-mini",
+        default_model="gpt-5.4",
         default_base_url=None,
         default_api_mode="responses",
     ),
@@ -45,6 +46,7 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
 
 
 def resolve_provider_profile(inference_provider: str) -> ProviderProfile:
+    """Map CLI provider alias to a concrete provider profile."""
     profile = _PROFILE_BY_NAME.get(inference_provider)
     if profile is None:
         raise ValueError(f"Unsupported inference provider: {inference_provider}")
@@ -52,6 +54,7 @@ def resolve_provider_profile(inference_provider: str) -> ProviderProfile:
 
 
 def resolve_model_name(inference_provider: str, requested_model: str | None) -> str:
+    """Pick a model from explicit flag, then provider-specific environment defaults."""
     if requested_model and requested_model.strip():
         return requested_model.strip()
 
@@ -67,6 +70,7 @@ def configure_openai_compatible_client(
     inference_provider: str,
     base_url: str | None = None,
 ) -> None:
+    """Configure the Agents SDK to use the selected OpenAI-compatible backend."""
     profile = resolve_provider_profile(inference_provider)
     api_key = os.getenv(profile.api_key_env)
     if not api_key:

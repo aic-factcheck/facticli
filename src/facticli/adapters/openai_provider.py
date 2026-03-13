@@ -18,6 +18,7 @@ from facticli.skills import load_skill_prompt
 
 
 class CompatiblePlannerAdapter(Planner):
+    """Agents SDK planner adapter for OpenAI-compatible chat providers."""
     def __init__(self, model: str, max_turns: int):
         self._agent: Agent[None] = Agent(
             name="claim_planner",
@@ -32,6 +33,7 @@ class CompatiblePlannerAdapter(Planner):
         self._max_turns = max_turns
 
     async def plan(self, claim: str, max_checks: int) -> InvestigationPlan:
+        """Ask the planning skill to produce at most the configured number of checks."""
         payload = (
             "Build a fact-checking plan for this claim.\n\n"
             f"Claim:\n{claim}\n\n"
@@ -42,6 +44,7 @@ class CompatiblePlannerAdapter(Planner):
 
 
 class CompatibleResearchAdapter(Researcher):
+    """Research adapter that executes one check with configured search tooling."""
     def __init__(
         self,
         model: str,
@@ -71,6 +74,7 @@ class CompatibleResearchAdapter(Researcher):
         self._search_provider = search_provider
 
     async def research(self, claim: str, check: VerificationCheck) -> AspectFinding:
+        """Collect evidence for one check and backfill missing identity fields."""
         payload = {
             "claim": claim,
             "check": check.model_dump(),
@@ -92,6 +96,7 @@ class CompatibleResearchAdapter(Researcher):
 
 
 class CompatibleJudgeAdapter(Judge):
+    """Judge adapter that synthesizes a final report from structured findings."""
     def __init__(self, model: str, max_turns: int):
         self._agent: Agent[None] = Agent(
             name="veracity_judge",
@@ -111,6 +116,7 @@ class CompatibleJudgeAdapter(Judge):
         plan: InvestigationPlan,
         findings: list[AspectFinding],
     ) -> FactCheckReport:
+        """Request final verdict synthesis from claim, plan, and findings."""
         payload = {
             "claim": claim,
             "plan": plan.model_dump(),
@@ -125,6 +131,7 @@ class CompatibleJudgeAdapter(Judge):
 
 
 class CompatibleReviewAdapter(Reviewer):
+    """Review adapter that requests targeted retries or follow-up checks."""
     def __init__(self, model: str, max_turns: int):
         self._agent: Agent[None] = Agent(
             name="evidence_review",
@@ -144,6 +151,7 @@ class CompatibleReviewAdapter(Reviewer):
         plan: InvestigationPlan,
         findings: list[AspectFinding],
     ) -> ReviewDecision:
+        """Ask the review skill whether extra evidence gathering is required."""
         payload = {
             "claim": claim,
             "plan": plan.model_dump(),
@@ -158,6 +166,7 @@ class CompatibleReviewAdapter(Reviewer):
 
 
 class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
+    """Claim extraction adapter for turning prose into check-worthy atomic claims."""
     def __init__(self, model: str, max_turns: int):
         self._agent: Agent[None] = Agent(
             name="checkworthy_claim_extractor",
@@ -172,6 +181,7 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
         self._max_turns = max_turns
 
     async def extract(self, input_text: str, max_claims: int) -> ClaimExtractionResult:
+        """Run extraction instructions with strict limits and coverage requirements."""
         payload = {
             "input_text": input_text,
             "requirements": {

@@ -38,7 +38,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
         args = argparse.Namespace(
             inference_provider="openai",
-            model="gpt-4.1-mini",
+            model="gpt-5.4",
             base_url=None,
             max_claims=10,
             from_file=None,
@@ -121,7 +121,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         args = argparse.Namespace(
             claim="The first iPhone was released in 2007.",
             inference_provider="openai",
-            model="gpt-4.1-mini",
+            model="gpt-5.4",
             base_url=None,
             max_checks=4,
             parallel=2,
@@ -192,7 +192,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         args = argparse.Namespace(
             claim="The Eiffel Tower was built in 1889.",
             inference_provider="openai",
-            model="gpt-4.1-mini",
+            model="gpt-5.4",
             base_url=None,
             max_checks=4,
             parallel=2,

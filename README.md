@@ -30,7 +30,7 @@ export OPENAI_API_KEY=...
 Optional defaults:
 
 ```bash
-export FACTICLI_MODEL=gpt-4.1-mini
+export FACTICLI_MODEL=gpt-5.4
 export GEMINI_API_KEY=...
 export FACTICLI_GEMINI_MODEL=gemini-3-pro
 export FACTICLI_INFERENCE_PROVIDER=openai

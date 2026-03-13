@@ -5,14 +5,16 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class InferenceConfig:
+    """Shared inference knobs used by runtime service factories."""
     inference_provider: str = "openai"
-    model: str = "gpt-4.1-mini"
+    model: str = "gpt-5.4"
     base_url: str | None = None
     max_turns: int = 10
 
 
 @dataclass(frozen=True)
 class FactCheckRuntimeConfig(InferenceConfig):
+    """Runtime configuration for full fact-check orchestration."""
     max_checks: int = 4
     max_parallel_research: int = 4
     max_feedback_rounds: int = 0
@@ -28,4 +30,5 @@ class FactCheckRuntimeConfig(InferenceConfig):
 
 @dataclass(frozen=True)
 class ClaimExtractionRuntimeConfig(InferenceConfig):
+    """Runtime configuration for standalone claim extraction flows."""
     max_claims: int = 12

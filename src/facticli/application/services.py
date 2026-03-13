@@ -19,6 +19,7 @@ from .stages import ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, 
 
 @dataclass
 class FactCheckRun:
+    """Container holding all outputs produced by one fact-check execution."""
     claim: str
     plan: InvestigationPlan
     findings: list[AspectFinding]
@@ -28,6 +29,7 @@ class FactCheckRun:
 
 @dataclass(frozen=True)
 class FactCheckService:
+    """High-level orchestrator that wires planning, research, review, and judging."""
     plan_stage: PlanStage
     research_stage: ResearchStage
     judge_stage: JudgeStage
@@ -42,6 +44,7 @@ class FactCheckService:
         claim: str,
         progress_callback: ProgressCallback | None = None,
     ) -> FactCheckRun:
+        """Execute a full fact-check run and emit progress events across stages."""
         normalized_claim = claim.strip()
         if not normalized_claim:
             raise ValueError("Claim is empty.")
@@ -227,7 +230,9 @@ class FactCheckService:
 
 @dataclass(frozen=True)
 class ClaimExtractionService:
+    """Service wrapper for extracting check-worthy claims from input text."""
     extraction_stage: ClaimExtractionStage
 
     async def extract_claims(self, input_text: str) -> ClaimExtractionResult:
+        """Run extraction stage and return structured claim candidates."""
         return await self.extraction_stage.execute(input_text)

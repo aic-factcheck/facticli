@@ -23,6 +23,7 @@ from .progress import ProgressCallback, emit_progress
 
 @dataclass(frozen=True)
 class PlanStage:
+    """Runs planning and normalizes checks into an executable investigation plan."""
     planner: Planner
     max_checks: int
     max_search_queries_per_check: int
@@ -33,6 +34,7 @@ class PlanStage:
         artifacts: RunArtifacts,
         progress_callback: ProgressCallback | None = None,
     ) -> InvestigationPlan:
+        """Generate a robust plan, including a direct-check fallback when needed."""
         await emit_progress(progress_callback, "planning_started", {"claim": claim})
         plan_raw = await self.planner.plan(claim=claim, max_checks=self.max_checks)
         artifacts.plan_raw = plan_raw
@@ -77,6 +79,7 @@ class PlanStage:
 
 @dataclass(frozen=True)
 class ResearchStage:
+    """Runs check-level research concurrently with retries and timeout safeguards."""
     researcher: Researcher
     max_parallel_research: int
     research_timeout_seconds: float
@@ -89,6 +92,7 @@ class ResearchStage:
         artifacts: RunArtifacts,
         progress_callback: ProgressCallback | None = None,
     ) -> list[AspectFinding]:
+        """Return ordered findings, downgrading failed checks to insufficient."""
         semaphore = asyncio.Semaphore(max(1, self.max_parallel_research))
         timeout = self.research_timeout_seconds or None
         max_attempts = 1 + max(0, self.research_retry_attempts)
@@ -180,6 +184,7 @@ class ResearchStage:
 
 @dataclass(frozen=True)
 class JudgeStage:
+    """Builds the final report and normalizes source links for output consistency."""
     judge: Judge
 
     async def execute(
@@ -190,6 +195,7 @@ class JudgeStage:
         artifacts: RunArtifacts,
         progress_callback: ProgressCallback | None = None,
     ) -> FactCheckReport:
+        """Synthesize and normalize the final report from collected findings."""
         await emit_progress(
             progress_callback,
             "judging_started",
@@ -243,6 +249,7 @@ class JudgeStage:
 
 @dataclass(frozen=True)
 class ReviewStage:
+    """Decides whether to finalize now or request bounded follow-up checks."""
     reviewer: Reviewer
     max_follow_up_checks: int
     max_search_queries_per_check: int
@@ -257,6 +264,7 @@ class ReviewStage:
         round_index: int,
         progress_callback: ProgressCallback | None = None,
     ) -> ReviewDecision:
+        """Produce a bounded follow-up decision and normalize requested checks."""
         await emit_progress(
             progress_callback,
             "review_started",
@@ -350,10 +358,12 @@ class ReviewStage:
 
 @dataclass(frozen=True)
 class ClaimExtractionStage:
+    """Normalizes claim-extraction output for downstream CLI and automation use."""
     backend: ClaimExtractionBackend
     max_claims: int
 
     async def execute(self, input_text: str) -> ClaimExtractionResult:
+        """Extract and sanitize check-worthy claims from raw input text."""
         normalized_text = input_text.strip()
         if not normalized_text:
             raise ValueError("Input text is empty.")

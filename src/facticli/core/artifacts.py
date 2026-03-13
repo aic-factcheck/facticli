@@ -6,6 +6,7 @@ from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, Review
 
 
 class ResearchCheckArtifact(BaseModel):
+    """Debug artifact for one research check, including attempts and errors."""
     check: VerificationCheck
     attempts: int = 0
     errors: list[str] = Field(default_factory=list)
@@ -13,6 +14,7 @@ class ResearchCheckArtifact(BaseModel):
 
 
 class ReviewRoundArtifact(BaseModel):
+    """Snapshot of one review round and its follow-up decision."""
     round_index: int
     input_plan: InvestigationPlan
     input_findings: list[AspectFinding]
@@ -21,6 +23,7 @@ class ReviewRoundArtifact(BaseModel):
 
 
 class RunArtifacts(BaseModel):
+    """Aggregated per-run artifacts used for inspection and replayability."""
     claim: str
     normalized_claim: str
     plan_raw: InvestigationPlan | None = None
@@ -31,6 +34,7 @@ class RunArtifacts(BaseModel):
     report_final: FactCheckReport | None = None
 
     def get_or_create_check(self, check: VerificationCheck) -> ResearchCheckArtifact:
+        """Return existing check artifact by identity or create a new slot."""
         for artifact in self.research_checks:
             if artifact.check.aspect_id == check.aspect_id and artifact.check.question == check.question:
                 return artifact
@@ -45,6 +49,7 @@ class RunArtifacts(BaseModel):
         input_plan: InvestigationPlan,
         input_findings: list[AspectFinding],
     ) -> ReviewRoundArtifact:
+        """Append and return a review-round artifact with input snapshots."""
         artifact = ReviewRoundArtifact(
             round_index=round_index,
             input_plan=input_plan,

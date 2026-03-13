@@ -23,7 +23,7 @@ class FactoryTests(unittest.TestCase):
             service = build_fact_check_service(
                 FactCheckRuntimeConfig(
                     inference_provider="openai",
-                    model="gpt-4.1-mini",
+                    model="gpt-5.4",
                 )
             )
 
@@ -61,7 +61,7 @@ class FactoryTests(unittest.TestCase):
             patch("facticli.application.factory.CompatibleClaimExtractionAdapter", return_value=backend),
         ):
             service = build_claim_extraction_service(
-                ClaimExtractionRuntimeConfig(inference_provider="openai", model="gpt-4.1-mini")
+                ClaimExtractionRuntimeConfig(inference_provider="openai", model="gpt-5.4")
             )
 
         configure.assert_called_once_with(inference_provider="openai", base_url=None)
