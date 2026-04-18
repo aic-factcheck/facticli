@@ -54,6 +54,27 @@ class FactoryTests(unittest.TestCase):
             base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         )
 
+    def test_build_fact_check_service_bootstraps_ollama_profile_with_same_codepath(self):
+        with (
+            patch("facticli.application.factory.configure_openai_compatible_client") as configure,
+            patch("facticli.application.factory.CompatiblePlannerAdapter"),
+            patch("facticli.application.factory.CompatibleResearchAdapter"),
+            patch("facticli.application.factory.CompatibleJudgeAdapter"),
+            patch("facticli.application.factory.CompatibleReviewAdapter"),
+        ):
+            build_fact_check_service(
+                FactCheckRuntimeConfig(
+                    inference_provider="ollama",
+                    model="kimi-k2.5",
+                    base_url="https://llm.ai.e-infra.cz/v1",
+                )
+            )
+
+        configure.assert_called_once_with(
+            inference_provider="ollama",
+            base_url="https://llm.ai.e-infra.cz/v1",
+        )
+
     def test_build_claim_extraction_service_uses_same_compatible_backend(self):
         backend = object()
         with (

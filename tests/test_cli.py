@@ -85,6 +85,22 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(code, 2)
 
+    async def test_extract_claims_command_rejects_missing_ollama_key(self):
+        args = argparse.Namespace(
+            inference_provider="ollama",
+            model="kimi-k2.5",
+            base_url=None,
+            max_claims=10,
+            from_file=None,
+            text="Inflation fell below 3%.",
+            json=True,
+        )
+
+        with patch.dict("os.environ", {}, clear=True):
+            code = await run_extract_claims_command(args)
+
+        self.assertEqual(code, 2)
+
     async def test_check_command_json_with_artifacts(self):
         fake_run = FactCheckRun(
             claim="The first iPhone was released in 2007.",

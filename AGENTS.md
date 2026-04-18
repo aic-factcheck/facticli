@@ -100,6 +100,7 @@ Fact-check pipeline stages:
 Inference providers:
 - `openai` (default): OpenAI profile via Agents SDK.
 - `gemini`: Gemini OpenAI-compatible profile via the same Agents SDK codepath.
+- `ollama`: generic OpenAI-compatible custom endpoint profile via the same Agents SDK codepath.
 - `openai-agents`: legacy alias for `openai`.
 
 ### 5.2 Parallelism Model
@@ -187,8 +188,11 @@ Input/validation rules:
 
 - `OPENAI_API_KEY` (required for live checks)
 - `GEMINI_API_KEY` (required for Gemini provider)
+- `OLLAMA_API_KEY` (required for Ollama/custom OpenAI-compatible provider)
 - `FACTICLI_MODEL` (optional default model override)
 - `FACTICLI_GEMINI_MODEL` (optional Gemini model override)
+- `OLLAMA_MODEL` (optional Ollama/custom provider model override)
+- `OLLAMA_BASE_URL` (optional Ollama/custom provider base URL)
 - `FACTICLI_INFERENCE_PROVIDER`
 - `FACTICLI_BASE_URL`
 

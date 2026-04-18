@@ -7,14 +7,17 @@ from typing import Literal
 from agents import set_default_openai_api, set_default_openai_client, set_tracing_disabled
 from openai import AsyncOpenAI
 
-ProviderName = Literal["openai", "gemini"]
+ProviderName = Literal["openai", "gemini", "ollama"]
 
 
 @dataclass(frozen=True)
 class ProviderProfile:
     """Provider defaults used to bootstrap OpenAI-compatible inference clients."""
+
     name: ProviderName
     api_key_env: str
+    model_env: str
+    base_url_env: str | None
     default_model: str
     default_base_url: str | None
     default_api_mode: Literal["chat_completions", "responses"]
@@ -24,6 +27,8 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
     "openai": ProviderProfile(
         name="openai",
         api_key_env="OPENAI_API_KEY",
+        model_env="FACTICLI_MODEL",
+        base_url_env="FACTICLI_BASE_URL",
         default_model="gpt-5.4",
         default_base_url=None,
         default_api_mode="responses",
@@ -31,6 +36,8 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
     "openai-agents": ProviderProfile(
         name="openai",
         api_key_env="OPENAI_API_KEY",
+        model_env="FACTICLI_MODEL",
+        base_url_env="FACTICLI_BASE_URL",
         default_model="gpt-5.4",
         default_base_url=None,
         default_api_mode="responses",
@@ -38,8 +45,19 @@ _PROFILE_BY_NAME: dict[str, ProviderProfile] = {
     "gemini": ProviderProfile(
         name="gemini",
         api_key_env="GEMINI_API_KEY",
+        model_env="FACTICLI_GEMINI_MODEL",
+        base_url_env="FACTICLI_BASE_URL",
         default_model="gemini-3.1-pro",
         default_base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        default_api_mode="chat_completions",
+    ),
+    "ollama": ProviderProfile(
+        name="ollama",
+        api_key_env="OLLAMA_API_KEY",
+        model_env="OLLAMA_MODEL",
+        base_url_env="OLLAMA_BASE_URL",
+        default_model="qwen3:latest",
+        default_base_url=None,
         default_api_mode="chat_completions",
     ),
 }
@@ -59,10 +77,7 @@ def resolve_model_name(inference_provider: str, requested_model: str | None) -> 
         return requested_model.strip()
 
     profile = resolve_provider_profile(inference_provider)
-    if profile.name == "openai":
-        return os.getenv("FACTICLI_MODEL", profile.default_model)
-
-    return os.getenv("FACTICLI_GEMINI_MODEL", profile.default_model)
+    return os.getenv(profile.model_env, profile.default_model)
 
 
 def configure_openai_compatible_client(
@@ -76,7 +91,14 @@ def configure_openai_compatible_client(
     if not api_key:
         raise RuntimeError(f"{profile.api_key_env} is not set.")
 
-    resolved_base_url = base_url.strip() if base_url and base_url.strip() else profile.default_base_url
+    env_base_url = os.getenv(profile.base_url_env) if profile.base_url_env else None
+    resolved_base_url = (
+        base_url.strip()
+        if base_url and base_url.strip()
+        else env_base_url.strip()
+        if env_base_url and env_base_url.strip()
+        else profile.default_base_url
+    )
     client = AsyncOpenAI(api_key=api_key, base_url=resolved_base_url)
 
     set_default_openai_client(client, use_for_tracing=False)

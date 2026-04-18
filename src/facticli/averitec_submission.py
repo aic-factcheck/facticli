@@ -73,7 +73,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--inference-provider",
-        choices=["openai", "gemini", "openai-agents"],
+        choices=["openai", "gemini", "ollama", "openai-agents"],
         default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai"),
         help="Inference provider profile (default: FACTICLI_INFERENCE_PROVIDER or openai).",
     )
@@ -81,8 +81,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--model",
         default=None,
         help=(
-            "Model name override. Defaults to FACTICLI_MODEL for openai profiles "
-            "and FACTICLI_GEMINI_MODEL for gemini."
+            "Model name override. Defaults to FACTICLI_MODEL (openai), "
+            "FACTICLI_GEMINI_MODEL (gemini), or OLLAMA_MODEL (ollama)."
         ),
     )
     parser.add_argument(

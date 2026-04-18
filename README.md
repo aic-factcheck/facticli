@@ -1,7 +1,7 @@
 # facticli
 [![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
-`facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference profiles (`openai`, `gemini`).
+`facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference profiles (`openai`, `gemini`, `ollama`).
 
 It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
 - open web search,
@@ -33,6 +33,9 @@ Optional defaults:
 export FACTICLI_MODEL=gpt-5.4
 export GEMINI_API_KEY=...
 export FACTICLI_GEMINI_MODEL=gemini-3.1-pro
+export OLLAMA_API_KEY=a
+export OLLAMA_BASE_URL=https://llm.ai.e-infra.cz/v1
+export OLLAMA_MODEL=kimi-k2.5
 export FACTICLI_INFERENCE_PROVIDER=openai
 export FACTICLI_SEARCH_PROVIDER=openai
 export FACTICLI_BASE_URL=...
@@ -60,6 +63,23 @@ Run with Gemini inference provider:
 facticli check \
   --inference-provider gemini \
   --model gemini-3.1-pro \
+  --search-provider brave \
+  "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
+Run with an Ollama-style OpenAI-compatible endpoint:
+
+```bash
+facticli extract-claims \
+  --inference-provider ollama \
+  "In last year’s debate, the minister said inflation fell below 3% while wages rose 10%."
+```
+
+For full fact-check runs with non-OpenAI inference backends, prefer Brave search:
+
+```bash
+facticli check \
+  --inference-provider ollama \
   --search-provider brave \
   "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
@@ -127,7 +147,7 @@ facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
                [--feedback-rounds N] [--follow-up-checks N]
-               [--inference-provider {openai,gemini,openai-agents}]
+               [--inference-provider {openai,gemini,ollama,openai-agents}]
                [--base-url BASE_URL]
                [--search-provider {openai,brave}]
                [--search-results N]
@@ -137,7 +157,7 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                "<claim>"
 
 facticli extract-claims [--from-file PATH]
-                        [--inference-provider {openai,gemini,openai-agents}]
+                        [--inference-provider {openai,gemini,ollama,openai-agents}]
                         [--model MODEL] [--base-url BASE_URL]
                         [--max-claims N] [--json]
                         [text]

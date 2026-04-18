@@ -21,19 +21,19 @@ from .skills import list_skills
 def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> None:
     command_parser.add_argument(
         "--inference-provider",
-        choices=["openai", "gemini", "openai-agents"],
+        choices=["openai", "gemini", "ollama", "openai-agents"],
         default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai"),
         help=(
             "OpenAI-compatible provider profile (default: FACTICLI_INFERENCE_PROVIDER or openai). "
-            "openai and gemini use the same Agents SDK path with different key/base-url profiles."
+            "openai, gemini, and ollama use the same Agents SDK path with different key/base-url profiles."
         ),
     )
     command_parser.add_argument(
         "--model",
         default=None,
         help=(
-            "Model name for selected provider profile. Defaults to FACTICLI_MODEL for openai "
-            "or FACTICLI_GEMINI_MODEL for gemini."
+            "Model name for selected provider profile. Defaults to FACTICLI_MODEL (openai), "
+            "FACTICLI_GEMINI_MODEL (gemini), or OLLAMA_MODEL (ollama)."
         ),
     )
     command_parser.add_argument(
@@ -129,9 +129,8 @@ def _build_progress_callback(stream_progress: bool):
 def _validate_inference_provider_keys(inference_provider: str) -> int:
     profile = resolve_provider_profile(inference_provider)
     if not os.getenv(profile.api_key_env):
-        other = "gemini" if profile.name == "openai" else "openai"
         print(
-            f"{profile.api_key_env} is not set. Export it or use --inference-provider {other}.",
+            f"{profile.api_key_env} is not set. Export it or use a different --inference-provider.",
             file=sys.stderr,
         )
         return 2
