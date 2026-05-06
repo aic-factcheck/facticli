@@ -4,50 +4,108 @@ import unittest
 from unittest.mock import patch
 
 from facticli.adapters.provider_profile import (
-    configure_openai_compatible_client,
-    resolve_model_name,
-    resolve_provider_profile,
+    InferenceConfig,
+    configure_inference_client,
+    infer_api_mode,
+    load_inference_config,
 )
 
 
-class ProviderProfileTests(unittest.TestCase):
-    def test_resolve_provider_profile_supports_ollama(self):
-        profile = resolve_provider_profile("ollama")
-        self.assertEqual(profile.name, "ollama")
-        self.assertEqual(profile.api_key_env, "OLLAMA_API_KEY")
-        self.assertEqual(profile.model_env, "OLLAMA_MODEL")
-        self.assertEqual(profile.base_url_env, "OLLAMA_BASE_URL")
+class InferenceConfigTests(unittest.TestCase):
+    def test_load_inference_config_uses_openai_compatible_env(self):
+        with patch.dict(
+            "os.environ",
+            {
+                "OPENAI_API_KEY": "test-key",
+                "OPENAI_API_MODEL": "gpt-5.4",
+                "OPENAI_API_BASE_URL": "https://api.openai.com/v1",
+            },
+            clear=True,
+        ):
+            config = load_inference_config(
+                requested_model=None,
+                base_url=None,
+            )
+        self.assertEqual(config.api_key, "test-key")
+        self.assertEqual(config.model, "gpt-5.4")
+        self.assertEqual(config.base_url, "https://api.openai.com/v1")
+        self.assertEqual(config.api_mode, "responses")
 
-    def test_resolve_model_name_uses_ollama_env_default(self):
-        with patch.dict("os.environ", {"OLLAMA_MODEL": "kimi-k2.5"}, clear=True):
-            self.assertEqual(resolve_model_name("ollama", None), "kimi-k2.5")
+    def test_requested_model_overrides_env_model(self):
+        with patch.dict(
+            "os.environ",
+            {"OPENAI_API_KEY": "key", "OPENAI_API_MODEL": "env-model"},
+            clear=True,
+        ):
+            config = load_inference_config(
+                requested_model="custom-model",
+                base_url=None,
+            )
+        self.assertEqual(config.model, "custom-model")
 
-    def test_requested_model_overrides_provider_env_default(self):
-        with patch.dict("os.environ", {"OLLAMA_MODEL": "ignored"}, clear=True):
-            self.assertEqual(resolve_model_name("ollama", "qwen2.5:14b"), "qwen2.5:14b")
+    def test_base_url_override_via_cli_arg(self):
+        with patch.dict(
+            "os.environ",
+            {
+                "OPENAI_API_KEY": "key",
+                "OPENAI_API_MODEL": "model",
+                "OPENAI_API_BASE_URL": "https://env.url/v1",
+            },
+            clear=True,
+        ):
+            config = load_inference_config(
+                requested_model=None,
+                base_url="https://cli.override/v1",
+            )
+        self.assertEqual(config.base_url, "https://cli.override/v1")
 
-    def test_configure_client_uses_provider_specific_base_url_env(self):
+    def test_missing_api_key_raises_runtime_error(self):
         with (
-            patch.dict(
-                "os.environ",
-                {
-                    "OLLAMA_API_KEY": "a",
-                    "OLLAMA_BASE_URL": "https://llm.ai.e-infra.cz/v1",
-                },
-                clear=True,
-            ),
+            patch.dict("os.environ", {"OPENAI_API_MODEL": "model"}, clear=True),
+            self.assertRaises(RuntimeError),
+        ):
+            load_inference_config(
+                requested_model=None,
+                base_url=None,
+            )
+
+    def test_missing_model_raises_runtime_error(self):
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "key"}, clear=True):
+            with self.assertRaises(RuntimeError):
+                load_inference_config(
+                    requested_model=None,
+                    base_url=None,
+                )
+
+    def test_infer_api_mode_prefers_responses_for_openai_endpoint(self):
+        self.assertEqual(infer_api_mode(None), "responses")
+        self.assertEqual(infer_api_mode("https://api.openai.com/v1"), "responses")
+
+    def test_infer_api_mode_uses_chat_completions_for_compatible_endpoints(self):
+        self.assertEqual(
+            infer_api_mode("https://generativelanguage.googleapis.com/v1beta/openai/"),
+            "chat_completions",
+        )
+        self.assertEqual(infer_api_mode("https://llm.ai.e-infra.cz/v1"), "chat_completions")
+
+    def test_configure_inference_client_creates_async_openai_client(self):
+        config = InferenceConfig(
+            api_key="test-key",
+            model="test-model",
+            base_url=None,
+            api_mode="responses",
+        )
+        with (
             patch("facticli.adapters.provider_profile.AsyncOpenAI") as async_openai,
-            patch("facticli.adapters.provider_profile.set_default_openai_client"),
+            patch("facticli.adapters.provider_profile.set_default_openai_client") as set_client,
             patch("facticli.adapters.provider_profile.set_default_openai_api") as set_api_mode,
             patch("facticli.adapters.provider_profile.set_tracing_disabled"),
         ):
-            configure_openai_compatible_client(inference_provider="ollama")
+            configure_inference_client(config)
 
-        async_openai.assert_called_once_with(
-            api_key="a",
-            base_url="https://llm.ai.e-infra.cz/v1",
-        )
-        set_api_mode.assert_called_once_with("chat_completions")
+        async_openai.assert_called_once_with(api_key="test-key", base_url=None)
+        set_client.assert_called_once()
+        set_api_mode.assert_called_once_with("responses")
 
 
 if __name__ == "__main__":

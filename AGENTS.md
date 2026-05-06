@@ -53,8 +53,8 @@ Not yet implemented (expected future work):
 - `src/facticli/__init__.py`: package metadata
 - `src/facticli/__main__.py`: `python -m facticli` runner
 - `src/facticli/core/*`: domain contracts, normalization, run artifacts
-- `src/facticli/application/*`: strategy interfaces, explicit stages, services, provider wiring
-- `src/facticli/adapters/*`: shared OpenAI-compatible adapters + provider profile bootstrap
+- `src/facticli/application/*`: strategy interfaces, explicit stages, services, inference wiring
+- `src/facticli/adapters/*`: shared OpenAI-compatible adapters + client bootstrap
 - `src/facticli/cli.py`: CLI parser and command handlers
 - `src/facticli/orchestrator.py`: compatibility facade for fact-check service
 - `src/facticli/claim_extraction.py`: compatibility facade for extraction service
@@ -79,7 +79,7 @@ The runtime uses layered architecture:
    - Service orchestration and artifact repository integration
 3. `adapters` layer
    - Shared OpenAI-compatible strategy implementations
-   - Provider profile resolution (key/base URL/API mode)
+   - OpenAI-compatible client configuration (key/base URL/model/API mode)
 
 Fact-check pipeline stages:
 
@@ -97,11 +97,10 @@ Fact-check pipeline stages:
    - Input: claim + plan + all findings
    - Output: `FactCheckReport` with final verdict, justification, findings, sources
 
-Inference providers:
-- `openai` (default): OpenAI profile via Agents SDK.
-- `gemini`: Gemini OpenAI-compatible profile via the same Agents SDK codepath.
-- `ollama`: generic OpenAI-compatible custom endpoint profile via the same Agents SDK codepath.
-- `openai-agents`: legacy alias for `openai`.
+Inference configuration:
+- All inference backends use the same OpenAI-compatible codepath.
+- Configure endpoint, key, and model with `OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_API_MODEL`.
+- OpenAI-hosted endpoints use the Responses API internally; other base URLs use Chat Completions internally.
 
 ### 5.2 Parallelism Model
 
@@ -169,7 +168,6 @@ Prompt design principles:
 - `--search-provider`
 - `--search-results`
 - `--search-context-size`
-- `--inference-provider`
 - `--base-url`
 - `--max-claims` (extract-claims command)
 - `--show-plan`
@@ -186,15 +184,9 @@ Input/validation rules:
 
 ### 8.3 Environment Variables
 
+- `OPENAI_API_BASE_URL` (OpenAI-compatible base URL; optional for OpenAI default)
 - `OPENAI_API_KEY` (required for live checks)
-- `GEMINI_API_KEY` (required for Gemini provider)
-- `OLLAMA_API_KEY` (required for Ollama/custom OpenAI-compatible provider)
-- `FACTICLI_MODEL` (optional default model override)
-- `FACTICLI_GEMINI_MODEL` (optional Gemini model override)
-- `OLLAMA_MODEL` (optional Ollama/custom provider model override)
-- `OLLAMA_BASE_URL` (optional Ollama/custom provider base URL)
-- `FACTICLI_INFERENCE_PROVIDER`
-- `FACTICLI_BASE_URL`
+- `OPENAI_API_MODEL` (required unless passed with `--model`)
 
 ## 9) Important Design Constraints
 

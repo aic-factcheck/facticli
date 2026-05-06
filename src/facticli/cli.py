@@ -8,40 +8,25 @@ import sys
 import traceback
 from pathlib import Path
 
-from .adapters import resolve_model_name, resolve_provider_profile
 from .application.config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
 from .application.factory import build_claim_extraction_service, build_fact_check_service
 from .application.progress import ProgressEvent
-from .application.services import FactCheckRun
 from .cli_validators import non_negative_int, positive_int, search_results_int
 from .render import format_run_text
 from .skills import list_skills
 
 
-def _add_inference_provider_args(command_parser: argparse.ArgumentParser) -> None:
-    command_parser.add_argument(
-        "--inference-provider",
-        choices=["openai", "gemini", "ollama", "openai-agents"],
-        default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai"),
-        help=(
-            "OpenAI-compatible provider profile (default: FACTICLI_INFERENCE_PROVIDER or openai). "
-            "openai, gemini, and ollama use the same Agents SDK path with different key/base-url profiles."
-        ),
-    )
+def _add_inference_args(command_parser: argparse.ArgumentParser) -> None:
     command_parser.add_argument(
         "--model",
         default=None,
-        help=(
-            "Model name for selected provider profile. Defaults to FACTICLI_MODEL (openai), "
-            "FACTICLI_GEMINI_MODEL (gemini), or OLLAMA_MODEL (ollama)."
-        ),
+        help="Model name override. Falls back to OPENAI_API_MODEL.",
     )
     command_parser.add_argument(
         "--base-url",
-        default=os.getenv("FACTICLI_BASE_URL"),
-        help="Optional OpenAI-compatible base URL override for selected provider profile.",
+        default=None,
+        help="OpenAI-compatible base URL override. Falls back to OPENAI_API_BASE_URL.",
     )
-
 
 
 def _truncate_text(value: str, max_length: int = 140) -> str:
@@ -126,11 +111,22 @@ def _build_progress_callback(stream_progress: bool):
     return callback
 
 
-def _validate_inference_provider_keys(inference_provider: str) -> int:
-    profile = resolve_provider_profile(inference_provider)
-    if not os.getenv(profile.api_key_env):
+def _validate_inference_env(requested_model: str | None) -> int:
+    """Validate required OpenAI-compatible inference environment variables."""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not (api_key and api_key.strip()):
         print(
-            f"{profile.api_key_env} is not set. Export it or use a different --inference-provider.",
+            "OPENAI_API_KEY is not set. Export it or add it to .env.",
+            file=sys.stderr,
+        )
+        return 2
+
+    env_model = os.getenv("OPENAI_API_MODEL")
+    if not (requested_model and requested_model.strip()) and not (
+        env_model and env_model.strip()
+    ):
+        print(
+            "OPENAI_API_MODEL is not set. Export it, add it to .env, or pass --model.",
             file=sys.stderr,
         )
         return 2
@@ -141,7 +137,7 @@ def _validate_inference_provider_keys(inference_provider: str) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="facticli",
-        description="Agentic fact-checking CLI with pluggable inference providers.",
+        description="Agentic fact-checking CLI for OpenAI-compatible inference APIs.",
     )
     parser.add_argument(
         "--debug",
@@ -153,7 +149,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     check_parser = subparsers.add_parser("check", help="Fact-check a claim.")
     check_parser.add_argument("claim", help="Claim text to verify.")
-    _add_inference_provider_args(check_parser)
+    _add_inference_args(check_parser)
     check_parser.add_argument(
         "--max-checks",
         type=positive_int,
@@ -234,7 +230,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Path to a UTF-8 text file containing the input text.",
     )
-    _add_inference_provider_args(extract_parser)
+    _add_inference_args(extract_parser)
     extract_parser.add_argument(
         "--max-claims",
         type=positive_int,
@@ -252,13 +248,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 async def run_check_command(args: argparse.Namespace) -> int:
-    provider_validation_code = _validate_inference_provider_keys(args.inference_provider)
-    if provider_validation_code:
-        return provider_validation_code
+    inference_validation_code = _validate_inference_env(args.model)
+    if inference_validation_code:
+        return inference_validation_code
 
     config = FactCheckRuntimeConfig(
-        inference_provider=args.inference_provider,
-        model=resolve_model_name(args.inference_provider, args.model),
+        model=args.model,
         base_url=args.base_url,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
@@ -303,9 +298,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
 
 def _load_extract_input_text(args: argparse.Namespace) -> str:
     if args.from_file and args.text:
-        raise ValueError(
-            "Provide input text either as positional argument or with --from-file, not both."
-        )
+        raise ValueError("Provide input text either as positional argument or with --from-file, not both.")
 
     if args.from_file:
         path = Path(args.from_file)
@@ -322,9 +315,9 @@ def _load_extract_input_text(args: argparse.Namespace) -> str:
 
 
 async def run_extract_claims_command(args: argparse.Namespace) -> int:
-    provider_validation_code = _validate_inference_provider_keys(args.inference_provider)
-    if provider_validation_code:
-        return provider_validation_code
+    inference_validation_code = _validate_inference_env(args.model)
+    if inference_validation_code:
+        return inference_validation_code
 
     try:
         input_text = _load_extract_input_text(args)
@@ -334,8 +327,7 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
 
     extraction_service = build_claim_extraction_service(
         ClaimExtractionRuntimeConfig(
-            inference_provider=args.inference_provider,
-            model=resolve_model_name(args.inference_provider, args.model),
+            model=args.model,
             base_url=args.base_url,
             max_claims=args.max_claims,
         )

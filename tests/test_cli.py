@@ -37,7 +37,6 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             ],
         )
         args = argparse.Namespace(
-            inference_provider="openai",
             model="gpt-5.4",
             base_url=None,
             max_claims=10,
@@ -50,7 +49,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         fake_service.extract_claims = AsyncMock(return_value=fake_result)
 
         with (
-            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
+            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
             patch("facticli.cli.build_claim_extraction_service", return_value=fake_service),
         ):
             output = io.StringIO()
@@ -61,11 +60,10 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         payload = json.loads(output.getvalue())
         self.assertEqual(payload["claims"][0]["claim_id"], "c1")
 
-    async def test_check_command_rejects_missing_profile_key(self):
+    async def test_check_command_rejects_missing_openai_api_key(self):
         args = argparse.Namespace(
             claim="Some claim",
-            inference_provider="gemini",
-            model="gemini-3.1-pro",
+            model="gpt-5.4",
             base_url=None,
             max_checks=4,
             parallel=2,
@@ -85,10 +83,9 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(code, 2)
 
-    async def test_extract_claims_command_rejects_missing_ollama_key(self):
+    async def test_extract_claims_command_rejects_missing_model(self):
         args = argparse.Namespace(
-            inference_provider="ollama",
-            model="kimi-k2.5",
+            model=None,
             base_url=None,
             max_claims=10,
             from_file=None,
@@ -96,7 +93,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
             json=True,
         )
 
-        with patch.dict("os.environ", {}, clear=True):
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=True):
             code = await run_extract_claims_command(args)
 
         self.assertEqual(code, 2)
@@ -136,7 +133,6 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         args = argparse.Namespace(
             claim="The first iPhone was released in 2007.",
-            inference_provider="openai",
             model="gpt-5.4",
             base_url=None,
             max_checks=4,
@@ -152,7 +148,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
 
         with (
-            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
+            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
             patch("facticli.cli.build_fact_check_service", return_value=fake_service),
         ):
             output = io.StringIO()
@@ -207,7 +203,6 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         args = argparse.Namespace(
             claim="The Eiffel Tower was built in 1889.",
-            inference_provider="openai",
             model="gpt-5.4",
             base_url=None,
             max_checks=4,
@@ -224,7 +219,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
 
         with (
-            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=False),
+            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
             patch("facticli.cli.build_fact_check_service", return_value=_FakeService()),
         ):
             stdout = io.StringIO()

@@ -6,7 +6,8 @@ from facticli.adapters import (
     CompatiblePlannerAdapter,
     CompatibleResearchAdapter,
     CompatibleReviewAdapter,
-    configure_openai_compatible_client,
+    configure_inference_client,
+    load_inference_config,
 )
 
 from .config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
@@ -19,23 +20,26 @@ def build_fact_check_service(
     config: FactCheckRuntimeConfig,
     artifact_repository: RunArtifactRepository | None = None,
 ) -> FactCheckService:
-    configure_openai_compatible_client(
-        inference_provider=config.inference_provider,
+    # Load and configure inference client
+    inference_config = load_inference_config(
+        requested_model=config.model,
         base_url=config.base_url,
     )
+    configure_inference_client(inference_config)
 
-    planner = CompatiblePlannerAdapter(model=config.model, max_turns=config.max_turns)
+    model = inference_config.model
+    planner = CompatiblePlannerAdapter(model=model, max_turns=config.max_turns)
     researcher = CompatibleResearchAdapter(
-        model=config.model,
+        model=model,
         max_turns=config.max_turns,
         search_context_size=config.search_context_size,
         search_provider=config.search_provider,
     )
     judge = CompatibleJudgeAdapter(
-        model=config.model,
+        model=model,
         max_turns=config.judge_max_turns,
     )
-    review = CompatibleReviewAdapter(model=config.model, max_turns=config.max_turns)
+    review = CompatibleReviewAdapter(model=model, max_turns=config.max_turns)
 
     return FactCheckService(
         plan_stage=PlanStage(
@@ -63,11 +67,17 @@ def build_fact_check_service(
 
 
 def build_claim_extraction_service(config: ClaimExtractionRuntimeConfig) -> ClaimExtractionService:
-    configure_openai_compatible_client(
-        inference_provider=config.inference_provider,
+    # Load and configure inference client
+    inference_config = load_inference_config(
+        requested_model=config.model,
         base_url=config.base_url,
     )
-    backend = CompatibleClaimExtractionAdapter(model=config.model, max_turns=config.max_turns)
+    configure_inference_client(inference_config)
+
+    backend = CompatibleClaimExtractionAdapter(
+        model=inference_config.model,
+        max_turns=config.max_turns,
+    )
 
     return ClaimExtractionService(
         extraction_stage=ClaimExtractionStage(backend=backend, max_claims=config.max_claims)

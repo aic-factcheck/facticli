@@ -11,11 +11,18 @@ from pathlib import Path
 RUN_LIVE_SMOKE = os.getenv("FACTICLI_RUN_LIVE_SMOKE") == "1"
 
 
+def _looks_like_placeholder(value: str | None) -> bool:
+    if not value:
+        return True
+    normalized = value.strip().lower()
+    return normalized.startswith("your_") or normalized.endswith("_here")
+
+
 @unittest.skipUnless(RUN_LIVE_SMOKE, "Set FACTICLI_RUN_LIVE_SMOKE=1 to run live smoke tests.")
 class LiveSmokeTests(unittest.TestCase):
     def test_openai_profile_cli_smoke_check(self) -> None:
-        if not os.getenv("OPENAI_API_KEY"):
-            self.skipTest("OPENAI_API_KEY is not set.")
+        if _looks_like_placeholder(os.getenv("OPENAI_API_KEY")):
+            self.skipTest("OPENAI_API_KEY is not set to a real key.")
 
         repo_root = Path(__file__).resolve().parents[1]
         cmd = [
@@ -23,8 +30,8 @@ class LiveSmokeTests(unittest.TestCase):
             "-m",
             "facticli",
             "check",
-            "--inference-provider",
-            "openai",
+            "--model",
+            os.getenv("OPENAI_API_MODEL", "gpt-5.4"),
             "--max-checks",
             "2",
             "--parallel",

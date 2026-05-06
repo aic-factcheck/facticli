@@ -11,6 +11,7 @@ jobs:
     if: ${{ secrets.OPENAI_API_KEY != '' }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_API_MODEL: gpt-5.4
       FACTICLI_RUN_LIVE_SMOKE: "1"
 
     steps:

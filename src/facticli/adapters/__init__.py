@@ -6,10 +6,10 @@ from .openai_provider import (
     CompatibleReviewAdapter,
 )
 from .provider_profile import (
-    ProviderProfile,
-    configure_openai_compatible_client,
-    resolve_model_name,
-    resolve_provider_profile,
+    InferenceConfig,
+    configure_inference_client,
+    infer_api_mode,
+    load_inference_config,
 )
 
 __all__ = [
@@ -18,8 +18,8 @@ __all__ = [
     "CompatiblePlannerAdapter",
     "CompatibleResearchAdapter",
     "CompatibleReviewAdapter",
-    "ProviderProfile",
-    "configure_openai_compatible_client",
-    "resolve_model_name",
-    "resolve_provider_profile",
+    "InferenceConfig",
+    "configure_inference_client",
+    "infer_api_mode",
+    "load_inference_config",
 ]

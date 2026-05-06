@@ -8,7 +8,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from facticli.adapters import resolve_model_name, resolve_provider_profile
 from facticli.application.config import FactCheckRuntimeConfig
 from facticli.application.factory import build_fact_check_service
 from facticli.cli_validators import non_negative_int, positive_int, search_results_int
@@ -18,9 +17,7 @@ from facticli.core.contracts import FactCheckReport, VeracityVerdict
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m facticli.averitec_submission",
-        description=(
-            "Run facticli on Averitec-formatted claims and write an Averitec submission JSON file."
-        ),
+        description=("Run facticli on Averitec-formatted claims and write an Averitec submission JSON file."),
     )
     parser.add_argument("--input", required=True, help="Path to Averitec input JSON file.")
     parser.add_argument("--output", required=True, help="Path to write submission JSON file.")
@@ -72,23 +69,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="Stop on first failed claim instead of writing a fallback prediction.",
     )
     parser.add_argument(
-        "--inference-provider",
-        choices=["openai", "gemini", "ollama", "openai-agents"],
-        default=os.getenv("FACTICLI_INFERENCE_PROVIDER", "openai"),
-        help="Inference provider profile (default: FACTICLI_INFERENCE_PROVIDER or openai).",
-    )
-    parser.add_argument(
         "--model",
         default=None,
-        help=(
-            "Model name override. Defaults to FACTICLI_MODEL (openai), "
-            "FACTICLI_GEMINI_MODEL (gemini), or OLLAMA_MODEL (ollama)."
-        ),
+        help="Model name override. Falls back to OPENAI_API_MODEL.",
     )
     parser.add_argument(
         "--base-url",
-        default=os.getenv("FACTICLI_BASE_URL"),
-        help="Optional OpenAI-compatible base URL override.",
+        default=None,
+        help="OpenAI-compatible base URL override. Falls back to OPENAI_API_BASE_URL.",
     )
     parser.add_argument(
         "--max-checks",
@@ -125,15 +113,18 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def _validate_env(args: argparse.Namespace) -> None:
-    profile = resolve_provider_profile(args.inference_provider)
-    if not os.getenv(profile.api_key_env):
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not (api_key and api_key.strip()):
+        raise RuntimeError("OPENAI_API_KEY is not set. Export it or add it to .env.")
+    env_model = os.getenv("OPENAI_API_MODEL")
+    if not (args.model and args.model.strip()) and not (
+        env_model and env_model.strip()
+    ):
         raise RuntimeError(
-            f"{profile.api_key_env} is not set. Export it or change --inference-provider."
+            "OPENAI_API_MODEL is not set. Export it, add it to .env, or pass --model."
         )
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
-        raise RuntimeError(
-            "BRAVE_SEARCH_API_KEY is not set. Export it or use --search-provider openai."
-        )
+        raise RuntimeError("BRAVE_SEARCH_API_KEY is not set. Export it or use --search-provider openai.")
 
 
 def _load_input_records(path: Path) -> list[dict[str, Any]]:
@@ -237,9 +228,7 @@ def build_submission_evidence(
 
     if len(evidence) < max_evidence:
         general_question = (
-            ""
-            if empty_question
-            else "What evidence supports the final verdict for this claim?"
+            "" if empty_question else "What evidence supports the final verdict for this claim?"
         )
         general_answer = report.justification.strip()
         for source in report.sources:
@@ -303,8 +292,7 @@ async def _run_batch(
     args: argparse.Namespace,
 ) -> list[dict[str, Any]]:
     config = FactCheckRuntimeConfig(
-        inference_provider=args.inference_provider,
-        model=resolve_model_name(args.inference_provider, args.model),
+        model=args.model,
         base_url=args.base_url,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
@@ -352,8 +340,7 @@ async def _run_batch(
         return local_index, row
 
     tasks = [
-        asyncio.create_task(process_one(local_index, record))
-        for local_index, record in enumerate(records)
+        asyncio.create_task(process_one(local_index, record)) for local_index, record in enumerate(records)
     ]
 
     completed = 0

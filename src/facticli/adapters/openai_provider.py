@@ -26,7 +26,6 @@ class CompatiblePlannerAdapter(Planner):
             output_type=InvestigationPlan,
             model=model,
             model_settings=ModelSettings(
-                temperature=0.15,
                 parallel_tool_calls=False,
             ),
         )
@@ -66,7 +65,6 @@ class CompatibleResearchAdapter(Researcher):
             output_type=AspectFinding,
             model=model,
             model_settings=ModelSettings(
-                temperature=0.2,
                 parallel_tool_calls=True,
             ),
         )
@@ -104,7 +102,6 @@ class CompatibleJudgeAdapter(Judge):
             output_type=FactCheckReport,
             model=model,
             model_settings=ModelSettings(
-                temperature=0.1,
                 parallel_tool_calls=False,
             ),
         )
@@ -139,7 +136,6 @@ class CompatibleReviewAdapter(Reviewer):
             output_type=ReviewDecision,
             model=model,
             model_settings=ModelSettings(
-                temperature=0.1,
                 parallel_tool_calls=False,
             ),
         )
@@ -174,7 +170,6 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
             output_type=ClaimExtractionResult,
             model=model,
             model_settings=ModelSettings(
-                temperature=0.1,
                 parallel_tool_calls=False,
             ),
         )

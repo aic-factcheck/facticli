@@ -3,104 +3,90 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from typing import Literal
+from urllib.parse import urlparse
 
 from agents import set_default_openai_api, set_default_openai_client, set_tracing_disabled
 from openai import AsyncOpenAI
 
-ProviderName = Literal["openai", "gemini", "ollama"]
+ApiMode = Literal["chat_completions", "responses"]
 
 
 @dataclass(frozen=True)
-class ProviderProfile:
-    """Provider defaults used to bootstrap OpenAI-compatible inference clients."""
+class InferenceConfig:
+    """OpenAI-compatible inference configuration.
 
-    name: ProviderName
-    api_key_env: str
-    model_env: str
-    base_url_env: str | None
-    default_model: str
-    default_base_url: str | None
-    default_api_mode: Literal["chat_completions", "responses"]
+    All inference backends are configured as OpenAI-compatible endpoints.
+    Configuration is reduced to four knobs:
 
+    - api_key: Authentication token
+    - model: Model identifier
+    - base_url: Optional endpoint override (None = OpenAI SDK default)
+    - api_mode: Either "chat_completions" or "responses"
+    """
 
-_PROFILE_BY_NAME: dict[str, ProviderProfile] = {
-    "openai": ProviderProfile(
-        name="openai",
-        api_key_env="OPENAI_API_KEY",
-        model_env="FACTICLI_MODEL",
-        base_url_env="FACTICLI_BASE_URL",
-        default_model="gpt-5.4",
-        default_base_url=None,
-        default_api_mode="responses",
-    ),
-    "openai-agents": ProviderProfile(
-        name="openai",
-        api_key_env="OPENAI_API_KEY",
-        model_env="FACTICLI_MODEL",
-        base_url_env="FACTICLI_BASE_URL",
-        default_model="gpt-5.4",
-        default_base_url=None,
-        default_api_mode="responses",
-    ),
-    "gemini": ProviderProfile(
-        name="gemini",
-        api_key_env="GEMINI_API_KEY",
-        model_env="FACTICLI_GEMINI_MODEL",
-        base_url_env="FACTICLI_BASE_URL",
-        default_model="gemini-3.1-pro",
-        default_base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-        default_api_mode="chat_completions",
-    ),
-    "ollama": ProviderProfile(
-        name="ollama",
-        api_key_env="OLLAMA_API_KEY",
-        model_env="OLLAMA_MODEL",
-        base_url_env="OLLAMA_BASE_URL",
-        default_model="qwen3:latest",
-        default_base_url=None,
-        default_api_mode="chat_completions",
-    ),
-}
+    api_key: str
+    model: str
+    base_url: str | None
+    api_mode: ApiMode
 
 
-def resolve_provider_profile(inference_provider: str) -> ProviderProfile:
-    """Map CLI provider alias to a concrete provider profile."""
-    profile = _PROFILE_BY_NAME.get(inference_provider)
-    if profile is None:
-        raise ValueError(f"Unsupported inference provider: {inference_provider}")
-    return profile
+def _normalize_optional(value: str | None) -> str | None:
+    if value is None:
+        return None
+    normalized = value.strip()
+    return normalized or None
 
 
-def resolve_model_name(inference_provider: str, requested_model: str | None) -> str:
-    """Pick a model from explicit flag, then provider-specific environment defaults."""
-    if requested_model and requested_model.strip():
-        return requested_model.strip()
+def infer_api_mode(base_url: str | None) -> ApiMode:
+    """Choose the Agents SDK API mode for an OpenAI-compatible endpoint."""
+    if not base_url:
+        return "responses"
 
-    profile = resolve_provider_profile(inference_provider)
-    return os.getenv(profile.model_env, profile.default_model)
+    parsed = urlparse(base_url)
+    host = parsed.netloc.lower()
+    if host == "api.openai.com" or host.endswith(".api.openai.com"):
+        return "responses"
+    return "chat_completions"
 
 
-def configure_openai_compatible_client(
+def load_inference_config(
     *,
-    inference_provider: str,
-    base_url: str | None = None,
-) -> None:
-    """Configure the Agents SDK to use the selected OpenAI-compatible backend."""
-    profile = resolve_provider_profile(inference_provider)
-    api_key = os.getenv(profile.api_key_env)
-    if not api_key:
-        raise RuntimeError(f"{profile.api_key_env} is not set.")
+    requested_model: str | None,
+    base_url: str | None,
+) -> InferenceConfig:
+    """Load inference configuration from CLI args and environment.
 
-    env_base_url = os.getenv(profile.base_url_env) if profile.base_url_env else None
-    resolved_base_url = (
-        base_url.strip()
-        if base_url and base_url.strip()
-        else env_base_url.strip()
-        if env_base_url and env_base_url.strip()
-        else profile.default_base_url
+    Resolution order:
+    - API key: OPENAI_API_KEY
+    - model: CLI --model > OPENAI_API_MODEL
+    - base URL: CLI --base-url > OPENAI_API_BASE_URL > OpenAI SDK default
+    """
+    api_key = _normalize_optional(os.getenv("OPENAI_API_KEY"))
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not set.")
+
+    model = _normalize_optional(requested_model) or _normalize_optional(
+        os.getenv("OPENAI_API_MODEL")
     )
-    client = AsyncOpenAI(api_key=api_key, base_url=resolved_base_url)
+    if not model:
+        raise RuntimeError("OPENAI_API_MODEL is not set. Export it or pass --model.")
+
+    resolved_base_url = _normalize_optional(base_url) or _normalize_optional(
+        os.getenv("OPENAI_API_BASE_URL")
+    )
+
+    return InferenceConfig(
+        api_key=api_key,
+        model=model,
+        base_url=resolved_base_url,
+        api_mode=infer_api_mode(resolved_base_url),
+    )
+
+
+def configure_inference_client(config: InferenceConfig) -> None:
+    """Configure the Agents SDK with the given inference configuration."""
+    client = AsyncOpenAI(api_key=config.api_key, base_url=config.base_url)
 
     set_default_openai_client(client, use_for_tracing=False)
-    set_default_openai_api(profile.default_api_mode)
+    set_default_openai_api(config.api_mode)
     set_tracing_disabled(True)

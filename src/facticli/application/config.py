@@ -6,8 +6,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class InferenceConfig:
     """Shared inference knobs used by runtime service factories."""
-    inference_provider: str = "openai"
-    model: str = "gpt-5.4"
+    model: str | None = None
     base_url: str | None = None
     max_turns: int = 10
 

@@ -1,7 +1,7 @@
 # facticli
 [![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
-`facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference profiles (`openai`, `gemini`, `ollama`).
+`facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference APIs.
 
 It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
 - open web search,
@@ -9,7 +9,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 - final veracity verdict + justification,
 - explicit source output.
 
-The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with explicit pipeline stages and pluggable provider adapters.
+The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `judge`) with explicit pipeline stages and one OpenAI-compatible inference adapter path.
 
 ## 📦 Install
 
@@ -21,24 +21,31 @@ pip install -e .
 
 ## ⚙️ Configure
 
-Set your API key:
+Set the OpenAI-compatible endpoint, key, and model:
 
 ```bash
+export OPENAI_API_BASE_URL=https://api.openai.com/v1
 export OPENAI_API_KEY=...
+export OPENAI_API_MODEL=gpt-5.4
 ```
 
-Optional defaults:
+Common base URLs:
 
 ```bash
-export FACTICLI_MODEL=gpt-5.4
-export GEMINI_API_KEY=...
-export FACTICLI_GEMINI_MODEL=gemini-3.1-pro
-export OLLAMA_API_KEY=a
-export OLLAMA_BASE_URL=https://llm.ai.e-infra.cz/v1
-export OLLAMA_MODEL=kimi-k2.5
-export FACTICLI_INFERENCE_PROVIDER=openai
+# OpenAI
+export OPENAI_API_BASE_URL=https://api.openai.com/v1
+# Anthropic OpenAI SDK compatibility
+# export OPENAI_API_BASE_URL=https://api.anthropic.com/v1/
+# Gemini OpenAI compatibility
+# export OPENAI_API_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+# Ollama at e-INFRA CZ
+# export OPENAI_API_BASE_URL=https://llm.ai.e-infra.cz/v1
+```
+
+Optional retrieval defaults:
+
+```bash
 export FACTICLI_SEARCH_PROVIDER=openai
-export FACTICLI_BASE_URL=...
 # only needed when FACTICLI_SEARCH_PROVIDER=brave
 export BRAVE_SEARCH_API_KEY=...
 ```
@@ -57,12 +64,14 @@ Run with Brave Search API retrieval:
 facticli check --search-provider brave "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
-Run with Gemini inference provider:
+Run with another OpenAI-compatible inference endpoint:
 
 ```bash
+export OPENAI_API_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+export OPENAI_API_KEY=...
+export OPENAI_API_MODEL=gemini-3.1-pro-preview
+
 facticli check \
-  --inference-provider gemini \
-  --model gemini-3.1-pro \
   --search-provider brave \
   "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
@@ -70,16 +79,18 @@ facticli check \
 Run with an Ollama-style OpenAI-compatible endpoint:
 
 ```bash
+export OPENAI_API_BASE_URL=https://llm.ai.e-infra.cz/v1
+export OPENAI_API_KEY=...
+export OPENAI_API_MODEL=kimi-k2.5
+
 facticli extract-claims \
-  --inference-provider ollama \
   "In last year’s debate, the minister said inflation fell below 3% while wages rose 10%."
 ```
 
-For full fact-check runs with non-OpenAI inference backends, prefer Brave search:
+For full fact-check runs with third-party inference endpoints, prefer Brave search:
 
 ```bash
 facticli check \
-  --inference-provider ollama \
   --search-provider brave \
   "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
@@ -121,7 +132,6 @@ Generate an Averitec submission file from Averitec-formatted input claims:
 python3 scripts/run_averitec_submission.py \
   --input data/averitec/dev.json \
   --output data/averitec/submission_generated.json \
-  --inference-provider openai \
   --search-provider openai
 ```
 
@@ -147,7 +157,6 @@ facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 ```text
 facticli check [--model MODEL] [--max-checks N] [--parallel N]
                [--feedback-rounds N] [--follow-up-checks N]
-               [--inference-provider {openai,gemini,ollama,openai-agents}]
                [--base-url BASE_URL]
                [--search-provider {openai,brave}]
                [--search-results N]
@@ -157,7 +166,6 @@ facticli check [--model MODEL] [--max-checks N] [--parallel N]
                "<claim>"
 
 facticli extract-claims [--from-file PATH]
-                        [--inference-provider {openai,gemini,ollama,openai-agents}]
                         [--model MODEL] [--base-url BASE_URL]
                         [--max-claims N] [--json]
                         [text]
@@ -175,7 +183,7 @@ Validation notes:
 Layered runtime:
 - `core`: typed contracts, normalization helpers, and run artifacts.
 - `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `ReviewStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
-- `adapters`: a shared OpenAI-compatible strategy implementation plus provider profile bootstrap.
+- `adapters`: a shared OpenAI-compatible strategy implementation plus client bootstrap.
 
 Pipeline behavior:
 - `plan` skill decomposes claims into independent checks.
@@ -185,19 +193,19 @@ Pipeline behavior:
 - claim extraction runs through a dedicated extraction stage/backend.
 
 Inference backend:
-- one OpenAI Agents SDK path (`Runner`, tools, structured output) for all profiles.
-- provider profile only swaps API key/base URL/API mode.
+- one OpenAI Agents SDK path (`Runner`, tools, structured output) for all OpenAI-compatible APIs.
+- endpoint configuration comes from `OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_API_MODEL`.
 
 ### Fact-check pipeline flow
 
 ```mermaid
 flowchart TD
-  A["CLI: facticli check <claim>"] --> B["run_check_command<br/>validate provider/search keys<br/>build OrchestratorConfig"]
+  A["CLI: facticli check <claim>"] --> B["run_check_command<br/>validate inference/search env<br/>build OrchestratorConfig"]
   B --> C["FactCheckOrchestrator(config)"]
 
   subgraph S["Service construction"]
     C --> D["build_fact_check_service"]
-    D --> E["configure_openai_compatible_client"]
+    D --> E["load_inference_config<br/>configure_inference_client"]
     E --> F["Create planner / researcher / review / judge adapters"]
     F --> G["Create PlanStage / ResearchStage / ReviewStage / JudgeStage"]
     G --> H["FactCheckService"]
@@ -275,7 +283,7 @@ src/facticli/
     factory.py       # provider wiring composition root
   adapters/
     openai_provider.py # shared OpenAI-compatible stage adapters
-    provider_profile.py# provider profile resolution + client bootstrap
+    provider_profile.py# OpenAI-compatible env resolution + client bootstrap
   cli.py             # command-line interface
   orchestrator.py    # compatibility facade over application service
   claim_extraction.py# compatibility facade over extraction service
@@ -338,7 +346,8 @@ This repo includes two GitHub Actions workflows:
 To enable live smoke in GitHub:
 1. Go to repository `Settings` -> `Secrets and variables` -> `Actions`.
 2. Add secret `OPENAI_API_KEY`.
-3. Optionally edit `.github/workflows/live-smoke.yml` to remove or change the schedule.
+3. Set `OPENAI_API_MODEL` if you want a model other than the workflow default.
+4. Optionally edit `.github/workflows/live-smoke.yml` to remove or change the schedule.
 
 ## 🤝 Contributor guide
 
