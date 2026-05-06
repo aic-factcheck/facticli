@@ -38,8 +38,9 @@ Not yet implemented (expected future work):
 - Language: Python 3.11+
 - Packaging: `pyproject.toml` (Hatchling backend)
 - Runtime dependencies:
-- `openai-agents` (Agents SDK)
-- `pydantic` (typed schemas/contracts)
+  - `openai-agents` (Agents SDK)
+  - `pydantic` (typed schemas/contracts)
+  - `httpx` (Brave Search HTTP client)
 - Model/tool runtime:
   - OpenAI-compatible models via Agents SDK
   - hosted `WebSearchTool` for open web retrieval
@@ -54,12 +55,12 @@ Not yet implemented (expected future work):
 - `src/facticli/__main__.py`: `python -m facticli` runner
 - `src/facticli/core/*`: domain contracts, normalization, run artifacts
 - `src/facticli/application/*`: strategy interfaces, explicit stages, services, inference wiring
-- `src/facticli/adapters/*`: shared OpenAI-compatible adapters + client bootstrap
+- `src/facticli/adapters/openai_provider.py`: shared Agents SDK stage adapters
+- `src/facticli/adapters/provider_profile.py`: OpenAI-compatible env resolution + client bootstrap
 - `src/facticli/cli.py`: CLI parser and command handlers
-- `src/facticli/orchestrator.py`: compatibility facade for fact-check service
-- `src/facticli/claim_extraction.py`: compatibility facade for extraction service
-- `src/facticli/agents.py`: OpenAI Agents SDK builder functions
-- `src/facticli/types.py`: compatibility re-export for domain contracts
+- `src/facticli/averitec_submission.py`: AVeriTeC submission generation entrypoint
+- `src/facticli/brave_search.py`: Brave Search tool implementation
+- `src/facticli/cli_validators.py`: CLI argument validators
 - `src/facticli/skills.py`: skill registry + prompt loading
 - `src/facticli/render.py`: human-readable output formatter
 - `src/facticli/prompts/*.md`: reusable prompt instructions per skill
@@ -100,7 +101,9 @@ Fact-check pipeline stages:
 Inference configuration:
 - All inference backends use the same OpenAI-compatible codepath.
 - Configure endpoint, key, and model with `OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_API_MODEL`.
+- CLI `--model` overrides `OPENAI_API_MODEL`; CLI `--base-url` overrides `OPENAI_API_BASE_URL`.
 - OpenAI-hosted endpoints use the Responses API internally; other base URLs use Chat Completions internally.
+- Model settings avoid optional parameters such as explicit `temperature` when they are not accepted uniformly across OpenAI-compatible providers.
 
 ### 5.2 Parallelism Model
 
@@ -123,7 +126,7 @@ Every final report should include:
 
 ## 6) Data Contracts
 
-Primary schemas in `src/facticli/core/contracts.py` (re-exported via `src/facticli/types.py`):
+Primary schemas live in `src/facticli/core/contracts.py`:
 - `InvestigationPlan`
 - `VerificationCheck`
 - `AspectFinding`
@@ -143,12 +146,13 @@ Prompt files are local and modular:
 - `research.md`: web-grounded evidence collection behavior
 - `review.md`: bounded follow-up decision behavior
 - `judge.md`: synthesis and verdict policy
+- `extract_claims.md`: check-worthy claim extraction behavior
 
 Prompt design principles:
 - stage-specific responsibilities,
 - strict schema compliance,
 - explicit source-grounding requirements,
-- deterministic tone (low temperature),
+- deterministic tone through strict instructions and typed output contracts,
 - minimal overlap between stage instructions.
 
 ## 8) CLI Behavior and UX
@@ -156,6 +160,7 @@ Prompt design principles:
 ### 8.1 Commands
 
 - `facticli check "<claim>"`
+- `facticli extract-claims "<text>"`
 - `facticli skills`
 
 ### 8.2 Key Flags
