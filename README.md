@@ -152,6 +152,55 @@ Extract claims from a transcript file:
 facticli extract-claims --from-file ./data/debate_excerpt.txt --json
 ```
 
+### Multilingual extraction
+
+Claim extraction is language-consistent: it detects the input language, returns
+the extracted claims (and all coverage/exclusion notes) in that **same**
+language, and preserves the original orthography (diacritics intact). It has
+been validated on Czech, Slovak, and Polish in addition to English. The
+detected language is reported as an ISO 639-1 code in `detected_language`.
+
+```bash
+facticli extract-claims "Premiér včera prohlásil, že ekonomika loni vzrostla o 2,3 procenta. Myslím, že je to skvělé."
+```
+
+```text
+Detected Language
+  cs
+
+Claims
+  - [claim_1] Ekonomika loni vzrostla o 2,3 procenta.
+    source: ekonomika loni vzrostla o 2,3 procenta
+    reason: Konkrétní ověřitelný číselný údaj.
+```
+
+## 🖥️ Web GUI (claim extraction)
+
+A small branded web app exposes the claim-extraction workflow with a CEDMO
+look-and-feel. It serves a single page plus a JSON `POST /api/extract`
+endpoint, backed by the same `ClaimExtractionService` as the CLI.
+
+Install the optional web extra and launch the server:
+
+```bash
+pip install -e ".[web]"
+
+# Reads OPENAI_API_* from the environment or a local .env file.
+python -m facticli.web
+# -> http://127.0.0.1:8000
+```
+
+Configure host/port with `FACTICLI_WEB_HOST` / `FACTICLI_WEB_PORT`. The JSON
+API can also be called directly:
+
+```bash
+curl -s http://127.0.0.1:8000/api/extract \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Premiér včera prohlásil, že ekonomika loni vzrostla o 2,3 procenta.", "max_claims": 6}'
+```
+
+Interactive API docs are available at `/docs`.
+
 ## 🧰 CLI options
 
 ```text
@@ -285,10 +334,11 @@ src/facticli/
     openai_provider.py # shared OpenAI-compatible stage adapters
     provider_profile.py# OpenAI-compatible env resolution + client bootstrap
   cli.py             # command-line interface
-  orchestrator.py    # compatibility facade over application service
-  claim_extraction.py# compatibility facade over extraction service
   skills.py          # skill registry + prompt loading
-  types.py           # compatibility re-export for contracts
+  web/               # optional FastAPI GUI for claim extraction
+    app.py           # JSON API + single-page server
+    __main__.py      # `python -m facticli.web` launcher
+    static/          # branded CEDMO frontend (HTML/CSS/JS + logo)
   prompts/
     extract_claims.md
     plan.md

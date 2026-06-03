@@ -110,6 +110,7 @@ class _FakeExtractionBackend:
     async def extract(self, input_text: str, max_claims: int) -> ClaimExtractionResult:
         return ClaimExtractionResult(
             input_text="ignored",
+            detected_language="  CS ",
             claims=[
                 CheckworthyClaim(
                     claim_id="",
@@ -248,6 +249,7 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         result = await stage.execute("  Transcript text  ")
 
         self.assertEqual(result.input_text, "Transcript text")
+        self.assertEqual(result.detected_language, "cs")
         self.assertEqual(len(result.claims), 2)
         self.assertEqual(result.claims[0].claim_id, "claim_1")
         self.assertEqual(result.claims[1].claim_id, "claim_1_2")

@@ -185,6 +185,9 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
                 "atomic_claims": True,
                 "maximize_checkworthy_coverage": True,
                 "only_directly_mentioned_facts": True,
+                "detect_and_report_language": True,
+                "write_output_in_input_language": True,
+                "preserve_original_diacritics": True,
             },
         }
         result = await Runner.run(

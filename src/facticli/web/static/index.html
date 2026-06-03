@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CEDMO · Claim Extractor</title>
+  <meta name="description" content="Extract check-worthy factual claims from text in Czech, Slovak, Polish and beyond." />
+  <link rel="icon" href="/static/cedmo_logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <main class="shell">
+    <header class="masthead">
+      <a class="brand" href="https://cedmohub.eu" target="_blank" rel="noopener">
+        <img src="/static/cedmo_logo.svg" alt="CEDMO" class="brand__logo" />
+      </a>
+      <span class="masthead__tag">Claim Extractor</span>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero__title">Find the <span class="hl">check-worthy claims</span> in any statement</h1>
+      <p class="hero__lede">
+        Paste a tweet, a speech, a headline or an article. The extractor returns
+        decontextualized, atomic, verifiable claims &mdash; in the
+        <strong>same language</strong> as your input.
+      </p>
+      <div class="lang-strip" aria-hidden="true">
+        <span>Čeština</span><span>Slovenčina</span><span>Polski</span><span>English</span><span>&hellip;</span>
+      </div>
+    </section>
+
+    <section class="composer" aria-label="Input">
+      <label class="composer__label" for="input-text">Input text</label>
+      <textarea
+        id="input-text"
+        class="composer__area"
+        rows="6"
+        placeholder="e.g. Premiér včera prohlásil, že ekonomika loni vzrostla o 2,3 procenta…"
+        spellcheck="false"></textarea>
+
+      <div class="samples">
+        <span class="samples__label">Try a sample:</span>
+        <button type="button" class="chip" data-sample="cs">🇨🇿 Czech</button>
+        <button type="button" class="chip" data-sample="sk">🇸🇰 Slovak</button>
+        <button type="button" class="chip" data-sample="pl">🇵🇱 Polish</button>
+        <button type="button" class="chip chip--ghost" id="clear-btn">Clear</button>
+      </div>
+
+      <div class="controls">
+        <div class="control">
+          <label for="max-claims">Max claims</label>
+          <input type="number" id="max-claims" min="1" max="50" value="12" />
+        </div>
+
+        <details class="advanced">
+          <summary>Advanced</summary>
+          <div class="advanced__body">
+            <div class="control">
+              <label for="model">Model override</label>
+              <input type="text" id="model" placeholder="(server default)" autocomplete="off" />
+            </div>
+            <div class="control">
+              <label for="base-url">Base URL override</label>
+              <input type="text" id="base-url" placeholder="(server default)" autocomplete="off" />
+            </div>
+          </div>
+        </details>
+
+        <button type="button" id="extract-btn" class="btn btn--primary">
+          <span class="btn__label">Extract claims</span>
+          <span class="btn__spinner" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="composer__hint">Tip: press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to extract.</p>
+    </section>
+
+    <section id="error" class="banner banner--error" hidden></section>
+
+    <section id="results" class="results" hidden>
+      <div class="results__head">
+        <div class="results__summary">
+          <span id="claim-count" class="pill pill--count"></span>
+          <span id="lang-badge" class="pill pill--lang"></span>
+        </div>
+        <button type="button" id="copy-json" class="btn btn--ghost btn--sm">Copy JSON</button>
+      </div>
+
+      <ol id="claim-list" class="claims"></ol>
+
+      <div id="empty-state" class="empty" hidden>
+        <p>No check-worthy factual claims were found in this text.</p>
+      </div>
+
+      <div id="coverage" class="aside aside--coverage" hidden>
+        <h3 class="aside__title">Coverage notes</h3>
+        <ul id="coverage-list"></ul>
+      </div>
+
+      <div id="excluded" class="aside aside--excluded" hidden>
+        <h3 class="aside__title">Excluded as non-factual</h3>
+        <ul id="excluded-list"></ul>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Powered by <strong>facticli</strong></span>
+      <span class="foot__dot">·</span>
+      <span>CEDMO &mdash; Central European Digital Media Observatory</span>
+    </footer>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

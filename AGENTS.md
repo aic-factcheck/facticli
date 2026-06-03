@@ -63,6 +63,8 @@ Not yet implemented (expected future work):
 - `src/facticli/cli_validators.py`: CLI argument validators
 - `src/facticli/skills.py`: skill registry + prompt loading
 - `src/facticli/render.py`: human-readable output formatter
+- `src/facticli/web/*`: optional FastAPI GUI for claim extraction (`python -m facticli.web`)
+- `src/facticli/web/static/*`: branded CEDMO single-page frontend (HTML/CSS/JS + logo)
 - `src/facticli/prompts/*.md`: reusable prompt instructions per skill
 
 ## 5) Core Architecture
@@ -146,7 +148,7 @@ Prompt files are local and modular:
 - `research.md`: web-grounded evidence collection behavior
 - `review.md`: bounded follow-up decision behavior
 - `judge.md`: synthesis and verdict policy
-- `extract_claims.md`: check-worthy claim extraction behavior
+- `extract_claims.md`: check-worthy claim extraction behavior (language-consistent)
 
 Prompt design principles:
 - stage-specific responsibilities,
@@ -154,6 +156,14 @@ Prompt design principles:
 - explicit source-grounding requirements,
 - deterministic tone through strict instructions and typed output contracts,
 - minimal overlap between stage instructions.
+
+Claim-extraction language policy:
+- `extract_claims.md` detects the input language and reports it as an ISO 639-1
+  code in `ClaimExtractionResult.detected_language`.
+- All generated text (claim text, reasons, coverage/exclusion notes) is written
+  in the detected language; `source_fragment` is copied verbatim.
+- Original orthography/diacritics are preserved; behaviour is held consistent
+  across languages (validated on Czech, Slovak, Polish, and English).
 
 ## 8) CLI Behavior and UX
 

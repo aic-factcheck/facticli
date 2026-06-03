@@ -347,6 +347,10 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
 
     print("Input")
     print(f"  {result.input_text}")
+    if result.detected_language:
+        print("")
+        print("Detected Language")
+        print(f"  {result.detected_language}")
     print("")
     print("Claims")
     if not result.claims:

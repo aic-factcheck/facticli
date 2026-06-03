@@ -42,6 +42,13 @@ class CheckworthyClaim(BaseModel):
 class ClaimExtractionResult(BaseModel):
     """Structured output from claim extraction with coverage metadata."""
     input_text: str = Field(description="Original input text that was processed.")
+    detected_language: str = Field(
+        default="",
+        description=(
+            "ISO 639-1 code of the input's dominant language (e.g. 'cs', 'sk', 'pl', 'en'). "
+            "All generated claim text is written in this language."
+        ),
+    )
     claims: list[CheckworthyClaim] = Field(default_factory=list)
     coverage_notes: list[str] = Field(
         default_factory=list,

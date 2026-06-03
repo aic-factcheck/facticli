@@ -19,12 +19,22 @@ dependencies = [
 ]
 keywords = ["fact-checking", "cli", "agents", "openai", "verification"]
 
+[project.optional-dependencies]
+web = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+  "python-dotenv>=1.0",
+]
+
 [project.scripts]
 facticli = "facticli.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/facticli"]
-include = ["src/facticli/prompts/*.md"]
+include = [
+  "src/facticli/prompts/*.md",
+  "src/facticli/web/static/*",
+]
 
 [tool.hatch.build.targets.sdist]
 include = [

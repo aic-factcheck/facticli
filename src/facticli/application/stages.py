@@ -370,6 +370,7 @@ class ClaimExtractionStage:
 
         extraction = await self.backend.extract(input_text=normalized_text, max_claims=self.max_claims)
         extraction.input_text = normalized_text
+        extraction.detected_language = extraction.detected_language.strip().lower()
         extraction.claims = extraction.claims[: self.max_claims]
 
         seen_ids: set[str] = set()
