@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
-from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision, VerificationCheck
+from .constraints import ResearchConstraints
+from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision, SourceEvidence, VerificationCheck
+from .usage import StageUsageEvent, UsageSummary
 
 
 class ResearchCheckArtifact(BaseModel):
@@ -11,6 +13,7 @@ class ResearchCheckArtifact(BaseModel):
     attempts: int = 0
     errors: list[str] = Field(default_factory=list)
     finding: AspectFinding | None = None
+    removed_sources: list[SourceEvidence] = Field(default_factory=list)
 
 
 class ReviewRoundArtifact(BaseModel):
@@ -26,12 +29,18 @@ class RunArtifacts(BaseModel):
     """Aggregated per-run artifacts used for inspection and replayability."""
     claim: str
     normalized_claim: str
+    claim_id: str | None = None
+    constraints: ResearchConstraints | None = None
     plan_raw: InvestigationPlan | None = None
     plan_normalized: InvestigationPlan | None = None
     research_checks: list[ResearchCheckArtifact] = Field(default_factory=list)
     review_rounds: list[ReviewRoundArtifact] = Field(default_factory=list)
     report_raw: FactCheckReport | None = None
     report_final: FactCheckReport | None = None
+    started_at: str | None = None
+    duration_seconds: float | None = None
+    usage_events: list[StageUsageEvent] = Field(default_factory=list)
+    usage_summary: UsageSummary | None = None
 
     def get_or_create_check(self, check: VerificationCheck) -> ResearchCheckArtifact:
         """Return existing check artifact by identity or create a new slot."""

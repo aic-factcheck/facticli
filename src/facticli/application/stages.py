@@ -3,7 +3,8 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass
 
-from facticli.core.artifacts import RunArtifacts
+from facticli.core.artifacts import ResearchCheckArtifact, RunArtifacts
+from facticli.core.constraints import get_constraints, is_blocked_url, violates_date_cutoff
 from facticli.core.contracts import (
     AspectFinding,
     ClaimExtractionResult,
@@ -19,6 +20,38 @@ from facticli.core.normalize import normalize_plan_checks, normalize_query_list,
 
 from .interfaces import ClaimExtractionBackend, Judge, Planner, Researcher, Reviewer
 from .progress import ProgressCallback, emit_progress
+
+
+def _apply_source_constraints(finding: AspectFinding, artifact: ResearchCheckArtifact) -> AspectFinding:
+    """Drop constraint-violating sources from a finding; keep them in the artifact.
+
+    The unfiltered finding stays in the artifact for post-hoc leakage auditing;
+    removed sources are recorded separately so audits do not have to re-derive
+    the filtering decision.
+    """
+    constraints = get_constraints()
+    if constraints is None or (not constraints.blocked_domains and not constraints.claim_date):
+        return finding
+
+    kept: list[SourceEvidence] = []
+    removed: list[SourceEvidence] = []
+    for source in finding.sources:
+        if is_blocked_url(source.url, constraints.blocked_domains):
+            removed.append(source)
+        elif violates_date_cutoff(source.published_at, constraints.claim_date):
+            removed.append(source)
+        else:
+            kept.append(source)
+
+    if not removed:
+        return finding
+
+    artifact.removed_sources.extend(removed)
+    caveat = (
+        f"{len(removed)} source(s) removed by retrieval constraints "
+        "(fact-checking domain blocklist or evidence date cutoff)."
+    )
+    return finding.model_copy(update={"sources": kept, "caveats": [*finding.caveats, caveat]})
 
 
 @dataclass(frozen=True)
@@ -115,7 +148,7 @@ class ResearchStage:
                         else:
                             finding = await task
                         artifact.finding = finding
-                        return index, check, finding
+                        return index, check, _apply_source_constraints(finding, artifact)
                     except Exception as exc:  # pragma: no cover
                         last_error = exc
                         artifact.errors.append(f"{type(exc).__name__}: {exc}")

@@ -176,7 +176,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check_parser.add_argument(
         "--search-provider",
-        choices=["openai", "brave"],
+        choices=["openai", "brave", "knowledge_store"],
         default=os.getenv("FACTICLI_SEARCH_PROVIDER", "openai"),
         help="Search backend for research stage (default: FACTICLI_SEARCH_PROVIDER or openai).",
     )

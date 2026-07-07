@@ -1,8 +1,16 @@
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 
 from facticli.core.artifacts import RunArtifacts
+from facticli.core.constraints import (
+    ResearchConstraints,
+    activate_constraints,
+    deactivate_constraints,
+    normalize_claim_date,
+)
 from facticli.core.contracts import (
     AspectFinding,
     ClaimExtractionResult,
@@ -11,6 +19,7 @@ from facticli.core.contracts import (
     ReviewAction,
     VerificationCheck,
 )
+from facticli.core.usage import activate_usage_log, deactivate_usage_log, summarize_usage
 
 from .progress import ProgressCallback, emit_progress
 from .repository import RunArtifactRepository
@@ -38,44 +47,76 @@ class FactCheckService:
     max_follow_up_checks: int = 2
     max_search_queries_per_check: int = 5
     artifact_repository: RunArtifactRepository | None = None
+    blocked_domains: tuple[str, ...] = ()
+    knowledge_store_dir: str | None = None
 
     async def check_claim(
         self,
         claim: str,
         progress_callback: ProgressCallback | None = None,
+        *,
+        claim_id: str | int | None = None,
+        claim_date: str | None = None,
     ) -> FactCheckRun:
-        """Execute a full fact-check run and emit progress events across stages."""
+        """Execute a full fact-check run and emit progress events across stages.
+
+        claim_date (any supported format) caps evidence recency for search
+        backends that honor it; claim_id selects the offline knowledge store
+        entry when the knowledge_store search provider is active.
+        """
         normalized_claim = claim.strip()
         if not normalized_claim:
             raise ValueError("Claim is empty.")
 
-        artifacts = RunArtifacts(claim=claim, normalized_claim=normalized_claim)
-        await emit_progress(progress_callback, "run_started", {"claim": normalized_claim})
-        plan = await self.plan_stage.execute(
-            claim=normalized_claim,
-            artifacts=artifacts,
-            progress_callback=progress_callback,
+        constraints = ResearchConstraints(
+            claim_id=str(claim_id) if claim_id is not None else None,
+            claim_date=normalize_claim_date(claim_date),
+            blocked_domains=list(self.blocked_domains),
+            knowledge_store_dir=self.knowledge_store_dir,
         )
-        findings = await self.research_stage.execute(
-            claim=normalized_claim,
-            plan=plan,
-            artifacts=artifacts,
-            progress_callback=progress_callback,
+        artifacts = RunArtifacts(
+            claim=claim,
+            normalized_claim=normalized_claim,
+            claim_id=constraints.claim_id,
+            constraints=constraints,
+            started_at=datetime.now(timezone.utc).isoformat(),
         )
-        plan, findings = await self._run_feedback_loop(
-            claim=normalized_claim,
-            plan=plan,
-            findings=findings,
-            artifacts=artifacts,
-            progress_callback=progress_callback,
-        )
-        report = await self.judge_stage.execute(
-            claim=normalized_claim,
-            plan=plan,
-            findings=findings,
-            artifacts=artifacts,
-            progress_callback=progress_callback,
-        )
+        usage_log, usage_token = activate_usage_log()
+        constraints_token = activate_constraints(constraints)
+        run_start = time.monotonic()
+        try:
+            await emit_progress(progress_callback, "run_started", {"claim": normalized_claim})
+            plan = await self.plan_stage.execute(
+                claim=normalized_claim,
+                artifacts=artifacts,
+                progress_callback=progress_callback,
+            )
+            findings = await self.research_stage.execute(
+                claim=normalized_claim,
+                plan=plan,
+                artifacts=artifacts,
+                progress_callback=progress_callback,
+            )
+            plan, findings = await self._run_feedback_loop(
+                claim=normalized_claim,
+                plan=plan,
+                findings=findings,
+                artifacts=artifacts,
+                progress_callback=progress_callback,
+            )
+            report = await self.judge_stage.execute(
+                claim=normalized_claim,
+                plan=plan,
+                findings=findings,
+                artifacts=artifacts,
+                progress_callback=progress_callback,
+            )
+        finally:
+            deactivate_constraints(constraints_token)
+            deactivate_usage_log(usage_token)
+            artifacts.duration_seconds = time.monotonic() - run_start
+            artifacts.usage_events = usage_log.events
+            artifacts.usage_summary = summarize_usage(usage_log.events)
 
         if self.artifact_repository is not None:
             self.artifact_repository.save(artifacts)

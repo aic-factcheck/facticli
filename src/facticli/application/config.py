@@ -25,6 +25,9 @@ class FactCheckRuntimeConfig(InferenceConfig):
     judge_max_turns: int = 12
     research_timeout_seconds: float = 120.0
     research_retry_attempts: int = 1
+    block_fact_checkers: bool = False
+    blocked_domains: tuple[str, ...] = ()
+    knowledge_store_dir: str | None = None
 
 
 @dataclass(frozen=True)

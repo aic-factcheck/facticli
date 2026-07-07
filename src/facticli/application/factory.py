@@ -10,6 +10,8 @@ from facticli.adapters import (
     load_inference_config,
 )
 
+from facticli.core.constraints import FACT_CHECK_DOMAINS
+
 from .config import ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
 from .repository import RunArtifactRepository
 from .services import ClaimExtractionService, FactCheckService
@@ -63,7 +65,24 @@ def build_fact_check_service(
         max_follow_up_checks=config.max_follow_up_checks,
         max_search_queries_per_check=config.max_search_queries_per_check,
         artifact_repository=artifact_repository,
+        blocked_domains=_resolve_blocked_domains(config),
+        knowledge_store_dir=config.knowledge_store_dir,
     )
+
+
+def _resolve_blocked_domains(config: FactCheckRuntimeConfig) -> tuple[str, ...]:
+    domains: list[str] = []
+    if config.block_fact_checkers:
+        domains.extend(FACT_CHECK_DOMAINS)
+    domains.extend(config.blocked_domains)
+    seen: set[str] = set()
+    unique: list[str] = []
+    for domain in domains:
+        normalized = domain.strip().lower()
+        if normalized and normalized not in seen:
+            seen.add(normalized)
+            unique.append(normalized)
+    return tuple(unique)
 
 
 def build_claim_extraction_service(config: ClaimExtractionRuntimeConfig) -> ClaimExtractionService:

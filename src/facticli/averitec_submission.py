@@ -10,6 +10,7 @@ from typing import Any
 
 from facticli.application.config import FactCheckRuntimeConfig
 from facticli.application.factory import build_fact_check_service
+from facticli.application.repository import FileRunArtifactRepository
 from facticli.cli_validators import non_negative_int, positive_int, search_results_int
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
 
@@ -92,9 +93,46 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--search-provider",
-        choices=["openai", "brave"],
+        choices=["openai", "brave", "knowledge_store"],
         default=os.getenv("FACTICLI_SEARCH_PROVIDER", "openai"),
         help="Search backend for research stage.",
+    )
+    parser.add_argument(
+        "--knowledge-store-dir",
+        default=None,
+        help="Directory of per-claim AVeriTeC knowledge store files ({claim_id}.json[l]); required for --search-provider knowledge_store.",
+    )
+    parser.add_argument(
+        "--claim-date-field",
+        default="claim_date",
+        help="Input field holding the claim date; used as evidence cutoff (default: claim_date). Pass '' to disable.",
+    )
+    parser.add_argument(
+        "--block-fact-checkers",
+        action="store_true",
+        help="Block known fact-checking domains from research sources (label-leakage control).",
+    )
+    parser.add_argument(
+        "--blocked-domain",
+        action="append",
+        default=None,
+        dest="blocked_domains",
+        help="Additional domain to block (repeatable).",
+    )
+    parser.add_argument(
+        "--artifacts-dir",
+        default=None,
+        help="Directory to persist full per-run artifacts JSON (plans, findings, sources, usage) for replay and audits.",
+    )
+    parser.add_argument(
+        "--run-info",
+        default=None,
+        help="Path for the per-claim usage/latency manifest (default: <output>.runinfo.json).",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Skip claims whose claim_id already exists in the output file and merge new rows into it.",
     )
     parser.add_argument(
         "--search-context-size",
@@ -125,6 +163,8 @@ def _validate_env(args: argparse.Namespace) -> None:
         )
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
         raise RuntimeError("BRAVE_SEARCH_API_KEY is not set. Export it or use --search-provider openai.")
+    if args.search_provider == "knowledge_store" and not args.knowledge_store_dir:
+        raise RuntimeError("--knowledge-store-dir is required with --search-provider knowledge_store.")
 
 
 def _load_input_records(path: Path) -> list[dict[str, Any]]:
@@ -287,10 +327,9 @@ def build_failed_submission_row(
 
 async def _run_batch(
     *,
-    records: list[dict[str, Any]],
-    offset: int,
+    indexed_records: list[tuple[int, dict[str, Any]]],
     args: argparse.Namespace,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     config = FactCheckRuntimeConfig(
         model=args.model,
         base_url=args.base_url,
@@ -299,17 +338,32 @@ async def _run_batch(
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
         search_results_per_query=args.search_results_per_query,
+        block_fact_checkers=args.block_fact_checkers,
+        blocked_domains=tuple(args.blocked_domains or ()),
+        knowledge_store_dir=args.knowledge_store_dir,
     )
-    service = build_fact_check_service(config=config)
+    artifact_repository = (
+        FileRunArtifactRepository(output_dir=args.artifacts_dir) if args.artifacts_dir else None
+    )
+    service = build_fact_check_service(config=config, artifact_repository=artifact_repository)
     semaphore = asyncio.Semaphore(max(1, args.parallel_claims))
-    ordered_rows: list[dict[str, Any] | None] = [None] * len(records)
+    ordered_rows: list[dict[str, Any] | None] = [None] * len(indexed_records)
+    ordered_run_info: list[dict[str, Any] | None] = [None] * len(indexed_records)
 
-    async def process_one(local_index: int, record: dict[str, Any]) -> tuple[int, dict[str, Any]]:
-        row_index = offset + local_index
+    async def process_one(
+        local_index: int, row_index: int, record: dict[str, Any]
+    ) -> tuple[int, dict[str, Any], dict[str, Any]]:
         claim = _extract_claim_text(record, row_index, args.claim_field)
+        claim_id = _resolve_claim_id(record, row_index, args.claim_id_field)
+        claim_date = (
+            str(record.get(args.claim_date_field) or "").strip() or None
+            if args.claim_date_field
+            else None
+        )
+        run_info: dict[str, Any] = {"claim_id": claim_id, "claim_date": claim_date}
         async with semaphore:
             try:
-                run = await service.check_claim(claim)
+                run = await service.check_claim(claim, claim_id=claim_id, claim_date=claim_date)
             except Exception as exc:
                 if args.fail_fast:
                     raise RuntimeError(
@@ -321,13 +375,27 @@ async def _run_batch(
                     file=sys.stderr,
                     flush=True,
                 )
-                return local_index, build_failed_submission_row(
-                    record=record,
-                    row_index=row_index,
-                    claim_field=args.claim_field,
-                    claim_id_field=args.claim_id_field,
+                run_info["error"] = f"{type(exc).__name__}: {exc}"
+                return (
+                    local_index,
+                    build_failed_submission_row(
+                        record=record,
+                        row_index=row_index,
+                        claim_field=args.claim_field,
+                        claim_id_field=args.claim_id_field,
+                    ),
+                    run_info,
                 )
 
+        artifacts = run.artifacts
+        run_info["duration_seconds"] = artifacts.duration_seconds
+        if artifacts.usage_summary is not None:
+            run_info["usage"] = artifacts.usage_summary.model_dump()
+        run_info["verdict"] = run.report.verdict.value
+        run_info["verdict_confidence"] = run.report.verdict_confidence
+        run_info["removed_source_count"] = sum(
+            len(check.removed_sources) for check in artifacts.research_checks
+        )
         row = build_submission_row(
             record=record,
             row_index=row_index,
@@ -337,24 +405,29 @@ async def _run_batch(
             max_evidence=args.max_evidence,
             empty_question=args.empty_question,
         )
-        return local_index, row
+        return local_index, row, run_info
 
     tasks = [
-        asyncio.create_task(process_one(local_index, record)) for local_index, record in enumerate(records)
+        asyncio.create_task(process_one(local_index, row_index, record))
+        for local_index, (row_index, record) in enumerate(indexed_records)
     ]
 
     completed = 0
     for task in asyncio.as_completed(tasks):
-        local_index, row = await task
+        local_index, row, run_info = await task
         ordered_rows[local_index] = row
+        ordered_run_info[local_index] = run_info
         completed += 1
         print(
-            f"[progress] Completed {completed}/{len(records)} claims.",
+            f"[progress] Completed {completed}/{len(indexed_records)} claims.",
             file=sys.stderr,
             flush=True,
         )
 
-    return [row for row in ordered_rows if row is not None]
+    return (
+        [row for row in ordered_rows if row is not None],
+        [info for info in ordered_run_info if info is not None],
+    )
 
 
 def _slice_records(
@@ -397,26 +470,87 @@ async def _run(args: argparse.Namespace) -> int:
         print("No claims selected for processing.", file=sys.stderr)
         return 2
 
+    indexed_records = [(offset + index, record) for index, record in enumerate(sliced_records)]
+
+    existing_rows: list[dict[str, Any]] = []
+    if args.resume and output_path.is_file():
+        existing_rows = json.loads(output_path.read_text(encoding="utf-8"))
+        existing_ids = {str(row.get("claim_id")) for row in existing_rows}
+        indexed_records = [
+            (row_index, record)
+            for row_index, record in indexed_records
+            if str(_resolve_claim_id(record, row_index, args.claim_id_field)) not in existing_ids
+        ]
+        print(
+            f"[info] Resume: {len(existing_rows)} rows already in {output_path}, "
+            f"{len(indexed_records)} claims left to process.",
+            file=sys.stderr,
+            flush=True,
+        )
+        if not indexed_records:
+            print("[info] Nothing to do.", file=sys.stderr)
+            return 0
+
     print(
-        f"[info] Processing {len(sliced_records)} claims from {input_path} "
-        f"(offset={offset}, parallel_claims={args.parallel_claims}).",
+        f"[info] Processing {len(indexed_records)} claims from {input_path} "
+        f"(offset={offset}, parallel_claims={args.parallel_claims}, "
+        f"search_provider={args.search_provider}, block_fact_checkers={args.block_fact_checkers}).",
         file=sys.stderr,
         flush=True,
     )
 
     try:
-        submission_rows = await _run_batch(records=sliced_records, offset=offset, args=args)
+        submission_rows, run_info_rows = await _run_batch(indexed_records=indexed_records, args=args)
     except Exception as exc:
         print(f"Batch run failed: {exc}", file=sys.stderr)
         return 1
 
+    all_rows = [*existing_rows, *submission_rows]
+
+    def _row_sort_key(row: dict[str, Any]) -> Any:
+        claim_id = row.get("claim_id")
+        try:
+            return (0, int(claim_id))
+        except (TypeError, ValueError):
+            return (1, str(claim_id))
+
+    all_rows.sort(key=_row_sort_key)
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(submission_rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    output_path.write_text(json.dumps(all_rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(
-        f"[info] Wrote {len(submission_rows)} submission rows to {output_path}.",
+        f"[info] Wrote {len(all_rows)} submission rows to {output_path}.",
         file=sys.stderr,
         flush=True,
     )
+
+    run_info_path = Path(args.run_info) if args.run_info else output_path.with_name(
+        output_path.stem + ".runinfo.json"
+    )
+    manifest = {
+        "input": str(input_path),
+        "output": str(output_path),
+        "settings": {
+            "model": args.model or os.getenv("OPENAI_API_MODEL"),
+            "base_url": args.base_url or os.getenv("OPENAI_API_BASE_URL"),
+            "search_provider": args.search_provider,
+            "search_context_size": args.search_context_size,
+            "max_checks": args.max_checks,
+            "parallel_research": args.parallel,
+            "parallel_claims": args.parallel_claims,
+            "block_fact_checkers": args.block_fact_checkers,
+            "blocked_domains": args.blocked_domains or [],
+            "claim_date_field": args.claim_date_field,
+            "knowledge_store_dir": args.knowledge_store_dir,
+            "artifacts_dir": args.artifacts_dir,
+        },
+        "claims": run_info_rows,
+    }
+    if args.resume and run_info_path.is_file():
+        previous = json.loads(run_info_path.read_text(encoding="utf-8"))
+        manifest["claims"] = [*previous.get("claims", []), *run_info_rows]
+    run_info_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"[info] Wrote run manifest to {run_info_path}.", file=sys.stderr, flush=True)
     return 0
 
 

@@ -24,12 +24,23 @@
 
 - [ ] Add provider-agnostic retry/backoff taxonomy (timeouts, rate limits, transient network, schema mismatch).
 - [ ] Add heuristic source-quality triggers to seed review decisions before model review.
-- [ ] Persist per-round metrics/artifacts for evaluation of follow-up loop effectiveness.
+- [x] Persist per-round metrics/artifacts for evaluation of follow-up loop effectiveness (FileRunArtifactRepository + per-stage usage/latency events).
 - [ ] Add contradiction-specific follow-up planning so mixed findings trigger resolution checks automatically.
 - [ ] Add source quality scoring and ranking (authority, recency, primary-source preference, duplication).
 - [ ] Add contradiction-focused synthesis checks for `Conflicting Evidence/Cherrypicking`.
 - [ ] Expand deterministic tests for prompt/schema drift and renderer behavior.
-- [ ] Add dataset-driven regression/evaluation CLI with artifact logging.
+- [x] Add dataset-driven regression/evaluation CLI with artifact logging (`facticli.averitec_eval`: label metrics + vendored Ev2R judge scorer; submission runner: `--artifacts-dir`, `--run-info`, `--resume`).
+
+## Benchmark instrumentation (2026-07, for the EACL paper experiments)
+
+- [x] Per-stage token usage and latency tracking wired into run artifacts.
+- [x] Leakage controls: fact-check-domain blocklist (`--block-fact-checkers`, `--blocked-domain`) and per-claim evidence date cutoff (`--claim-date-field`; Brave freshness cap + post-hoc source filter; raw findings kept in artifacts for the leakage audit).
+- [x] Closed-world mode: `knowledge_store` search provider (BM25-lite over per-claim AVeriTeC stores, `--knowledge-store-dir`).
+- [x] AVeriTeC eval CLI: accuracy/macro-F1/per-label/confusion/FP-rates + Ev2R QA-recall with configurable judge (`--ev2r`, threshold note: 0.5 local FEVER-8 parity vs 0.44 on the permanent HF leaderboard).
+- [ ] Download AVeriTeC dev knowledge stores and validate the knowledge_store provider end-to-end.
+- [ ] Leakage audit script over persisted artifacts (fact-check-domain hit rates, post-claim-date evidence rates, leaked-vs-clean accuracy split).
+- [ ] No-harness single-agent baseline mode (same model + web tool + token budget, single prompt).
+- [ ] Submit final config to the permanent HF leaderboard (https://huggingface.co/spaces/fever/AVeriTeC).
 
 ## Testing operations
 
