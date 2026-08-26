@@ -210,3 +210,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# GitHub Pages demo: generated encrypted credential (built only in CI)
+key.enc.json

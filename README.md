@@ -201,6 +201,34 @@ curl -s http://127.0.0.1:8000/api/extract \
 
 Interactive API docs are available at `/docs`.
 
+## 🌐 Hosted demo (GitHub Pages)
+
+A browser-only build of the checkworthy claim extractor deploys automatically
+to GitHub Pages from `pages/` via `.github/workflows/pages.yml` on every push
+to `main`. It reuses the same skill prompt (`src/facticli/prompts/extract_claims.md`),
+styles, and output contract as the server GUI, but calls the OpenAI-compatible
+API directly from the browser — no backend required.
+
+Access control: the deploy workflow encrypts the demo API key with a shared
+passphrase (`pages/encrypt_key.mjs`, PBKDF2-SHA256 + AES-256-GCM) and publishes
+only the ciphertext (`key.enc.json`). Visitors enter the passphrase, which
+decrypts the key locally in the browser; a wrong passphrase fails to decrypt.
+Neither the key nor the passphrase appears in the repository or the deployed
+page source.
+
+One-time setup (repository admin):
+
+1. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+2. Settings → Secrets and variables → Actions → add repository secrets:
+   - `DEMO_OPENAI_API_KEY`: a dedicated, budget-capped API key.
+   - `DEMO_PASSPHRASE`: the shared access passphrase.
+3. Push to `main` (or run the workflow manually) — the site publishes to
+   `https://<org>.github.io/<repo>/`.
+
+Note: anyone who knows the passphrase can recover the underlying key from the
+page, so use a dedicated key with a hard spending limit and rotate it by
+updating the secret and re-running the workflow.
+
 ## 🧰 CLI options
 
 ```text

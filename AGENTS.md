@@ -66,6 +66,10 @@ Not yet implemented (expected future work):
 - `src/facticli/web/*`: optional FastAPI GUI for claim extraction (`python -m facticli.web`)
 - `src/facticli/web/static/*`: branded CEDMO single-page frontend (HTML/CSS/JS + logo)
 - `src/facticli/prompts/*.md`: reusable prompt instructions per skill
+- `pages/*`: browser-only claim extractor demo deployed to GitHub Pages via
+  `.github/workflows/pages.yml`; the API key is shipped passphrase-encrypted
+  (`pages/encrypt_key.mjs`), sourced from the `DEMO_OPENAI_API_KEY` and
+  `DEMO_PASSPHRASE` repository secrets
 
 ## 5) Core Architecture
 

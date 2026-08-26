@@ -1,0 +1,51 @@
+name: Deploy claim extractor demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pages/**"
+      - "src/facticli/web/static/**"
+      - "src/facticli/prompts/extract_claims.md"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble static site
+        run: |
+          mkdir -p _site
+          cp pages/index.html pages/app.js _site/
+          cp src/facticli/web/static/styles.css src/facticli/web/static/cedmo_logo.svg _site/
+          cp src/facticli/prompts/extract_claims.md _site/extract_claims.md
+
+      - name: Embed passphrase-encrypted demo API key
+        env:
+          DEMO_OPENAI_API_KEY: ${{ secrets.DEMO_OPENAI_API_KEY }}
+          DEMO_PASSPHRASE: ${{ secrets.DEMO_PASSPHRASE }}
+        run: node pages/encrypt_key.mjs _site/key.enc.json
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
