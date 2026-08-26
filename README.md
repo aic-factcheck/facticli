@@ -1,6 +1,8 @@
 # facticli
 [![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
+Claim extractor now live at https://aic-factcheck.github.io/facticli/.
+
 `facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference APIs.
 
 It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, evidence gathering, verdict synthesis) into a modular command-line multi-agent workflow with:
