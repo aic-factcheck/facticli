@@ -9,9 +9,14 @@ const apiKey = process.env.DEMO_OPENAI_API_KEY;
 const passphrase = process.env.DEMO_PASSPHRASE;
 const outPath = process.argv[2] || "key.enc.json";
 
-if (!apiKey || !passphrase) {
+const missing = [
+  !apiKey && "DEMO_OPENAI_API_KEY",
+  !passphrase && "DEMO_PASSPHRASE",
+].filter(Boolean);
+if (missing.length) {
   console.error(
-    "DEMO_OPENAI_API_KEY and DEMO_PASSPHRASE must be set (configure them as repository secrets).",
+    `Missing env: ${missing.join(", ")}. Add them under Settings -> Secrets and variables -> ` +
+      "Actions -> Repository secrets (the Secrets tab, not Variables), then re-run the workflow.",
   );
   process.exit(1);
 }

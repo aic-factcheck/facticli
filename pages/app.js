@@ -261,7 +261,7 @@ async function unlock(password) {
 
 async function callExtraction(text, maxClaims) {
   const apiKey = await unlock(els.accessPw.value);
-  const model = els.model.value.trim() || "gpt-4.1-mini";
+  const model = els.model.value.trim() || "gpt-5.6-terra";
   const baseUrl = (els.baseUrl.value.trim() || "https://api.openai.com/v1").replace(/\/+$/, "");
 
   const prompt = await loadPrompt();
