@@ -77,3 +77,56 @@ def compute_label_metrics(
         "unknown_gold_labels": sorted(set(unknown_gold)),
         "unknown_pred_labels": sorted(set(unknown_pred)),
     }
+
+
+def compute_consistency_metrics(
+    gold_labels: list[str],
+    runs: list[list[str]],
+) -> dict[str, Any]:
+    """Agreement across k repeated runs of the same claims (pass^k, pass@k, majority vote).
+
+    ``runs`` holds one predicted-label list per repetition, aligned with
+    ``gold_labels``. pass^k is the share of claims every run got right (the
+    reliability number), pass@k the share at least one run got right, and
+    ``agreement_rate`` the share of claims where all runs agree regardless of
+    gold. Mean accuracy hides verdict flip-flopping; these do not.
+    """
+    if not runs:
+        raise ValueError("At least one run is required.")
+    total = len(gold_labels)
+    for index, run in enumerate(runs):
+        if len(run) != total:
+            raise ValueError(f"Run {index} has {len(run)} labels, expected {total}.")
+    if total == 0:
+        raise ValueError("No examples to score.")
+
+    k = len(runs)
+    all_correct = 0
+    any_correct = 0
+    all_agree = 0
+    majority_correct = 0
+    per_run_accuracy: list[float] = []
+    for run in runs:
+        per_run_accuracy.append(round(sum(1 for g, p in zip(gold_labels, run) if g == p) / total, 4))
+    for index, gold in enumerate(gold_labels):
+        predictions = [run[index] for run in runs]
+        correct = [prediction == gold for prediction in predictions]
+        all_correct += int(all(correct))
+        any_correct += int(any(correct))
+        all_agree += int(len(set(predictions)) == 1)
+        counts: dict[str, int] = {}
+        for prediction in predictions:
+            counts[prediction] = counts.get(prediction, 0) + 1
+        top = max(counts.values())
+        winners = sorted(label for label, count in counts.items() if count == top)
+        majority_correct += int(len(winners) == 1 and winners[0] == gold)
+    return {
+        "k": k,
+        "examples": total,
+        "per_run_accuracy": per_run_accuracy,
+        "mean_accuracy": round(sum(per_run_accuracy) / k, 4),
+        "pass_hat_k": round(all_correct / total, 4),
+        "pass_at_k": round(any_correct / total, 4),
+        "agreement_rate": round(all_agree / total, 4),
+        "majority_vote_accuracy": round(majority_correct / total, 4),
+    }

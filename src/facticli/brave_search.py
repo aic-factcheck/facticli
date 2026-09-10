@@ -8,6 +8,10 @@ import httpx
 from agents import FunctionTool, function_tool
 
 from facticli.core.constraints import get_constraints, is_blocked_url
+from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, truncate_search_results
+
+DEFAULT_MAX_CHARS_PER_FIELD = 1500
+DEFAULT_MAX_TOTAL_CHARS = 12000
 
 
 async def run_brave_web_search(
@@ -15,6 +19,9 @@ async def run_brave_web_search(
     count: int = 5,
     country: str = "us",
     search_lang: str = "en",
+    *,
+    max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
+    max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
 ) -> dict[str, Any]:
     api_key = os.getenv("BRAVE_SEARCH_API_KEY")
     if not api_key:
@@ -69,12 +76,21 @@ async def run_brave_web_search(
             }
         )
 
+    bounded_results, truncation_header = truncate_search_results(
+        normalized_results,
+        max_results=safe_count,
+        max_chars_per_field=max_chars_per_field,
+        max_total_chars=max_total_chars,
+    )
+
     result: dict[str, Any] = {
         "provider": "brave",
         "query": query,
-        "result_count": len(normalized_results),
-        "results": normalized_results,
+        "content_policy": UNTRUSTED_CONTENT_NOTICE,
+        "result_count": len(bounded_results),
+        "results": bounded_results,
     }
+    result.update(truncation_header)
     if claim_date:
         result["freshness_cutoff"] = claim_date
     if blocked_count:
@@ -82,7 +98,11 @@ async def run_brave_web_search(
     return result
 
 
-def build_brave_web_search_tool() -> FunctionTool:
+def build_brave_web_search_tool(
+    *,
+    max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
+    max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
+) -> FunctionTool:
     @function_tool
     async def brave_web_search(
         query: str,
@@ -107,6 +127,8 @@ def build_brave_web_search_tool() -> FunctionTool:
             count=count,
             country=country,
             search_lang=search_lang,
+            max_chars_per_field=max_chars_per_field,
+            max_total_chars=max_total_chars,
         )
         return json.dumps(result, ensure_ascii=False)
 

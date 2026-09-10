@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from facticli.eval.label_metrics import AVERITEC_LABELS, compute_label_metrics
+from facticli.eval.label_metrics import AVERITEC_LABELS, compute_consistency_metrics, compute_label_metrics
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -19,7 +19,16 @@ def build_parser() -> argparse.ArgumentParser:
             "Ev2R-recall-based new AVeriTeC score (LLM judge)."
         ),
     )
-    parser.add_argument("--submission", required=True, help="Submission JSON (facticli averitec_submission output).")
+    parser.add_argument(
+        "--submission",
+        required=True,
+        action="append",
+        help=(
+            "Submission JSON (facticli averitec_submission output). Repeat the flag with runs of the same "
+            "claims to also report consistency (pass^k, pass@k, agreement, majority vote); the first file "
+            "is scored in full."
+        ),
+    )
     parser.add_argument("--gold", required=True, help="Gold AVeriTeC JSON (e.g. data/averitec/dev.json).")
     parser.add_argument("--output", default=None, help="Optional path to write the metrics JSON.")
     parser.add_argument(
@@ -86,9 +95,10 @@ def match_submission_to_gold(
 
 
 def _run(args: argparse.Namespace) -> int:
-    submission_path = Path(args.submission)
+    submission_paths = [Path(item) for item in args.submission]
+    submission_path = submission_paths[0]
     gold_path = Path(args.gold)
-    for path in (submission_path, gold_path):
+    for path in (*submission_paths, gold_path):
         if not path.is_file():
             print(f"File does not exist: {path}", file=sys.stderr)
             return 2
@@ -112,6 +122,14 @@ def _run(args: argparse.Namespace) -> int:
         "gold": str(gold_path),
         "label_metrics": compute_label_metrics(gold_labels, pred_labels),
     }
+
+    if len(submission_paths) > 1:
+        try:
+            metrics["consistency"] = _consistency_across_runs(submission_paths, gold)
+            metrics["consistency"]["submissions"] = [str(path) for path in submission_paths]
+        except ValueError as exc:
+            print(f"Failed to compute consistency: {exc}", file=sys.stderr)
+            return 2
 
     if args.ev2r or args.ev2r_questions:
         if not (os.getenv("OPENAI_EVAL_API_KEY") or os.getenv("OPENAI_API_KEY")):
@@ -159,6 +177,26 @@ def _run(args: argparse.Namespace) -> int:
     return 0
 
 
+def _consistency_across_runs(submission_paths: list[Path], gold: list[dict[str, Any]]) -> dict[str, Any]:
+    """Align repeated submissions on shared claim_ids and score their agreement."""
+    per_run: list[dict[int, str]] = []
+    for path in submission_paths:
+        rows = _load_json(path)
+        if not isinstance(rows, list):
+            raise ValueError(f"{path} does not contain a JSON list.")
+        labels: dict[int, str] = {}
+        for position, row in enumerate(rows):
+            labels[int(row.get("claim_id", position))] = str(row.get("pred_label", ""))
+        per_run.append(labels)
+    shared_ids = sorted(set.intersection(*(set(labels) for labels in per_run)))
+    if not shared_ids:
+        raise ValueError("Submissions share no claim_ids.")
+    gold_labels = [str(gold[claim_id].get("label", "")) for claim_id in shared_ids if 0 <= claim_id < len(gold)]
+    valid_ids = [claim_id for claim_id in shared_ids if 0 <= claim_id < len(gold)]
+    runs = [[labels[claim_id] for claim_id in valid_ids] for labels in per_run]
+    return compute_consistency_metrics(gold_labels, runs)
+
+
 def _print_summary(metrics: dict[str, Any]) -> None:
     label_metrics = metrics["label_metrics"]
     print(f"examples:  {label_metrics['examples']}")
@@ -178,6 +216,13 @@ def _print_summary(metrics: dict[str, Any]) -> None:
         row = metrics["label_metrics"]["confusion"][gold_label]
         cells = " ".join(f"{row[pred]:>13}" for pred in AVERITEC_LABELS)
         print(f"  {gold_label:<38}{cells}")
+    if "consistency" in metrics:
+        block = metrics["consistency"]
+        print(
+            f"consistency over k={block['k']} runs ({block['examples']} shared claims): "
+            f"pass^k {block['pass_hat_k']}, pass@k {block['pass_at_k']}, agreement {block['agreement_rate']}, "
+            f"majority-vote accuracy {block['majority_vote_accuracy']}, per-run {block['per_run_accuracy']}"
+        )
     for key in ("ev2r_qa", "ev2r_questions"):
         if key in metrics:
             block = metrics[key]

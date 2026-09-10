@@ -3,6 +3,11 @@ from __future__ import annotations
 from enum import Enum
 
 from pydantic import BaseModel, Field, field_validator
+from pydantic.json_schema import SkipJsonSchema
+
+# Fields annotated with ``SkipJsonSchema`` are assigned by the harness after
+# the model call (tiering, URL health, failure status). They stay out of the
+# model-facing output schema so the model is never asked to guess them.
 
 
 class VeracityVerdict(str, Enum):
@@ -22,6 +27,38 @@ class EvidenceSignal(str, Enum):
 class ReviewAction(str, Enum):
     FINALIZE = "finalize"
     FOLLOW_UP = "follow_up"
+
+
+class FindingStatus(str, Enum):
+    """Whether a check produced an observation or the harness failed to run it.
+
+    A ``failed`` or ``budget_exhausted`` check is a missing observation, not
+    evidence of absence; downstream stages must not read it as ``insufficient``
+    evidence about the world.
+    """
+
+    COMPLETED = "completed"
+    FAILED = "failed"
+    BUDGET_EXHAUSTED = "budget_exhausted"
+
+
+class SourceTier(str, Enum):
+    """Deterministic authority tier assigned from the source domain."""
+
+    PRIMARY = "primary"  # official, governmental, institutional, scientific, legal
+    REFERENCE = "reference"  # encyclopedias, archives, curated datasets
+    NEWS = "news"  # established news organizations and wire services
+    FACT_CHECKER = "fact_checker"  # dedicated fact-checking organizations
+    USER_GENERATED = "user_generated"  # social media, forums, blogging platforms
+    OTHER = "other"
+
+
+class UrlStatus(str, Enum):
+    """Result of the optional post-judge citation health check."""
+
+    LIVE = "live"
+    ARCHIVED = "archived"
+    BROKEN = "broken"
 
 
 class CheckworthyClaim(BaseModel):
@@ -67,6 +104,9 @@ class SourceEvidence(BaseModel):
     snippet: str = Field(description="Short text span from the source backing the claim.")
     publisher: str | None = Field(default=None)
     published_at: str | None = Field(default=None)
+    tier: SkipJsonSchema[SourceTier | None] = None
+    url_status: SkipJsonSchema[UrlStatus | None] = None
+    archived_url: SkipJsonSchema[str | None] = None
 
     @field_validator("url")
     @classmethod
@@ -86,6 +126,13 @@ class VerificationCheck(BaseModel):
         default_factory=list,
         description="Targeted web queries to be used by the investigator.",
     )
+    acceptance_criteria: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Concrete 'done when ...' conditions that settle this check, e.g. "
+            "'the figure is confirmed by an official statistics release'. Used by the reviewer."
+        ),
+    )
 
 
 class InvestigationPlan(BaseModel):
@@ -104,6 +151,13 @@ class AspectFinding(BaseModel):
     confidence: float = Field(ge=0.0, le=1.0, description="0 to 1 confidence score for this aspect.")
     sources: list[SourceEvidence] = Field(default_factory=list)
     caveats: list[str] = Field(default_factory=list)
+    status: SkipJsonSchema[FindingStatus] = FindingStatus.COMPLETED
+    failure_reason: SkipJsonSchema[str | None] = None
+
+    @property
+    def is_observation(self) -> bool:
+        """True when the finding reflects actual research, not a harness failure."""
+        return self.status == FindingStatus.COMPLETED
 
 
 class FactCheckReport(BaseModel):
@@ -111,8 +165,24 @@ class FactCheckReport(BaseModel):
     claim: str
     verdict: VeracityVerdict
     verdict_confidence: float = Field(ge=0.0, le=1.0, description="0 to 1 confidence in final verdict.")
-    justification: str = Field(description="Tight synthesis of why the verdict is assigned.")
+    justification: str = Field(
+        description=(
+            "Tight synthesis of why the verdict is assigned. Every evidential sentence cites "
+            "source ids like [S1]; inferences are marked as such."
+        )
+    )
     key_points: list[str] = Field(default_factory=list)
+    counter_argument: str = Field(
+        default="",
+        description=(
+            "The strongest honest case for a different verdict, grounded in the same findings, "
+            "and why it was not adopted."
+        ),
+    )
+    evidence_gaps: list[str] = Field(
+        default_factory=list,
+        description="Specific evidence that would have changed or firmed up the verdict but was not found.",
+    )
     findings: list[AspectFinding] = Field(default_factory=list)
     sources: list[SourceEvidence] = Field(default_factory=list)
 
@@ -124,6 +194,13 @@ class ReviewDecision(BaseModel):
         description="Whether to finalize now or request targeted follow-up research."
     )
     rationale: str = Field(description="Why follow-up is or is not needed.")
+    gaps: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Concrete evidence gaps found when grading findings against their acceptance criteria; "
+            "each follow-up check or retry should trace back to one gap."
+        ),
+    )
     follow_up_checks: list[VerificationCheck] = Field(
         default_factory=list,
         description="Additional targeted checks to run before the final judgment.",

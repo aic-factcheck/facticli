@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from facticli.application.config import FactCheckRuntimeConfig
+from facticli.application.config import REASONING_EFFORTS, STRATEGIES, FactCheckRuntimeConfig, parse_stage_assignments
 from facticli.application.factory import build_fact_check_service
 from facticli.application.repository import FileRunArtifactRepository
 from facticli.cli_validators import non_negative_int, positive_int, search_results_int
@@ -78,6 +78,61 @@ def build_parser() -> argparse.ArgumentParser:
         "--base-url",
         default=None,
         help="OpenAI-compatible base URL override. Falls back to OPENAI_API_BASE_URL.",
+    )
+    parser.add_argument(
+        "--strategy",
+        choices=list(STRATEGIES),
+        default="pipeline",
+        help="pipeline (default) or single_agent (no-harness baseline with the same model, tool, and budget).",
+    )
+    parser.add_argument(
+        "--stage-model",
+        action="append",
+        default=None,
+        metavar="STAGE=MODEL",
+        help="Route one stage to a different model (repeatable), e.g. research=gpt-5-mini.",
+    )
+    parser.add_argument(
+        "--stage-effort",
+        action="append",
+        default=None,
+        metavar="STAGE=EFFORT",
+        help="Reasoning effort per stage (repeatable): " + ", ".join(REASONING_EFFORTS) + ".",
+    )
+    parser.add_argument(
+        "--token-budget",
+        type=positive_int,
+        default=None,
+        help="Shared token budget per claim across all stages (default: unlimited).",
+    )
+    parser.add_argument(
+        "--model-retries",
+        type=non_negative_int,
+        default=3,
+        help="Max SDK-managed retries per model call for transient errors (default: 3).",
+    )
+    parser.add_argument(
+        "--retry-budget",
+        type=non_negative_int,
+        default=12,
+        help="Max model-call retries per claim run (default: 12).",
+    )
+    parser.add_argument(
+        "--feedback-rounds",
+        type=non_negative_int,
+        default=0,
+        help="Bounded review/follow-up rounds per claim (default: 0).",
+    )
+    parser.add_argument(
+        "--follow-up-checks",
+        type=positive_int,
+        default=2,
+        help="Max new follow-up checks per feedback round (default: 2).",
+    )
+    parser.add_argument(
+        "--verify-sources",
+        action="store_true",
+        help="Run the citation URL health pass (live/archived/broken) after judging.",
     )
     parser.add_argument(
         "--max-checks",
@@ -165,6 +220,11 @@ def _validate_env(args: argparse.Namespace) -> None:
         raise RuntimeError("BRAVE_SEARCH_API_KEY is not set. Export it or use --search-provider openai.")
     if args.search_provider == "knowledge_store" and not args.knowledge_store_dir:
         raise RuntimeError("--knowledge-store-dir is required with --search-provider knowledge_store.")
+    try:
+        parse_stage_assignments(args.stage_model, option_name="--stage-model")
+        parse_stage_assignments(args.stage_effort, allowed_values=REASONING_EFFORTS, option_name="--stage-effort")
+    except ValueError as exc:
+        raise RuntimeError(str(exc)) from exc
 
 
 def _load_input_records(path: Path) -> list[dict[str, Any]]:
@@ -333,8 +393,19 @@ async def _run_batch(
     config = FactCheckRuntimeConfig(
         model=args.model,
         base_url=args.base_url,
+        stage_models=parse_stage_assignments(args.stage_model, option_name="--stage-model"),
+        stage_efforts=parse_stage_assignments(
+            args.stage_effort, allowed_values=REASONING_EFFORTS, option_name="--stage-effort"
+        ),
+        model_retry_attempts=args.model_retries,
+        retry_budget=args.retry_budget,
+        strategy=args.strategy,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
+        max_feedback_rounds=args.feedback_rounds,
+        max_follow_up_checks=args.follow_up_checks,
+        token_budget=args.token_budget,
+        verify_sources=args.verify_sources,
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
         search_results_per_query=args.search_results_per_query,
@@ -393,6 +464,14 @@ async def _run_batch(
             run_info["usage"] = artifacts.usage_summary.model_dump()
         run_info["verdict"] = run.report.verdict.value
         run_info["verdict_confidence"] = run.report.verdict_confidence
+        run_info["strategy"] = artifacts.strategy
+        if artifacts.budget is not None:
+            run_info["budget"] = artifacts.budget.model_dump()
+        run_info["failed_checks"] = sum(
+            1 for check in artifacts.research_checks if check.finding is not None and not check.finding.is_observation
+        )
+        if artifacts.citation_check:
+            run_info["citation_check"] = artifacts.citation_check
         run_info["removed_source_count"] = sum(
             len(check.removed_sources) for check in artifacts.research_checks
         )
@@ -532,6 +611,15 @@ async def _run(args: argparse.Namespace) -> int:
         "output": str(output_path),
         "settings": {
             "model": args.model or os.getenv("OPENAI_API_MODEL"),
+            "stage_models": args.stage_model or [],
+            "stage_efforts": args.stage_effort or [],
+            "strategy": args.strategy,
+            "token_budget": args.token_budget,
+            "model_retries": args.model_retries,
+            "retry_budget": args.retry_budget,
+            "feedback_rounds": args.feedback_rounds,
+            "follow_up_checks": args.follow_up_checks,
+            "verify_sources": args.verify_sources,
             "base_url": args.base_url or os.getenv("OPENAI_API_BASE_URL"),
             "search_provider": args.search_provider,
             "search_context_size": args.search_context_size,

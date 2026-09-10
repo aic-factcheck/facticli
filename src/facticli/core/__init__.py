@@ -1,32 +1,55 @@
 from .artifacts import ResearchCheckArtifact, RunArtifacts
-from .errors import ConfigError, FacticliError, ResearchError, SchemaError, TransientError
+from .errors import (
+    BudgetExhaustedError,
+    ConfigError,
+    ErrorKind,
+    FacticliError,
+    ResearchError,
+    SchemaError,
+    TransientError,
+    classify_exception,
+    is_retryable,
+)
 from .contracts import (
     AspectFinding,
     CheckworthyClaim,
     ClaimExtractionResult,
     EvidenceSignal,
     FactCheckReport,
+    FindingStatus,
     InvestigationPlan,
     SourceEvidence,
+    SourceTier,
+    UrlStatus,
     VeracityVerdict,
     VerificationCheck,
 )
+from .source_quality import assign_source_tiers, classify_source_tier
 
 __all__ = [
     "AspectFinding",
+    "BudgetExhaustedError",
     "CheckworthyClaim",
     "ClaimExtractionResult",
     "ConfigError",
+    "ErrorKind",
     "EvidenceSignal",
     "FactCheckReport",
     "FacticliError",
+    "FindingStatus",
     "InvestigationPlan",
     "ResearchCheckArtifact",
     "ResearchError",
     "RunArtifacts",
     "SchemaError",
     "SourceEvidence",
+    "SourceTier",
     "TransientError",
+    "UrlStatus",
     "VeracityVerdict",
     "VerificationCheck",
+    "assign_source_tiers",
+    "classify_exception",
+    "classify_source_tier",
+    "is_retryable",
 ]

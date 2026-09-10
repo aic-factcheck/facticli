@@ -10,8 +10,11 @@ from typing import Any
 from agents import FunctionTool, function_tool
 
 from facticli.core.constraints import get_constraints
+from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, truncate_search_results
 
 _CHUNK_TARGET_CHARS = 2000
+DEFAULT_MAX_CHARS_PER_FIELD = 2000
+DEFAULT_MAX_TOTAL_CHARS = 14000
 _TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 
 
@@ -141,7 +144,13 @@ def _load_index(store_dir: str, claim_id: str) -> _KnowledgeStoreIndex | None:
     return index
 
 
-async def run_knowledge_store_search(query: str, count: int = 5) -> dict[str, Any]:
+async def run_knowledge_store_search(
+    query: str,
+    count: int = 5,
+    *,
+    max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
+    max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
+) -> dict[str, Any]:
     constraints = get_constraints()
     if constraints is None or not constraints.knowledge_store_dir or constraints.claim_id is None:
         return {
@@ -167,15 +176,28 @@ async def run_knowledge_store_search(query: str, count: int = 5) -> dict[str, An
 
     safe_count = min(max(count, 1), 20)
     results = index.search(query, safe_count)
-    return {
+    bounded_results, truncation_header = truncate_search_results(
+        results,
+        max_results=safe_count,
+        max_chars_per_field=max_chars_per_field,
+        max_total_chars=max_total_chars,
+    )
+    payload: dict[str, Any] = {
         "provider": "knowledge_store",
         "query": query,
-        "result_count": len(results),
-        "results": results,
+        "content_policy": UNTRUSTED_CONTENT_NOTICE,
+        "result_count": len(bounded_results),
+        "results": bounded_results,
     }
+    payload.update(truncation_header)
+    return payload
 
 
-def build_knowledge_store_search_tool() -> FunctionTool:
+def build_knowledge_store_search_tool(
+    *,
+    max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
+    max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
+) -> FunctionTool:
     @function_tool
     async def knowledge_store_search(query: str, count: int = 5) -> str:
         """
@@ -192,7 +214,12 @@ def build_knowledge_store_search_tool() -> FunctionTool:
         Returns:
             A JSON string with query metadata and scored document chunks.
         """
-        result = await run_knowledge_store_search(query=query, count=count)
+        result = await run_knowledge_store_search(
+            query=query,
+            count=count,
+            max_chars_per_field=max_chars_per_field,
+            max_total_chars=max_total_chars,
+        )
         return json.dumps(result, ensure_ascii=False)
 
     return knowledge_store_search

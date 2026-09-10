@@ -4,6 +4,9 @@ from .openai_provider import (
     CompatiblePlannerAdapter,
     CompatibleResearchAdapter,
     CompatibleReviewAdapter,
+    CompatibleSingleAgentAdapter,
+    build_model_settings,
+    build_search_tools,
 )
 from .provider_profile import (
     InferenceConfig,
@@ -11,6 +14,7 @@ from .provider_profile import (
     infer_api_mode,
     load_inference_config,
 )
+from .retry_policy import build_retry_settings, facticli_retry_policy
 
 __all__ = [
     "CompatibleClaimExtractionAdapter",
@@ -18,8 +22,13 @@ __all__ = [
     "CompatiblePlannerAdapter",
     "CompatibleResearchAdapter",
     "CompatibleReviewAdapter",
+    "CompatibleSingleAgentAdapter",
     "InferenceConfig",
+    "build_model_settings",
+    "build_retry_settings",
+    "build_search_tools",
     "configure_inference_client",
+    "facticli_retry_policy",
     "infer_api_mode",
     "load_inference_config",
 ]

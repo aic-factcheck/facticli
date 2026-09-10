@@ -11,6 +11,7 @@ from facticli.core.contracts import (
     ClaimExtractionResult,
     EvidenceSignal,
     FactCheckReport,
+    FindingStatus,
     InvestigationPlan,
     ReviewAction,
     ReviewDecision,
@@ -84,16 +85,24 @@ class _FakeJudge:
 
 
 class _FakeReviewer:
+    def __init__(self) -> None:
+        self.kwargs: dict = {}
+
     async def review(
         self,
         claim: str,
         plan: InvestigationPlan,
         findings: list[AspectFinding],
+        *,
+        max_follow_up_checks: int = 2,
+        round_index: int = 1,
     ) -> ReviewDecision:
+        self.kwargs = {"max_follow_up_checks": max_follow_up_checks, "round_index": round_index}
         return ReviewDecision(
             claim="placeholder",
             action=ReviewAction.FOLLOW_UP,
             rationale="Need a second check.",
+            gaps=["  Only one source  ", "only one source", ""],
             follow_up_checks=[
                 VerificationCheck(
                     aspect_id="Timeline 1",
@@ -192,9 +201,15 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(findings), 2)
         bad = [finding for finding in findings if finding.aspect_id == "bad_1"][0]
         self.assertEqual(bad.signal, EvidenceSignal.INSUFFICIENT)
+        self.assertEqual(bad.status, FindingStatus.FAILED)
+        self.assertIn("simulated failure", bad.failure_reason or "")
+        self.assertFalse(bad.is_observation)
+        good = [finding for finding in findings if finding.aspect_id == "ok_1"][0]
+        self.assertEqual(good.status, FindingStatus.COMPLETED)
         bad_artifact = [entry for entry in artifacts.research_checks if entry.check.aspect_id == "bad_1"][0]
         self.assertEqual(bad_artifact.attempts, 2)
         self.assertEqual(len(bad_artifact.errors), 2)
+        self.assertEqual(bad_artifact.error_kinds, ["unknown", "unknown"])
         event_kinds = [event.kind for event in events]
         self.assertIn("research_started", event_kinds)
         self.assertIn("research_check_completed", event_kinds)
@@ -255,8 +270,9 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.claims[1].claim_id, "claim_1_2")
 
     async def test_review_stage_normalizes_follow_up_requests(self):
+        reviewer = _FakeReviewer()
         stage = ReviewStage(
-            reviewer=_FakeReviewer(),
+            reviewer=reviewer,
             max_follow_up_checks=2,
             max_search_queries_per_check=4,
         )
@@ -285,6 +301,8 @@ class StageTests(unittest.IsolatedAsyncioTestCase):
         )
 
         self.assertEqual(decision.action, ReviewAction.FOLLOW_UP)
+        self.assertEqual(decision.gaps, ["Only one source"])
+        self.assertEqual(reviewer.kwargs, {"max_follow_up_checks": 2, "round_index": 1})
         self.assertEqual(decision.retry_aspect_ids, ["timeline_1"])
         self.assertEqual(decision.follow_up_checks[0].aspect_id, "timeline_1_2")
         self.assertEqual(decision.follow_up_checks[0].question, "Need another source?")

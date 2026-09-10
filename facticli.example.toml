@@ -1,0 +1,45 @@
+# Example facticli config. Copy to ./facticli.toml (or point FACTICLI_CONFIG at it)
+# and select a profile with `facticli --profile <name> check ...` or FACTICLI_PROFILE.
+#
+# Precedence: explicit CLI flag > [profiles.<name>] > [defaults] > built-in default.
+# Keys mirror the long CLI flag names with dashes replaced by underscores; keys
+# that do not apply to the invoked subcommand are ignored.
+
+[defaults]
+search_provider = "openai"
+max_checks = 4
+parallel = 4
+feedback_rounds = 0
+model_retries = 3
+retry_budget = 12
+
+# Route stages to different models / reasoning efforts (OpenClaw utilityModel
+# pattern: cheap model for research, frontier model for the judge).
+[defaults.stage_models]
+# research = "gpt-5-mini"
+# judge = "gpt-5.4"
+
+[defaults.stage_efforts]
+# research = "low"
+# judge = "high"
+
+# Thorough interactive checks: one bounded review round and URL health check.
+[profiles.thorough]
+max_checks = 6
+feedback_rounds = 1
+follow_up_checks = 2
+verify_sources = true
+show_usage = true
+
+# Benchmark runs: leakage controls, a shared token budget, and Brave retrieval.
+[profiles.benchmark]
+search_provider = "brave"
+block_fact_checkers = true
+blocked_domains = ["example-leaky-site.org"]
+token_budget = 60000
+feedback_rounds = 1
+
+# No-harness baseline for the harness-vs-single-agent comparison.
+[profiles.baseline]
+strategy = "single_agent"
+token_budget = 60000

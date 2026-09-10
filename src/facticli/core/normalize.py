@@ -36,6 +36,24 @@ def normalize_query_list(
     return normalized
 
 
+def normalize_text_list(values: list[str], max_items: int = 8) -> list[str]:
+    """Strip, drop empties, dedupe case-insensitively, and cap a list of short texts."""
+    normalized: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        text = " ".join(value.split())
+        if not text:
+            continue
+        key = text.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        normalized.append(text)
+        if len(normalized) >= max(1, max_items):
+            break
+    return normalized
+
+
 def normalize_plan_checks(
     claim: str,
     checks: list[VerificationCheck],
@@ -69,6 +87,7 @@ def normalize_plan_checks(
                         fallback=[question, claim],
                         max_queries=max_search_queries_per_check,
                     ),
+                    "acceptance_criteria": normalize_text_list(check.acceptance_criteria),
                 }
             )
         )

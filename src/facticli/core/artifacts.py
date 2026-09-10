@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 from .constraints import ResearchConstraints
 from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision, SourceEvidence, VerificationCheck
-from .usage import StageUsageEvent, UsageSummary
+from .usage import BudgetStatus, StageUsageEvent, UsageSummary
 
 
 class ResearchCheckArtifact(BaseModel):
@@ -12,6 +12,10 @@ class ResearchCheckArtifact(BaseModel):
     check: VerificationCheck
     attempts: int = 0
     errors: list[str] = Field(default_factory=list)
+    error_kinds: list[str] = Field(
+        default_factory=list,
+        description="ErrorKind value per failed attempt, aligned with `errors`.",
+    )
     finding: AspectFinding | None = None
     removed_sources: list[SourceEvidence] = Field(default_factory=list)
 
@@ -41,6 +45,16 @@ class RunArtifacts(BaseModel):
     duration_seconds: float | None = None
     usage_events: list[StageUsageEvent] = Field(default_factory=list)
     usage_summary: UsageSummary | None = None
+    budget: BudgetStatus | None = None
+    strategy: str = "pipeline"
+    stage_models: dict[str, str] = Field(
+        default_factory=dict,
+        description="Resolved model per stage when per-stage routing was used.",
+    )
+    citation_check: dict[str, int] | None = Field(
+        default=None,
+        description="Counts per url_status from the optional citation health pass.",
+    )
 
     def get_or_create_check(self, check: VerificationCheck) -> ResearchCheckArtifact:
         """Return existing check artifact by identity or create a new slot."""
