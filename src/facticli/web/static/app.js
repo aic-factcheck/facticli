@@ -20,6 +20,7 @@ const $ = (id) => document.getElementById(id);
 const els = {
   input: $("input-text"),
   maxClaims: $("max-claims"),
+  model: $("model"),
   apiKey: $("api-key"),
   extractBtn: $("extract-btn"),
   clearBtn: $("clear-btn"),
@@ -137,6 +138,7 @@ async function extract() {
     text,
     max_claims: Math.min(50, Math.max(1, parseInt(els.maxClaims.value, 10) || 12)),
   };
+  if (els.model.value) body.model = els.model.value;
   const headers = { "Content-Type": "application/json" };
   const apiKey = els.apiKey.value.trim();
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
@@ -199,3 +201,28 @@ els.input.addEventListener("keydown", (e) => {
     extract();
   }
 });
+
+/* ---------- model list ---------- */
+
+async function loadModels() {
+  try {
+    const resp = await fetch("/api/models");
+    if (!resp.ok) throw new Error();
+    const { models = [], default: preferred } = await resp.json();
+    els.model.replaceChildren();
+    for (const name of models) {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      if (name === preferred) opt.selected = true;
+      els.model.appendChild(opt);
+    }
+    els.model.disabled = models.length === 0;
+  } catch {
+    // Keep the form usable: an empty select just means the server default.
+    els.model.replaceChildren();
+    els.model.disabled = true;
+  }
+}
+
+loadModels();

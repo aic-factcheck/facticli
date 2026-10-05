@@ -297,6 +297,7 @@ export FACTICLI_API_KEY=cedmo_2026              # required; clients send this
 export FACTICLI_CORS_ORIGINS=https://aic-factcheck.github.io
 export FACTICLI_RATE_LIMIT_REQUESTS=30          # per client, default 30
 export FACTICLI_RATE_LIMIT_WINDOW=600           # seconds, default 600
+export FACTICLI_ALLOWED_MODELS=gpt-5.6-terra,gpt-6.1-sol,gpt-6-luna
 # export FACTICLI_API_AUTH=off                  # local development only
 ```
 
@@ -309,10 +310,13 @@ curl -s http://127.0.0.1:8000/api/extract \
   -d '{"text": "Inflace loni klesla pod 3 procenta.", "max_claims": 6}'
 ```
 
-`GET /api/health` stays public as a liveness probe and reports no endpoint or
-model detail. Requests may set only `text` and `max_claims`: the model and the
-provider base URL are server-side settings, because a client that could
-redirect the request would be handing it this server's provider credential.
+`GET /api/health` (liveness) and `GET /api/models` (the selectable models) stay
+public. Requests may set `text`, `max_claims` and `model`; the model must be one
+the server allows, configured with `FACTICLI_ALLOWED_MODELS` (default
+`gpt-5.6-terra,gpt-6.1-sol,gpt-6-luna`). Anything else is rejected with HTTP 400,
+so a caller cannot spend this server's credits on an arbitrarily expensive model.
+The provider base URL stays server-side only: a client able to redirect the
+request would be handing it this server's credential.
 
 ## 🧰 CLI options
 

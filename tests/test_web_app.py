@@ -81,7 +81,7 @@ class WebAppTests(unittest.TestCase):
             response = self._client().post("/api/extract", json={"text": "Inflace klesla."})
         self.assertEqual(response.status_code, 503)
 
-    def test_client_cannot_override_model_or_base_url(self):
+    def test_client_cannot_override_base_url(self):
         """Redirecting the provider endpoint would leak the server credential."""
         captured = {}
 
@@ -104,12 +104,57 @@ class WebAppTests(unittest.TestCase):
         ):
             response = self._client().post(
                 "/api/extract",
-                json={"text": "Inflace klesla.", "model": "evil", "base_url": "https://attacker.example"},
+                json={"text": "Inflace klesla.", "base_url": "https://attacker.example"},
                 headers=self._auth(),
             )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(captured["model"], "gpt-5.4")
+        # base_url is not part of the request schema, so it is ignored outright
+        # and the server's own endpoint is used.
         self.assertEqual(captured["base_url"], "https://api.openai.com/v1")
+
+    def test_models_endpoint_is_public_and_lists_allowlist(self):
+        with patch.dict("os.environ", self._env(), clear=False):
+            response = self._client().get("/api/models")
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["default"], "gpt-5.4")
+        self.assertIn("gpt-6.1-sol", body["models"])
+        self.assertIn(body["default"], body["models"])
+
+    def test_extract_accepts_an_allowlisted_model(self):
+        captured = {}
+
+        def fake_builder(config):
+            captured["model"] = config.model
+            service = AsyncMock()
+            service.extract_claims = AsyncMock(
+                return_value=ClaimExtractionResult(input_text="x", detected_language="cs")
+            )
+            return service
+
+        with (
+            patch.dict("os.environ", self._env(), clear=False),
+            patch("facticli.web.app.build_claim_extraction_service", fake_builder),
+        ):
+            response = self._client().post(
+                "/api/extract",
+                json={"text": "Inflace klesla.", "model": "gpt-6-luna"},
+                headers=self._auth(),
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(captured["model"], "gpt-6-luna")
+
+    def test_extract_rejects_a_model_outside_the_allowlist(self):
+        """Free-text models would let any caller spend credits on anything."""
+        with patch.dict("os.environ", self._env(), clear=False):
+            response = self._client().post(
+                "/api/extract",
+                json={"text": "Inflace klesla.", "model": "o3-pro-expensive"},
+                headers=self._auth(),
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("not allowed", response.json()["detail"])
 
     def test_extract_rejects_oversized_input(self):
         with patch.dict("os.environ", self._env(), clear=False):

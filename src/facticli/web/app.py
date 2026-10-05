@@ -30,6 +30,7 @@ MAX_INPUT_CHARS = 20_000
 DEFAULT_CORS_ORIGINS = "https://aic-factcheck.github.io"
 DEFAULT_RATE_LIMIT_REQUESTS = 30
 DEFAULT_RATE_LIMIT_WINDOW = 600
+DEFAULT_ALLOWED_MODELS = "gpt-5.6-terra,gpt-6.1-sol,gpt-6-luna"
 
 
 class ExtractRequest(BaseModel):
@@ -42,14 +43,46 @@ class ExtractRequest(BaseModel):
 
     text: str = Field(description="Raw input text to extract claims from.", max_length=MAX_INPUT_CHARS)
     max_claims: int = Field(default=12, ge=1, le=50)
+    model: str | None = Field(
+        default=None,
+        max_length=100,
+        description="Optional model, which must be one of those listed by GET /api/models.",
+    )
 
 
 def _env(name: str) -> str:
     return (os.getenv(name) or "").strip()
 
 
-def _resolve_model() -> str | None:
-    return _env("OPENAI_API_MODEL") or None
+def _allowed_models() -> list[str]:
+    """Models a caller may choose between. An allowlist, not free text: an
+    arbitrary model name would let any caller spend this server's credits on
+    whatever is most expensive."""
+    raw = _env("FACTICLI_ALLOWED_MODELS") or DEFAULT_ALLOWED_MODELS
+    seen, models = set(), []
+    for name in (m.strip() for m in raw.split(",")):
+        if name and name not in seen:
+            seen.add(name)
+            models.append(name)
+    return models
+
+
+def _default_model() -> str | None:
+    configured = _env("OPENAI_API_MODEL")
+    allowed = _allowed_models()
+    if configured:
+        return configured
+    return allowed[0] if allowed else None
+
+
+def _resolve_model(requested: str | None = None) -> str | None:
+    if requested is None:
+        return _default_model()
+    allowed = _allowed_models()
+    default = _default_model()
+    if requested in allowed or (default and requested == default):
+        return requested
+    return None
 
 
 def _has_api_key() -> bool:
@@ -162,6 +195,15 @@ def create_app() -> FastAPI:
             "auth_required": _auth_enabled(),
         }
 
+    @app.get("/api/models")
+    async def models() -> dict[str, object]:
+        """Models the UI may offer. Public: these names are not sensitive."""
+        allowed = _allowed_models()
+        default = _default_model()
+        if default and default not in allowed:
+            allowed = [default, *allowed]
+        return {"default": default, "models": allowed}
+
     @app.post("/api/extract")
     async def extract(request: ExtractRequest, _: str = Depends(enforce_rate_limit)) -> JSONResponse:
         text = request.text.strip()
@@ -172,12 +214,20 @@ def create_app() -> FastAPI:
                 status_code=503,
                 detail="OPENAI_API_KEY is not configured on the server.",
             )
-        model = _resolve_model()
-        if not model:
-            raise HTTPException(
-                status_code=503,
-                detail="No model configured. Set OPENAI_API_MODEL on the server.",
-            )
+        if request.model is None:
+            model = _default_model()
+            if not model:
+                raise HTTPException(
+                    status_code=503,
+                    detail="No model configured. Set OPENAI_API_MODEL on the server.",
+                )
+        else:
+            model = _resolve_model(request.model)
+            if not model:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Model not allowed. Choose one of: {', '.join(_allowed_models())}.",
+                )
 
         config = ClaimExtractionRuntimeConfig(
             model=model,
