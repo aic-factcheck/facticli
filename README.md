@@ -310,8 +310,9 @@ curl -s http://127.0.0.1:8000/api/extract \
   -d '{"text": "Inflace loni klesla pod 3 procenta.", "max_claims": 6}'
 ```
 
-`GET /api/health` (liveness) and `GET /api/models` (the selectable models) stay
-public. Requests may set `text`, `max_claims` and `model`; the model must be one
+`GET /api` and `GET /api/extract` document the API: a browser gets a readable
+page, any other client gets the same facts as JSON. `GET /api/health`
+(liveness) and `GET /api/models` (the selectable models) stay public too. Requests may set `text`, `max_claims` and `model`; the model must be one
 the server allows, configured with `FACTICLI_ALLOWED_MODELS` (default
 `gpt-5.6-terra,gpt-6.1-sol,gpt-6-luna`). Anything else is rejected with HTTP 400,
 so a caller cannot spend this server's credits on an arbitrarily expensive model.

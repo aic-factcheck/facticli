@@ -158,6 +158,37 @@ class WebAppTests(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("not allowed", response.json()["detail"])
 
+    def test_api_index_negotiates_html_for_browsers(self):
+        with patch.dict("os.environ", self._env(), clear=False):
+            client = self._client()
+            browser = client.get("/api", headers={"Accept": "text/html,application/xhtml+xml"})
+            api = client.get("/api", headers={"Accept": "application/json"})
+            bare = client.get("/api")
+        self.assertIn("text/html", browser.headers["content-type"])
+        self.assertIn("Claim Extractor API", browser.text)
+        self.assertIn("application/json", api.headers["content-type"])
+        self.assertEqual(api.json()["ui"], "/extract")
+        # curl and SDKs send */* and must not get a web page back
+        self.assertIn("application/json", bare.headers["content-type"])
+
+    def test_get_on_extract_documents_instead_of_405(self):
+        with patch.dict("os.environ", self._env(), clear=False):
+            client = self._client()
+            browser = client.get("/api/extract", headers={"Accept": "text/html"})
+            api = client.get("/api/extract", headers={"Accept": "application/json"})
+        self.assertEqual(browser.status_code, 200)
+        self.assertIn("text/html", browser.headers["content-type"])
+        self.assertEqual(api.status_code, 200)
+        self.assertEqual(api.json()["method"], "POST")
+        self.assertIn("401", api.json()["errors"])
+
+    def test_docs_routes_need_no_password(self):
+        """Documentation spends no credits, so it must not be gated."""
+        with patch.dict("os.environ", self._env(), clear=False):
+            client = self._client()
+            for path in ("/api", "/api/extract", "/api/health", "/api/models"):
+                self.assertEqual(client.get(path).status_code, 200, path)
+
     def test_extract_rejects_oversized_input(self):
         with patch.dict("os.environ", self._env(), clear=False):
             response = self._client().post(

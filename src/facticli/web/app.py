@@ -8,7 +8,7 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from facticli.application.config import ClaimExtractionRuntimeConfig
@@ -113,6 +113,59 @@ def _rate_limit_settings() -> tuple[int, int]:
     return max(limit, 1), max(window, 1)
 
 
+def _wants_html(request: Request) -> bool:
+    """True for a browser navigation, false for an API client.
+
+    Browsers ask for text/html explicitly; curl and SDKs send */* or
+    application/json, so the same URL can document itself to a person and stay
+    machine-readable for everything else.
+    """
+    accept = request.headers.get("accept", "")
+    return "text/html" in accept and "application/json" not in accept
+
+
+def _doc_page(title: str, lead: str, sections: list[tuple[str, str]]) -> HTMLResponse:
+    """Minimal self-contained documentation page in the CEDMO palette."""
+    blocks = "".join(f"<section><h2>{h}</h2>{b}</section>" for h, b in sections)
+    return HTMLResponse(f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<link rel="icon" href="/static/cedmo_mark.svg" type="image/svg+xml" />
+<style>
+  :root {{ color-scheme: light dark; --navy:#241f39; --muted:#6a6880; --card:#fff;
+           --bg:#f4f4f8; --line:#e3e2ec; --yellow:#ffd10a; --code:#f7f7fb; }}
+  @media (prefers-color-scheme: dark) {{
+    :root {{ --navy:#f2f1f7; --muted:#a9a7bd; --card:#23222e; --bg:#17161f;
+             --line:#34323f; --code:#1d1c26; }} }}
+  * {{ box-sizing:border-box; }}
+  body {{ margin:0; background:var(--bg); color:var(--navy); line-height:1.6;
+          font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }}
+  main {{ max-width:780px; margin:0 auto; padding:48px 24px 72px; }}
+  h1 {{ font-size:1.7rem; margin:0 0 8px; letter-spacing:-0.02em; }}
+  h2 {{ font-size:1.05rem; margin:34px 0 10px; }}
+  .lead {{ color:var(--muted); margin:0 0 8px; }}
+  section {{ border-top:1px solid var(--line); }}
+  table {{ border-collapse:collapse; width:100%; font-size:0.92rem; }}
+  th,td {{ text-align:left; padding:7px 10px 7px 0; border-bottom:1px solid var(--line);
+           vertical-align:top; }}
+  th {{ color:var(--muted); font-weight:600; white-space:nowrap; }}
+  code {{ background:var(--code); padding:1px 5px; border-radius:5px; font-size:0.88em; }}
+  pre {{ background:var(--code); border:1px solid var(--line); border-radius:10px;
+         padding:14px 16px; overflow-x:auto; font-size:0.84rem; }}
+  pre code {{ background:none; padding:0; }}
+  a {{ color:inherit; text-decoration-color:var(--yellow); text-decoration-thickness:2px; }}
+  .foot {{ margin-top:40px; color:var(--muted); font-size:0.85rem; }}
+</style></head>
+<body><main>
+<h1>{title}</h1><p class="lead">{lead}</p>
+{blocks}
+<p class="foot">CEDMO &mdash; Central European Digital Media Observatory &middot;
+<a href="/extract">extractor</a> &middot; <a href="/docs">OpenAPI</a> &middot;
+<a href="https://github.com/aic-factcheck/facticli">source</a></p>
+</main></body></html>""")
+
+
 def create_app() -> FastAPI:
     """Build the FastAPI app serving the claim-extraction GUI and JSON API."""
     app = FastAPI(
@@ -206,6 +259,124 @@ def create_app() -> FastAPI:
         if default and default not in allowed:
             allowed = [default, *allowed]
         return {"default": default, "models": allowed}
+
+    @app.get("/api", include_in_schema=False)
+    async def api_index(request: Request):
+        """Human-readable overview for browsers, the same facts as JSON otherwise."""
+        limit, window = _rate_limit_settings()
+        info = {
+            "service": "CEDMO check-worthy claim extractor",
+            "authentication": "Authorization: Bearer <access password> (or X-API-Key)",
+            "endpoints": {
+                "GET /api/health": "liveness, public",
+                "GET /api/models": "selectable models, public",
+                "GET /api/extract": "this documentation",
+                "POST /api/extract": "extract claims (requires the access password)",
+            },
+            "models": _allowed_models(),
+            "default_model": _default_model(),
+            "limits": {
+                "max_input_chars": MAX_INPUT_CHARS,
+                "max_claims": 50,
+                "rate_limit": f"{limit} requests / {window}s per client",
+            },
+            "ui": "/extract",
+            "openapi": "/docs",
+        }
+        if not _wants_html(request):
+            return JSONResponse(info)
+        rows = "".join(
+            f"<tr><th><code>{k}</code></th><td>{v}</td></tr>" for k, v in info["endpoints"].items()
+        )
+        models = "".join(
+            f"<li><code>{m}</code>{' &mdash; default' if m == info['default_model'] else ''}</li>"
+            for m in info["models"]
+        )
+        return _doc_page(
+            "Claim Extractor API",
+            "Turns text into decontextualized, atomic, check-worthy claims, in the language of the input.",
+            [
+                ("Endpoints", f"<table>{rows}</table>"),
+                ("Authentication",
+                 "<p>Every endpoint that spends model credits needs the shared access password, "
+                 "sent as a bearer token. Ask the CEDMO team for it.</p>"
+                 "<pre><code>Authorization: Bearer &lt;access password&gt;</code></pre>"),
+                ("Models", f"<ul>{models}</ul>"),
+                ("Limits",
+                 f"<table><tr><th>Input size</th><td>{MAX_INPUT_CHARS:,} characters</td></tr>"
+                 f"<tr><th>Claims per request</th><td>1&ndash;50 (default 12)</td></tr>"
+                 f"<tr><th>Rate limit</th><td>{limit} requests per {window} seconds, per client</td></tr></table>"),
+                ("Just want to try it?",
+                 '<p>Use the <a href="/extract">web interface</a>, or see '
+                 '<a href="/api/extract">POST /api/extract</a> for the request format.</p>'),
+            ],
+        )
+
+    @app.get("/api/extract", include_in_schema=False)
+    async def extract_docs(request: Request):
+        """GET on the extraction endpoint documents it instead of returning 405."""
+        info = {
+            "method": "POST",
+            "path": "/api/extract",
+            "authentication": "Authorization: Bearer <access password>",
+            "request": {
+                "text": f"string, required, up to {MAX_INPUT_CHARS} characters",
+                "max_claims": "integer, optional, 1-50, default 12",
+                "model": f"string, optional, one of {_allowed_models()}",
+            },
+            "response": {
+                "detected_language": "ISO 639-1 code of the input language",
+                "claims": "[{claim_id, claim_text, source_fragment, checkworthy_reason}]",
+                "coverage_notes": "which factual areas were covered",
+                "excluded_nonfactual": "statements deliberately not extracted",
+            },
+            "errors": {
+                "400": "model not in the allowlist, or empty text",
+                "401": "missing or invalid access password",
+                "422": "malformed body, or text over the size limit",
+                "429": "rate limit exceeded",
+                "502": "upstream model error",
+                "503": "server not configured",
+            },
+        }
+        if not _wants_html(request):
+            return JSONResponse(info)
+        req = "".join(f"<tr><th><code>{k}</code></th><td>{v}</td></tr>" for k, v in info["request"].items())
+        res = "".join(f"<tr><th><code>{k}</code></th><td>{v}</td></tr>" for k, v in info["response"].items())
+        err = "".join(f"<tr><th><code>{k}</code></th><td>{v}</td></tr>" for k, v in info["errors"].items())
+        example = (
+            "curl -s https://facticli.dyn.cloud.e-infra.cz/api/extract \\\n"
+            "  -H 'Authorization: Bearer &lt;access password&gt;' \\\n"
+            "  -H 'Content-Type: application/json' \\\n"
+            '  -d \'{"text": "Inflace loni klesla pod 3 procenta.", "max_claims": 5}\''
+        )
+        sample = """{
+  "detected_language": "cs",
+  "claims": [
+    {
+      "claim_id": "claim_1",
+      "claim_text": "Inflace loni klesla pod 3 procenta.",
+      "source_fragment": "Inflace loni klesla pod 3 procenta",
+      "checkworthy_reason": "Konkretni overitelny udaj."
+    }
+  ],
+  "coverage_notes": ["..."],
+  "excluded_nonfactual": []
+}"""
+        return _doc_page(
+            "POST /api/extract",
+            "Extract check-worthy claims from a block of text. Send JSON, receive JSON.",
+            [
+                ("Request body", f"<table>{req}</table>"),
+                ("Example", f"<pre><code>{example}</code></pre>"),
+                ("Response", f"<table>{res}</table><pre><code>{sample}</code></pre>"),
+                ("Status codes", f"<table>{err}</table>"),
+                ("Notes",
+                 "<p>The model and the provider endpoint are server-side settings; only a model "
+                 "from the allowlist may be requested. Output is written in the language of the "
+                 'input. See <a href="/api">the API overview</a> for limits.</p>'),
+            ],
+        )
 
     @app.post("/api/extract")
     async def extract(request: ExtractRequest, _: str = Depends(enforce_rate_limit)) -> JSONResponse:
