@@ -49,6 +49,8 @@ class WebAppTests(unittest.TestCase):
         with patch.dict("os.environ", self._env(), clear=False):
             response = self._client().post("/api/extract", json={"text": "Inflace klesla."})
         self.assertEqual(response.status_code, 401)
+        # Worded for the person typing it into the form, not for the header name.
+        self.assertIn("access password", response.json()["detail"])
 
     def test_extract_rejects_wrong_api_key(self):
         with patch.dict("os.environ", self._env(), clear=False):

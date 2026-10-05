@@ -147,7 +147,10 @@ def create_app() -> FastAPI:
         if not presented or not secrets.compare_digest(presented, expected):
             raise HTTPException(
                 status_code=401,
-                detail="Missing or invalid API key. Send 'Authorization: Bearer <key>'.",
+                detail=(
+                    "Missing or invalid access password. "
+                    "Send it as 'Authorization: Bearer <password>'."
+                ),
                 headers={"WWW-Authenticate": "Bearer"},
             )
         return presented

@@ -153,7 +153,7 @@ async function extract() {
     });
     const data = await resp.json().catch(() => ({}));
     if (!resp.ok) {
-      if (resp.status === 401) throw new Error("Missing or invalid API key.");
+      if (resp.status === 401) throw new Error("Missing or invalid access password.");
       if (resp.status === 429) throw new Error("Rate limit exceeded. Please wait and try again.");
       throw new Error(data.detail || `Request failed (HTTP ${resp.status}).`);
     }
