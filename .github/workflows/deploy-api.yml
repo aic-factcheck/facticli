@@ -17,6 +17,9 @@ concurrency:
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}
+  # The Rancher kubeconfig sets no default namespace, so kubectl would
+  # otherwise operate on "default" and fail to find the deployment.
+  NAMESPACE: ullrich-ns
 
 jobs:
   build:
@@ -78,16 +81,24 @@ jobs:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         run: |
           mkdir -p "$HOME/.kube"
-          printf '%s' "$KUBE_CONFIG" | base64 -d > "$HOME/.kube/config"
+          # Accept the secret either base64-encoded or as raw YAML.
+          if printf '%s' "$KUBE_CONFIG" | base64 -d > "$HOME/.kube/config" 2>/dev/null \
+             && grep -q 'apiVersion' "$HOME/.kube/config"; then
+            echo "kubeconfig: decoded from base64"
+          else
+            printf '%s' "$KUBE_CONFIG" > "$HOME/.kube/config"
+            echo "kubeconfig: used verbatim"
+          fi
           chmod 600 "$HOME/.kube/config"
+          kubectl -n "$NAMESPACE" get deployment facticli-api -o name
 
       - name: Apply manifests and roll out
         if: steps.creds.outputs.present == 'true'
         run: |
           kubectl apply -f deploy/k8s/
-          kubectl set image deployment/facticli-api \
+          kubectl -n "$NAMESPACE" set image deployment/facticli-api \
             facticli-api="${{ needs.build.outputs.image }}:${{ github.sha }}"
-          kubectl rollout status deployment/facticli-api --timeout=300s
+          kubectl -n "$NAMESPACE" rollout status deployment/facticli-api --timeout=300s
 
       - name: Verify the public endpoint
         if: steps.creds.outputs.present == 'true'
