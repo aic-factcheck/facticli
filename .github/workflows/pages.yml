@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "pages/**"
+      - "src/facticli/web/static/cedmo_mark.svg"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,6 +31,7 @@ jobs:
         run: |
           mkdir -p _site
           cp pages/index.html _site/index.html
+          cp src/facticli/web/static/cedmo_mark.svg _site/cedmo_mark.svg
           ls -la _site
 
       - uses: actions/configure-pages@v5
