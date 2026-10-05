@@ -273,27 +273,18 @@ curl -s http://127.0.0.1:8000/api/extract \
 
 Interactive API docs are available at `/docs`.
 
-## 🌐 Hosted demo (GitHub Pages)
+## 🌐 Hosted demo
 
-A static build of the claim extractor deploys automatically to GitHub Pages from
-`pages/` via `.github/workflows/pages.yml`. The page is a **thin client**: it
-collects input and calls `POST <backend>/api/extract` on a facticli backend you
-host. No model credential is shipped to the browser and no provider API is
-called from the page.
+The extractor runs as a service at
+**<https://facticli.dyn.cloud.e-infra.cz/extract>** (the bare host redirects
+there, so additional tools can be mounted alongside it later).
 
-The backend URL is injected at deploy time from the repository variable
-`DEMO_API_BASE` (Settings → Secrets and variables → Actions → **Variables**),
-written into `_site/config.js`. Visitors enter the shared access key, which is
-forwarded to the backend as a bearer token; it can be overridden per-visit in
-the Advanced panel for testing against a local server.
-
-One-time setup:
-
-1. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-2. Settings → Secrets and variables → Actions → **Variables** → add
-   `DEMO_API_BASE`, e.g. `https://claims.example.org`.
-3. Deploy a backend (below) with `FACTICLI_API_KEY` set, and add the Pages
-   origin to `FACTICLI_CORS_ORIGINS`.
+The historical GitHub Pages address
+<https://aic-factcheck.github.io/facticli/> is kept alive for backwards
+compatibility: `pages/index.html` is a single self-contained page that
+redirects to the service and links to it. It ships no credential and runs no
+extraction. It deploys via `.github/workflows/pages.yml` (Settings → Pages →
+Source: **GitHub Actions**).
 
 ## 🔐 API gatekeeping
 

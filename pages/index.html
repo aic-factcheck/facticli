@@ -4,124 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CEDMO · Checkworthy Claim Extractor</title>
-  <meta name="description" content="Extract check-worthy factual claims from text in Czech, Slovak, Polish and beyond." />
-  <link rel="icon" href="./cedmo_logo.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./styles.css" />
+  <meta name="description" content="The CEDMO claim extractor has moved to its own service." />
+  <!-- The demo now runs on the CEDMO extraction service; this page only forwards to it. -->
+  <meta http-equiv="refresh" content="0; url=https://facticli.dyn.cloud.e-infra.cz/extract" />
+  <link rel="canonical" href="https://facticli.dyn.cloud.e-infra.cz/extract" />
   <style>
-    /* Pages-demo-only tweaks; shared styles come from styles.css */
-    #access-pw { min-width: 220px; }
-    .keyhint { font-size: 0.8rem; opacity: 0.75; margin: 4px 0 0; }
+    :root {
+      color-scheme: light dark;
+      --navy: #2b2a3d; --muted: #6a6880; --card: #ffffff;
+      --bg: #f4f4f8; --accent: #f4b100; --line: #e3e2ec;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --navy: #f2f1f7; --muted: #a9a7bd; --card: #23222e; --bg: #17161f; --line: #34323f; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; background: var(--bg); color: var(--navy);
+      display: grid; place-items: center; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 40px 32px; max-width: 540px; width: 100%; text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+    h1 { font-size: 1.5rem; margin: 0 0 12px; letter-spacing: -0.02em; }
+    p { color: var(--muted); line-height: 1.6; margin: 0 0 24px; }
+    .btn {
+      display: inline-block; background: var(--accent); color: #2b2a3d;
+      font-weight: 650; text-decoration: none; padding: 13px 26px; border-radius: 10px;
+    }
+    .btn:hover { filter: brightness(1.06); }
+    .foot { margin-top: 26px; font-size: 0.82rem; color: var(--muted); }
+    .foot a { color: inherit; }
+    code { font-size: 0.85em; word-break: break-all; }
   </style>
 </head>
 <body>
-  <div class="aurora" aria-hidden="true"></div>
-
-  <main class="shell">
-    <header class="masthead">
-      <a class="brand" href="https://cedmohub.eu" target="_blank" rel="noopener">
-        <img src="./cedmo_logo.svg" alt="CEDMO" class="brand__logo" />
-      </a>
-      <span class="masthead__tag">Checkworthy Claim Extractor</span>
-    </header>
-
-    <section class="hero">
-      <h1 class="hero__title">Find the <span class="hl">check-worthy claims</span> in any statement</h1>
-      <p class="hero__lede">
-        Paste a tweet, a speech, a headline or an article. The extractor returns
-        decontextualized, atomic, verifiable claims &mdash; in the
-        <strong>same language</strong> as your input.
-      </p>
-      <div class="lang-strip" aria-hidden="true">
-        <span>Čeština</span><span>Slovenčina</span><span>Polski</span><span>English</span><span>&hellip;</span>
-      </div>
-    </section>
-
-    <section class="composer" aria-label="Input">
-      <label class="composer__label" for="input-text">Input text</label>
-      <textarea
-        id="input-text"
-        class="composer__area"
-        rows="6"
-        placeholder="e.g. Premiér včera prohlásil, že ekonomika loni vzrostla o 2,3 procenta…"
-        spellcheck="false"></textarea>
-
-      <div class="samples">
-        <span class="samples__label">Try a sample:</span>
-        <button type="button" class="chip" data-sample="cs">🇨🇿 Czech</button>
-        <button type="button" class="chip" data-sample="sk">🇸🇰 Slovak</button>
-        <button type="button" class="chip" data-sample="pl">🇵🇱 Polish</button>
-        <button type="button" class="chip chip--ghost" id="clear-btn">Clear</button>
-      </div>
-
-      <div class="controls">
-        <div class="control">
-          <label for="access-pw">Access key</label>
-          <input type="password" id="access-pw" placeholder="shared access key" autocomplete="off" />
-          <p class="keyhint">Sent to the CEDMO extraction service as a bearer token. No model credential is stored in this page.</p>
-        </div>
-
-        <div class="control">
-          <label for="max-claims">Max claims</label>
-          <input type="number" id="max-claims" min="1" max="50" value="12" />
-        </div>
-
-        <details class="advanced">
-          <summary>Advanced</summary>
-          <div class="advanced__body">
-            <div class="control">
-              <label for="api-base">Extraction service URL</label>
-              <input type="text" id="api-base" placeholder="(deployment default)" autocomplete="off" />
-              <p class="keyhint">Override to test against a local <code>python -m facticli.web</code>.</p>
-            </div>
-          </div>
-        </details>
-
-        <button type="button" id="extract-btn" class="btn btn--primary">
-          <span class="btn__label">Extract claims</span>
-          <span class="btn__spinner" aria-hidden="true"></span>
-        </button>
-      </div>
-      <p class="composer__hint">Tip: press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to extract.</p>
-    </section>
-
-    <section id="error" class="banner banner--error" hidden></section>
-
-    <section id="results" class="results" hidden>
-      <div class="results__head">
-        <div class="results__summary">
-          <span id="claim-count" class="pill pill--count"></span>
-          <span id="lang-badge" class="pill pill--lang"></span>
-        </div>
-        <button type="button" id="copy-json" class="btn btn--ghost btn--sm">Copy JSON</button>
-      </div>
-
-      <ol id="claim-list" class="claims"></ol>
-
-      <div id="empty-state" class="empty" hidden>
-        <p>No check-worthy factual claims were found in this text.</p>
-      </div>
-
-      <div id="coverage" class="aside aside--coverage" hidden>
-        <h3 class="aside__title">Coverage notes</h3>
-        <ul id="coverage-list"></ul>
-      </div>
-
-      <div id="excluded" class="aside aside--excluded" hidden>
-        <h3 class="aside__title">Excluded as non-factual</h3>
-        <ul id="excluded-list"></ul>
-      </div>
-    </section>
-
-    <footer class="foot">
-      <span>Powered by <strong><a href="https://github.com/aic-factcheck/facticli" target="_blank" rel="noopener">facticli</a></strong></span>
-      <span class="foot__dot">·</span>
-      <span><a href="https://facticli.dyn.cloud.e-infra.cz/docs" target="_blank" rel="noopener">JSON API</a></span>
-      <span class="foot__dot">·</span>
-      <span>CEDMO &mdash; Central European Digital Media Observatory</span>
-    </footer>
+  <main class="card">
+    <h1>Checkworthy Claim Extractor</h1>
+    <p>
+      This demo now runs on the CEDMO extraction service. You are being redirected &mdash;
+      if nothing happens, use the link below.
+    </p>
+    <p><a class="btn" href="https://facticli.dyn.cloud.e-infra.cz/extract">Open the extractor</a></p>
+    <p class="foot">
+      <code>https://facticli.dyn.cloud.e-infra.cz/extract</code><br /><br />
+      Source: <a href="https://github.com/aic-factcheck/facticli">aic-factcheck/facticli</a>
+      &middot; <a href="https://facticli.dyn.cloud.e-infra.cz/docs">JSON API</a><br />
+      CEDMO &mdash; Central European Digital Media Observatory
+    </p>
   </main>
-
-  <script src="./config.js"></script>
-  <script src="./app.js"></script>
 </body>
 </html>

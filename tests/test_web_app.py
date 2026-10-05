@@ -172,10 +172,15 @@ class WebAppTests(unittest.TestCase):
         self.assertEqual(body["detected_language"], "cs")
         self.assertEqual(body["claims"][0]["claim_id"], "claim_1")
 
-    def test_index_is_served(self):
-        response = self._client().get("/")
+    def test_extractor_ui_is_served(self):
+        response = self._client().get("/extract")
         self.assertEqual(response.status_code, 200)
         self.assertIn("text/html", response.headers["content-type"])
+
+    def test_root_redirects_to_extract(self):
+        response = self._client().get("/", follow_redirects=False)
+        self.assertEqual(response.status_code, 308)
+        self.assertEqual(response.headers["location"], "/extract")
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from facticli.application.config import ClaimExtractionRuntimeConfig
@@ -136,7 +136,13 @@ def create_app() -> FastAPI:
         return api_key
 
     @app.get("/", include_in_schema=False)
-    async def index() -> FileResponse:
+    async def root() -> RedirectResponse:
+        """Kept as a permanent redirect so the bare host stays usable if other
+        tools are mounted alongside the extractor later."""
+        return RedirectResponse(url="/extract", status_code=308)
+
+    @app.get("/extract", include_in_schema=False)
+    async def extractor_ui() -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html")
 
     @app.get("/static/{filename}", include_in_schema=False)

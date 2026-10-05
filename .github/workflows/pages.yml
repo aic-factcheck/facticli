@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - "pages/**"
-      - "src/facticli/web/static/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,15 +29,8 @@ jobs:
       - name: Assemble static site
         run: |
           mkdir -p _site
-          cp pages/index.html pages/app.js _site/
-          cp src/facticli/web/static/styles.css src/facticli/web/static/cedmo_logo.svg _site/
-
-      - name: Write backend configuration
-        env:
-          DEMO_API_BASE: ${{ vars.DEMO_API_BASE }}
-        run: |
-          printf 'window.FACTICLI_CONFIG = { apiBase: "%s" };\n' "${DEMO_API_BASE}" > _site/config.js
-          cat _site/config.js
+          cp pages/index.html _site/index.html
+          ls -la _site
 
       - uses: actions/configure-pages@v5
 
