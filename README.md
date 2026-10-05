@@ -275,31 +275,53 @@ Interactive API docs are available at `/docs`.
 
 ## 🌐 Hosted demo (GitHub Pages)
 
-A browser-only build of the checkworthy claim extractor deploys automatically
-to GitHub Pages from `pages/` via `.github/workflows/pages.yml` on every push
-to `main`. It reuses the same skill prompt (`src/facticli/prompts/extract_claims.md`),
-styles, and output contract as the server GUI, but calls the OpenAI-compatible
-API directly from the browser — no backend required.
+A static build of the claim extractor deploys automatically to GitHub Pages from
+`pages/` via `.github/workflows/pages.yml`. The page is a **thin client**: it
+collects input and calls `POST <backend>/api/extract` on a facticli backend you
+host. No model credential is shipped to the browser and no provider API is
+called from the page.
 
-Access control: the deploy workflow encrypts the demo API key with a shared
-passphrase (`pages/encrypt_key.mjs`, PBKDF2-SHA256 + AES-256-GCM) and publishes
-only the ciphertext (`key.enc.json`). Visitors enter the passphrase, which
-decrypts the key locally in the browser; a wrong passphrase fails to decrypt.
-Neither the key nor the passphrase appears in the repository or the deployed
-page source.
+The backend URL is injected at deploy time from the repository variable
+`DEMO_API_BASE` (Settings → Secrets and variables → Actions → **Variables**),
+written into `_site/config.js`. Visitors enter the shared access key, which is
+forwarded to the backend as a bearer token; it can be overridden per-visit in
+the Advanced panel for testing against a local server.
 
-One-time setup (repository admin):
+One-time setup:
 
 1. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-2. Settings → Secrets and variables → Actions → add repository secrets:
-   - `DEMO_OPENAI_API_KEY`: a dedicated, budget-capped API key.
-   - `DEMO_PASSPHRASE`: the shared access passphrase.
-3. Push to `main` (or run the workflow manually) — the site publishes to
-   `https://<org>.github.io/<repo>/`.
+2. Settings → Secrets and variables → Actions → **Variables** → add
+   `DEMO_API_BASE`, e.g. `https://claims.example.org`.
+3. Deploy a backend (below) with `FACTICLI_API_KEY` set, and add the Pages
+   origin to `FACTICLI_CORS_ORIGINS`.
 
-Note: anyone who knows the passphrase can recover the underlying key from the
-page, so use a dedicated key with a hard spending limit and rotate it by
-updating the secret and re-running the workflow.
+## 🔐 API gatekeeping
+
+Every credit-spending endpoint is gated by a shared API key, **on by default**.
+If `FACTICLI_API_KEY` is unset the API fails closed (HTTP 503) rather than
+opening; an unconfigured gate is never an open gate.
+
+```bash
+export FACTICLI_API_KEY=cedmo_2026              # required; clients send this
+export FACTICLI_CORS_ORIGINS=https://aic-factcheck.github.io
+export FACTICLI_RATE_LIMIT_REQUESTS=30          # per client, default 30
+export FACTICLI_RATE_LIMIT_WINDOW=600           # seconds, default 600
+# export FACTICLI_API_AUTH=off                  # local development only
+```
+
+Clients authenticate with either header:
+
+```bash
+curl -s http://127.0.0.1:8000/api/extract \
+  -H "Authorization: Bearer cedmo_2026" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Inflace loni klesla pod 3 procenta.", "max_claims": 6}'
+```
+
+`GET /api/health` stays public as a liveness probe and reports no endpoint or
+model detail. Requests may set only `text` and `max_claims`: the model and the
+provider base URL are server-side settings, because a client that could
+redirect the request would be handing it this server's provider credential.
 
 ## 🧰 CLI options
 

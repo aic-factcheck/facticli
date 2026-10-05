@@ -1,0 +1,15 @@
+services:
+  claim-extractor:
+    build: .
+    image: facticli-claim-extractor
+    restart: unless-stopped
+    ports:
+      - "${FACTICLI_PUBLIC_PORT:-8000}:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?set OPENAI_API_KEY}
+      OPENAI_API_MODEL: ${OPENAI_API_MODEL:?set OPENAI_API_MODEL}
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-https://api.openai.com/v1}
+      FACTICLI_API_KEY: ${FACTICLI_API_KEY:?set FACTICLI_API_KEY}
+      FACTICLI_CORS_ORIGINS: ${FACTICLI_CORS_ORIGINS:-https://aic-factcheck.github.io}
+      FACTICLI_RATE_LIMIT_REQUESTS: ${FACTICLI_RATE_LIMIT_REQUESTS:-30}
+      FACTICLI_RATE_LIMIT_WINDOW: ${FACTICLI_RATE_LIMIT_WINDOW:-600}

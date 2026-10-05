@@ -6,7 +6,6 @@ on:
     paths:
       - "pages/**"
       - "src/facticli/web/static/**"
-      - "src/facticli/prompts/extract_claims.md"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -33,13 +32,13 @@ jobs:
           mkdir -p _site
           cp pages/index.html pages/app.js _site/
           cp src/facticli/web/static/styles.css src/facticli/web/static/cedmo_logo.svg _site/
-          cp src/facticli/prompts/extract_claims.md _site/extract_claims.md
 
-      - name: Embed passphrase-encrypted demo API key
+      - name: Write backend configuration
         env:
-          DEMO_OPENAI_API_KEY: ${{ secrets.DEMO_OPENAI_API_KEY }}
-          DEMO_PASSPHRASE: ${{ secrets.DEMO_PASSPHRASE }}
-        run: node pages/encrypt_key.mjs _site/key.enc.json
+          DEMO_API_BASE: ${{ vars.DEMO_API_BASE }}
+        run: |
+          printf 'window.FACTICLI_CONFIG = { apiBase: "%s" };\n' "${DEMO_API_BASE}" > _site/config.js
+          cat _site/config.js
 
       - uses: actions/configure-pages@v5
 

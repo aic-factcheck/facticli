@@ -20,8 +20,7 @@ const $ = (id) => document.getElementById(id);
 const els = {
   input: $("input-text"),
   maxClaims: $("max-claims"),
-  model: $("model"),
-  baseUrl: $("base-url"),
+  apiKey: $("api-key"),
   extractBtn: $("extract-btn"),
   clearBtn: $("clear-btn"),
   copyBtn: $("copy-json"),
@@ -138,21 +137,22 @@ async function extract() {
     text,
     max_claims: Math.min(50, Math.max(1, parseInt(els.maxClaims.value, 10) || 12)),
   };
-  const model = els.model.value.trim();
-  const baseUrl = els.baseUrl.value.trim();
-  if (model) body.model = model;
-  if (baseUrl) body.base_url = baseUrl;
+  const headers = { "Content-Type": "application/json" };
+  const apiKey = els.apiKey.value.trim();
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   setLoading(true);
   clearError();
   try {
     const resp = await fetch("/api/extract", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(body),
     });
     const data = await resp.json().catch(() => ({}));
     if (!resp.ok) {
+      if (resp.status === 401) throw new Error("Missing or invalid API key.");
+      if (resp.status === 429) throw new Error("Rate limit exceeded. Please wait and try again.");
       throw new Error(data.detail || `Request failed (HTTP ${resp.status}).`);
     }
     renderResult(data);

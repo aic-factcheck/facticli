@@ -1,16 +1,18 @@
-"use strict";
-
 /*
- * Browser-only claim extractor for the GitHub Pages demo.
- * Mirrors CompatibleClaimExtractionAdapter (src/facticli/adapters/openai_provider.py):
- * same skill prompt (fetched from ./extract_claims.md, copied in at deploy time),
- * same user payload, same output contract enforced via a strict JSON schema.
- * Access control: the deploy workflow encrypts the demo API key with the shared
- * passphrase (PBKDF2 + AES-GCM, see pages/encrypt_key.mjs) and ships only the
- * ciphertext (./key.enc.json). Entering the correct password decrypts the key
- * in the browser; a wrong password simply fails to decrypt. The decrypted key
- * is held in memory only and sent only to the configured API endpoint.
+ * Thin client for the CEDMO claim extractor.
+ * Extraction runs on the facticli backend (POST <API_BASE>/api/extract); this
+ * page only collects input, forwards the shared access key as a bearer token
+ * and renders the response. No model credential is shipped to the browser and
+ * no model API is called from here.
+ *
+ * The backend URL comes from ./config.js (window.FACTICLI_CONFIG.apiBase),
+ * written at deploy time, and can be overridden in the Advanced panel for
+ * local testing against `python -m facticli.web`.
  */
+
+const API_BASE = (
+  (typeof window !== "undefined" && window.FACTICLI_CONFIG && window.FACTICLI_CONFIG.apiBase) || ""
+).replace(/\/+$/, "");
 
 const SAMPLES = {
   cs: "Premiér Petr Fiala včera prohlásil, že česká ekonomika loni vzrostla o 2,3 procenta a že nezaměstnanost klesla na 3,1 procenta. Podle něj je to nejlepší výsledek za posledních deset let. Myslím, že vláda odvádí skvělou práci.",
@@ -29,63 +31,13 @@ const LANG_NAMES = {
 
 const PW_STORAGE = "facticli_demo_pw";
 
-/* Mirrors ClaimExtractionResult/CheckworthyClaim in core/contracts.py,
- * minus input_text (re-attached client-side to avoid echoing long inputs). */
-const RESULT_SCHEMA = {
-  type: "object",
-  additionalProperties: false,
-  properties: {
-    detected_language: {
-      type: "string",
-      description:
-        "ISO 639-1 code of the input's dominant language (e.g. 'cs', 'sk', 'pl', 'en'). All generated claim text is written in this language.",
-    },
-    claims: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-          claim_id: { type: "string", description: "Stable identifier for the extracted claim." },
-          claim_text: {
-            type: "string",
-            description:
-              "Standalone, decontextualized, atomic factual claim suitable for independent checking.",
-          },
-          source_fragment: {
-            type: "string",
-            description: "Short fragment from the input text that directly grounds this claim.",
-          },
-          checkworthy_reason: {
-            type: "string",
-            description: "Why this claim is check-worthy (impact, specificity, verifiability).",
-          },
-        },
-        required: ["claim_id", "claim_text", "source_fragment", "checkworthy_reason"],
-      },
-    },
-    coverage_notes: {
-      type: "array",
-      items: { type: "string" },
-      description: "How extraction covers the factual content from the input.",
-    },
-    excluded_nonfactual: {
-      type: "array",
-      items: { type: "string" },
-      description: "Statements intentionally excluded as non-factual/opinion/rhetoric.",
-    },
-  },
-  required: ["detected_language", "claims", "coverage_notes", "excluded_nonfactual"],
-};
-
 const $ = (id) => document.getElementById(id);
 
 const els = {
   input: $("input-text"),
   accessPw: $("access-pw"),
   maxClaims: $("max-claims"),
-  model: $("model"),
-  baseUrl: $("base-url"),
+  apiBase: $("api-base"),
   extractBtn: $("extract-btn"),
   clearBtn: $("clear-btn"),
   copyBtn: $("copy-json"),
@@ -102,9 +54,6 @@ const els = {
 };
 
 let lastResult = null;
-let promptPromise = null;
-let unlockedKey = null;
-let unlockedWith = null;
 
 /* ---------- helpers ---------- */
 
@@ -142,17 +91,6 @@ function langLabel(code) {
   if (!code) return "—";
   const name = LANG_NAMES[code.toLowerCase()];
   return name ? `${name} · ${code}` : code;
-}
-
-function loadPrompt() {
-  if (!promptPromise) {
-    promptPromise = fetch("./extract_claims.md").then((resp) => {
-      if (!resp.ok) throw new Error("Could not load the extraction prompt.");
-      return resp.text();
-    });
-    promptPromise.catch(() => (promptPromise = null));
-  }
-  return promptPromise;
 }
 
 /* ---------- rendering ---------- */
@@ -202,119 +140,46 @@ function renderResult(result) {
   els.results.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
-/* ---------- access control ---------- */
-
-const b64ToBytes = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
-
-async function decryptApiKey(password) {
-  const resp = await fetch("./key.enc.json");
-  if (!resp.ok) {
-    throw new Error(
-      "This deployment has no embedded API credential. The repository secrets are probably not configured.",
-    );
-  }
-  const blob = await resp.json();
-  const baseKey = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(password),
-    "PBKDF2",
-    false,
-    ["deriveKey"],
-  );
-  const aesKey = await crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: b64ToBytes(blob.salt),
-      iterations: blob.iterations,
-      hash: "SHA-256",
-    },
-    baseKey,
-    { name: "AES-GCM", length: 256 },
-    false,
-    ["decrypt"],
-  );
-  try {
-    const plain = await crypto.subtle.decrypt(
-      { name: "AES-GCM", iv: b64ToBytes(blob.iv) },
-      aesKey,
-      b64ToBytes(blob.ciphertext),
-    );
-    return new TextDecoder().decode(plain).trim();
-  } catch {
-    throw new Error("Incorrect access password.");
-  }
-}
-
-async function unlock(password) {
-  if (unlockedKey && unlockedWith === password) return unlockedKey;
-  unlockedKey = await decryptApiKey(password);
-  unlockedWith = password;
-  try {
-    localStorage.setItem(PW_STORAGE, password);
-  } catch {
-    /* storage unavailable — password just won't persist */
-  }
-  return unlockedKey;
-}
-
 /* ---------- extraction ---------- */
 
+function apiBase() {
+  const override = els.apiBase.value.trim().replace(/\/+$/, "");
+  return override || API_BASE;
+}
+
 async function callExtraction(text, maxClaims) {
-  const apiKey = await unlock(els.accessPw.value);
-  const model = els.model.value.trim() || "gpt-5.6-terra";
-  const baseUrl = (els.baseUrl.value.trim() || "https://api.openai.com/v1").replace(/\/+$/, "");
+  const base = apiBase();
+  if (!base) {
+    throw new Error(
+      "No backend configured for this deployment. Set the API base URL in the Advanced panel.",
+    );
+  }
+  const key = els.accessPw.value.trim();
+  try {
+    localStorage.setItem(PW_STORAGE, key);
+  } catch {
+    /* storage unavailable — key just won't persist */
+  }
 
-  const prompt = await loadPrompt();
-
-  const payload = {
-    input_text: text,
-    requirements: {
-      max_claims: maxClaims,
-      decontextualized: true,
-      atomic_claims: true,
-      maximize_checkworthy_coverage: true,
-      only_directly_mentioned_facts: true,
-      detect_and_report_language: true,
-      write_output_in_input_language: true,
-      preserve_original_diacritics: true,
-    },
-  };
-
-  const resp = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: prompt },
-        { role: "user", content: JSON.stringify(payload, null, 2) },
-      ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "claim_extraction_result",
-          strict: true,
-          schema: RESULT_SCHEMA,
-        },
-      },
-    }),
-  });
+  let resp;
+  try {
+    resp = await fetch(`${base}/api/extract`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+      body: JSON.stringify({ text, max_claims: maxClaims }),
+    });
+  } catch {
+    throw new Error(`Could not reach the extraction service at ${base}.`);
+  }
 
   const data = await resp.json().catch(() => ({}));
   if (!resp.ok) {
-    if (resp.status === 401) throw new Error("The embedded demo key was rejected (HTTP 401). It may have been revoked.");
-    if (resp.status === 429) throw new Error("Rate limit or budget exceeded (HTTP 429). The demo key may be exhausted.");
-    throw new Error(data.error?.message || `Request failed (HTTP ${resp.status}).`);
+    if (resp.status === 401) throw new Error("Incorrect access key.");
+    if (resp.status === 429) throw new Error("Rate limit exceeded. Please wait and try again.");
+    if (resp.status === 503) throw new Error(data.detail || "The service is not configured.");
+    throw new Error(data.detail || `Request failed (HTTP ${resp.status}).`);
   }
-
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("The model returned an empty response.");
-  const result = JSON.parse(content);
-  result.input_text = text;
-  return result;
+  return data;
 }
 
 async function extract() {
@@ -325,7 +190,7 @@ async function extract() {
     return;
   }
   if (!els.accessPw.value) {
-    showError("Please enter the access password (ask the CEDMO team for it).");
+    showError("Please enter the access key (ask the CEDMO team for it).");
     els.accessPw.focus();
     return;
   }
@@ -387,4 +252,3 @@ els.input.addEventListener("keydown", (e) => {
   }
 });
 
-loadPrompt().catch(() => {});

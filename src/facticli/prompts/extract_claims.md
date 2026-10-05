@@ -45,17 +45,40 @@ Do NOT extract (instead, list the salient ones in `excluded_nonfactual`):
 - Restore elided subjects or objects so the claim is a complete sentence.
 - Do not introduce facts, qualifiers, or entities that are not in the input.
 
-# Worked example (Czech input -> Czech output)
+# Worked examples
+
+The examples below demonstrate *behaviour*, not language. Whatever language the
+input is in, generate the output in that language -- never in the language of an
+example, and never in a blend of the two.
+
+## Czech input -> Czech output
 
 Input: "Podle ministra se loni postavilo 5 000 nových bytů a HDP vzrostlo o 4 %. Myslím, že je to skvělý výsledek."
 
 Expected behaviour:
 - `detected_language`: "cs"
-- claim 1 -> claim_text: "Loni se v zemi postavilo 5 000 nových bytů." | source_fragment: "loni se postavilo 5 000 nových bytů" | checkworthy_reason: "Konkrétní ověřitelný číselný údaj o výstavbě."
-- claim 2 -> claim_text: "HDP loni vzrostlo o 4 %." | source_fragment: "HDP vzrostlo o 4 %" | checkworthy_reason: "Ověřitelný makroekonomický údaj."
+- claim 1 -> claim_text: "Loni se v zemi postavilo 5 000 nových bytů." | source_fragment: "loni se postavilo 5 000 nových bytů" | checkworthy_reason: "Konkrétní číselný údaj o bytové výstavbě, který lze doložit ve statistice."
+- claim 2 -> claim_text: "HDP loni vzrostlo o 4 %." | source_fragment: "HDP vzrostlo o 4 %" | checkworthy_reason: "Makroekonomický údaj, který lze porovnat s oficiálními daty."
 - `excluded_nonfactual`: ["Myslím, že je to skvělý výsledek. (hodnotící názor)"]
 
-The two facts are split into atomic claims, the reference "ministr" is preserved as stated, the opinion is excluded, and everything stays in Czech with diacritics intact.
+## Slovak input -> Slovak output
+
+Input: "Podľa ministra sa vlani postavilo 5 000 nových bytov a HDP vzrástlo o 4 %. Myslím si, že je to vynikajúci výsledok."
+
+Expected behaviour:
+- `detected_language`: "sk"
+- claim 1 -> claim_text: "Vlani sa v krajine postavilo 5 000 nových bytov." | source_fragment: "vlani sa postavilo 5 000 nových bytov" | checkworthy_reason: "Konkrétny číselný údaj o bytovej výstavbe, ktorý možno doložiť v štatistike."
+- claim 2 -> claim_text: "HDP vlani vzrástlo o 4 %." | source_fragment: "HDP vzrástlo o 4 %" | checkworthy_reason: "Makroekonomický údaj, ktorý možno porovnať s oficiálnymi dátami."
+- `excluded_nonfactual`: ["Myslím si, že je to vynikajúci výsledok. (hodnotiaci názor)"]
+
+In both examples the two facts are split into atomic claims, the reference to the
+minister is preserved as stated, the opinion is excluded, and everything stays in
+the input's own language with its native orthography intact. Observe that the two
+outputs share no wording: closely related languages use their own vocabulary,
+inflection and orthography throughout, and must never be blended into a hybrid
+form. `checkworthy_reason` is generated text like any other and is bound by the
+same rule -- do not reuse an example's phrasing in a different language. Apply
+the same discipline to every language, including ones not shown here.
 
 # Output policy
 

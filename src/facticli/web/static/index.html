@@ -54,19 +54,11 @@
           <input type="number" id="max-claims" min="1" max="50" value="12" />
         </div>
 
-        <details class="advanced">
-          <summary>Advanced</summary>
-          <div class="advanced__body">
-            <div class="control">
-              <label for="model">Model override</label>
-              <input type="text" id="model" placeholder="(server default)" autocomplete="off" />
-            </div>
-            <div class="control">
-              <label for="base-url">Base URL override</label>
-              <input type="text" id="base-url" placeholder="(server default)" autocomplete="off" />
-            </div>
-          </div>
-        </details>
+        <div class="control">
+          <label for="api-key">API key</label>
+          <input type="password" id="api-key" placeholder="shared access key" autocomplete="off" />
+          <p class="keyhint">Sent to this server as a bearer token. The model credential stays server-side.</p>
+        </div>
 
         <button type="button" id="extract-btn" class="btn btn--primary">
           <span class="btn__label">Extract claims</span>

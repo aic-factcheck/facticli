@@ -1,0 +1,77 @@
+# CERIT-SC Kubernetes (rancher.cloud.e-infra.cz). The cluster enforces a
+# restricted Pod Security Standard: non-root, no privilege escalation, all
+# capabilities dropped, RuntimeDefault seccomp. The image already runs as uid 1000.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facticli-api
+  namespace: ullrich-ns
+  labels:
+    app: facticli-api
+spec:
+  # Single replica on purpose: the rate limiter keeps its counters in process
+  # memory, so N replicas would multiply the effective limit by N. Move the
+  # limiter to shared storage before scaling out.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facticli-api
+  template:
+    metadata:
+      labels:
+        app: facticli-api
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: facticli-api
+          image: ghcr.io/aic-factcheck/facticli:latest
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: facticli-api-secrets
+          env:
+            - name: FACTICLI_CORS_ORIGINS
+              value: "https://aic-factcheck.github.io"
+            - name: FACTICLI_RATE_LIMIT_REQUESTS
+              value: "30"
+            - name: FACTICLI_RATE_LIMIT_WINDOW
+              value: "600"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

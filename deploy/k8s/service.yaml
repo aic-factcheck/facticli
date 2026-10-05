@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: facticli-api-svc
+  namespace: ullrich-ns
+spec:
+  type: ClusterIP
+  selector:
+    app: facticli-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

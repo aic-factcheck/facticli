@@ -1,0 +1,26 @@
+# Public HTTPS endpoint. Change the host in all three places to rename the service.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: facticli-api-ingress
+  namespace: ullrich-ns
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "facticli.dyn.cloud.e-infra.cz"
+      secretName: facticli-dyn-cloud-e-infra-cz-tls
+  rules:
+    - host: "facticli.dyn.cloud.e-infra.cz"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: facticli-api-svc
+                port:
+                  number: 80

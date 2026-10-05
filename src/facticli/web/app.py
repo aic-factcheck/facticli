@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import os
+import secrets
+import time
+from collections import defaultdict, deque
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 
@@ -22,29 +26,58 @@ except Exception:  # pragma: no cover
 
 STATIC_DIR = Path(__file__).parent / "static"
 
+MAX_INPUT_CHARS = 20_000
+DEFAULT_CORS_ORIGINS = "https://aic-factcheck.github.io"
+DEFAULT_RATE_LIMIT_REQUESTS = 30
+DEFAULT_RATE_LIMIT_WINDOW = 600
+
 
 class ExtractRequest(BaseModel):
-    """Request body for the claim-extraction endpoint."""
+    """Request body for the claim-extraction endpoint.
 
-    text: str = Field(description="Raw input text to extract claims from.")
+    Model and endpoint are deliberately NOT client-controllable: this service
+    holds the provider credential, so letting a caller redirect the request
+    would hand that credential to an arbitrary host.
+    """
+
+    text: str = Field(description="Raw input text to extract claims from.", max_length=MAX_INPUT_CHARS)
     max_claims: int = Field(default=12, ge=1, le=50)
-    model: str | None = Field(
-        default=None,
-        description="Optional model override. Falls back to OPENAI_API_MODEL.",
-    )
-    base_url: str | None = Field(
-        default=None,
-        description="Optional OpenAI-compatible base URL override.",
-    )
 
 
-def _resolve_model(requested: str | None) -> str | None:
-    candidate = (requested or os.getenv("OPENAI_API_MODEL") or "").strip()
-    return candidate or None
+def _env(name: str) -> str:
+    return (os.getenv(name) or "").strip()
+
+
+def _resolve_model() -> str | None:
+    return _env("OPENAI_API_MODEL") or None
 
 
 def _has_api_key() -> bool:
-    return bool((os.getenv("OPENAI_API_KEY") or "").strip())
+    return bool(_env("OPENAI_API_KEY"))
+
+
+def _auth_enabled() -> bool:
+    """Gatekeeping is on unless explicitly disabled for local development."""
+    return _env("FACTICLI_API_AUTH").lower() not in {"off", "0", "false", "none"}
+
+
+def _presented_key(request: Request) -> str:
+    header = request.headers.get("authorization", "")
+    if header.lower().startswith("bearer "):
+        return header[7:].strip()
+    return (request.headers.get("x-api-key") or "").strip()
+
+
+def _rate_limit_settings() -> tuple[int, int]:
+    try:
+        limit = int(_env("FACTICLI_RATE_LIMIT_REQUESTS") or DEFAULT_RATE_LIMIT_REQUESTS)
+    except ValueError:
+        limit = DEFAULT_RATE_LIMIT_REQUESTS
+    try:
+        window = int(_env("FACTICLI_RATE_LIMIT_WINDOW") or DEFAULT_RATE_LIMIT_WINDOW)
+    except ValueError:
+        window = DEFAULT_RATE_LIMIT_WINDOW
+    return max(limit, 1), max(window, 1)
 
 
 def create_app() -> FastAPI:
@@ -52,8 +85,55 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="CEDMO Claim Extractor",
         description="Extract decontextualized, atomic, check-worthy claims from text.",
-        version="1.0.0",
+        version="1.1.0",
     )
+
+    origins = [o.strip() for o in (_env("FACTICLI_CORS_ORIGINS") or DEFAULT_CORS_ORIGINS).split(",") if o.strip()]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=False,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type", "X-API-Key"],
+    )
+
+    hits: dict[str, deque[float]] = defaultdict(deque)
+
+    def require_api_key(request: Request) -> str:
+        """Gate every credit-spending endpoint behind a shared API key."""
+        if not _auth_enabled():
+            return "anonymous"
+        expected = _env("FACTICLI_API_KEY")
+        if not expected:
+            # Fail closed: an unconfigured gate must never mean an open gate.
+            raise HTTPException(
+                status_code=503,
+                detail="FACTICLI_API_KEY is not configured on the server; the API is closed.",
+            )
+        presented = _presented_key(request)
+        if not presented or not secrets.compare_digest(presented, expected):
+            raise HTTPException(
+                status_code=401,
+                detail="Missing or invalid API key. Send 'Authorization: Bearer <key>'.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return presented
+
+    def enforce_rate_limit(request: Request, api_key: str = Depends(require_api_key)) -> str:
+        limit, window = _rate_limit_settings()
+        client = request.client.host if request.client else "unknown"
+        bucket = hits[f"{api_key}:{client}"]
+        now = time.monotonic()
+        while bucket and now - bucket[0] > window:
+            bucket.popleft()
+        if len(bucket) >= limit:
+            raise HTTPException(
+                status_code=429,
+                detail=f"Rate limit exceeded ({limit} requests per {window}s). Try again later.",
+                headers={"Retry-After": str(window)},
+            )
+        bucket.append(now)
+        return api_key
 
     @app.get("/", include_in_schema=False)
     async def index() -> FileResponse:
@@ -68,15 +148,16 @@ def create_app() -> FastAPI:
 
     @app.get("/api/health")
     async def health() -> dict[str, object]:
+        """Unauthenticated liveness probe; reveals no endpoint or model detail."""
         return {
             "status": "ok",
             "has_api_key": _has_api_key(),
-            "default_model": _resolve_model(None),
-            "base_url": (os.getenv("OPENAI_API_BASE_URL") or "").strip() or None,
+            "model_configured": _resolve_model() is not None,
+            "auth_required": _auth_enabled(),
         }
 
     @app.post("/api/extract")
-    async def extract(request: ExtractRequest) -> JSONResponse:
+    async def extract(request: ExtractRequest, _: str = Depends(enforce_rate_limit)) -> JSONResponse:
         text = request.text.strip()
         if not text:
             raise HTTPException(status_code=400, detail="Input text is empty.")
@@ -85,16 +166,16 @@ def create_app() -> FastAPI:
                 status_code=503,
                 detail="OPENAI_API_KEY is not configured on the server.",
             )
-        model = _resolve_model(request.model)
+        model = _resolve_model()
         if not model:
             raise HTTPException(
                 status_code=503,
-                detail="No model configured. Set OPENAI_API_MODEL or pass a model.",
+                detail="No model configured. Set OPENAI_API_MODEL on the server.",
             )
 
         config = ClaimExtractionRuntimeConfig(
             model=model,
-            base_url=(request.base_url or "").strip() or None,
+            base_url=_env("OPENAI_API_BASE_URL") or None,
             max_claims=request.max_claims,
         )
         service = build_claim_extraction_service(config)

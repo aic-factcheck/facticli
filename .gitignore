@@ -213,3 +213,10 @@ __marimo__/
 
 # GitHub Pages demo: generated encrypted credential (built only in CI)
 key.enc.json
+reports
+
+# Cluster credentials - never commit
+kuba-cluster.yaml
+kubeconfig*
+*.kubeconfig
+.kube/

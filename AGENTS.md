@@ -81,13 +81,17 @@ Not yet implemented (see `TODO.md`):
 - `src/facticli/skills.py`: skill registry + frontmatter-aware prompt loading
 - `src/facticli/render.py`: human-readable output formatter
 - `facticli.example.toml`: config profile template
-- `src/facticli/web/*`: optional FastAPI GUI for claim extraction (`python -m facticli.web`)
+- `src/facticli/web/*`: optional FastAPI GUI + JSON API for claim extraction
+  (`python -m facticli.web`); all credit-spending endpoints are gated by a shared
+  key (`FACTICLI_API_KEY`, fails closed when unset) with per-client rate limiting.
+  Model and provider base URL are server-side only and never client-controllable.
 - `src/facticli/web/static/*`: branded CEDMO single-page frontend (HTML/CSS/JS + logo)
 - `src/facticli/prompts/*.md`: reusable prompt instructions per skill
-- `pages/*`: browser-only claim extractor demo deployed to GitHub Pages via
-  `.github/workflows/pages.yml`; the API key is shipped passphrase-encrypted
-  (`pages/encrypt_key.mjs`), sourced from the `DEMO_OPENAI_API_KEY` and
-  `DEMO_PASSPHRASE` repository secrets
+- `pages/*`: static claim-extractor demo deployed to GitHub Pages via
+  `.github/workflows/pages.yml`; a thin client that calls `POST
+  <backend>/api/extract` on a hosted facticli backend (URL injected at deploy
+  time from the `DEMO_API_BASE` repository variable into `_site/config.js`).
+  No model credential is shipped to the browser.
 
 ## 5) Core Architecture
 
