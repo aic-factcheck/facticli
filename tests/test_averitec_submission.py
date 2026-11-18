@@ -118,6 +118,49 @@ class AveritecSubmissionMappingTests(unittest.TestCase):
         self.assertEqual(len(evidence), 1)
         self.assertEqual(evidence[0]["url"], "https://example.com/source-a")
 
+    def test_evidence_rows_each_state_a_different_fact(self):
+        def source(name: str) -> SourceEvidence:
+            return SourceEvidence(title=name, url=f"https://example.com/{name}", snippet=f"Snippet  from {name}")
+
+        findings = [
+            AspectFinding(
+                aspect_id="first", question="Q1?", signal=EvidenceSignal.SUPPORTS, summary="Summary one.", confidence=0.8,
+                sources=[source("a1"), source("a2"), source("a3"), source("a4")],
+            ),
+            AspectFinding(
+                aspect_id="second", question="Q2?", signal=EvidenceSignal.REFUTES, summary="Summary two.", confidence=0.7,
+                sources=[source("b1")],
+            ),
+            AspectFinding(
+                aspect_id="failed", question="Q3?", signal=EvidenceSignal.INSUFFICIENT, summary="Research failed.", confidence=0.0,
+                status=FindingStatus.FAILED,
+            ),
+        ]
+        report = FactCheckReport(
+            claim="c", verdict=VeracityVerdict.CONFLICTING, verdict_confidence=0.5, justification="j", findings=findings,
+            sources=[source("a1"), source("extra")],
+        )
+
+        # Every finding is heard once before any is heard twice, so a source-rich finding cannot crowd the others out.
+        evidence = build_submission_evidence(report, max_evidence=5, empty_question=False)
+        self.assertEqual(
+            [(row["question"], row["answer"]) for row in evidence],
+            [
+                ("Q1?", "Summary one."),
+                ("Q2?", "Summary two."),
+                ("Q1?", "Snippet from a1"),
+                ("Q2?", "Snippet from b1"),
+                ("Q1?", "Snippet from a2"),
+            ],
+        )
+        self.assertEqual(evidence[2]["url"], "https://example.com/a1")
+
+        everything = build_submission_evidence(report, max_evidence=20, empty_question=True)
+        answers = [row["answer"] for row in everything]
+        self.assertEqual(len(answers), len(set(answers)))  # the report-level copy of a1 adds nothing
+        self.assertEqual(answers[-1], "Snippet from extra")  # report-level sources fill what is left
+        self.assertNotIn("Research failed.", answers)  # a failed check is not evidence
+
     def test_build_failed_submission_row_uses_not_enough_evidence(self):
         row = build_failed_submission_row(
             record={"claim": "An event happened in 2020."},

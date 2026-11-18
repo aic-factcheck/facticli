@@ -149,6 +149,7 @@ was read by research agents and the individual harness citations were not re-ver
       quota, unknown model, rejected Brave key) abort the run and the AVeriTeC batch (exit code 3).
 - [x] Reference date (claim date, else today) in the research, review, judge, and single-agent payloads,
       not the planner's; reasoning efforts up to `max`.
+- [x] AVeriTeC evidence rows each state a different fact (one row per finding first, then snippets).
 - [x] Fixed along the way: `--search-results` had no effect; Brave results reached the model with
       `<strong>` markup; an unparseable claim date silently disabled the evidence cutoff.
 
@@ -171,6 +172,9 @@ Single runs per arm unless stated, so a difference of one or two claims is noise
 - Turn limit forced to 3 (4 claims): the old code lost a check and its ledger showed 4k tokens for a
   claim that spent about 120k; with the wrap-up call no check failed.
 - 40 to 50% of input tokens were billed cache writes, which the old ledger did not record.
+- Evidence packing, 40 saved reports scored twice with Ev2R (gpt-5.2): mean recall 0.72 with distinct
+  rows vs 0.63 with one summary per source; better on 8 of 10 claims, worse on 1. The old packing put
+  8.6 rows per claim into the submission but only 2.9 distinct answers.
 
 ### Built, measured, and not adopted
 - Page reading (`fetch_page` on search results, Wayback snapshot under a claim date, visible-text

@@ -5,6 +5,7 @@ import asyncio
 import json
 import os
 import sys
+from itertools import zip_longest
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,7 @@ from facticli.core.contracts import FactCheckReport, VeracityVerdict
 from facticli.core.errors import classify_exception, describe_exception, is_fatal
 from facticli.core.grounding import summarize_grounding
 
+GENERAL_QUESTION = "What evidence supports the final verdict for this claim?"
 # Exit code when a batch stops early on an error no retry can fix (rejected key, exhausted quota, unknown model).
 EXIT_ABORTED = 3
 
@@ -284,83 +286,49 @@ def _extract_claim_text(record: dict[str, Any], row_index: int, claim_field: str
     return claim
 
 
-def _append_evidence_entry(
-    *,
-    evidence: list[dict[str, str]],
-    seen: set[tuple[str, str, str]],
-    question: str,
-    answer: str,
-    url: str,
-    scraped_text: str,
-    max_evidence: int,
-    empty_question: bool,
-) -> None:
-    if len(evidence) >= max_evidence:
-        return
-    normalized_url = url.strip()
-    if not normalized_url:
-        return
-    normalized_answer = answer.strip()
-    if not normalized_answer:
-        return
-    normalized_question = "" if empty_question else question.strip()
-    normalized_scraped = scraped_text.strip() or normalized_answer
-    dedupe_key = (normalized_url, normalized_question, normalized_answer)
-    if dedupe_key in seen:
-        return
-    seen.add(dedupe_key)
-    evidence.append(
-        {
-            "question": normalized_question,
-            "answer": normalized_answer,
-            "url": normalized_url,
-            "scraped_text": normalized_scraped,
-        }
-    )
-
-
 def build_submission_evidence(
     report: FactCheckReport,
     *,
     max_evidence: int,
     empty_question: bool,
 ) -> list[dict[str, str]]:
+    """Turn a report into at most ``max_evidence`` question-answer rows that each state a different fact.
+
+    Evidence-recall scoring matches the submitted question-answer pairs against
+    the reference pairs, so a finding summary repeated under each of its
+    sources is one fact occupying several slots. Every finding that observed
+    something gets one row (question + summary) before any gets a second; the
+    remaining rows carry the sources' own snippets, round-robin across
+    findings, then the report-level sources.
+    """
+    observed = [finding for finding in report.findings if finding.is_observation and finding.sources]
+    candidates = [
+        (finding.question, finding.summary.strip() or finding.sources[0].snippet, finding.sources[0])
+        for finding in observed
+    ]
+    for rank in zip_longest(*([(finding.question, source) for source in finding.sources] for finding in observed)):
+        candidates.extend((question, source.snippet, source) for question, source in filter(None, rank))
+    candidates.extend((GENERAL_QUESTION, source.snippet, source) for source in report.sources)
+
     evidence: list[dict[str, str]] = []
-    seen: set[tuple[str, str, str]] = set()
-
-    for finding in report.findings:
-        question = finding.question.strip()
-        answer = finding.summary.strip() or report.justification.strip()
-        for source in finding.sources:
-            _append_evidence_entry(
-                evidence=evidence,
-                seen=seen,
-                question=question,
-                answer=answer,
-                url=source.url,
-                scraped_text=source.snippet,
-                max_evidence=max_evidence,
-                empty_question=empty_question,
-            )
-
-    if len(evidence) < max_evidence:
-        general_question = (
-            "" if empty_question else "What evidence supports the final verdict for this claim?"
+    seen_answers: set[str] = set()
+    for question, answer, source in candidates:
+        if len(evidence) >= max_evidence:
+            break
+        answer = " ".join(answer.split())
+        url = source.url.strip()
+        if not answer or not url or answer.casefold() in seen_answers:
+            continue
+        seen_answers.add(answer.casefold())
+        evidence.append(
+            {
+                "question": "" if empty_question else question.strip(),
+                "answer": answer,
+                "url": url,
+                "scraped_text": source.snippet.strip() or answer,
+            }
         )
-        general_answer = report.justification.strip()
-        for source in report.sources:
-            _append_evidence_entry(
-                evidence=evidence,
-                seen=seen,
-                question=general_question,
-                answer=general_answer,
-                url=source.url,
-                scraped_text=source.snippet,
-                max_evidence=max_evidence,
-                empty_question=empty_question,
-            )
-
-    return evidence[:max_evidence]
+    return evidence
 
 
 def build_submission_row(

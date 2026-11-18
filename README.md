@@ -218,7 +218,7 @@ python3 scripts/run_averitec_submission.py \
 Notes:
 - If input rows have no claim id field, fallback `claim_id` is the zero-based row index.
 - Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
-- `evidence` entries include `question`, `answer`, `url`, `scraped_text`.
+- `evidence` entries include `question`, `answer`, `url`, `scraped_text`. Each entry states a different fact: every finding gets one row (question + summary) before any gets a second, and the remaining rows carry the sources' own snippets.
 - The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--search-cache-dir`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
 - A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
 
