@@ -165,7 +165,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
     async def test_check_command_maps_search_flags_onto_the_runtime_config(self):
         args = build_parser().parse_args(
             [
-                "check", "claim", "--search-provider", "brave", "--tool-call-budget", "5",
+                "check", "claim", "--search-provider", "brave", "--tool-call-budget", "5", "--search-cache-dir", "cache",
                 "--stage-effort", "judge=xhigh", "--search-results", "9", "--json",
             ]
         )
@@ -184,10 +184,10 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(code, 2)
         config = captured["config"]
-        self.assertEqual((config.tool_call_budget, config.search_results_per_query), (5, 9))
+        self.assertEqual((config.tool_call_budget, config.search_cache_dir, config.search_results_per_query), (5, "cache", 9))
         self.assertEqual(config.stage_efforts, {"judge": "xhigh"})
         defaults = build_parser().parse_args(["check", "claim"])
-        self.assertEqual(defaults.tool_call_budget, 8)
+        self.assertEqual((defaults.tool_call_budget, defaults.search_cache_dir), (8, None))
 
     async def test_check_command_streams_progress_to_stderr(self):
         fake_run = FactCheckRun(

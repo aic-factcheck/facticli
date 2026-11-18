@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -62,12 +63,16 @@ class FactoryTests(unittest.TestCase):
         return service, adapter_class.call_args.kwargs
 
     def test_researcher_plans_for_the_budget_and_the_tools_stop_at_twice_that(self):
-        config = FactCheckRuntimeConfig(search_provider="brave", tool_call_budget=5, search_results_per_query=9)
-        with patch("facticli.application.factory.build_search_tools", wraps=build_search_tools) as tools:
-            service, researcher = self._build(config, "CompatibleResearchAdapter")
+        with tempfile.TemporaryDirectory() as tmp:
+            config = FactCheckRuntimeConfig(
+                search_provider="brave", tool_call_budget=5, search_results_per_query=9, search_cache_dir=tmp
+            )
+            with patch("facticli.application.factory.build_search_tools", wraps=build_search_tools) as tools:
+                service, researcher = self._build(config, "CompatibleResearchAdapter")
         self.assertEqual((researcher["tool_call_budget"], service.research_stage.search_cap), (5, 10))
         self.assertEqual([tool.name for tool in researcher["tools"]], ["brave_web_search"])
         self.assertEqual(tools.call_args.kwargs["search_results_per_query"], 9)
+        self.assertEqual(str(tools.call_args.kwargs["cache"].directory), tmp)
 
         # The single agent gets the pipeline's per-check allowance times the number of checks.
         baseline, agent = self._build(
@@ -75,6 +80,11 @@ class FactoryTests(unittest.TestCase):
             "CompatibleSingleAgentAdapter",
         )
         self.assertEqual((agent["tool_call_budget"], baseline.search_cap), (15, 30))
+
+    def test_search_cache_needs_a_provider_it_can_record(self):
+        for provider in ("openai", "knowledge_store"):
+            with self.assertRaisesRegex(ValueError, "--search-provider brave"):
+                self._build(FactCheckRuntimeConfig(search_provider=provider, search_cache_dir="cache"), "CompatibleResearchAdapter")
 
     def test_build_fact_check_service_passes_openai_compatible_base_url(self):
         inference_config = InferenceConfig(

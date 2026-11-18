@@ -11,7 +11,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 - final veracity verdict + justification,
 - explicit source output.
 
-The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `review`, `judge`) written as lane contracts, explicit pipeline stages, and one OpenAI-compatible inference adapter path. The 2026-09 harness pass added ideas from Codex, pi, OpenClaw, and recent fact-checking research: run-level token budgets, an error taxonomy with SDK-managed retries, deterministic source tiering, acceptance-criteria-driven review, a judge that must argue the opposing verdict, per-stage model routing, a no-harness baseline, citation health checks, artifact audits, and TOML config profiles. The 2026-11 pass added deterministic bookkeeping around the model: a retrieval journal with a provenance label on every cited source, a hard search cap, a wrap-up call at the turn limit, and usage accounting for failed attempts. See `TODO.md` for the annotated list.
+The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `review`, `judge`) written as lane contracts, explicit pipeline stages, and one OpenAI-compatible inference adapter path. The 2026-09 harness pass added ideas from Codex, pi, OpenClaw, and recent fact-checking research: run-level token budgets, an error taxonomy with SDK-managed retries, deterministic source tiering, acceptance-criteria-driven review, a judge that must argue the opposing verdict, per-stage model routing, a no-harness baseline, citation health checks, artifact audits, and TOML config profiles. The 2026-11 pass added deterministic bookkeeping around the model: a retrieval journal with a provenance label on every cited source, a hard search cap, a wrap-up call at the turn limit, usage accounting for failed attempts, and a record/replay search cache. See `TODO.md` for the annotated list.
 
 ## 📦 Install
 
@@ -155,6 +155,12 @@ Exclude fact-checking sites from evidence (label-leakage control) and persist ru
 facticli check --block-fact-checkers --artifacts-dir ./runs "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
+Record Brave responses and replay them on identical requests, so repeated or paired runs see the same retrieval:
+
+```bash
+facticli check --search-provider brave --search-cache-dir ./search-cache "The Eiffel Tower was built in 1889 for the World's Fair."
+```
+
 Machine-readable output:
 
 ```bash
@@ -213,7 +219,7 @@ Notes:
 - If input rows have no claim id field, fallback `claim_id` is the zero-based row index.
 - Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
 - `evidence` entries include `question`, `answer`, `url`, `scraped_text`.
-- The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
+- The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--search-cache-dir`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
 - A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
 
 Score a submission (label metrics, optional Ev2R), and measure verdict consistency across repeated runs (pass^k, pass@k, agreement, majority vote):
@@ -350,7 +356,7 @@ facticli check [--model MODEL] [--base-url BASE_URL]
                [--token-budget N] [--model-retries N] [--retry-budget N]
                [--search-provider {openai,brave,knowledge_store}]
                [--search-results N] [--search-context-size {low,medium,high}]
-               [--tool-call-budget N]
+               [--tool-call-budget N] [--search-cache-dir DIR]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
                [--verify-sources] [--artifacts-dir DIR]
                [--show-plan] [--show-usage] [--stream-progress]
@@ -370,6 +376,7 @@ Validation notes:
 - `--max-checks`, `--parallel`, `--max-claims`, `--follow-up-checks`, `--token-budget`, and `--tool-call-budget` must be integers `>= 1`.
 - `--feedback-rounds`, `--model-retries`, and `--retry-budget` must be integers `>= 0`.
 - `--search-results` must be an integer in `1..20`; it is the result count the brave and knowledge_store tools use when the model does not ask for one.
+- `--search-cache-dir` needs `--search-provider brave`.
 - `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
@@ -439,7 +446,7 @@ flowchart TD
     P5 --> P6["Runner.run(check_researcher)<br/>at the turn limit: one tools-off wrap-up call"]
     P6 --> P7{"Search provider"}
     P7 -->|openai| P8["WebSearchTool<br/>(consulted URLs journaled)"]
-    P7 -->|brave| P9["brave_web_search tool<br/>(bounded output, untrusted-content notice,<br/>journaled, hard cap)"]
+    P7 -->|brave| P9["brave_web_search tool<br/>(bounded output, untrusted-content notice,<br/>journaled, hard cap, optional record/replay cache)"]
     P7 -->|knowledge_store| P9b["knowledge_store_search tool<br/>(journaled, hard cap)"]
     P8 --> P10["AspectFinding"]
     P9 --> P10
@@ -495,6 +502,7 @@ src/facticli/
     usage.py           # usage events for every attempt + run-level token/retry budget ledger
     retrieval.py       # retrieval journal: tool-call receipts, hard search cap
     grounding.py       # deterministic provenance label for cited sources
+    search_cache.py    # record/replay directory for search responses
     source_quality.py  # deterministic source authority tiers
     truncation.py      # tool-output cleaning and truncation + untrusted-content notice
     constraints.py     # retrieval constraints (blocklist, claim-date cutoff)

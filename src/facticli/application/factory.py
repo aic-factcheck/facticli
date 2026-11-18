@@ -12,6 +12,7 @@ from facticli.adapters import (
     load_inference_config,
 )
 from facticli.core.constraints import FACT_CHECK_DOMAINS
+from facticli.core.search_cache import SearchCache
 
 from .citations import CitationHealthChecker
 from .config import SEARCH_CAP_FACTOR, STRATEGIES, ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
@@ -35,6 +36,11 @@ def build_fact_check_service(
     """Composition root: wire adapters and stages for the configured strategy."""
     if config.strategy not in STRATEGIES:
         raise ValueError(f"Unsupported strategy: {config.strategy!r}; expected one of {', '.join(STRATEGIES)}")
+    if config.search_cache_dir and config.search_provider != "brave":
+        raise ValueError(
+            "--search-cache-dir records Brave responses and needs --search-provider brave: hosted OpenAI search "
+            "runs inside the provider and the knowledge store is already local."
+        )
 
     inference_config = load_inference_config(
         requested_model=config.model,
@@ -64,6 +70,7 @@ def build_fact_check_service(
         max_chars_per_field=config.max_chars_per_result_field,
         max_total_chars=config.max_tool_output_chars,
         search_results_per_query=config.search_results_per_query,
+        cache=SearchCache(config.search_cache_dir) if config.search_cache_dir else None,
     )
     search_cap = SEARCH_CAP_FACTOR * config.tool_call_budget
 

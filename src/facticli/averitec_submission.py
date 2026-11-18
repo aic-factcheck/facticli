@@ -130,6 +130,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Searches a researcher is told to plan for per check (default: 8); the tools refuse beyond twice that.",
     )
     parser.add_argument(
+        "--search-cache-dir",
+        default=None,
+        help="Directory that records Brave responses and replays identical requests (needs --search-provider brave).",
+    )
+    parser.add_argument(
         "--feedback-rounds",
         type=non_negative_int,
         default=0,
@@ -421,6 +426,7 @@ def _build_service(args: argparse.Namespace) -> Any:
         blocked_domains=tuple(args.blocked_domains or ()),
         knowledge_store_dir=args.knowledge_store_dir,
         tool_call_budget=args.tool_call_budget,
+        search_cache_dir=args.search_cache_dir,
     )
     artifact_repository = (
         FileRunArtifactRepository(output_dir=args.artifacts_dir) if args.artifacts_dir else None
@@ -692,6 +698,7 @@ async def _run(args: argparse.Namespace) -> int:
             "search_context_size": args.search_context_size,
             "search_results": args.search_results_per_query,
             "tool_call_budget": args.tool_call_budget,
+            "search_cache_dir": args.search_cache_dir,
             "max_checks": args.max_checks,
             "parallel_research": args.parallel,
             "parallel_claims": args.parallel_claims,

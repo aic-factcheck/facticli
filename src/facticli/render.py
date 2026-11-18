@@ -164,6 +164,7 @@ def _format_usage(run: FactCheckRun) -> list[str]:
             "search(es)": retrieval.searches,
             "page(s) opened": retrieval.pages_opened,
             "distinct URL(s)": retrieval.distinct_urls,
+            "served from cache": retrieval.cache_hits,
             "refused at the cap": retrieval.refused,
             "failed": retrieval.errors,
         }

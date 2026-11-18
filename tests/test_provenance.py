@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 from facticli.core.contracts import AspectFinding, EvidenceSignal, FindingStatus, SourceEvidence, SourceGrounding
 from facticli.core.grounding import (
@@ -22,6 +24,7 @@ from facticli.core.retrieval import (
     summarize_retrieval,
     url_key,
 )
+from facticli.core.search_cache import SearchCache
 
 RETRIEVED = (
     "The Eiffel Tower is 330 metres (1,083 ft) tall, about the same height as an 81-storey building. "
@@ -104,7 +107,7 @@ class JournalTests(unittest.TestCase):
     def test_summary_counts_by_outcome(self):
         summary = summarize_retrieval(
             [
-                RetrievalRecord(provider="brave", urls=["https://a.org/x?id=1", "https://a.org/x?id=2"]),
+                RetrievalRecord(provider="brave", urls=["https://a.org/x?id=1", "https://a.org/x?id=2"], cached=True),
                 RetrievalRecord(provider="openai", kind=OPEN_PAGE, urls=["https://a.org/x?id=1"]),
                 RetrievalRecord(provider="brave", error="search request failed (HTTP 500)"),
                 RetrievalRecord(provider="brave", refused=True),
@@ -112,7 +115,7 @@ class JournalTests(unittest.TestCase):
         )
         self.assertEqual(
             summary.model_dump(),
-            {"searches": 2, "pages_opened": 1, "refused": 1, "errors": 1, "distinct_urls": 2},
+            {"searches": 2, "pages_opened": 1, "cache_hits": 1, "refused": 1, "errors": 1, "distinct_urls": 2},
         )
 
 
@@ -208,6 +211,33 @@ class GroundingTests(unittest.TestCase):
         self.assertEqual(unresolved_citation_ids(["A [S2][S1].", "no citations", ""], source_count=2), [])
         # Models do not always keep to one id per bracket.
         self.assertEqual(unresolved_citation_ids(["A [S1, S9]; B [S2-S8]; C [S7, p. 3]; [sic] US5"], source_count=3), [9, 8, 7])
+
+
+class SearchCacheTests(unittest.TestCase):
+    def test_records_and_replays_across_instances(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            request = {"q": "eiffel", "count": 5, "freshness": None}
+            first = SearchCache(Path(tmp) / "cache")
+            self.assertIsNone(first.get(request))
+            first.put(request, [{"url": "https://a.org", "title": "ž"}])
+
+            second = SearchCache(Path(tmp) / "cache")
+            self.assertEqual(second.get({"count": 5, "freshness": None, "q": "eiffel"}), [{"url": "https://a.org", "title": "ž"}])
+            # Anything that changes what the provider is asked is a different request.
+            self.assertIsNone(second.get({**request, "freshness": "1900-01-01to2020-10-31"}))
+
+            # A corrupt entry is a miss, not a crash, and the next put replaces it.
+            (entry,) = (Path(tmp) / "cache").rglob("*.json")
+            entry.write_text("{not json", encoding="utf-8")
+            self.assertIsNone(second.get(request))
+            # An empty result list is a recorded answer, not a miss.
+            second.put(request, [])
+            self.assertEqual(second.get(request), [])
+
+    def test_an_unusable_directory_fails_at_startup(self):
+        with tempfile.NamedTemporaryFile() as occupied:
+            with self.assertRaisesRegex(ValueError, "cannot be created"):
+                SearchCache(Path(occupied.name) / "cache")
 
 
 if __name__ == "__main__":

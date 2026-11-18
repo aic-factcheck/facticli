@@ -66,7 +66,7 @@ class RunArtifacts(BaseModel):
     )
     retrieval_summary: RetrievalSummary | None = Field(
         default=None,
-        description="Tool-call counts over the whole run (searches, pages opened, refusals).",
+        description="Tool-call counts over the whole run (searches, pages opened, cache hits, refusals).",
     )
     unresolved_citations: list[int] = Field(
         default_factory=list,

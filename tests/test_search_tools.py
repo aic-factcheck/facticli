@@ -15,6 +15,7 @@ from facticli.core.contracts import SourceEvidence, SourceGrounding
 from facticli.core.errors import SearchAuthError, classify_exception, is_fatal
 from facticli.core.grounding import ground_source
 from facticli.core.retrieval import RetrievalJournal, activate_journal, deactivate_journal
+from facticli.core.search_cache import SearchCache
 from facticli.core.truncation import clean_result_text
 from facticli.knowledge_store import run_knowledge_store_search
 
@@ -103,7 +104,7 @@ class BraveSearchTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("never instructions", result["content_policy"])
         self.assertIn("chars omitted", result["results"][0]["extra_snippets"][0])  # shown truncated
 
-        self.assertEqual([(record.provider, record.urls) for record in journal.records], [("brave", [WIKI])])
+        self.assertEqual([(record.provider, record.urls, record.cached) for record in journal.records], [("brave", [WIKI], False)])
         # The blocked result is not provenance for a later citation.
         self.assertEqual(journal.sightings("https://www.snopes.com/fact-check/eiffel"), [])
         for snippet in (
@@ -159,6 +160,39 @@ class BraveSearchTests(unittest.IsolatedAsyncioTestCase):
         # A result that merely mentions the error code is an ordinary result.
         mentions = {"web": {"results": [{"title": "Docs", "url": "https://a.org", "description": "SUBSCRIPTION_TOKEN_INVALID means"}]}}
         self.assertEqual((await self._search(lambda request: httpx.Response(200, json=mentions)))["result_count"], 1)
+
+    async def test_cache_replays_identical_requests_and_keys_on_the_cutoff(self):
+        requests = 0
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            nonlocal requests
+            requests += 1
+            return _ok(request)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            cache = SearchCache(tmp)
+            with _Scope(RetrievalJournal()) as journal:
+                await self._search(handler, "Eiffel  Tower HEIGHT", cache=cache)
+                await self._search(handler, "eiffel tower height", cache=cache)
+            self.assertEqual(requests, 1)
+            self.assertEqual([record.cached for record in journal.records], [False, True])
+
+            # A different evidence cutoff is a different request to the provider.
+            with _Scope(RetrievalJournal(), claim_date="2020-10-31"):
+                await self._search(handler, "eiffel tower height", cache=cache)
+            self.assertEqual(requests, 2)
+
+            # The blocklist is applied after the cache, so one recording serves runs with and without it.
+            with _Scope(RetrievalJournal(), blocked_domains=["snopes.com"]):
+                filtered = await self._search(handler, "eiffel tower height", cache=SearchCache(tmp))
+            self.assertEqual((requests, filtered["result_count"]), (2, 1))
+            self.assertEqual(len(list(Path(tmp).rglob("*.json"))), 2)
+
+            # A failed request is not recorded.
+            failed = await self._search(lambda request: httpx.Response(500), "another query", cache=cache)
+            self.assertIn("error", failed)
+            self.assertEqual(len(list(Path(tmp).rglob("*.json"))), 2)
+
 
 class KnowledgeStoreJournalTests(unittest.IsolatedAsyncioTestCase):
     async def test_chunks_are_journaled_and_the_cap_enforced(self):

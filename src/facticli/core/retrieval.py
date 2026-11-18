@@ -39,6 +39,7 @@ class RetrievalRecord(BaseModel):
     kind: str = SEARCH
     query: str | None = None
     urls: list[str] = Field(default_factory=list)
+    cached: bool = False
     refused: bool = False
     error: str | None = None
 
@@ -48,6 +49,7 @@ class RetrievalSummary(BaseModel):
 
     searches: int = 0
     pages_opened: int = 0
+    cache_hits: int = 0
     refused: int = 0
     errors: int = 0
     distinct_urls: int = 0
@@ -64,6 +66,7 @@ def summarize_retrieval(records: list[RetrievalRecord]) -> RetrievalSummary:
             summary.pages_opened += 1
         else:
             summary.searches += 1
+        summary.cache_hits += record.cached
         summary.errors += record.error is not None
         urls.update(url_key(url) for url in record.urls)
     summary.distinct_urls = sum(1 for location, _ in urls if location)

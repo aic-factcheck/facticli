@@ -41,6 +41,8 @@ block_fact_checkers = true
 blocked_domains = ["example-leaky-site.org"]
 token_budget = 60000
 feedback_rounds = 1
+# Record Brave responses and replay identical requests, so a rerun sees the same retrieval.
+# search_cache_dir = "./search-cache"
 
 # No-harness baseline for the harness-vs-single-agent comparison.
 [profiles.baseline]

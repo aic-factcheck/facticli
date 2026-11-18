@@ -217,7 +217,7 @@ class ArtifactsAuditTests(unittest.TestCase):
             source.grounding = level
         run.research_checks[0].finding.stop_reason = StopReason.TURN_LIMIT
         run.usage_summary = UsageSummary(total_tokens=1000, failed_attempt_tokens=250)
-        run.retrieval_summary = RetrievalSummary(searches=5)
+        run.retrieval_summary = RetrievalSummary(searches=5, cache_hits=2)
         run.unresolved_citations = [4]
 
         summary = aggregate([audit_run(run), audit_run(_artifact("1", VeracityVerdict.REFUTED, ["https://www.bbc.com/x"]))], None)

@@ -12,6 +12,7 @@ from agents import FunctionTool, RunContextWrapper, default_tool_error_function,
 from facticli.core.constraints import get_constraints, is_blocked_url
 from facticli.core.errors import SearchAuthError
 from facticli.core.retrieval import RetrievalRecord, get_journal, refuse_search_over_cap
+from facticli.core.search_cache import SearchCache
 from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, clean_result_text, truncate_search_results
 
 DEFAULT_MAX_CHARS_PER_FIELD = 1500
@@ -90,6 +91,7 @@ async def run_brave_web_search(
     max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
     max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
     default_count: int = DEFAULT_RESULT_COUNT,
+    cache: SearchCache | None = None,
 ) -> dict[str, Any]:
     """Run one search and return the bounded tool output.
 
@@ -124,24 +126,31 @@ async def run_brave_web_search(
         # Restrict result freshness to documents published up to the claim date.
         params["freshness"] = f"1900-01-01to{claim_date}"
 
-    try:
-        raw_results = await _request_brave(params, api_key)
-    except (httpx.HTTPError, ValueError) as exc:
-        status = getattr(getattr(exc, "response", None), "status_code", None)
-        error = f"search request failed ({f'HTTP {status}' if status else type(exc).__name__})"
-        if journal is not None:
-            journal.add(RetrievalRecord(provider=PROVIDER, query=query, error=error))
-        return {
-            "provider": PROVIDER,
-            "query": query,
-            "error": error,
-            "instruction": (
-                "This search failed. Try once more with a different, simpler query; if searches keep "
-                "failing, finish with the evidence you already have and note the failure in the caveats."
-            ),
-            "result_count": 0,
-            "results": [],
-        }
+    # Trivially different spellings of a query share one recorded response.
+    request = {**params, "q": " ".join(query.split()).casefold()}
+    raw_results = cache.get(request) if cache is not None else None
+    cached = raw_results is not None
+    if not cached:
+        try:
+            raw_results = await _request_brave(params, api_key)
+        except (httpx.HTTPError, ValueError) as exc:
+            status = getattr(getattr(exc, "response", None), "status_code", None)
+            error = f"search request failed ({f'HTTP {status}' if status else type(exc).__name__})"
+            if journal is not None:
+                journal.add(RetrievalRecord(provider=PROVIDER, query=query, error=error))
+            return {
+                "provider": PROVIDER,
+                "query": query,
+                "error": error,
+                "instruction": (
+                    "This search failed. Try once more with a different, simpler query; if searches keep "
+                    "failing, finish with the evidence you already have and note the failure in the caveats."
+                ),
+                "result_count": 0,
+                "results": [],
+            }
+        if cache is not None:
+            cache.put(request, raw_results)
 
     results = [item for item in raw_results if not is_blocked_url(item["url"], blocked_domains)]
     bounded_results, truncation_header = truncate_search_results(
@@ -168,7 +177,7 @@ async def run_brave_web_search(
         # Index the results the model was shown, with their text before truncation.
         shown = results[: len(bounded_results)]
         journal.add(
-            RetrievalRecord(provider=PROVIDER, query=query, urls=[item["url"] for item in shown]),
+            RetrievalRecord(provider=PROVIDER, query=query, urls=[item["url"] for item in shown], cached=cached),
             texts=[_result_text(item) for item in shown],
         )
     return result
@@ -179,6 +188,7 @@ def build_brave_web_search_tool(
     max_chars_per_field: int = DEFAULT_MAX_CHARS_PER_FIELD,
     max_total_chars: int = DEFAULT_MAX_TOTAL_CHARS,
     default_count: int = DEFAULT_RESULT_COUNT,
+    cache: SearchCache | None = None,
 ) -> FunctionTool:
     @function_tool(failure_error_function=_tool_failure)
     async def brave_web_search(
@@ -207,6 +217,7 @@ def build_brave_web_search_tool(
             max_chars_per_field=max_chars_per_field,
             max_total_chars=max_total_chars,
             default_count=default_count,
+            cache=cache,
         )
         return json.dumps(result, ensure_ascii=False)
 

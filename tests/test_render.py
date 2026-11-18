@@ -74,7 +74,7 @@ class RenderTests(unittest.TestCase):
         run.report.sources[:] = [quoted, unconfirmed, invented]
         run.report.findings[0] = run.report.findings[0].model_copy(update={"stop_reason": StopReason.TURN_LIMIT})
         run.artifacts.unresolved_citations = [7]
-        run.artifacts.retrieval_summary = RetrievalSummary(searches=5, pages_opened=1, refused=1, errors=1, distinct_urls=12)
+        run.artifacts.retrieval_summary = RetrievalSummary(searches=5, pages_opened=1, cache_hits=2, refused=1, errors=1, distinct_urls=12)
         run.artifacts.usage_summary = UsageSummary(
             requests=6, input_tokens=1000, cached_input_tokens=250, cache_write_tokens=400, output_tokens=200, total_tokens=1200,
             cache_hit_rate=0.25, failed_attempts=1, failed_attempt_tokens=300, wrap_up_calls=1,
@@ -89,7 +89,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("research: 900 tokens, 3 call(s), 4.0s, 1 failed attempt(s) costing 300 tokens", text)
         self.assertIn("wrap-up calls at the turn limit: 1", text)
         self.assertIn(
-            "retrieval: 5 search(es), 1 page(s) opened, 12 distinct URL(s), 1 refused at the cap, 1 failed", text
+            "retrieval: 5 search(es), 1 page(s) opened, 12 distinct URL(s), 2 served from cache, 1 refused at the cap, 1 failed", text
         )
         # A dangling citation is a problem with the report, so it shows without --show-usage.
         self.assertIn("cited above but absent from this list: S7", format_run_text(run))

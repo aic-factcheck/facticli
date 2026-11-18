@@ -34,6 +34,7 @@ Implemented:
 - retrieval journal per research run: tool-call receipts in artifacts, a tool-enforced hard search
   cap, and a deterministic provenance label on every cited source (`grounding`),
 - one tools-off wrap-up call when a research run reaches its turn limit,
+- record/replay cache for Brave responses (`--search-cache-dir`),
 - per-stage model and reasoning-effort routing (`--stage-model`, `--stage-effort`),
 - no-harness single-agent baseline (`--strategy single_agent`),
 - citation URL health pass (`--verify-sources`),
@@ -71,7 +72,8 @@ Not yet implemented (see `TODO.md`):
 - `src/facticli/core/*`: domain contracts, normalization, run artifacts, error taxonomy
   (`errors.py`), usage + budget ledger (`usage.py`), source tiers (`source_quality.py`),
   tool-output cleaning and truncation (`truncation.py`), retrieval constraints (`constraints.py`),
-  retrieval journal (`retrieval.py`), provenance check (`grounding.py`)
+  retrieval journal (`retrieval.py`), provenance check (`grounding.py`), record/replay cache
+  (`search_cache.py`)
 - `src/facticli/application/*`: strategy interfaces, explicit stages, services (pipeline and
   single-agent), factory, citation checker (`citations.py`), TOML settings (`settings_file.py`)
 - `src/facticli/adapters/openai_provider.py`: shared Agents SDK stage adapters + single-agent adapter;
@@ -84,7 +86,7 @@ Not yet implemented (see `TODO.md`):
 - `src/facticli/averitec_eval.py`, `src/facticli/eval/*`: scorer (label metrics, Ev2R, consistency)
 - `src/facticli/artifacts_audit.py`: leakage / robustness / evidence-ablation audit over run artifacts
 - `src/facticli/brave_search.py`, `src/facticli/knowledge_store.py`: search tools (bounded output,
-  journaled, capped)
+  journaled, capped; Brave responses optionally recorded and replayed)
 - `src/facticli/cli_validators.py`: CLI argument validators
 - `src/facticli/skills.py`: skill registry + frontmatter-aware prompt loading
 - `src/facticli/render.py`: human-readable output formatter
@@ -254,7 +256,7 @@ Design intent:
 - Preserve enough per-stage artifacts for debugging and later evaluation (`RunArtifacts` includes
   usage events, budget status, error kinds, stage models and efforts, citation check counts,
   per-check retrieval receipts, `retrieval_summary`, `unresolved_citations`).
-- Artifacts store receipts, not retrieved text.
+- Artifacts store receipts, not retrieved text; the text is in the search cache when one is configured.
 
 ## 7) Prompting Strategy
 
@@ -305,7 +307,7 @@ Claim-extraction language policy:
 - `--max-checks`, `--parallel`, `--feedback-rounds`, `--follow-up-checks`
 - `--token-budget`, `--model-retries`, `--retry-budget`
 - `--search-provider {openai,brave,knowledge_store}`, `--search-results`, `--search-context-size`
-- `--tool-call-budget`
+- `--tool-call-budget`, `--search-cache-dir`
 - `--block-fact-checkers`, `--blocked-domain DOMAIN`
 - `--verify-sources`, `--artifacts-dir`
 - `--max-claims` (extract-claims command)
@@ -320,6 +322,7 @@ Input/validation rules:
   brave and knowledge_store tools.
 - `--tool-call-budget` is what the researcher is told to plan for; the brave and knowledge_store
   tools enforce a cap of `SEARCH_CAP_FACTOR` (2) times that. Hosted `openai` search cannot be capped.
+- `--search-cache-dir` requires `--search-provider brave` (exit 2 otherwise).
 - `--stage-model` / `--stage-effort` require a known stage; efforts are
   `none|minimal|low|medium|high|xhigh|max`.
 - Config-file keys mirror long flag names (underscores); unknown profiles are an error (exit 2).

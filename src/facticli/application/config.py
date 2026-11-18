@@ -65,6 +65,7 @@ class FactCheckRuntimeConfig(InferenceConfig):
     blocked_domains: tuple[str, ...] = ()
     knowledge_store_dir: str | None = None
     tool_call_budget: int = 8
+    search_cache_dir: str | None = None
 
 
 @dataclass(frozen=True)

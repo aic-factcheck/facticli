@@ -144,6 +144,7 @@ was read by research agents and the individual harness citations were not re-ver
 - [x] Hard search cap enforced by the tools at twice the advertised `--tool-call-budget`.
 - [x] Wrap-up call: a research run at its turn limit gets one tools-off call instead of failing.
 - [x] Usage ledger counts every attempt (failed, timed out, wrap-up) and records cache-write tokens.
+- [x] Record/replay cache for Brave responses (`--search-cache-dir`).
 - [x] Error taxonomy: `quota` vs `rate_limit`, `forbidden` vs `auth`, `refusal`; fatal kinds (auth,
       quota, unknown model, rejected Brave key) abort the run and the AVeriTeC batch (exit code 3).
 - [x] Reference date (claim date, else today) in the research, review, judge, and single-agent payloads,

@@ -303,6 +303,14 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     check_parser.add_argument(
+        "--search-cache-dir",
+        default=None,
+        help=(
+            "Directory that records Brave responses and replays them on identical requests, so repeated or "
+            "paired runs see the same retrieval (needs --search-provider brave)."
+        ),
+    )
+    check_parser.add_argument(
         "--block-fact-checkers",
         action="store_true",
         default=False,
@@ -438,6 +446,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
         block_fact_checkers=bool(_arg(args, "block_fact_checkers", False)),
         blocked_domains=tuple(_arg(args, "blocked_domains", None) or ()),
         tool_call_budget=int(_arg(args, "tool_call_budget", 8)),
+        search_cache_dir=_arg(args, "search_cache_dir", None),
     )
 
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):

@@ -30,6 +30,7 @@ from facticli.core.contracts import (
     VerificationCheck,
 )
 from facticli.core.retrieval import OPEN_PAGE, RetrievalJournal, RetrievalRecord, get_journal
+from facticli.core.search_cache import SearchCache
 from facticli.core.usage import StageUsageEvent, apply_usage, get_usage_log, track_usage
 from facticli.knowledge_store import build_knowledge_store_search_tool
 from facticli.skills import load_skill_prompt
@@ -81,6 +82,7 @@ def build_search_tools(
     max_chars_per_field: int,
     max_total_chars: int,
     search_results_per_query: int,
+    cache: SearchCache | None = None,
 ) -> list[Tool]:
     """Search tools for evidence-gathering agents; only these stages carry tool schemas."""
     if search_provider == HOSTED_SEARCH_PROVIDER:
@@ -91,6 +93,7 @@ def build_search_tools(
                 max_chars_per_field=max_chars_per_field,
                 max_total_chars=max_total_chars,
                 default_count=search_results_per_query,
+                cache=cache,
             )
         ]
     if search_provider == "knowledge_store":
