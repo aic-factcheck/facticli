@@ -192,7 +192,7 @@ The label says where a source came from, not whether it is right. A source witho
 
 ### Config file and profiles
 
-Put stable settings in `facticli.toml` (or `.facticli.toml`, `FACTICLI_CONFIG`, or `~/.config/facticli/config.toml`) with a `[defaults]` table and named `[profiles.<name>]` tables. Keys mirror the long flag names with underscores; `stage_models`, `stage_efforts`, and `blocked_domains` may be written as tables/lists. Precedence: explicit CLI flag > profile > defaults > built-in default.
+Put stable settings in `facticli.toml` (or `.facticli.toml`, `FACTICLI_CONFIG`, or `~/.config/facticli/config.toml`) with a `[defaults]` table and named `[profiles.<name>]` tables. Keys mirror the long flag names with underscores; `stage_models`, `stage_efforts`, and `blocked_domains` may be written as tables/lists. Values are validated like the flags they stand for. Precedence: explicit CLI flag > profile > defaults > built-in default.
 
 ```bash
 cp facticli.example.toml facticli.toml

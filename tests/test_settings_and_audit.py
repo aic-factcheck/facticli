@@ -79,7 +79,7 @@ class SettingsFileTests(unittest.TestCase):
             self.assertEqual(base["search_provider"], "brave")
             self.assertEqual(base["max_checks"], 3)
             self.assertEqual(base["stage_model"], ["research=small", "judge=big"])
-            self.assertEqual(base["blocked_domain"], ["a.example", "b.example"])
+            self.assertEqual(base["blocked_domains"], ["a.example", "b.example"])
             self.assertNotIn("block_fact_checkers", base)
 
             bench = load_settings(path, "benchmark")
@@ -97,6 +97,70 @@ class SettingsFileTests(unittest.TestCase):
         self.assertEqual(args.parallel, 2)
         self.assertEqual(args.stage_model, ["judge=x"])
         self.assertEqual(sorted(applied), ["parallel", "stage_model"])
+
+    def test_keys_resolve_by_flag_name_as_documented(self):
+        parser = build_parser()
+        args = parser.parse_args(["check", "claim"])
+        applied = apply_settings(
+            args,
+            {
+                "search_results": 9,  # --search-results is stored as search_results_per_query
+                "blocked_domain": ["a.example"],  # --blocked-domain is stored as blocked_domains
+                "tool_call_budget": 5,
+                "search_cache_dir": "cache",
+            },
+            parser,
+        )
+        self.assertEqual((args.search_results_per_query, args.blocked_domains), (9, ["a.example"]))
+        self.assertEqual((args.tool_call_budget, args.search_cache_dir), (5, "cache"))
+        self.assertEqual(len(applied), 4)
+
+        # A profile overrides defaults even when the two layers spell the option differently,
+        # and a single value for a repeatable flag is one item, not a list of characters.
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(
+                tmp,
+                "[defaults]\nsearch_results = 3\nblocked_domain = \"snopes.com\"\n"
+                "[profiles.wide]\nsearch_results_per_query = 10\n",
+            )
+            args = parser.parse_args(["check", "claim"])
+            apply_settings(args, load_settings(path, "wide"), parser)
+            self.assertEqual((args.search_results_per_query, args.blocked_domains), (10, ["snopes.com"]))
+            # An explicit flag still wins over both layers.
+            args = parser.parse_args(["check", "claim", "--search-results", "7"])
+            apply_settings(args, load_settings(path, "wide"), parser)
+            self.assertEqual(args.search_results_per_query, 7)
+
+            # The later layer wins whichever spelling each layer used, and wherever the key first appeared.
+            path = self._write(
+                tmp,
+                "search_results_per_query = 10\n[defaults]\nsearch_results = 5\n"
+                "[profiles.x]\nsearch_results_per_query = 3\n[profiles.y]\nsearch-results = 4\n",
+            )
+            for profile, expected in ((None, 5), ("x", 3), ("y", 4)):
+                args = parser.parse_args(["check", "claim"])
+                apply_settings(args, load_settings(path, profile), parser)
+                self.assertEqual(args.search_results_per_query, expected, profile)
+
+    def test_file_values_pass_the_same_validation_as_flags(self):
+        parser = build_parser()
+        for key, value in (
+            ("tool_call_budget", 0),
+            ("search_results", 500),
+            ("search_provider", "bing"),
+            ("verify_sources", "false"),  # a truthy string would switch the option on
+            ("model", 5),
+            ("blocked_domains", ["a.example", 7]),
+        ):
+            with self.assertRaisesRegex(ValueError, f"Config key '{key}'"):
+                apply_settings(parser.parse_args(["check", "claim"]), {key: value}, parser)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(tmp, "tool_call_budget = 0\n")
+            stderr = io.StringIO()
+            with redirect_stderr(stderr), self.assertRaises(SystemExit) as exit_info:
+                cli_main(["--config", str(path), "check", "claim"])
+        self.assertEqual(exit_info.exception.code, 2)
+        self.assertIn("Config error: Config key 'tool_call_budget'", stderr.getvalue())
 
     def test_find_config_path_precedence_and_errors(self):
         with tempfile.TemporaryDirectory() as tmp:

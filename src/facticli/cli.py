@@ -604,13 +604,13 @@ def _apply_config_file(parser: argparse.ArgumentParser, args: argparse.Namespace
             return 0
         profile = getattr(args, "profile", None) or os.getenv(PROFILE_ENV_VAR) or None
         settings = load_settings(path, profile)
+        apply_settings(args, settings, parser)
     except (FileNotFoundError, ValueError) as exc:
         print(f"Config error: {exc}", file=sys.stderr)
         return 2
     except Exception as exc:  # tomllib.TOMLDecodeError and friends
         print(f"Config error: failed to parse config file: {exc}", file=sys.stderr)
         return 2
-    apply_settings(args, settings, parser)
     return 0
 
 

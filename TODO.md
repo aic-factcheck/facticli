@@ -150,8 +150,9 @@ was read by research agents and the individual harness citations were not re-ver
 - [x] Reference date (claim date, else today) in the research, review, judge, and single-agent payloads,
       not the planner's; reasoning efforts up to `max`.
 - [x] AVeriTeC evidence rows each state a different fact (one row per finding first, then snippets).
-- [x] Fixed along the way: `--search-results` had no effect; Brave results reached the model with
-      `<strong>` markup; an unparseable claim date silently disabled the evidence cutoff.
+- [x] Fixed along the way: `--search-results` had no effect; `blocked_domains` and `search_results`
+      in `facticli.toml` were ignored and file values skipped validation; Brave results reached the
+      model with `<strong>` markup; an unparseable claim date silently disabled the evidence cutoff.
 
 ### Measured (gpt-5.6-terra, first 10 claims of `dev_20.json`, Brave, fact-checkers blocked, claim-date cutoff)
 Single runs per arm unless stated, so a difference of one or two claims is noise.

@@ -325,7 +325,8 @@ Input/validation rules:
 - `--search-cache-dir` requires `--search-provider brave` (exit 2 otherwise).
 - `--stage-model` / `--stage-effort` require a known stage; efforts are
   `none|minimal|low|medium|high|xhigh|max`.
-- Config-file keys mirror long flag names (underscores); unknown profiles are an error (exit 2).
+- Config-file keys mirror long flag names (underscores) and also accept the stored attribute name;
+  values go through the flag's own type and choices; unknown profiles are an error (exit 2).
 - The AVeriTeC runner exits with code 3 when a fatal error aborts the batch, and with code 2
   before the first claim when a claim date cannot be parsed.
 
