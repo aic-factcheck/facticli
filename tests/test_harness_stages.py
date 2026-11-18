@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import asyncio
 import unittest
-from types import SimpleNamespace
 
 import httpx
 
+from facticli.adapters.payloads import index_sources
 from facticli.application.citations import CitationHealthChecker, summarize_url_statuses
 from facticli.application.progress import ProgressEvent
 from facticli.application.services import FactCheckService, SingleAgentFactCheckService
@@ -19,12 +20,14 @@ from facticli.core.contracts import (
     ReviewAction,
     ReviewDecision,
     SourceEvidence,
+    SourceGrounding,
     SourceTier,
     UrlStatus,
     VeracityVerdict,
     VerificationCheck,
 )
-from facticli.core.usage import activate_usage_log, deactivate_usage_log, record_stage_usage
+from facticli.core.retrieval import RetrievalRecord, get_journal
+from facticli.core.usage import StageUsageEvent, activate_usage_log, deactivate_usage_log, get_usage_log
 
 
 def _plan(*aspect_ids: str) -> InvestigationPlan:
@@ -48,6 +51,11 @@ def _finding(aspect_id: str, urls: list[str] | None = None, signal: EvidenceSign
     )
 
 
+def _spend(tokens: int) -> None:
+    """Charge the run's ledger the way a research model call would."""
+    get_usage_log().events.append(StageUsageEvent(stage="research", model="m", requests=1, input_tokens=tokens, total_tokens=tokens))
+
+
 class _Researcher:
     def __init__(self, *, fail: set[str] | None = None, error: Exception | None = None, spend: int = 0) -> None:
         self.fail = fail or set()
@@ -58,12 +66,7 @@ class _Researcher:
     async def research(self, claim: str, check: VerificationCheck) -> AspectFinding:
         self.calls.append(check.aspect_id)
         if self.spend:
-            record_stage_usage(
-                stage="research",
-                model="m",
-                usage=SimpleNamespace(requests=1, input_tokens=self.spend, output_tokens=0, total_tokens=self.spend),
-                duration_seconds=0.1,
-            )
+            _spend(self.spend)
         if check.aspect_id in self.fail:
             raise self.error
         return _finding(check.aspect_id, ["https://www.reuters.com/world/x", "https://x.com/u/1"])
@@ -92,16 +95,51 @@ class ResearchStageHarnessTests(unittest.IsolatedAsyncioTestCase):
     async def test_non_retryable_errors_stop_retrying(self):
         import openai
 
-        response = httpx.Response(401, request=httpx.Request("GET", "https://api"))
-        researcher = _Researcher(fail={"a"}, error=openai.AuthenticationError("denied", response=response, body=None))
+        response = httpx.Response(400, request=httpx.Request("GET", "https://api"))
+        researcher = _Researcher(fail={"a"}, error=openai.BadRequestError("unsupported value", response=response, body=None))
         stage = ResearchStage(researcher=researcher, max_parallel_research=1, research_timeout_seconds=0, research_retry_attempts=3)
         artifacts = RunArtifacts(claim="c", normalized_claim="c")
 
         findings = await stage.execute("c", _plan("a"), artifacts)
 
         self.assertEqual(findings[0].status, FindingStatus.FAILED)
+        self.assertTrue(findings[0].failure_reason.startswith("bad_request: BadRequestError"))
         self.assertEqual(researcher.calls, ["a"])
-        self.assertEqual(artifacts.research_checks[0].error_kinds, ["auth"])
+        self.assertEqual(artifacts.research_checks[0].error_kinds, ["bad_request"])
+
+    async def test_a_fatal_error_aborts_the_stage_and_cancels_sibling_checks(self):
+        import openai
+
+        cancelled: list[str] = []
+
+        class _DeadKey:
+            async def research(self, claim: str, check: VerificationCheck) -> AspectFinding:
+                if check.aspect_id == "a":
+                    response = httpx.Response(401, request=httpx.Request("GET", "https://api"))
+                    raise openai.AuthenticationError("denied", response=response, body=None)
+                try:
+                    await asyncio.sleep(30)
+                except asyncio.CancelledError:
+                    cancelled.append(check.aspect_id)
+                    raise
+                return _finding(check.aspect_id)
+
+        stage = ResearchStage(researcher=_DeadKey(), max_parallel_research=3, research_timeout_seconds=0, research_retry_attempts=3)
+        artifacts = RunArtifacts(claim="c", normalized_claim="c")
+        with self.assertRaises(openai.AuthenticationError):
+            await stage.execute("c", _plan("a", "b", "c"), artifacts)
+        # Every later request would fail the same way: no retry, and nobody keeps spending.
+        self.assertEqual(artifacts.research_checks[0].attempts, 1)
+        self.assertEqual(sorted(cancelled), ["b", "c"])
+
+    async def test_a_researcher_that_does_not_journal_leaves_sources_unassessed(self):
+        stage = ResearchStage(
+            researcher=_Researcher(), max_parallel_research=1, research_timeout_seconds=0, research_retry_attempts=0, search_cap=3
+        )
+        artifacts = RunArtifacts(claim="c", normalized_claim="c")
+        findings = await stage.execute("c", _plan("a"), artifacts)
+        self.assertTrue(all(source.grounding is None for source in findings[0].sources))
+        self.assertEqual(artifacts.research_checks[0].retrieval, [])
 
     async def test_budget_exhaustion_skips_remaining_checks(self):
         researcher = _Researcher(spend=600)
@@ -163,6 +201,54 @@ class JudgeStageHarnessTests(unittest.IsolatedAsyncioTestCase):
         urls = [s.url for s in report.sources]
         self.assertEqual(urls, ["https://www.reuters.com/world/x", "https://www.czso.cz/x"])
         self.assertEqual([s.tier for s in report.sources], [SourceTier.NEWS, SourceTier.PRIMARY])
+
+    async def test_cited_source_ids_must_exist_in_the_source_table(self):
+        class _CitingJudge:
+            async def judge(self, claim, plan, findings):
+                return FactCheckReport(
+                    claim=claim, verdict=VeracityVerdict.SUPPORTED, verdict_confidence=0.8,
+                    justification="Confirmed [S1][S2]. Also [S5].", key_points=["Point [S2]"], counter_argument="None [S9].",
+                )
+
+        findings = [_finding("a", ["https://www.reuters.com/x", "https://www.bbc.com/y"]), _finding("b", ["https://www.bbc.com/y"])]
+        artifacts = RunArtifacts(claim="c", normalized_claim="c")
+        events: list[ProgressEvent] = []
+        await JudgeStage(judge=_CitingJudge()).execute("c", _plan("a", "b"), findings, artifacts, progress_callback=events.append)
+        self.assertEqual(artifacts.unresolved_citations, [5, 9])  # the table has two rows
+
+    async def test_a_source_only_the_judge_lists_is_labelled_untraceable(self):
+        class _MiscopyingJudge:
+            async def judge(self, claim, plan, findings):
+                return FactCheckReport(
+                    claim=claim, verdict=VeracityVerdict.SUPPORTED, verdict_confidence=0.8, justification="Confirmed [S1][S2].",
+                    counter_argument="c",
+                    sources=[
+                        SourceEvidence(title="copied", url="https://www.reuters.com/x", snippet="s"),
+                        SourceEvidence(title="miscopied", url="https://www.reuters.com/y", snippet="s"),
+                    ],
+                )
+
+        traced = _finding("a", ["https://www.reuters.com/x"])
+        traced.sources[0].grounding = SourceGrounding.QUOTE_MATCHED
+        artifacts = RunArtifacts(claim="c", normalized_claim="c")
+        report = await JudgeStage(judge=_MiscopyingJudge()).execute("c", _plan("a"), [traced], artifacts)
+        self.assertEqual(
+            [(source.url, source.grounding) for source in report.sources],
+            [("https://www.reuters.com/x", SourceGrounding.QUOTE_MATCHED), ("https://www.reuters.com/y", SourceGrounding.UNMATCHED)],
+        )
+        # The reader sees it as S2 with its label, so citing it is not a dangling id.
+        self.assertEqual(artifacts.unresolved_citations, [])
+
+    def test_a_url_retrieved_by_any_check_counts_as_retrieved(self):
+        url = "https://en.wikipedia.org/wiki/X"
+        from_memory = _finding("a", [url])
+        from_memory.sources[0].grounding = SourceGrounding.UNMATCHED
+        retrieved = _finding("b", [url])
+        retrieved.sources[0].grounding = SourceGrounding.QUOTE_MATCHED
+        for order in ([from_memory, retrieved], [retrieved, from_memory]):
+            self.assertEqual([source.grounding for source in merge_sources([], order)], [SourceGrounding.QUOTE_MATCHED])
+            self.assertNotIn("grounding", index_sources(order)[0][0])
+        self.assertEqual(index_sources([from_memory, from_memory])[0][0]["grounding"], "unmatched")
 
     def test_merge_sources_prefers_tiered_copy(self):
         tiered = SourceEvidence(title="t", url="https://a.org/x", snippet="s", tier=SourceTier.OTHER)
@@ -257,11 +343,7 @@ class _ResearchStage:
     async def execute(self, claim, plan, artifacts, progress_callback=None):
         self.calls += 1
         if self.spend:
-            record_stage_usage(
-                stage="research", model="m",
-                usage=SimpleNamespace(requests=1, input_tokens=self.spend, output_tokens=0, total_tokens=self.spend),
-                duration_seconds=0.1,
-            )
+            _spend(self.spend)
         return [_finding(check.aspect_id) for check in plan.checks]
 
 
@@ -348,6 +430,55 @@ class _SingleAgent:
             ],
             sources=[SourceEvidence(title="r", url="https://en.wikipedia.org/wiki/X", snippet="s")],
         )
+
+
+class _JournalingAgent:
+    """Single agent whose "tool calls" land in the journal the service installed."""
+
+    async def check(self, claim: str, max_checks: int) -> FactCheckReport:
+        journal = get_journal()
+        journal.complete = True
+        self.search_cap = journal.search_cap
+        quote = "The council approved the budget on Monday evening."
+        journal.add(RetrievalRecord(provider="brave", query="q", urls=["https://www.bbc.com/news/1"]), [quote])
+        seen = SourceEvidence(title="bbc", url="https://www.bbc.com/news/1", snippet=quote)
+        invented = SourceEvidence(title="made up", url="https://example.com/nope", snippet=quote)
+        return FactCheckReport(
+            claim=claim, verdict=VeracityVerdict.SUPPORTED, verdict_confidence=0.8, justification="j", counter_argument="c",
+            findings=[AspectFinding(aspect_id="vote", question="Q", signal=EvidenceSignal.SUPPORTS, summary="s", confidence=0.8, sources=[seen])],
+            sources=[seen, invented],
+        )
+
+
+class RunContextTests(unittest.IsolatedAsyncioTestCase):
+    async def test_single_agent_run_is_capped_and_grounded_like_the_pipeline(self):
+        agent = _JournalingAgent()
+        service = SingleAgentFactCheckService(checker=agent, max_checks=2, search_cap=64, stage_efforts={"single_agent": "low"})
+        run = await service.check_claim("The claim.")
+
+        self.assertEqual(agent.search_cap, 64)
+        self.assertEqual(run.findings[0].sources[0].grounding, SourceGrounding.QUOTE_MATCHED)
+        self.assertEqual(
+            [(source.url, source.grounding) for source in run.report.sources],
+            [("https://www.bbc.com/news/1", SourceGrounding.QUOTE_MATCHED), ("https://example.com/nope", SourceGrounding.UNMATCHED)],
+        )
+        self.assertEqual(run.artifacts.retrieval_summary.searches, 1)
+        self.assertEqual(run.artifacts.stage_efforts, {"single_agent": "low"})
+        self.assertIsNone(get_journal())  # the journal does not outlive the run
+
+    async def test_the_claim_is_evaluated_as_of_its_date_or_else_today(self):
+        service = SingleAgentFactCheckService(checker=_JournalingAgent(), max_checks=2)
+        dated = (await service.check_claim("The claim.", claim_date="25-8-2020")).artifacts.constraints
+        self.assertEqual((dated.claim_date, dated.reference_date), ("2020-08-25", "2020-08-25"))
+        undated = (await service.check_claim("The claim.", claim_date="  ")).artifacts.constraints
+        self.assertIsNone(undated.claim_date)
+        self.assertRegex(undated.reference_date, r"^\d{4}-\d{2}-\d{2}$")
+
+    async def test_unparseable_claim_date_stops_the_run_instead_of_dropping_the_cutoff(self):
+        service = SingleAgentFactCheckService(checker=_JournalingAgent(), max_checks=2)
+        for bad in ("8-25-2020", "25.8.2020", "last week"):
+            with self.assertRaisesRegex(ValueError, "Unparseable claim date"):
+                await service.check_claim("The claim.", claim_date=bad)
 
 
 class SingleAgentServiceTests(unittest.IsolatedAsyncioTestCase):

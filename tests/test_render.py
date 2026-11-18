@@ -11,11 +11,14 @@ from facticli.core.contracts import (
     FindingStatus,
     InvestigationPlan,
     SourceEvidence,
+    SourceGrounding,
     SourceTier,
+    StopReason,
     UrlStatus,
     VeracityVerdict,
     VerificationCheck,
 )
+from facticli.core.retrieval import RetrievalSummary
 from facticli.core.usage import BudgetStatus, UsageSummary
 from facticli.render import format_run_text
 
@@ -62,6 +65,34 @@ class RenderTests(unittest.TestCase):
         self.assertIn("token budget 1200/1000 (exhausted)", text)
         self.assertIn("skipped: research:b", text)
         self.assertIn("citations: archived=1", text)
+
+    def test_provenance_limits_and_wasted_tokens_are_visible(self):
+        run = self._run()
+        quoted = run.report.sources[0].model_copy(update={"grounding": SourceGrounding.QUOTE_MATCHED, "url_status": None})
+        unconfirmed = quoted.model_copy(update={"title": "AP", "url": "https://apnews.com/x", "grounding": SourceGrounding.URL_MATCHED})
+        invented = quoted.model_copy(update={"title": "Blog", "url": "https://blog.example/x", "grounding": SourceGrounding.UNMATCHED})
+        run.report.sources[:] = [quoted, unconfirmed, invented]
+        run.report.findings[0] = run.report.findings[0].model_copy(update={"stop_reason": StopReason.TURN_LIMIT})
+        run.artifacts.unresolved_citations = [7]
+        run.artifacts.retrieval_summary = RetrievalSummary(searches=5, pages_opened=1, refused=1, errors=1, distinct_urls=12)
+        run.artifacts.usage_summary = UsageSummary(
+            requests=6, input_tokens=1000, cached_input_tokens=250, cache_write_tokens=400, output_tokens=200, total_tokens=1200,
+            cache_hit_rate=0.25, failed_attempts=1, failed_attempt_tokens=300, wrap_up_calls=1,
+            per_stage={"research": {"total_tokens": 900, "calls": 3, "llm_seconds": 4.0, "failed_attempts": 1, "failed_attempt_tokens": 300}},
+        )
+        text = format_run_text(run, show_usage=True)
+        self.assertIn("[S1] Reuters (news, 2020-01-02, quote found in retrieved text)", text)
+        self.assertIn("[S2] AP (news, 2020-01-02, url retrieved, quote not matched)", text)
+        self.assertIn("[S3] Blog (news, 2020-01-02, NOT in search results)", text)
+        self.assertIn("[a] supports | confidence 0.90 | cut short at the turn limit", text)
+        self.assertIn("250 cached, 400 cache writes,", text)
+        self.assertIn("research: 900 tokens, 3 call(s), 4.0s, 1 failed attempt(s) costing 300 tokens", text)
+        self.assertIn("wrap-up calls at the turn limit: 1", text)
+        self.assertIn(
+            "retrieval: 5 search(es), 1 page(s) opened, 12 distinct URL(s), 1 refused at the cap, 1 failed", text
+        )
+        # A dangling citation is a problem with the report, so it shows without --show-usage.
+        self.assertIn("cited above but absent from this list: S7", format_run_text(run))
 
     def test_usage_hidden_by_default(self):
         text = format_run_text(self._run())

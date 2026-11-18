@@ -24,6 +24,10 @@ class BudgetExhaustedError(FacticliError):
     """The run-level token or retry budget was used up before the stage could run."""
 
 
+class SearchAuthError(FacticliError):
+    """The search provider rejected its API key; no query can succeed until the key is fixed."""
+
+
 class ResearchError(FacticliError):
     """A research check failed after all retry attempts."""
 
@@ -37,19 +41,27 @@ class ErrorKind(str, Enum):
 
     Retryable kinds are transient transport or capacity problems. Everything
     else either needs a different request (schema, context overflow, bad
-    request), a human (auth, config), or is a deliberate stop (budget).
+    request, refusal, forbidden), a human (auth, quota, config), or is a
+    deliberate stop (budget). ``quota`` is split from ``rate_limit`` because
+    both arrive as HTTP 429: a throttled request succeeds after backoff, an
+    exhausted account never does. ``forbidden`` (HTTP 403) is split from
+    ``auth`` (HTTP 401) because a 403 can be about one request (a moderation
+    block, a model the key may not use) while a 401 is about the key itself.
     """
 
     RATE_LIMIT = "rate_limit"
+    QUOTA = "quota"
     TIMEOUT = "timeout"
     NETWORK = "network"
     SERVER = "server"
     AUTH = "auth"
+    FORBIDDEN = "forbidden"
     NOT_FOUND = "not_found"
     BAD_REQUEST = "bad_request"
     CONTEXT_OVERFLOW = "context_overflow"
     SCHEMA = "schema"
     MAX_TURNS = "max_turns"
+    REFUSAL = "refusal"
     TOOL = "tool"
     BUDGET = "budget"
     UNKNOWN = "unknown"
@@ -60,6 +72,19 @@ RETRYABLE_KINDS: frozenset[ErrorKind] = frozenset(
 )
 
 RETRYABLE_STATUS_CODES: frozenset[int] = frozenset({408, 409, 425, 429, 500, 502, 503, 504})
+
+# Kinds that no retry, rephrasing, or other claim can fix: every later request
+# with the same credentials and configuration fails the same way (a rejected
+# key, an account out of credit, a model name the endpoint does not know). A
+# run stops on these instead of judging a claim on no evidence, and batch
+# runners stop instead of writing fallback predictions claim after claim.
+FATAL_KINDS: frozenset[ErrorKind] = frozenset({ErrorKind.AUTH, ErrorKind.QUOTA, ErrorKind.NOT_FOUND})
+
+# Out-of-credit is recognized by the provider's error code, as the structured
+# field or inside the serialized error body, never by the prose around it:
+# ordinary per-minute throttling messages also say "you exceeded your current
+# quota", and a fatal misclassification stops a whole batch.
+_QUOTA_CODE = "insufficient_quota"
 
 _CONTEXT_OVERFLOW_MARKERS: tuple[str, ...] = (
     "context_length_exceeded",
@@ -79,14 +104,22 @@ def _looks_like_context_overflow(message: str) -> bool:
     return any(marker in lowered for marker in _CONTEXT_OVERFLOW_MARKERS)
 
 
+def _is_out_of_credit(message: str, code: object = None) -> bool:
+    return code == _QUOTA_CODE or _QUOTA_CODE in message
+
+
 def classify_status_code(status_code: int | None, message: str = "") -> ErrorKind:
     """Map an HTTP status (and optional message) to an error kind."""
     if status_code is None:
         return ErrorKind.UNKNOWN
     if status_code == 429:
-        return ErrorKind.RATE_LIMIT
-    if status_code in (401, 403):
+        return ErrorKind.QUOTA if _is_out_of_credit(message) else ErrorKind.RATE_LIMIT
+    if status_code == 402:
+        return ErrorKind.QUOTA
+    if status_code == 401:
         return ErrorKind.AUTH
+    if status_code == 403:
+        return ErrorKind.FORBIDDEN
     if status_code == 404:
         return ErrorKind.NOT_FOUND
     if status_code in (408, 504):
@@ -111,6 +144,8 @@ def classify_exception(exc: BaseException) -> ErrorKind:
         return ErrorKind.BUDGET
     if isinstance(exc, SchemaError):
         return ErrorKind.SCHEMA
+    if isinstance(exc, SearchAuthError):
+        return ErrorKind.AUTH
     if isinstance(exc, TransientError):
         return ErrorKind.NETWORK
     if isinstance(exc, (asyncio.TimeoutError, TimeoutError)):
@@ -119,18 +154,26 @@ def classify_exception(exc: BaseException) -> ErrorKind:
     class_names = {cls.__name__ for cls in type(exc).__mro__}
     message = str(exc)
 
+    if "UserError" in class_names and exc.__cause__ is not None:
+        # The Agents SDK wraps whatever a tool raised; classify the tool's own error.
+        return classify_exception(exc.__cause__)
+
     if "MaxTurnsExceeded" in class_names:
         return ErrorKind.MAX_TURNS
+    if "ModelRefusalError" in class_names:
+        return ErrorKind.REFUSAL
     if "ModelBehaviorError" in class_names or "ValidationError" in class_names:
         return ErrorKind.SCHEMA
-    if "ToolTimeoutError" in class_names:
+    if "ToolTimeoutError" in class_names or "ModelTimeoutError" in class_names:
         return ErrorKind.TIMEOUT
     if "RateLimitError" in class_names:
-        return ErrorKind.RATE_LIMIT
+        return ErrorKind.QUOTA if _is_out_of_credit(message, getattr(exc, "code", None)) else ErrorKind.RATE_LIMIT
     if "APITimeoutError" in class_names or "ReadTimeout" in class_names or "ConnectTimeout" in class_names:
         return ErrorKind.TIMEOUT
-    if "AuthenticationError" in class_names or "PermissionDeniedError" in class_names:
+    if "AuthenticationError" in class_names:
         return ErrorKind.AUTH
+    if "PermissionDeniedError" in class_names:
+        return ErrorKind.FORBIDDEN
     if "NotFoundError" in class_names:
         return ErrorKind.NOT_FOUND
     if "InternalServerError" in class_names:
@@ -154,6 +197,11 @@ def classify_exception(exc: BaseException) -> ErrorKind:
 def is_retryable(kind: ErrorKind) -> bool:
     """True for transient kinds worth another attempt with backoff."""
     return kind in RETRYABLE_KINDS
+
+
+def is_fatal(kind: ErrorKind) -> bool:
+    """True when no later request with the same credentials and configuration can succeed."""
+    return kind in FATAL_KINDS
 
 
 def describe_exception(exc: BaseException) -> str:

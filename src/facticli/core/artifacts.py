@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 from .constraints import ResearchConstraints
 from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, ReviewDecision, SourceEvidence, VerificationCheck
+from .retrieval import RetrievalRecord, RetrievalSummary
 from .usage import BudgetStatus, StageUsageEvent, UsageSummary
 
 
@@ -18,6 +19,10 @@ class ResearchCheckArtifact(BaseModel):
     )
     finding: AspectFinding | None = None
     removed_sources: list[SourceEvidence] = Field(default_factory=list)
+    retrieval: list[RetrievalRecord] = Field(
+        default_factory=list,
+        description="Receipts for every search run or refused for this check, across attempts (no retrieved text).",
+    )
 
 
 class ReviewRoundArtifact(BaseModel):
@@ -51,9 +56,21 @@ class RunArtifacts(BaseModel):
         default_factory=dict,
         description="Resolved model per stage when per-stage routing was used.",
     )
+    stage_efforts: dict[str, str] = Field(
+        default_factory=dict,
+        description="Reasoning effort requested per stage; the provider decides whether it is honoured.",
+    )
     citation_check: dict[str, int] | None = Field(
         default=None,
         description="Counts per url_status from the optional citation health pass.",
+    )
+    retrieval_summary: RetrievalSummary | None = Field(
+        default=None,
+        description="Tool-call counts over the whole run (searches, pages opened, refusals).",
+    )
+    unresolved_citations: list[int] = Field(
+        default_factory=list,
+        description="[S#] numbers cited in the judge's prose that point at no row of the source table.",
     )
 
     def get_or_create_check(self, check: VerificationCheck) -> ResearchCheckArtifact:

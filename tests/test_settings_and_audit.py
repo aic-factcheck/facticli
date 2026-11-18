@@ -22,9 +22,12 @@ from facticli.core.contracts import (
     FindingStatus,
     InvestigationPlan,
     SourceEvidence,
+    SourceGrounding,
+    StopReason,
     VeracityVerdict,
     VerificationCheck,
 )
+from facticli.core.retrieval import RetrievalSummary
 from facticli.core.usage import BudgetStatus, UsageSummary
 from facticli.eval.label_metrics import compute_consistency_metrics
 
@@ -204,6 +207,24 @@ class ArtifactsAuditTests(unittest.TestCase):
         self.assertEqual(summary["accuracy_split"]["leaked"]["n"], 2)
         self.assertEqual(summary["accuracy_split"]["leaked"]["accuracy"], 0.5)
         self.assertEqual(summary["mean_cache_hit_rate"], 0.5)
+        # Artifacts written before the retrieval journal existed carry no provenance.
+        self.assertEqual(summary["grounding_counts"], {})
+
+    def test_audit_reports_provenance_limits_and_wasted_tokens(self):
+        run = _artifact("0", VeracityVerdict.SUPPORTED, ["https://www.reuters.com/world/x", "https://www.czso.cz/x", "https://example.org/y"])
+        levels = [SourceGrounding.QUOTE_MATCHED, SourceGrounding.URL_MATCHED, SourceGrounding.UNMATCHED]
+        for source, level in zip(run.report_final.sources, levels):
+            source.grounding = level
+        run.research_checks[0].finding.stop_reason = StopReason.TURN_LIMIT
+        run.usage_summary = UsageSummary(total_tokens=1000, failed_attempt_tokens=250)
+        run.retrieval_summary = RetrievalSummary(searches=5)
+        run.unresolved_citations = [4]
+
+        summary = aggregate([audit_run(run), audit_run(_artifact("1", VeracityVerdict.REFUTED, ["https://www.bbc.com/x"]))], None)
+        self.assertEqual(summary["grounding_counts"], {"quote_matched": 1, "url_matched": 1, "unmatched": 1})
+        self.assertEqual((summary["runs_with_unmatched_source"], summary["runs_with_unresolved_citation"]), (1, 1))
+        self.assertEqual(summary["checks_cut_short"], {"turn_limit": 1})
+        self.assertEqual((summary["mean_failed_attempt_tokens"], summary["mean_searches"]), (125.0, 5.0))
 
     def test_cli_end_to_end_over_artifact_files(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -217,6 +238,7 @@ class ArtifactsAuditTests(unittest.TestCase):
                 code = audit_main(["--artifacts-dir", tmp, "--output", str(output)])
             self.assertEqual(code, 0)
             self.assertIn("runs: 2", stdout.getvalue())
+            self.assertIn("provenance: not assessed", stdout.getvalue())
             self.assertIn("skipping run_bad.json", stderr.getvalue())
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(payload["summary"]["runs_leaked"], 0)

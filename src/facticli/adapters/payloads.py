@@ -8,6 +8,8 @@ from facticli.core.contracts import (
     EvidenceSignal,
     FindingStatus,
     InvestigationPlan,
+    SourceEvidence,
+    SourceGrounding,
     VerificationCheck,
 )
 from facticli.core.normalize import normalize_source_url
@@ -57,6 +59,29 @@ def budget_payload(log: UsageLog | None) -> dict[str, Any] | None:
             "clearly unreachable."
         ),
     }
+
+
+def dated(payload: dict[str, Any], constraints: ResearchConstraints | None) -> dict[str, Any]:
+    """Put the date the claim is evaluated as of in front of a stage payload.
+
+    Without it a model resolves "current", "latest", and "this year" against
+    its training cutoff. The planner is deliberately not told: given the date,
+    it added checks on whether a title in the claim ("House Speaker X said")
+    held on that date, and their "supports" findings diluted the verdict.
+    """
+    if constraints is None or not constraints.reference_date:
+        return payload
+    return {"reference_date": constraints.reference_date, **payload}
+
+
+def _unmatched_marker(source: SourceEvidence) -> dict[str, str]:
+    """Flag a cited URL that was not in the search results of the check citing it.
+
+    Only this grounding level goes to a model: it is the one a reader can act
+    on, and it means the same for every search provider. The full label stays
+    on the finding for the report and the artifacts.
+    """
+    return {"grounding": SourceGrounding.UNMATCHED.value} if source.grounding == SourceGrounding.UNMATCHED else {}
 
 
 def research_payload(
@@ -128,10 +153,13 @@ def review_payload(
                         "tier": source.tier.value if source.tier else None,
                         "published_at": source.published_at,
                         "snippet": source.snippet,
+                        **_unmatched_marker(source),
                     }
                     for source in finding.sources
                 ],
             }
+            if finding.stop_reason is not None:
+                entry["finding"]["stop_reason"] = finding.stop_reason.value
         graded.append(entry)
     return {
         "claim": claim,
@@ -170,8 +198,12 @@ def index_sources(findings: list[AspectFinding]) -> tuple[list[dict[str, Any]], 
                         "tier": source.tier.value if source.tier else None,
                         "snippet": source.snippet,
                         "cited_by": cited_by[source_id],
+                        **_unmatched_marker(source),
                     }
                 )
+            elif source.grounding not in (None, SourceGrounding.UNMATCHED):
+                # Another check did retrieve this URL (see ``merge_sources``).
+                table[int(ids_by_url[key][1:]) - 1].pop("grounding", None)
             source_id = ids_by_url[key]
             if finding.aspect_id not in cited_by[source_id]:
                 cited_by[source_id].append(finding.aspect_id)
@@ -202,17 +234,18 @@ def judge_payload(*, claim: str, plan: InvestigationPlan, findings: list[AspectF
             source_id = ids_by_url.get(normalize_source_url(source.url))
             if source_id and source_id not in source_ids:
                 source_ids.append(source_id)
-        grouped[finding.signal.value].append(
-            {
-                "aspect_id": finding.aspect_id,
-                "question": finding.question,
-                "acceptance_criteria": check.acceptance_criteria if check else [],
-                "summary": finding.summary,
-                "confidence": finding.confidence,
-                "caveats": finding.caveats,
-                "source_ids": source_ids,
-            }
-        )
+        entry: dict[str, Any] = {
+            "aspect_id": finding.aspect_id,
+            "question": finding.question,
+            "acceptance_criteria": check.acceptance_criteria if check else [],
+            "summary": finding.summary,
+            "confidence": finding.confidence,
+            "caveats": finding.caveats,
+            "source_ids": source_ids,
+        }
+        if finding.stop_reason is not None:
+            entry["stop_reason"] = finding.stop_reason.value
+        grouped[finding.signal.value].append(entry)
 
     completed = [finding for finding in findings if finding.status == FindingStatus.COMPLETED]
     payload: dict[str, Any] = {
@@ -253,6 +286,7 @@ def single_agent_payload(
     search_provider: str,
     constraints: ResearchConstraints | None,
     usage_log: UsageLog | None,
+    tool_call_budget: int,
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "claim": claim,
@@ -260,6 +294,7 @@ def single_agent_payload(
             "max_aspects": max_checks,
             "min_sources": 2,
             "must_use_search_tool": True,
+            "tool_call_budget": tool_call_budget,
             "preferred_provider": search_provider,
             "snippets_verbatim": True,
         },

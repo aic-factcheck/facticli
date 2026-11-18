@@ -16,15 +16,12 @@ from facticli.core.constraints import (
     is_blocked_url,
     normalize_claim_date,
     parse_date_loose,
+    unwrap_archive_url,
+    url_domain,
     violates_date_cutoff,
 )
 from facticli.core.contracts import AspectFinding, EvidenceSignal, SourceEvidence, VerificationCheck
-from facticli.core.usage import (
-    activate_usage_log,
-    deactivate_usage_log,
-    record_stage_usage,
-    summarize_usage,
-)
+from facticli.core.usage import activate_usage_log, apply_usage, deactivate_usage_log, summarize_usage, track_usage
 
 
 class ConstraintTests(unittest.TestCase):
@@ -33,6 +30,7 @@ class ConstraintTests(unittest.TestCase):
         self.assertEqual(parse_date_loose("31-10-2020").isoformat(), "2020-10-31")
         self.assertIsNone(parse_date_loose("October 2020"))
         self.assertIsNone(parse_date_loose(None))
+        self.assertIsNone(parse_date_loose("25-8-20"))  # not the year 20
 
     def test_normalize_claim_date(self):
         self.assertEqual(normalize_claim_date("25-8-2020"), "2020-08-25")
@@ -45,6 +43,23 @@ class ConstraintTests(unittest.TestCase):
         self.assertTrue(is_blocked_url("https://www.reuters.com/fact-check/some-claim", blocked))
         self.assertFalse(is_blocked_url("https://www.reuters.com/world/some-news", blocked))
         self.assertFalse(is_blocked_url("https://notpolitifact.com/x", blocked))
+
+    def test_blocklist_sees_through_ports_dots_and_archive_wrappers(self):
+        blocked = ["snopes.com", "reuters.com/fact-check"]
+        for url in (
+            "https://www.snopes.com:443/fact-check/x",
+            "https://snopes.com./fact-check/x",
+            "https://web.archive.org/web/20200101000000/https://www.snopes.com/fact-check/x",
+            "https://web.archive.org/web/20200101id_/http://reuters.com/fact-check/abc",
+            "https://web.archive.org/web/https://snopes.com/x",  # no timestamp
+            "https://web.archive.org:443/web/2/https%3A%2F%2Fsnopes.com%2Fx",  # port, short timestamp, encoded
+            "https://web.archive.org/web/2020/https://web.archive.org/web/2019/https://snopes.com/x",  # wrapped twice
+        ):
+            self.assertTrue(is_blocked_url(url, blocked), url)
+        self.assertFalse(is_blocked_url("https://web.archive.org/web/20200101000000/https://www.reuters.com/world/x", blocked))
+        self.assertEqual(url_domain("https://User@WWW.Example.org:8443/x"), "example.org")
+        self.assertEqual(unwrap_archive_url("https://web.archive.org/web/2020/https:/example.org/a"), "https://example.org/a")
+        self.assertEqual(unwrap_archive_url("https://example.org/a"), "https://example.org/a")
 
     def test_violates_date_cutoff(self):
         self.assertTrue(violates_date_cutoff("2021-01-05", "2020-10-31"))
@@ -112,18 +127,10 @@ class UsageTrackingTests(unittest.TestCase):
     def test_record_and_summarize_usage(self):
         log, token = activate_usage_log()
         try:
-            record_stage_usage(
-                stage="plan",
-                model="m",
-                usage=SimpleNamespace(requests=1, input_tokens=100, output_tokens=20, total_tokens=120),
-                duration_seconds=1.5,
-            )
-            record_stage_usage(
-                stage="research",
-                model="m",
-                usage=SimpleNamespace(requests=2, input_tokens=300, output_tokens=50, total_tokens=350),
-                duration_seconds=2.0,
-            )
+            with track_usage(stage="plan", model="m") as event:
+                apply_usage(event, SimpleNamespace(requests=1, input_tokens=100, output_tokens=20, total_tokens=120))
+            with track_usage(stage="research", model="m") as event:
+                apply_usage(event, SimpleNamespace(requests=2, input_tokens=300, output_tokens=50, total_tokens=350))
         finally:
             deactivate_usage_log(token)
 
@@ -133,8 +140,9 @@ class UsageTrackingTests(unittest.TestCase):
         self.assertEqual(summary.per_stage["plan"]["calls"], 1)
         self.assertEqual(summary.per_stage["research"]["input_tokens"], 300)
 
-    def test_record_outside_active_log_is_noop(self):
-        record_stage_usage(stage="plan", model="m", usage=None, duration_seconds=0.1)
+    def test_tracking_outside_an_active_log_is_a_noop(self):
+        with track_usage(stage="plan", model="m") as event:
+            self.assertIsNone(event)
 
 
 class FileRepositoryTests(unittest.TestCase):

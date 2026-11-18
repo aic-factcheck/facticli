@@ -20,7 +20,9 @@ from facticli.core.contracts import (
     ReviewAction,
     VerificationCheck,
 )
+from facticli.core.grounding import ground_finding, ground_sources
 from facticli.core.normalize import normalize_text_list
+from facticli.core.retrieval import RetrievalJournal, activate_journal, deactivate_journal, summarize_retrieval
 from facticli.core.source_quality import assign_source_tiers
 from facticli.core.usage import UsageLog, activate_usage_log, deactivate_usage_log, summarize_usage
 
@@ -65,25 +67,38 @@ class _RunContext:
         retry_budget: int | None,
         strategy: str,
         stage_models: dict[str, str],
+        stage_efforts: dict[str, str],
     ) -> None:
         normalized_claim = claim.strip()
         if not normalized_claim:
             raise ValueError("Claim is empty.")
         self.normalized_claim = normalized_claim
+        started = datetime.now(timezone.utc)
+        normalized_date = normalize_claim_date(claim_date)
+        if claim_date is not None and str(claim_date).strip() and normalized_date is None:
+            # A date that does not parse would silently switch off every
+            # date-based leakage control (search freshness, source filter).
+            # Refuse the run instead.
+            raise ValueError(
+                f"Unparseable claim date {claim_date!r}: expected YYYY-MM-DD or D-M-YYYY. "
+                "The evidence cutoff cannot be applied."
+            )
         self.constraints = ResearchConstraints(
             claim_id=str(claim_id) if claim_id is not None else None,
-            claim_date=normalize_claim_date(claim_date),
+            claim_date=normalized_date,
             blocked_domains=list(blocked_domains),
             knowledge_store_dir=knowledge_store_dir,
+            reference_date=normalized_date or started.date().isoformat(),
         )
         self.artifacts = RunArtifacts(
             claim=claim,
             normalized_claim=normalized_claim,
             claim_id=self.constraints.claim_id,
             constraints=self.constraints,
-            started_at=datetime.now(timezone.utc).isoformat(),
+            started_at=started.isoformat(),
             strategy=strategy,
             stage_models=dict(stage_models),
+            stage_efforts=dict(stage_efforts),
         )
         self._token_budget = token_budget
         self._retry_budget = retry_budget
@@ -105,6 +120,9 @@ class _RunContext:
         self.artifacts.usage_events = self.usage_log.events
         self.artifacts.usage_summary = summarize_usage(self.usage_log.events)
         self.artifacts.budget = self.usage_log.budget_status()
+        receipts = [record for check in self.artifacts.research_checks for record in check.retrieval]
+        if receipts:
+            self.artifacts.retrieval_summary = summarize_retrieval(receipts)
 
 
 @dataclass(frozen=True)
@@ -124,6 +142,7 @@ class FactCheckService:
     token_budget: int | None = None
     retry_budget: int | None = None
     stage_models: dict[str, str] = field(default_factory=dict)
+    stage_efforts: dict[str, str] = field(default_factory=dict)
 
     async def check_claim(
         self,
@@ -149,6 +168,7 @@ class FactCheckService:
             retry_budget=self.retry_budget,
             strategy="pipeline",
             stage_models=self.stage_models,
+            stage_efforts=self.stage_efforts,
         )
         artifacts = run.artifacts
         normalized_claim = run.normalized_claim
@@ -358,8 +378,10 @@ class SingleAgentFactCheckService:
 
     Used to measure what the plan/research/review/judge decomposition buys
     over a single agent with the same model, search tool, and token budget.
-    Retrieval constraints, source tiering, budget accounting, and the citation
-    check apply identically so only the orchestration differs.
+    Retrieval constraints, source tiering, grounding, budget accounting, and
+    the citation check apply identically so only the orchestration differs.
+    ``search_cap`` is the hard search limit for the whole run (the pipeline's
+    per-check cap times ``max_checks``).
     """
     checker: SingleAgentChecker
     max_checks: int = 4
@@ -371,6 +393,8 @@ class SingleAgentFactCheckService:
     token_budget: int | None = None
     retry_budget: int | None = None
     stage_models: dict[str, str] = field(default_factory=dict)
+    stage_efforts: dict[str, str] = field(default_factory=dict)
+    search_cap: int | None = None
 
     async def check_claim(
         self,
@@ -390,13 +414,19 @@ class SingleAgentFactCheckService:
             retry_budget=self.retry_budget,
             strategy="single_agent",
             stage_models=self.stage_models,
+            stage_efforts=self.stage_efforts,
         )
         artifacts = run.artifacts
         normalized_claim = run.normalized_claim
         with run:
             await emit_progress(progress_callback, "run_started", {"claim": normalized_claim})
             await emit_progress(progress_callback, "single_agent_started", {"claim": normalized_claim})
-            report_raw = await self.checker.check(claim=normalized_claim, max_checks=self.max_checks)
+            journal = RetrievalJournal(search_cap=self.search_cap)
+            journal_token = activate_journal(journal)
+            try:
+                report_raw = await self.checker.check(claim=normalized_claim, max_checks=self.max_checks)
+            finally:
+                deactivate_journal(journal_token)
             artifacts.report_raw = report_raw
 
             findings: list[AspectFinding] = []
@@ -410,7 +440,8 @@ class SingleAgentFactCheckService:
                 )
                 artifact = artifacts.get_or_create_check(check)
                 artifact.attempts = 1
-                filtered = _apply_source_constraints(finding.model_copy(update={"aspect_id": aspect_id}), artifact)
+                grounded = ground_finding(finding.model_copy(update={"aspect_id": aspect_id}), journal)
+                filtered = _apply_source_constraints(grounded, artifact)
                 tiered = filtered.model_copy(update={"sources": assign_source_tiers(filtered.sources)})
                 artifact.finding = tiered
                 findings.append(tiered)
@@ -440,6 +471,8 @@ class SingleAgentFactCheckService:
                     search_queries=[],
                 )
             )
+            # The run has one journal; its receipts live on the report-level artifact.
+            report_sources_artifact.retrieval.extend(journal.records)
             report_level = _apply_source_constraints(
                 AspectFinding(
                     aspect_id="report_sources",
@@ -447,7 +480,7 @@ class SingleAgentFactCheckService:
                     signal=EvidenceSignal.INSUFFICIENT,
                     summary="",
                     confidence=0.0,
-                    sources=report_raw.sources,
+                    sources=ground_sources(report_raw.sources, journal),
                 ),
                 report_sources_artifact,
             )

@@ -12,7 +12,13 @@ from facticli.application.config import REASONING_EFFORTS, STRATEGIES, FactCheck
 from facticli.application.factory import build_fact_check_service
 from facticli.application.repository import FileRunArtifactRepository
 from facticli.cli_validators import non_negative_int, positive_int, search_results_int
+from facticli.core.constraints import normalize_claim_date
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
+from facticli.core.errors import classify_exception, describe_exception, is_fatal
+from facticli.core.grounding import summarize_grounding
+
+# Exit code when a batch stops early on an error no retry can fix (rejected key, exhausted quota, unknown model).
+EXIT_ABORTED = 3
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -118,6 +124,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Max model-call retries per claim run (default: 12).",
     )
     parser.add_argument(
+        "--tool-call-budget",
+        type=positive_int,
+        default=8,
+        help="Searches a researcher is told to plan for per check (default: 8); the tools refuse beyond twice that.",
+    )
+    parser.add_argument(
         "--feedback-rounds",
         type=non_negative_int,
         default=0,
@@ -200,7 +212,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=search_results_int,
         default=5,
         dest="search_results_per_query",
-        help="Number of search results per query (1..20).",
+        help="Results per query when the model does not ask for a number (1..20); brave and knowledge_store only.",
     )
     return parser
 
@@ -385,11 +397,7 @@ def build_failed_submission_row(
     }
 
 
-async def _run_batch(
-    *,
-    indexed_records: list[tuple[int, dict[str, Any]]],
-    args: argparse.Namespace,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def _build_service(args: argparse.Namespace) -> Any:
     config = FactCheckRuntimeConfig(
         model=args.model,
         base_url=args.base_url,
@@ -412,18 +420,36 @@ async def _run_batch(
         block_fact_checkers=args.block_fact_checkers,
         blocked_domains=tuple(args.blocked_domains or ()),
         knowledge_store_dir=args.knowledge_store_dir,
+        tool_call_budget=args.tool_call_budget,
     )
     artifact_repository = (
         FileRunArtifactRepository(output_dir=args.artifacts_dir) if args.artifacts_dir else None
     )
-    service = build_fact_check_service(config=config, artifact_repository=artifact_repository)
+    return build_fact_check_service(config=config, artifact_repository=artifact_repository)
+
+
+async def _run_batch(
+    *,
+    indexed_records: list[tuple[int, dict[str, Any]]],
+    args: argparse.Namespace,
+    service: Any,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], str | None]:
+    """Run the selected claims; return ``(rows, run info, abort reason)``.
+
+    A claim that fails for an ordinary reason gets a fallback row. A failure
+    no retry can fix aborts the batch instead: the failing claim and everything
+    not yet started are left out of the output, so ``--resume`` picks them up
+    rather than keeping fallback labels.
+    """
     semaphore = asyncio.Semaphore(max(1, args.parallel_claims))
     ordered_rows: list[dict[str, Any] | None] = [None] * len(indexed_records)
     ordered_run_info: list[dict[str, Any] | None] = [None] * len(indexed_records)
+    abort_reason: str | None = None
 
     async def process_one(
         local_index: int, row_index: int, record: dict[str, Any]
-    ) -> tuple[int, dict[str, Any], dict[str, Any]]:
+    ) -> tuple[int, dict[str, Any] | None, dict[str, Any] | None]:
+        nonlocal abort_reason
         claim = _extract_claim_text(record, row_index, args.claim_field)
         claim_id = _resolve_claim_id(record, row_index, args.claim_id_field)
         claim_date = (
@@ -433,9 +459,14 @@ async def _run_batch(
         )
         run_info: dict[str, Any] = {"claim_id": claim_id, "claim_date": claim_date}
         async with semaphore:
+            if abort_reason:
+                return local_index, None, None
             try:
                 run = await service.check_claim(claim, claim_id=claim_id, claim_date=claim_date)
             except Exception as exc:
+                if is_fatal(classify_exception(exc)):
+                    abort_reason = abort_reason or describe_exception(exc)
+                    return local_index, None, None
                 if args.fail_fast:
                     raise RuntimeError(
                         f"Claim row {row_index} failed ({claim[:120]}): {type(exc).__name__}: {exc}"
@@ -475,6 +506,10 @@ async def _run_batch(
         run_info["removed_source_count"] = sum(
             len(check.removed_sources) for check in artifacts.research_checks
         )
+        run_info["cut_short_checks"] = sum(
+            1 for check in artifacts.research_checks if check.finding is not None and check.finding.stop_reason
+        )
+        run_info["grounding"] = summarize_grounding(run.report.sources)
         row = build_submission_row(
             record=record,
             row_index=row_index,
@@ -494,6 +529,8 @@ async def _run_batch(
     completed = 0
     for task in asyncio.as_completed(tasks):
         local_index, row, run_info = await task
+        if row is None:
+            continue
         ordered_rows[local_index] = row
         ordered_run_info[local_index] = run_info
         completed += 1
@@ -506,6 +543,7 @@ async def _run_batch(
     return (
         [row for row in ordered_rows if row is not None],
         [info for info in ordered_run_info if info is not None],
+        abort_reason,
     )
 
 
@@ -550,6 +588,20 @@ async def _run(args: argparse.Namespace) -> int:
         return 2
 
     indexed_records = [(offset + index, record) for index, record in enumerate(sliced_records)]
+    if args.claim_date_field:
+        # An evidence cutoff that cannot be applied stops the batch before it spends anything.
+        undated = [
+            row_index
+            for row_index, record in indexed_records
+            if (value := str(record.get(args.claim_date_field) or "").strip()) and normalize_claim_date(value) is None
+        ]
+        if undated:
+            print(
+                f"Unparseable claim date in field {args.claim_date_field!r} of {len(undated)} row(s), first at row "
+                f"{undated[0]}: expected YYYY-MM-DD or D-M-YYYY.",
+                file=sys.stderr,
+            )
+            return 2
 
     existing_rows: list[dict[str, Any]] = []
     if args.resume and output_path.is_file():
@@ -579,10 +631,25 @@ async def _run(args: argparse.Namespace) -> int:
     )
 
     try:
-        submission_rows, run_info_rows = await _run_batch(indexed_records=indexed_records, args=args)
+        service = _build_service(args)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    try:
+        submission_rows, run_info_rows, abort_reason = await _run_batch(
+            indexed_records=indexed_records, args=args, service=service
+        )
     except Exception as exc:
         print(f"Batch run failed: {exc}", file=sys.stderr)
         return 1
+    if abort_reason:
+        print(
+            f"[error] Batch aborted after {len(submission_rows)} of {len(indexed_records)} claims: {abort_reason}. "
+            "No retry can fix this error, so the remaining claims were not given fallback labels. "
+            "Completed rows are written to the output file; fix the cause and rerun with --resume.",
+            file=sys.stderr,
+            flush=True,
+        )
 
     all_rows = [*existing_rows, *submission_rows]
 
@@ -623,6 +690,8 @@ async def _run(args: argparse.Namespace) -> int:
             "base_url": args.base_url or os.getenv("OPENAI_API_BASE_URL"),
             "search_provider": args.search_provider,
             "search_context_size": args.search_context_size,
+            "search_results": args.search_results_per_query,
+            "tool_call_budget": args.tool_call_budget,
             "max_checks": args.max_checks,
             "parallel_research": args.parallel,
             "parallel_claims": args.parallel_claims,
@@ -634,12 +703,14 @@ async def _run(args: argparse.Namespace) -> int:
         },
         "claims": run_info_rows,
     }
+    if abort_reason:
+        manifest["aborted"] = abort_reason
     if args.resume and run_info_path.is_file():
         previous = json.loads(run_info_path.read_text(encoding="utf-8"))
         manifest["claims"] = [*previous.get("claims", []), *run_info_rows]
     run_info_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"[info] Wrote run manifest to {run_info_path}.", file=sys.stderr, flush=True)
-    return 0
+    return EXIT_ABORTED if abort_reason else 0
 
 
 def main(argv: list[str] | None = None) -> int:

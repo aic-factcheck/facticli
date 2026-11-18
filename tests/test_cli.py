@@ -11,7 +11,7 @@ from unittest.mock import AsyncMock, patch
 
 from facticli.application.progress import ProgressEvent
 from facticli.application.services import FactCheckRun
-from facticli.cli import _load_extract_input_text, run_check_command, run_extract_claims_command
+from facticli.cli import _load_extract_input_text, build_parser, run_check_command, run_extract_claims_command
 from facticli.core.artifacts import RunArtifacts
 from facticli.core.contracts import (
     CheckworthyClaim,
@@ -161,6 +161,33 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("plan", payload)
         self.assertIn("findings", payload)
         self.assertIn("artifacts", payload)
+
+    async def test_check_command_maps_search_flags_onto_the_runtime_config(self):
+        args = build_parser().parse_args(
+            [
+                "check", "claim", "--search-provider", "brave", "--tool-call-budget", "5",
+                "--stage-effort", "judge=xhigh", "--search-results", "9", "--json",
+            ]
+        )
+        captured: dict[str, object] = {}
+
+        def fake_build(config, artifact_repository=None):
+            captured["config"] = config
+            raise ValueError("stop here")
+
+        with (
+            patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "m", "BRAVE_SEARCH_API_KEY": "k"}, clear=False),
+            patch("facticli.cli.build_fact_check_service", side_effect=fake_build),
+            redirect_stderr(io.StringIO()),
+        ):
+            code = await run_check_command(args)
+
+        self.assertEqual(code, 2)
+        config = captured["config"]
+        self.assertEqual((config.tool_call_budget, config.search_results_per_query), (5, 9))
+        self.assertEqual(config.stage_efforts, {"judge": "xhigh"})
+        defaults = build_parser().parse_args(["check", "claim"])
+        self.assertEqual(defaults.tool_call_budget, 8)
 
     async def test_check_command_streams_progress_to_stderr(self):
         fake_run = FactCheckRun(

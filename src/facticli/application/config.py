@@ -4,7 +4,14 @@ from dataclasses import dataclass, field
 
 # Stage names accepted by per-stage model / reasoning-effort routing.
 STAGE_NAMES: tuple[str, ...] = ("plan", "research", "review", "judge", "single_agent", "extract_claims")
-REASONING_EFFORTS: tuple[str, ...] = ("minimal", "low", "medium", "high")
+# Superset of what reasoning models accept. Which values a given model honours
+# is the provider's call; an unsupported one fails the request (bad_request).
+REASONING_EFFORTS: tuple[str, ...] = ("none", "minimal", "low", "medium", "high", "xhigh", "max")
+# The search tools refuse calls beyond this multiple of the budget a researcher
+# is told to plan for. Models run a call or two past a stated budget, and
+# refusing those costs evidence (measurements in TODO.md), so the cap only
+# stops runaway loops.
+SEARCH_CAP_FACTOR = 2
 STRATEGIES: tuple[str, ...] = ("pipeline", "single_agent")
 
 
@@ -57,6 +64,7 @@ class FactCheckRuntimeConfig(InferenceConfig):
     block_fact_checkers: bool = False
     blocked_domains: tuple[str, ...] = ()
     knowledge_store_dir: str | None = None
+    tool_call_budget: int = 8
 
 
 @dataclass(frozen=True)

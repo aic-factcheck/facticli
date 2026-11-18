@@ -11,6 +11,7 @@ from typing import Any
 from facticli.core.artifacts import RunArtifacts
 from facticli.core.constraints import FACT_CHECK_DOMAINS, is_blocked_url, violates_date_cutoff
 from facticli.core.contracts import FindingStatus, SourceTier
+from facticli.core.grounding import summarize_grounding
 from facticli.core.source_quality import classify_source_tier
 
 # Post-hoc audit over persisted run artifacts (FileRunArtifactRepository JSON).
@@ -81,6 +82,7 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
     removed = 0
     failed_checks = 0
     budget_skipped = 0
+    stop_reasons: dict[str, int] = {}
     for check in artifacts.research_checks:
         removed += len(check.removed_sources)
         finding = check.finding
@@ -90,6 +92,8 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
             failed_checks += 1
         elif finding.status == FindingStatus.BUDGET_EXHAUSTED:
             budget_skipped += 1
+        elif finding.stop_reason is not None:
+            stop_reasons[finding.stop_reason.value] = stop_reasons.get(finding.stop_reason.value, 0) + 1
         raw_fact_checker += sum(
             1 for source in [*finding.sources, *check.removed_sources] if is_blocked_url(source.url, FACT_CHECK_DOMAINS)
         )
@@ -100,6 +104,7 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
         tier_counts[tier.value] = tier_counts.get(tier.value, 0) + 1
 
     usage = artifacts.usage_summary
+    retrieval = artifacts.retrieval_summary
     return {
         "claim_id": artifacts.claim_id,
         "claim": artifacts.normalized_claim,
@@ -117,11 +122,16 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
         "checks": len(artifacts.research_checks),
         "failed_checks": failed_checks,
         "budget_skipped_checks": budget_skipped,
+        "stop_reasons": stop_reasons,
         "review_rounds": len(artifacts.review_rounds),
         "total_tokens": usage.total_tokens if usage else None,
+        "failed_attempt_tokens": usage.failed_attempt_tokens if usage else None,
         "cache_hit_rate": usage.cache_hit_rate if usage else None,
         "duration_seconds": artifacts.duration_seconds,
         "leaked": bool(fact_checker_final or raw_fact_checker or post_date_final),
+        "grounding": summarize_grounding(final_sources),
+        "unresolved_citations": artifacts.unresolved_citations,
+        "searches": retrieval.searches if retrieval else None,
     }
 
 
@@ -151,7 +161,15 @@ def aggregate(rows: list[dict[str, Any]], gold: list[dict[str, Any]] | None) -> 
             [row["failed_checks"] / row["checks"] for row in rows if row["checks"]]
         ),
         "runs_with_budget_skips": sum(1 for row in rows if row["budget_skipped_checks"]),
+        "checks_cut_short": _sum_dicts([row["stop_reasons"] for row in rows]),
+        "grounding_counts": _sum_dicts([row["grounding"] for row in rows]),
+        "runs_with_unmatched_source": sum(1 for row in rows if row["grounding"].get("unmatched")),
+        "runs_with_unresolved_citation": sum(1 for row in rows if row["unresolved_citations"]),
+        "mean_searches": _mean([row["searches"] for row in rows if row["searches"] is not None]),
         "mean_total_tokens": _mean([row["total_tokens"] for row in rows if row["total_tokens"] is not None]),
+        "mean_failed_attempt_tokens": _mean(
+            [row["failed_attempt_tokens"] for row in rows if row["failed_attempt_tokens"] is not None]
+        ),
         "mean_cache_hit_rate": _mean([row["cache_hit_rate"] for row in rows if row["cache_hit_rate"] is not None]),
         "mean_duration_seconds": _mean([row["duration_seconds"] for row in rows if row["duration_seconds"] is not None]),
         "verdict_counts": _count([row["verdict"] for row in rows]),
@@ -315,10 +333,18 @@ def _print_summary(audit: dict[str, Any]) -> None:
     print(f"tiers: {summary['tier_counts']}")
     print(
         f"robustness: failed-check share {summary['failed_check_share']}, "
-        f"{summary['runs_with_budget_skips']} run(s) hit the token budget"
+        f"{summary['runs_with_budget_skips']} run(s) hit the token budget, "
+        f"checks cut short {summary['checks_cut_short'] or 'none'}"
     )
     print(
-        f"cost: mean tokens {summary['mean_total_tokens']}, mean cache hit rate {summary['mean_cache_hit_rate']}, "
+        f"provenance: {summary['grounding_counts'] or 'not assessed'}; "
+        f"{summary['runs_with_unmatched_source']} run(s) cite a URL absent from search output, "
+        f"{summary['runs_with_unresolved_citation']} run(s) cite an unknown source id"
+    )
+    print(
+        f"cost: mean tokens {summary['mean_total_tokens']} "
+        f"(of which {summary['mean_failed_attempt_tokens']} on failed attempts), "
+        f"mean searches {summary['mean_searches']}, mean cache hit rate {summary['mean_cache_hit_rate']}, "
         f"mean duration {summary['mean_duration_seconds']}s"
     )
     print(f"verdicts: {summary['verdict_counts']}")

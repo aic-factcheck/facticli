@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import re
 from contextvars import ContextVar, Token
 from datetime import date
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 from pydantic import BaseModel, Field
 
@@ -56,11 +57,17 @@ FACT_CHECK_DOMAINS: tuple[str, ...] = (
 
 
 class ResearchConstraints(BaseModel):
-    """Per-run retrieval constraints propagated to search tools and filters."""
+    """Per-run retrieval constraints propagated to search tools and filters.
+
+    ``reference_date`` is the date the claim is evaluated as of: the claim
+    date when one is set, else the date the run started (UTC). Research,
+    review, and judging are told this date.
+    """
     claim_id: str | None = None
     claim_date: str | None = None  # ISO YYYY-MM-DD once normalized
     blocked_domains: list[str] = Field(default_factory=list)
     knowledge_store_dir: str | None = None
+    reference_date: str | None = None  # ISO YYYY-MM-DD
 
 
 _active_constraints: ContextVar[ResearchConstraints | None] = ContextVar(
@@ -94,8 +101,10 @@ def parse_date_loose(value: str | None) -> date | None:
     try:
         if len(parts[0]) == 4:
             year, month, day = int(parts[0]), int(parts[1]), int(parts[2])
-        else:
+        elif len(parts[2]) == 4:
             day, month, year = int(parts[0]), int(parts[1]), int(parts[2])
+        else:
+            return None  # a two-digit year would be read as the first century
         return date(year, month, day)
     except ValueError:
         return None
@@ -107,21 +116,44 @@ def normalize_claim_date(value: str | None) -> str | None:
     return parsed.isoformat() if parsed else None
 
 
+# The timestamp segment is optional and may be shortened or a wildcard.
+_ARCHIVE_WRAPPER = re.compile(r"^https?://web\.archive\.org(?::\d+)?/web/(?:[\d*]+[a-z_]*/)?(.+)$", re.IGNORECASE)
+
+
+def unwrap_archive_url(url: str) -> str:
+    """Return the original URL behind a Wayback Machine snapshot URL, or the URL itself.
+
+    An archived copy of a blocked page is the same source as far as the
+    blocklist is concerned, so the check looks through the wrapper.
+    """
+    match = _ARCHIVE_WRAPPER.match((url or "").strip())
+    if not match:
+        return url
+    inner = match.group(1)
+    if re.match(r"^https?%3A", inner, re.IGNORECASE):
+        inner = unquote(inner)
+    if not re.match(r"^https?:/", inner, re.IGNORECASE):
+        inner = "http://" + inner
+    return unwrap_archive_url(re.sub(r"^(https?:)/+", r"\1//", inner, flags=re.IGNORECASE))
+
+
 def url_domain(url: str) -> str:
-    """Extract a lowercase host (without www.) from a URL."""
+    """Extract a lowercase host (without www., port, or trailing dot) from a URL."""
     try:
-        host = urlparse(url).netloc.lower()
+        host = (urlparse(url).hostname or "").lower()
     except ValueError:
         return ""
-    return host.removeprefix("www.")
+    return host.rstrip(".").removeprefix("www.")
 
 
 def is_blocked_url(url: str, blocked_domains: list[str] | tuple[str, ...]) -> bool:
     """True when the URL's host or host/path prefix matches a blocked entry.
 
     Entries may be bare domains (matched against the host, including
-    subdomains) or domain/path prefixes (matched against host + path).
+    subdomains) or domain/path prefixes (matched against host + path). A
+    Wayback snapshot of a blocked page is blocked too.
     """
+    url = unwrap_archive_url(url)
     host = url_domain(url)
     if not host:
         return False

@@ -8,6 +8,7 @@ from facticli.adapters.openai_provider import build_model_settings
 from facticli.adapters.payloads import (
     FAILED_CHECK_NOTICE,
     budget_payload,
+    dated,
     index_sources,
     judge_payload,
     research_payload,
@@ -15,6 +16,7 @@ from facticli.adapters.payloads import (
     single_agent_payload,
 )
 from facticli.adapters.retry_policy import build_retry_settings, classify_retry_context, facticli_retry_policy
+from facticli.application.config import REASONING_EFFORTS, parse_stage_assignments
 from facticli.core.constraints import ResearchConstraints
 from facticli.core.contracts import (
     AspectFinding,
@@ -22,7 +24,9 @@ from facticli.core.contracts import (
     FindingStatus,
     InvestigationPlan,
     SourceEvidence,
+    SourceGrounding,
     SourceTier,
+    StopReason,
     VerificationCheck,
 )
 from facticli.core.errors import ErrorKind
@@ -119,12 +123,53 @@ class PayloadTests(unittest.TestCase):
         self.assertNotIn("budget", bare)
         self.assertIsNone(budget_payload(UsageLog()))
 
-        single = single_agent_payload(claim="c", max_checks=3, search_provider="openai", constraints=constraints, usage_log=None)
-        self.assertEqual(single["requirements"]["max_aspects"], 3)
+        single = single_agent_payload(
+            claim="c", max_checks=3, search_provider="openai", constraints=constraints, usage_log=None, tool_call_budget=24
+        )
+        self.assertEqual((single["requirements"]["max_aspects"], single["requirements"]["tool_call_budget"]), (3, 24))
         self.assertIn("constraints", single)
+
+    def test_models_are_told_only_about_untraceable_sources_and_cut_short_research(self):
+        traced = SourceEvidence(title="a", url="https://data.gov/a", snippet="q", grounding=SourceGrounding.QUOTE_MATCHED)
+        paraphrased = SourceEvidence(title="b", url="https://data.gov/b", snippet="p", grounding=SourceGrounding.URL_MATCHED)
+        invented = SourceEvidence(title="c", url="https://x.com/u/1", snippet="i", grounding=SourceGrounding.UNMATCHED)
+        findings = [
+            AspectFinding(aspect_id="a", question="Qa", signal=EvidenceSignal.SUPPORTS, summary="s", confidence=0.9, sources=[traced, paraphrased]),
+            AspectFinding(
+                aspect_id="b", question="Qb", signal=EvidenceSignal.REFUTES, summary="s", confidence=0.5, sources=[invented],
+                stop_reason=StopReason.TURN_LIMIT,
+            ),
+        ]
+        plan = InvestigationPlan(claim="c", checks=[_check("a"), _check("b")])
+
+        judge = judge_payload(claim="c", plan=plan, findings=findings)
+        self.assertEqual([row.get("grounding") for row in judge["sources"]], [None, None, "unmatched"])
+        self.assertEqual(judge["findings_by_signal"]["refutes"][0]["stop_reason"], "turn_limit")
+        self.assertNotIn("stop_reason", judge["findings_by_signal"]["supports"][0])
+
+        review = review_payload(claim="c", plan=plan, findings=findings, max_follow_up_checks=2, round_index=1)
+        first, second = (entry["finding"] for entry in review["checks"])
+        self.assertEqual([source.get("grounding") for source in first["sources"]], [None, None])
+        self.assertEqual((second["sources"][0]["grounding"], second["stop_reason"]), ("unmatched", "turn_limit"))
+        self.assertNotIn("stop_reason", first)
+
+    def test_reference_date_leads_the_payload_when_the_run_has_one(self):
+        payload = {"claim": "c"}
+        self.assertIs(dated(payload, None), payload)
+        self.assertIs(dated(payload, ResearchConstraints()), payload)
+        self.assertEqual(
+            list(dated(payload, ResearchConstraints(reference_date="2020-10-31")).items()),
+            [("reference_date", "2020-10-31"), ("claim", "c")],
+        )
 
 
 class ModelSettingsTests(unittest.TestCase):
+    def test_effort_vocabulary_covers_current_reasoning_models(self):
+        parsed = parse_stage_assignments(["judge=XHIGH", "research=none"], allowed_values=REASONING_EFFORTS, option_name="--stage-effort")
+        self.assertEqual(parsed, {"judge": "xhigh", "research": "none"})
+        with self.assertRaises(ValueError):
+            parse_stage_assignments(["judge=ultra"], allowed_values=REASONING_EFFORTS, option_name="--stage-effort")
+
     def test_build_model_settings(self):
         settings = build_model_settings(parallel_tool_calls=True, reasoning_effort="low", retry_attempts=3)
         self.assertTrue(settings.parallel_tool_calls)
@@ -162,6 +207,10 @@ class RetryPolicyTests(unittest.TestCase):
 
         self.assertFalse(facticli_retry_policy(self._context(RuntimeError("401"), status_code=401)).retry)
         self.assertFalse(facticli_retry_policy(self._context(RuntimeError("400"), status_code=400)).retry)
+        quota = self._context(RuntimeError("429"), status_code=429, message="You exceeded your current quota (insufficient_quota)")
+        decision = facticli_retry_policy(quota)
+        self.assertFalse(decision.retry)
+        self.assertIn("quota", decision.reason)
         overflow = self._context(RuntimeError("x"), status_code=400, message="maximum context length exceeded")
         decision = facticli_retry_policy(overflow)
         self.assertFalse(decision.retry)

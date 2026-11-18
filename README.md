@@ -11,7 +11,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 - final veracity verdict + justification,
 - explicit source output.
 
-The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `review`, `judge`) written as lane contracts, explicit pipeline stages, and one OpenAI-compatible inference adapter path. The 2026-09 harness pass added ideas from Codex, pi, OpenClaw, and recent fact-checking research: run-level token budgets, an error taxonomy with SDK-managed retries, deterministic source tiering, acceptance-criteria-driven review, a judge that must argue the opposing verdict, per-stage model routing, a no-harness baseline, citation health checks, artifact audits, and TOML config profiles. See `TODO.md` for the annotated list.
+The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `review`, `judge`) written as lane contracts, explicit pipeline stages, and one OpenAI-compatible inference adapter path. The 2026-09 harness pass added ideas from Codex, pi, OpenClaw, and recent fact-checking research: run-level token budgets, an error taxonomy with SDK-managed retries, deterministic source tiering, acceptance-criteria-driven review, a judge that must argue the opposing verdict, per-stage model routing, a no-harness baseline, citation health checks, artifact audits, and TOML config profiles. The 2026-11 pass added deterministic bookkeeping around the model: a retrieval journal with a provenance label on every cited source, a hard search cap, a wrap-up call at the turn limit, and usage accounting for failed attempts. See `TODO.md` for the annotated list.
 
 ## 📦 Install
 
@@ -167,6 +167,23 @@ Print one skill's full prompt:
 facticli skills --show judge
 ```
 
+### Source provenance
+
+Each research run keeps a journal of what its search tools returned. Every cited source is then compared with it by string matching, with no model call, and labelled in the report:
+
+- `quote found in retrieved text` (`quote_matched`): a search returned the URL and the snippet occurs verbatim in the text returned for it.
+- `url retrieved, quote not matched` (`url_matched`): a search returned the URL (or hosted search opened it), but the wording was not found in the returned text, the snippet is too short to check (under 15 characters), or there was no text to compare. Hosted OpenAI search reports only the URLs it consulted, so it never gets past this level.
+- `NOT in search results` (`unmatched`): the URL was not in the search results of any check that cites it, or the judge listed a source no researcher cited. Typically a mis-copied URL. The judge is told, and such a source cannot carry the verdict on its own.
+
+The label says where a source came from, not whether it is right. A source without a label was not assessed.
+
+### Limits and failures
+
+- **Turn limit.** A research run that reaches its turn limit gets one more model call with tools disabled and answers from what it has. The finding is kept and marked `cut short at the turn limit`.
+- **Search cap.** `--tool-call-budget` (default 8) is the number of searches a researcher is told to plan for per check. The brave and knowledge_store tools refuse calls beyond twice that number with a notice to answer, and the finding is marked `cut short at the search cap` (the single-agent baseline notes it under evidence gaps). Hosted OpenAI search runs inside the provider and cannot be capped.
+- **Fatal errors.** A rejected API key (the model's or Brave's), an exhausted quota, or an unknown model fails every later request the same way. The run stops with the error instead of judging the claim on no evidence.
+- **Usage.** `--show-usage` counts every model attempt, including runs that failed, timed out, or were wrapped up, and shows cache-write tokens.
+
 ### Config file and profiles
 
 Put stable settings in `facticli.toml` (or `.facticli.toml`, `FACTICLI_CONFIG`, or `~/.config/facticli/config.toml`) with a `[defaults]` table and named `[profiles.<name>]` tables. Keys mirror the long flag names with underscores; `stage_models`, `stage_efforts`, and `blocked_domains` may be written as tables/lists. Precedence: explicit CLI flag > profile > defaults > built-in default.
@@ -196,7 +213,8 @@ Notes:
 - If input rows have no claim id field, fallback `claim_id` is the zero-based row index.
 - Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
 - `evidence` entries include `question`, `answer`, `url`, `scraped_text`.
-- The runner accepts the same harness controls as `facticli check`: `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--feedback-rounds`, `--follow-up-checks`, `--verify-sources`, `--block-fact-checkers`, `--claim-date-field`, `--artifacts-dir`. Per-claim budget status, failed-check counts, and strategy land in the `.runinfo.json` manifest.
+- The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
+- A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
 
 Score a submission (label metrics, optional Ev2R), and measure verdict consistency across repeated runs (pass^k, pass@k, agreement, majority vote):
 
@@ -205,7 +223,7 @@ python3 -m facticli.averitec_eval --submission run1.json --gold data/averitec/de
 python3 -m facticli.averitec_eval --submission run1.json --submission run2.json --submission run3.json --gold data/averitec/dev.json
 ```
 
-Audit persisted run artifacts for leakage (fact-checker sources, post-claim-date evidence), failures, budget use, and, optionally, evidence dependence (re-judge with the evidence removed; verdicts that survive were not evidence-driven):
+Audit persisted run artifacts for leakage (fact-checker sources, post-claim-date evidence), failures, cut-short checks, source provenance, budget use including tokens spent on failed attempts, and, optionally, evidence dependence (re-judge with the evidence removed; verdicts that survive were not evidence-driven):
 
 ```bash
 python3 -m facticli.artifacts_audit --artifacts-dir ./runs --gold data/averitec/dev.json
@@ -332,6 +350,7 @@ facticli check [--model MODEL] [--base-url BASE_URL]
                [--token-budget N] [--model-retries N] [--retry-budget N]
                [--search-provider {openai,brave,knowledge_store}]
                [--search-results N] [--search-context-size {low,medium,high}]
+               [--tool-call-budget N]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
                [--verify-sources] [--artifacts-dir DIR]
                [--show-plan] [--show-usage] [--stream-progress]
@@ -348,10 +367,10 @@ facticli skills [--show NAME]
 ```
 
 Validation notes:
-- `--max-checks`, `--parallel`, `--max-claims`, `--follow-up-checks`, and `--token-budget` must be integers `>= 1`.
+- `--max-checks`, `--parallel`, `--max-claims`, `--follow-up-checks`, `--token-budget`, and `--tool-call-budget` must be integers `>= 1`.
 - `--feedback-rounds`, `--model-retries`, and `--retry-budget` must be integers `>= 0`.
-- `--search-results` must be an integer in `1..20`.
-- `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `minimal`, `low`, `medium`, `high`.
+- `--search-results` must be an integer in `1..20`; it is the result count the brave and knowledge_store tools use when the model does not ask for one.
+- `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
 ## 🧠 Current architecture
@@ -363,12 +382,13 @@ Layered runtime:
 
 Pipeline behavior:
 - `plan` decomposes the claim into independent checks, each with search queries and `acceptance_criteria` ("done when ..."); it avoids splitting parts that cannot be evidenced separately.
-- `research` runs per check concurrently with bounded parallelism, timeout, and a retry loop driven by an error taxonomy (transient errors retry, auth/bad-request/context-overflow errors fail fast). Sources get a deterministic authority `tier`; retrieval constraints (fact-checker blocklist, claim-date cutoff) are applied post hoc and recorded in artifacts.
+- `research` runs per check concurrently with bounded parallelism, timeout, and a retry loop driven by an error taxonomy (transient errors retry, bad-request/context-overflow/refusal errors fail the check, auth/quota/unknown-model errors abort the run). Every attempt runs under a retrieval journal: the search tools record what they returned and refuse calls past the hard cap, and each cited source gets a provenance label (`grounding`) and a deterministic authority `tier`. Retrieval constraints (fact-checker blocklist, claim-date cutoff) are applied post hoc and recorded in artifacts.
 - Checks the harness could not run are explicit non-observations: `status = failed | budget_exhausted` with a `failure_reason`, never silently "insufficient evidence".
 - `review` (opt-in, bounded) grades each finding against its acceptance criteria, lists concrete `gaps`, and requests retries or narrow follow-up checks that trace back to a gap.
-- `judge` receives findings grouped by signal with counts, a shared source table with stable ids (`S1..Sn`), verbatim snippets and tiers, and a failed-check notice; it must write the strongest `counter_argument` before committing, cite source ids in the justification, and list `evidence_gaps`.
+- `judge` receives findings grouped by signal with counts, a shared source table with stable ids (`S1..Sn`), verbatim snippets and tiers, and a failed-check notice; it must write the strongest `counter_argument` before committing, cite source ids in the justification, and list `evidence_gaps`. Cited ids that point at no row of the source table are reported under the source list.
 - An optional citation health pass marks each cited URL `live`, `archived` (with Wayback URL), or `broken`.
-- A run-level ledger tracks tokens (including cached and reasoning tokens), retries, and skipped stages; `--token-budget` bounds the whole run.
+- A run-level ledger tracks tokens (including cached, cache-write, and reasoning tokens) for every attempt, retries, and skipped stages; `--token-budget` bounds the whole run.
+- Research, review, and judging are told the date the claim is evaluated as of (the claim date when set, else today), so "current" and "latest" are not resolved against the model's training cutoff.
 - `--strategy single_agent` runs the no-harness baseline through the same constraints, tiering, budget, and citation controls.
 - Claim extraction runs through a dedicated extraction stage/backend.
 
@@ -414,18 +434,18 @@ flowchart TD
     P2 --> P3["Bound concurrency with semaphore"]
     P3 --> P3b{"token budget left?"}
     P3b -->|no| P13b["status = budget_exhausted"]
-    P3b -->|yes| P4["For each check: retry with timeout<br/>error taxonomy decides retry vs fail-fast"]
-    P4 --> P5["CompatibleResearchAdapter.research<br/>payload: check + criteria + constraints + budget reminder"]
-    P5 --> P6["Runner.run(check_researcher)"]
+    P3b -->|yes| P4["For each check: retry with timeout, fresh retrieval journal per attempt<br/>error taxonomy decides retry vs fail-fast vs abort the run"]
+    P4 --> P5["CompatibleResearchAdapter.research<br/>payload: reference date + check + criteria + constraints + budget reminder"]
+    P5 --> P6["Runner.run(check_researcher)<br/>at the turn limit: one tools-off wrap-up call"]
     P6 --> P7{"Search provider"}
-    P7 -->|openai| P8["WebSearchTool"]
-    P7 -->|brave| P9["brave_web_search tool<br/>(bounded output, untrusted-content notice)"]
-    P7 -->|knowledge_store| P9b["knowledge_store_search tool"]
+    P7 -->|openai| P8["WebSearchTool<br/>(consulted URLs journaled)"]
+    P7 -->|brave| P9["brave_web_search tool<br/>(bounded output, untrusted-content notice,<br/>journaled, hard cap)"]
+    P7 -->|knowledge_store| P9b["knowledge_store_search tool<br/>(journaled, hard cap)"]
     P8 --> P10["AspectFinding"]
     P9 --> P10
     P9b --> P10
     P10 --> P11{"Succeeded?"}
-    P11 -->|yes| P12["Apply constraints, assign source tiers<br/>emit research_check_completed"]
+    P11 -->|yes| P12["Ground sources against the journal, assign tiers,<br/>apply constraints, keep receipts<br/>emit research_check_completed"]
     P11 -->|no after retries| P13["status = failed + failure_reason<br/>record error kinds<br/>emit research_check_failed"]
     P12 --> P14["Ordered findings list"]
     P13 --> P14
@@ -446,7 +466,7 @@ flowchart TD
     Q -->|no| R1
     R1 --> R2["CompatibleJudgeAdapter.judge<br/>payload: findings grouped by signal, source table S1..Sn,<br/>verbatim snippets + tiers, failed-check notice"]
     R2 --> R3["Runner.run(veracity_judge)<br/>counter_argument before verdict, [S#] citations"]
-    R3 --> R4["FactCheckReport (raw)<br/>harness findings authoritative<br/>merge + deduplicate + tier sources<br/>emit judging_completed"]
+    R3 --> R4["FactCheckReport (raw)<br/>harness findings authoritative<br/>merge + deduplicate + tier sources<br/>resolve cited [S#] ids<br/>emit judging_completed"]
     R4 --> R5{"--verify-sources?"}
     R5 -->|yes| R6["CitationCheckStage<br/>HEAD/GET + Wayback -> live/archived/broken"]
     R5 -->|no| T
@@ -455,7 +475,7 @@ flowchart TD
 
   T["Finalize usage summary + budget status<br/>save artifacts repository (if configured)<br/>emit run_completed"]
   T --> U{"Output mode"}
-  U -->|text| V["format_run_text -> stdout<br/>(tiers, failed-check markers, counter-argument,<br/>optional usage/budget footer)"]
+  U -->|text| V["format_run_text -> stdout<br/>(tiers, provenance labels, failed and cut-short markers,<br/>counter-argument, optional usage/budget footer)"]
   U -->|json| W["report JSON -> stdout<br/>optionally add plan / findings / artifacts"]
 ```
 
@@ -468,13 +488,15 @@ When `--stream-progress` is enabled, progress events are formatted in the CLI an
 ```text
 src/facticli/
   core/
-    contracts.py       # typed plan/finding/report/extraction contracts (status, tiers, criteria, counter-argument)
+    contracts.py       # typed plan/finding/report/extraction contracts (status, tiers, grounding, criteria, counter-argument)
     normalize.py       # deterministic normalization helpers
-    artifacts.py       # run artifact schemas (budget, error kinds, stage models, citation counts)
-    errors.py          # error taxonomy (ErrorKind, classify_exception, is_retryable)
-    usage.py           # usage events + run-level token/retry budget ledger
+    artifacts.py       # run artifact schemas (budget, error kinds, stage models, retrieval receipts, citation counts)
+    errors.py          # error taxonomy (ErrorKind, classify_exception, is_retryable, is_fatal)
+    usage.py           # usage events for every attempt + run-level token/retry budget ledger
+    retrieval.py       # retrieval journal: tool-call receipts, hard search cap
+    grounding.py       # deterministic provenance label for cited sources
     source_quality.py  # deterministic source authority tiers
-    truncation.py      # tool-output truncation + untrusted-content notice
+    truncation.py      # tool-output cleaning and truncation + untrusted-content notice
     constraints.py     # retrieval constraints (blocklist, claim-date cutoff)
   application/
     interfaces.py      # planner/research/review/judge/single-agent strategy contracts
@@ -485,11 +507,12 @@ src/facticli/
     settings_file.py   # facticli.toml profiles (flag > profile > defaults)
     config.py          # runtime config dataclasses
   adapters/
-    openai_provider.py # shared OpenAI-compatible stage adapters (+ single-agent adapter)
+    openai_provider.py # shared OpenAI-compatible stage adapters (+ single-agent adapter), usage hooks, wrap-up call
     payloads.py        # stage input builders (grouped judge payload, review grading payload)
     retry_policy.py    # SDK retry policy bound to the run ledger
     provider_profile.py# OpenAI-compatible env resolution + client bootstrap
   cli.py               # command-line interface
+  brave_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)
   skills.py            # skill registry + frontmatter-aware prompt loading
   artifacts_audit.py   # leakage / robustness / evidence-ablation audit over persisted runs
   averitec_submission.py, averitec_eval.py, eval/  # AVeriTeC batch runner, scorer, Ev2R, consistency

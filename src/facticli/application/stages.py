@@ -15,10 +15,13 @@ from facticli.core.contracts import (
     ReviewAction,
     ReviewDecision,
     SourceEvidence,
+    SourceGrounding,
     VerificationCheck,
 )
-from facticli.core.errors import ErrorKind, classify_exception
+from facticli.core.errors import ErrorKind, classify_exception, describe_exception, is_fatal
+from facticli.core.grounding import ground_finding, unresolved_citation_ids
 from facticli.core.normalize import normalize_plan_checks, normalize_query_list, normalize_source_url, normalize_text_list
+from facticli.core.retrieval import RetrievalJournal, activate_journal, deactivate_journal
 from facticli.core.source_quality import assign_source_tiers
 from facticli.core.usage import get_usage_log
 
@@ -26,13 +29,15 @@ from .citations import CitationHealthChecker, summarize_url_statuses
 from .interfaces import ClaimExtractionBackend, Judge, Planner, Researcher, Reviewer
 from .progress import ProgressCallback, emit_progress
 
-# Error kinds that cannot be fixed by simply re-running the same request.
+# Error kinds that re-running the same request cannot fix; the check fails
+# without further attempts. Fatal kinds (auth, quota, not found) do not get
+# this far: they fail every check the same way, so they abort the run.
 _NO_RETRY_KINDS: frozenset[ErrorKind] = frozenset(
     {
-        ErrorKind.AUTH,
+        ErrorKind.FORBIDDEN,
         ErrorKind.BAD_REQUEST,
         ErrorKind.CONTEXT_OVERFLOW,
-        ErrorKind.NOT_FOUND,
+        ErrorKind.REFUSAL,
         ErrorKind.BUDGET,
     }
 )
@@ -158,11 +163,18 @@ def direct_check(claim: str, *, max_queries: int) -> VerificationCheck:
 
 @dataclass(frozen=True)
 class ResearchStage:
-    """Runs check-level research concurrently with retries, budget, and timeout safeguards."""
+    """Runs check-level research concurrently with retries, budget, and timeout safeguards.
+
+    Every attempt runs under its own retrieval journal. The journal enforces
+    ``search_cap`` (the hard per-check limit, above the budget the researcher
+    is told to plan for) inside the search tools and, once the researcher
+    returns, is the reference the finding's sources are grounded against.
+    """
     researcher: Researcher
     max_parallel_research: int
     research_timeout_seconds: float
     research_retry_attempts: int
+    search_cap: int | None = None
 
     async def execute(
         self,
@@ -171,7 +183,12 @@ class ResearchStage:
         artifacts: RunArtifacts,
         progress_callback: ProgressCallback | None = None,
     ) -> list[AspectFinding]:
-        """Return ordered findings; failed or unbudgeted checks become explicit non-observations."""
+        """Return ordered findings; failed or unbudgeted checks become explicit non-observations.
+
+        An error no retry can fix (rejected key, exhausted quota, unknown
+        model) is raised instead: it would fail every check the same way, and
+        a verdict judged on none of them is worth nothing.
+        """
         semaphore = asyncio.Semaphore(max(1, self.max_parallel_research))
         timeout = self.research_timeout_seconds or None
         max_attempts = 1 + max(0, self.research_retry_attempts)
@@ -199,26 +216,39 @@ class ResearchStage:
                 last_error: Exception | None = None
                 for _attempt in range(max_attempts):
                     artifact.attempts += 1
+                    journal = RetrievalJournal(search_cap=self.search_cap)
+                    journal_token = activate_journal(journal)
                     try:
                         task = self.researcher.research(claim=claim, check=check)
                         if timeout:
                             finding = await asyncio.wait_for(task, timeout=timeout)
                         else:
                             finding = await task
-                        # Artifact keeps the unfiltered (but tiered) finding for leakage audits.
-                        artifact.finding = _tier_finding_sources(finding)
-                        return index, check, _tier_finding_sources(_apply_source_constraints(finding, artifact))
+                        # Provenance first, on the sources exactly as the model returned them.
+                        finding = _tier_finding_sources(ground_finding(finding, journal))
+                        # Artifact keeps the unfiltered (but tiered and grounded) finding for leakage audits.
+                        artifact.finding = finding
+                        return index, check, _apply_source_constraints(finding, artifact)
                     except Exception as exc:  # pragma: no cover - exercised via fakes
                         last_error = exc
                         kind = classify_exception(exc)
                         artifact.errors.append(f"{type(exc).__name__}: {exc}")
                         artifact.error_kinds.append(kind.value)
+                        if is_fatal(kind):
+                            raise
                         if kind in _NO_RETRY_KINDS:
                             break
+                    finally:
+                        deactivate_journal(journal_token)
+                        artifact.retrieval.extend(journal.records)
 
                 assert last_error is not None
-                reason = f"{classify_exception(last_error).value}: {type(last_error).__name__}: {last_error}"
-                finding = failed_finding(check, status=FindingStatus.FAILED, reason=reason, attempts=artifact.attempts)
+                finding = failed_finding(
+                    check,
+                    status=FindingStatus.FAILED,
+                    reason=describe_exception(last_error),
+                    attempts=artifact.attempts,
+                )
                 artifact.finding = finding
                 return index, check, finding
 
@@ -227,36 +257,44 @@ class ResearchStage:
         ]
 
         ordered_findings: list[AspectFinding | None] = [None] * len(plan.checks)
-        for task in asyncio.as_completed(tasks):
-            index, check, finding = await task
-            ordered_findings[index] = finding
-            if finding.status != FindingStatus.COMPLETED:
+        try:
+            for task in asyncio.as_completed(tasks):
+                index, check, finding = await task
+                ordered_findings[index] = finding
+                if finding.status != FindingStatus.COMPLETED:
+                    await emit_progress(
+                        progress_callback,
+                        "research_check_failed",
+                        {
+                            "aspect_id": check.aspect_id,
+                            "question": check.question,
+                            "status": finding.status.value,
+                            "error": finding.failure_reason or "",
+                            "attempts": artifacts.get_or_create_check(check).attempts,
+                            "finding": finding.model_dump(),
+                        },
+                    )
+                    continue
+
                 await emit_progress(
                     progress_callback,
-                    "research_check_failed",
+                    "research_check_completed",
                     {
-                        "aspect_id": check.aspect_id,
-                        "question": check.question,
-                        "status": finding.status.value,
-                        "error": finding.failure_reason or "",
-                        "attempts": artifacts.get_or_create_check(check).attempts,
-                        "finding": finding.model_dump(),
+                        "aspect_id": finding.aspect_id,
+                        "question": finding.question,
+                        "signal": finding.signal.value,
+                        "confidence": finding.confidence,
+                        "summary": finding.summary,
+                        "source_count": len(finding.sources),
+                        "stop_reason": finding.stop_reason.value if finding.stop_reason else None,
                     },
                 )
-                continue
-
-            await emit_progress(
-                progress_callback,
-                "research_check_completed",
-                {
-                    "aspect_id": finding.aspect_id,
-                    "question": finding.question,
-                    "signal": finding.signal.value,
-                    "confidence": finding.confidence,
-                    "summary": finding.summary,
-                    "source_count": len(finding.sources),
-                },
-            )
+        except BaseException:
+            # A fatal error or a cancelled run must not leave sibling checks spending tokens.
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+            raise
 
         findings = [finding for finding in ordered_findings if finding is not None]
         await emit_progress(
@@ -296,16 +334,30 @@ class JudgeStage:
         report_raw = await self.judge.judge(claim=claim, plan=plan, findings=findings)
         artifacts.report_raw = report_raw
 
+        # The judge has no search tool. A source it lists that no researcher
+        # cited is a mis-copied or remembered URL, and is labelled as such.
+        researched = {normalize_source_url(source.url) for finding in findings for source in finding.sources}
+        judge_sources = [
+            source.model_copy(update={"grounding": SourceGrounding.UNMATCHED})
+            for source in report_raw.sources
+            if normalize_source_url(source.url) not in researched
+        ]
         report_final = report_raw.model_copy(
             update={
                 "claim": claim,
                 "findings": findings if findings else report_raw.findings,
-                "sources": assign_source_tiers(merge_sources(report_raw.sources, findings)),
+                "sources": assign_source_tiers(merge_sources(judge_sources, findings)),
                 "key_points": normalize_text_list(report_raw.key_points, max_items=12),
                 "evidence_gaps": normalize_text_list(report_raw.evidence_gaps, max_items=12),
             }
         )
         artifacts.report_final = report_final
+        # The source list starts with the judge's table S1..Sn in order, so the
+        # ids in its prose index this list; ids beyond it point at nothing.
+        artifacts.unresolved_citations = unresolved_citation_ids(
+            [report_final.justification, *report_final.key_points, report_final.counter_argument],
+            source_count=len(report_final.sources),
+        )
         await emit_progress(
             progress_callback,
             "judging_completed",
@@ -322,7 +374,14 @@ def merge_sources(
     report_sources: list[SourceEvidence],
     findings: list[AspectFinding],
 ) -> list[SourceEvidence]:
-    """Deduplicate report and finding sources by normalized URL, preferring tiered copies."""
+    """Deduplicate report and finding sources by normalized URL, preferring the better copy.
+
+    Finding sources come first, in order, so position ``n`` in the result is
+    source id ``S{n}`` of the judge's source table. When two checks cite one
+    URL, the copy that was traced to a search result wins: each check is
+    grounded against its own searches, and a URL retrieved by either was
+    retrieved.
+    """
     combined: list[SourceEvidence] = []
     seen: dict[str, int] = {}
 
@@ -332,7 +391,11 @@ def merge_sources(
             return
         if normalized in seen:
             existing = combined[seen[normalized]]
-            if existing.tier is None and source.tier is not None:
+            traced_elsewhere = existing.grounding == SourceGrounding.UNMATCHED and source.grounding not in (
+                None,
+                SourceGrounding.UNMATCHED,
+            )
+            if traced_elsewhere or (existing.tier is None and source.tier is not None):
                 combined[seen[normalized]] = source
             return
         seen[normalized] = len(combined)

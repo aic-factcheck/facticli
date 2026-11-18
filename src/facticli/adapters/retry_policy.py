@@ -26,9 +26,9 @@ def classify_retry_context(context: RetryPolicyContext) -> ErrorKind:
 def facticli_retry_policy(context: RetryPolicyContext) -> RetryDecision:
     """Retry transient failures only, drawing from the run-level retry budget.
 
-    Non-retryable kinds (auth, bad request, context overflow, schema) fail
-    fast so the stage can convert them into an explicit failed finding
-    instead of burning the budget on requests that cannot succeed.
+    Every other kind fails fast instead of burning the budget on a request
+    that cannot succeed; the stage then records a failed finding or, for a
+    fatal kind, aborts the run.
     """
     kind = classify_retry_context(context)
     if not is_retryable(kind):

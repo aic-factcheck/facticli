@@ -23,7 +23,8 @@
 - [x] Add an opt-in bounded review loop that can request targeted follow-up research rounds.
 
 - [x] Add provider-agnostic retry/backoff taxonomy (timeouts, rate limits, transient network, schema mismatch) — `core/errors.py` + SDK `ModelRetrySettings` policy (2026-09).
-- [ ] Add heuristic source-quality triggers to seed review decisions before model review.
+- [ ] Add heuristic source-quality triggers to seed review decisions before model review (tried in 2026-11 as
+      deterministic reviewer flags; not adopted without a measured review run, see below).
 - [x] Persist per-round metrics/artifacts for evaluation of follow-up loop effectiveness (FileRunArtifactRepository + per-stage usage/latency events).
 - [ ] Add contradiction-specific follow-up planning so mixed findings trigger resolution checks automatically.
 - [x] Add source quality scoring and ranking (authority, recency, primary-source preference, duplication) — deterministic tiers in `core/source_quality.py`; judge weighs tiers (2026-09). Recency/duplication ranking beyond tiers still open.
@@ -127,8 +128,70 @@ authority tiers, temporal leakage, alignment bottleneck, per-step effort routing
   without benefit. Tool-output truncation covers the actual bloat source.
 - Debate-style judging (DebateCV / PROClaim): survey shows a single strong judge call often matches or
   beats debate; counter-argument field captures the cheap half. Left as a future `--judge-mode` flag.
-- Page fetching + Wayback-first snapshots: retrieval is snippet-based today; a fetch tool would need a
-  scraper dependency and its own leakage controls. Tracked under benchmark instrumentation.
+
+## Harness modernization II (2026-11, second survey)
+
+Second pass over Codex, pi, OpenClaw, Hermes, Claude Code, DeerFlow, opencode, deepagents, and
+GPT-Researcher. Since 2026-09 these harnesses added little agent structure; the new work is
+deterministic bookkeeping around the model: checking what the model claims against an execution
+record, naming every way a run can end, billing failed attempts, replaying retrieval. The survey
+was read by research agents and the individual harness citations were not re-verified.
+
+### Adopted
+- [x] Retrieval journal + source grounding: each research run records what its search tools returned;
+      every cited source is labelled `quote_matched` / `url_matched` / `unmatched` by string comparison
+      (`core/retrieval.py`, `core/grounding.py`). The judge and reviewer are told about `unmatched` only.
+- [x] Hard search cap enforced by the tools at twice the advertised `--tool-call-budget`.
+- [x] Wrap-up call: a research run at its turn limit gets one tools-off call instead of failing.
+- [x] Usage ledger counts every attempt (failed, timed out, wrap-up) and records cache-write tokens.
+- [x] Error taxonomy: `quota` vs `rate_limit`, `forbidden` vs `auth`, `refusal`; fatal kinds (auth,
+      quota, unknown model, rejected Brave key) abort the run and the AVeriTeC batch (exit code 3).
+- [x] Reference date (claim date, else today) in the research, review, judge, and single-agent payloads,
+      not the planner's; reasoning efforts up to `max`.
+- [x] Fixed along the way: `--search-results` had no effect; Brave results reached the model with
+      `<strong>` markup; an unparseable claim date silently disabled the evidence cutoff.
+
+### Measured (gpt-5.6-terra, first 10 claims of `dev_20.json`, Brave, fact-checkers blocked, claim-date cutoff)
+Single runs per arm unless stated, so a difference of one or two claims is noise.
+- Old code 9/10 correct at 90.5k tokens per claim. This code 8/10 at 98.3k, agreeing with old on 9 of
+  10 claims. The one difference (claim 18) is not a regression: rerun three times each, old and new
+  both answer `Refuted` every time.
+- Provenance: 57 of 57 cited sources `quote_matched` in the final run. An earlier run had 62 of 64, one
+  `url_matched` (table text re-typed with separators) and one `unmatched` (the researcher wrote
+  `..._JUDICIARY.pdf` where the search had returned `...-JUDICIARY.pdf`). With hosted OpenAI search,
+  24 of 24 `url_matched`. In one review-enabled run the judge mis-copied a URL into its own source list.
+- Reference date in the planner input: on claim 270 ("House Speaker Nancy Pelosi said ...") the planner
+  then added a check on whether she was Speaker on that date; it came back `supports` and the verdict
+  went from `Refuted` to `Not Enough Evidence` in 3 of 3 runs (old code: 1 of 3). Withholding the date
+  from the planner only: 1 of 3, and no such check.
+- Search cap enforced at the advertised budget (1x): calls refused in 6 of 20 checks, 7/10 correct. At
+  2x: one check in about 20 reaches it (19 searches attempted against a budget of 8); it still returned
+  a finding.
+- Turn limit forced to 3 (4 claims): the old code lost a check and its ledger showed 4k tokens for a
+  claim that spent about 120k; with the wrap-up call no check failed.
+- 40 to 50% of input tokens were billed cache writes, which the old ledger did not record.
+
+### Built, measured, and not adopted
+- Page reading (`fetch_page` on search results, Wayback snapshot under a claim date, visible-text
+  extraction, passage selection): 42% more tokens, no verdict change, and only 13 of 40 reads found a
+  snapshot from before the claim date. It also adds a fetch surface (SSRF checks, a DNS-rebinding
+  gap). Worth another look for undated claims, where pages are read live.
+- Schema-repair call after invalid structured output: never fired in a real run, and on tool-using
+  stages it turned "the model answered in prose" into a tools-off answer that looked like a normal
+  finding. A failed check that is retried with tools is the better outcome.
+- Deterministic reviewer flags (single source, low tier only, conflicting checks, ...): most restate
+  fields already in the review payload, and no review-enabled run was measured.
+- A separate `--tool-call-cap` flag: the only other setting tried (1x) cost a verdict.
+
+### Open
+- [ ] A run that raises (planner or judge failure, fatal abort) saves no artifact, so its spend is
+      missing from the audit and from the batch manifest.
+- [ ] Brave monthly-quota exhaustion is not told apart from throttling (response shape unverified);
+      it shows up as failed searches in the receipts, not as a fatal error.
+- [ ] Near-duplicate clustering of syndicated sources before the judge.
+- [ ] Evaluate the review loop with and without `unmatched` / `stop_reason` in its payload.
+- [ ] Hosted OpenAI search: blocklist is applied post hoc; the API's `filters` only allow-list.
+- [ ] `facticli check` offers `--search-provider knowledge_store` but has no way to point at a store.
 
 ## Testing operations
 

@@ -19,21 +19,25 @@ from facticli.core.contracts import (
     SourceTier,
 )
 from facticli.core.errors import (
+    FATAL_KINDS,
     BudgetExhaustedError,
     ErrorKind,
+    SearchAuthError,
     classify_exception,
     classify_status_code,
     describe_exception,
+    is_fatal,
     is_retryable,
 )
 from facticli.core.source_quality import assign_source_tiers, classify_source_tier, tier_counts
 from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, truncate_middle, truncate_search_results
 from facticli.core.usage import (
     activate_usage_log,
+    apply_usage,
     deactivate_usage_log,
     get_usage_log,
-    record_stage_usage,
     summarize_usage,
+    track_usage,
 )
 
 
@@ -42,8 +46,9 @@ class ContractSchemaTests(unittest.TestCase):
         finding_props = AgentOutputSchema(AspectFinding).json_schema()["properties"]
         self.assertNotIn("status", finding_props)
         self.assertNotIn("failure_reason", finding_props)
+        self.assertNotIn("stop_reason", finding_props)
         source_props = AgentOutputSchema(AspectFinding).json_schema()["$defs"]["SourceEvidence"]["properties"]
-        for hidden in ("tier", "url_status", "archived_url"):
+        for hidden in ("tier", "url_status", "archived_url", "grounding"):
             self.assertNotIn(hidden, source_props)
         self.assertIn("acceptance_criteria", AgentOutputSchema(InvestigationPlan).json_schema()["$defs"]["VerificationCheck"]["properties"])
         report_props = AgentOutputSchema(FactCheckReport).json_schema()["properties"]
@@ -130,6 +135,37 @@ class ErrorTaxonomyTests(unittest.TestCase):
         self.assertEqual(classify_exception(RuntimeError("weird")), ErrorKind.UNKNOWN)
         self.assertEqual(classify_exception(SimpleNamespace), ErrorKind.UNKNOWN)
 
+    def test_fatal_kinds_are_told_apart_from_their_transient_lookalikes(self):
+        from agents import ModelRefusalError, UserError
+
+        wording = "You exceeded your current quota, please check your plan and billing details."
+        exhausted = openai.RateLimitError(wording, response=self._response(429), body={"code": "insufficient_quota"})
+        # Per-minute throttling is worded the same way by some providers; only the structured code is trusted.
+        throttled = openai.RateLimitError(wording, response=self._response(429), body=None)
+        self.assertEqual(classify_exception(exhausted), ErrorKind.QUOTA)
+        self.assertEqual(classify_exception(throttled), ErrorKind.RATE_LIMIT)
+        self.assertEqual(classify_status_code(429, '{"code": "insufficient_quota"}'), ErrorKind.QUOTA)
+        self.assertEqual(classify_status_code(429, "Quota exceeded for requests per minute"), ErrorKind.RATE_LIMIT)
+        self.assertEqual(classify_status_code(402), ErrorKind.QUOTA)
+
+        # A 403 can be about one request (moderation, model access); only a 401 condemns the key.
+        denied = openai.PermissionDeniedError("input was flagged", response=self._response(403), body=None)
+        self.assertEqual(classify_exception(denied), ErrorKind.FORBIDDEN)
+        self.assertEqual((classify_status_code(403), classify_status_code(401)), (ErrorKind.FORBIDDEN, ErrorKind.AUTH))
+        self.assertEqual(classify_exception(ModelRefusalError("I can't help with that")), ErrorKind.REFUSAL)
+
+        self.assertEqual(FATAL_KINDS, {ErrorKind.AUTH, ErrorKind.QUOTA, ErrorKind.NOT_FOUND})
+        for kind in (ErrorKind.QUOTA, ErrorKind.FORBIDDEN, ErrorKind.REFUSAL, ErrorKind.NOT_FOUND):
+            self.assertFalse(is_retryable(kind), kind)
+        for kind in (ErrorKind.RATE_LIMIT, ErrorKind.FORBIDDEN, ErrorKind.REFUSAL, ErrorKind.BAD_REQUEST):
+            self.assertFalse(is_fatal(kind), kind)
+
+        # The SDK wraps what a tool raised; the tool's own error decides the kind.
+        wrapped = UserError("Error running tool brave_web_search: rejected")
+        wrapped.__cause__ = SearchAuthError("rejected")
+        self.assertEqual(classify_exception(wrapped), ErrorKind.AUTH)
+        self.assertEqual(classify_exception(UserError("misconfigured agent")), ErrorKind.UNKNOWN)
+
     def test_status_codes_and_retryability(self):
         self.assertEqual(classify_status_code(408), ErrorKind.TIMEOUT)
         self.assertEqual(classify_status_code(502), ErrorKind.SERVER)
@@ -148,27 +184,24 @@ class UsageLedgerTests(unittest.TestCase):
         log, token = activate_usage_log(token_budget=1000, retry_budget=2)
         try:
             self.assertIs(get_usage_log(), log)
-            record_stage_usage(
-                stage="plan",
-                model="m",
-                usage=SimpleNamespace(
-                    requests=1,
-                    input_tokens=600,
-                    output_tokens=100,
-                    total_tokens=700,
-                    input_tokens_details=SimpleNamespace(cached_tokens=300),
-                    output_tokens_details=SimpleNamespace(reasoning_tokens=40),
-                ),
-                duration_seconds=1.0,
-            )
+            with track_usage(stage="plan", model="m") as event:
+                apply_usage(
+                    event,
+                    SimpleNamespace(
+                        requests=1,
+                        input_tokens=600,
+                        output_tokens=100,
+                        total_tokens=700,
+                        input_tokens_details=SimpleNamespace(cached_tokens=300, cache_write_tokens=200),
+                        output_tokens_details=SimpleNamespace(reasoning_tokens=40),
+                    ),
+                )
             self.assertEqual(log.tokens_remaining(), 300)
             self.assertFalse(log.token_budget_exhausted())
-            record_stage_usage(
-                stage="research",
-                model="m",
-                usage=SimpleNamespace(requests=1, input_tokens=300, output_tokens=100, total_tokens=400),
-                duration_seconds=1.0,
-            )
+            with self.assertRaises(RuntimeError), track_usage(stage="research", model="m") as event:
+                apply_usage(event, SimpleNamespace(requests=1, input_tokens=300, output_tokens=100, total_tokens=400))
+                raise RuntimeError("the run failed after its first response")
+            # Tokens spent by a failed run count against the budget like any others.
             self.assertTrue(log.token_budget_exhausted())
             self.assertEqual(log.tokens_remaining(), 0)
             self.assertTrue(log.try_consume_retry())
@@ -182,6 +215,10 @@ class UsageLedgerTests(unittest.TestCase):
         summary = summarize_usage(log.events)
         self.assertEqual(summary.cached_input_tokens, 300)
         self.assertEqual(summary.reasoning_tokens, 40)
+        self.assertEqual(summary.cache_write_tokens, 200)
+        self.assertEqual((summary.failed_attempts, summary.failed_attempt_tokens), (1, 400))
+        self.assertEqual(summary.per_stage["research"]["failed_attempts"], 1)
+        self.assertEqual(summary.per_stage["plan"]["failed_attempts"], 0)
         self.assertAlmostEqual(summary.cache_hit_rate, 300 / 900, places=4)
         status = log.budget_status()
         self.assertTrue(status.token_budget_exhausted)

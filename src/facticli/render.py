@@ -1,7 +1,19 @@
 from __future__ import annotations
 
 from .application.services import FactCheckRun
-from .core.contracts import FindingStatus, SourceEvidence
+from .core.contracts import FindingStatus, SourceEvidence, SourceGrounding, StopReason
+
+# What the harness could trace back to search-tool output. The labels say
+# where a source came from, not whether it is right.
+_GROUNDING_LABELS = {
+    SourceGrounding.QUOTE_MATCHED: "quote found in retrieved text",
+    SourceGrounding.URL_MATCHED: "url retrieved, quote not matched",
+    SourceGrounding.UNMATCHED: "NOT in search results",
+}
+_STOP_LABELS = {
+    StopReason.TURN_LIMIT: "cut short at the turn limit",
+    StopReason.SEARCH_CAP: "cut short at the search cap",
+}
 
 
 def _source_tag(source: SourceEvidence) -> str:
@@ -12,6 +24,8 @@ def _source_tag(source: SourceEvidence) -> str:
         tags.append(source.published_at)
     if source.url_status is not None:
         tags.append(source.url_status.value)
+    if source.grounding is not None:
+        tags.append(_GROUNDING_LABELS[source.grounding])
     return f" ({', '.join(tags)})" if tags else ""
 
 
@@ -68,8 +82,9 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
             if finding.failure_reason:
                 lines.append(f"    reason: {finding.failure_reason}")
             continue
+        stop = f" | {_STOP_LABELS[finding.stop_reason]}" if finding.stop_reason else ""
         lines.append(
-            f"  - [{finding.aspect_id}] {finding.signal.value} | confidence {finding.confidence:.2f}"
+            f"  - [{finding.aspect_id}] {finding.signal.value} | confidence {finding.confidence:.2f}{stop}"
         )
         lines.append(f"    question: {finding.question}")
         lines.append(f"    summary: {finding.summary}")
@@ -86,6 +101,9 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
         if source.url_status is not None and source.url_status.value == "archived" and source.archived_url:
             lines.append(f"      archived: {source.archived_url}")
         lines.append(f"      {source.snippet}")
+    if run.artifacts.unresolved_citations:
+        cited = ", ".join(f"S{number}" for number in run.artifacts.unresolved_citations)
+        lines.append(f"  cited above but absent from this list: {cited}")
 
     if show_usage:
         lines.extend(_format_usage(run))
@@ -110,14 +128,23 @@ def _format_usage(run: FactCheckRun) -> list[str]:
         lines.append(
             "  tokens: "
             f"{summary.total_tokens} total ({summary.input_tokens} in, {summary.output_tokens} out, "
-            f"{summary.cached_input_tokens} cached, {summary.reasoning_tokens} reasoning) "
+            f"{summary.cached_input_tokens} cached, {summary.cache_write_tokens} cache writes, "
+            f"{summary.reasoning_tokens} reasoning) "
             f"over {summary.requests} request(s), cache hit rate {summary.cache_hit_rate:.0%}"
         )
         for stage, bucket in summary.per_stage.items():
+            failed = int(bucket.get("failed_attempts", 0))
+            failed_note = (
+                f", {failed} failed attempt(s) costing {int(bucket.get('failed_attempt_tokens', 0))} tokens"
+                if failed
+                else ""
+            )
             lines.append(
                 f"    {stage}: {int(bucket['total_tokens'])} tokens, {int(bucket['calls'])} call(s), "
-                f"{bucket['llm_seconds']:.1f}s"
+                f"{bucket['llm_seconds']:.1f}s{failed_note}"
             )
+        if summary.wrap_up_calls:
+            lines.append(f"  wrap-up calls at the turn limit: {summary.wrap_up_calls}")
     budget = artifacts.budget
     if budget is not None and (budget.token_budget is not None or budget.retries_used):
         parts = []
@@ -131,4 +158,14 @@ def _format_usage(run: FactCheckRun) -> list[str]:
             lines.append(f"  skipped: {', '.join(budget.skipped_stages)}")
     if artifacts.citation_check:
         lines.append("  citations: " + ", ".join(f"{k}={v}" for k, v in sorted(artifacts.citation_check.items())))
+    retrieval = artifacts.retrieval_summary
+    if retrieval is not None:
+        counts = {
+            "search(es)": retrieval.searches,
+            "page(s) opened": retrieval.pages_opened,
+            "distinct URL(s)": retrieval.distinct_urls,
+            "refused at the cap": retrieval.refused,
+            "failed": retrieval.errors,
+        }
+        lines.append("  retrieval: " + ", ".join(f"{count} {label}" for label, count in counts.items() if count))
     return lines

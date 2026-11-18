@@ -1,13 +1,26 @@
 from __future__ import annotations
 
 from enum import Enum
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 from pydantic.json_schema import SkipJsonSchema
 
 # Fields annotated with ``SkipJsonSchema`` are assigned by the harness after
-# the model call (tiering, URL health, failure status). They stay out of the
-# model-facing output schema so the model is never asked to guess them.
+# the model call (tiering, URL health, grounding, failure status, stop reason).
+# They stay out of the model-facing output schema so the model is never asked
+# to guess them. A provider that does not enforce the schema strictly still
+# accepts them when a model emits them, so model output goes through
+# ``without_harness_fields()`` before the harness assigns anything.
+
+
+def _harness_defaults(model: BaseModel) -> dict[str, Any]:
+    """Default value of every ``SkipJsonSchema`` field, so a newly added one is reset too."""
+    return {
+        name: field.get_default(call_default_factory=True)
+        for name, field in type(model).model_fields.items()
+        if any(isinstance(item, SkipJsonSchema) for item in field.metadata)
+    }
 
 
 class VeracityVerdict(str, Enum):
@@ -61,6 +74,31 @@ class UrlStatus(str, Enum):
     BROKEN = "broken"
 
 
+class SourceGrounding(str, Enum):
+    """Whether a cited source can be traced to what the search tools returned.
+
+    Assigned by a deterministic comparison against the run's retrieval journal.
+    It records provenance only: that the URL (and the quoted wording) really
+    came out of a tool call. It says nothing about whether the source is right
+    or whether the snippet supports the finding.
+    """
+
+    QUOTE_MATCHED = "quote_matched"  # snippet found verbatim in the text retrieved for that URL
+    URL_MATCHED = "url_matched"  # URL was retrieved, snippet wording was not found there
+    UNMATCHED = "unmatched"  # URL never appeared in any tool output of the run
+
+
+class StopReason(str, Enum):
+    """Why a completed research run ended before the model chose to stop.
+
+    The finding is still an observation; it was produced from the evidence
+    gathered up to the limit and should be read with that in mind.
+    """
+
+    TURN_LIMIT = "turn_limit"  # hit max turns; a tools-off wrap-up call produced the finding
+    SEARCH_CAP = "search_cap"  # the hard search cap refused further calls
+
+
 class CheckworthyClaim(BaseModel):
     claim_id: str = Field(description="Stable identifier for the extracted claim.")
     claim_text: str = Field(
@@ -107,6 +145,7 @@ class SourceEvidence(BaseModel):
     tier: SkipJsonSchema[SourceTier | None] = None
     url_status: SkipJsonSchema[UrlStatus | None] = None
     archived_url: SkipJsonSchema[str | None] = None
+    grounding: SkipJsonSchema[SourceGrounding | None] = None
 
     @field_validator("url")
     @classmethod
@@ -115,6 +154,10 @@ class SourceEvidence(BaseModel):
         if stripped and not stripped.startswith(("http://", "https://")):
             raise ValueError(f"url must start with http:// or https://, got: {stripped!r}")
         return stripped
+
+    def without_harness_fields(self) -> "SourceEvidence":
+        """Copy with every harness-assigned field reset to its default."""
+        return self.model_copy(update=_harness_defaults(self))
 
 
 class VerificationCheck(BaseModel):
@@ -153,11 +196,21 @@ class AspectFinding(BaseModel):
     caveats: list[str] = Field(default_factory=list)
     status: SkipJsonSchema[FindingStatus] = FindingStatus.COMPLETED
     failure_reason: SkipJsonSchema[str | None] = None
+    stop_reason: SkipJsonSchema[StopReason | None] = None
 
     @property
     def is_observation(self) -> bool:
         """True when the finding reflects actual research, not a harness failure."""
         return self.status == FindingStatus.COMPLETED
+
+    def without_harness_fields(self) -> "AspectFinding":
+        """Copy with every harness-assigned field reset, on the finding and its sources."""
+        return self.model_copy(
+            update={
+                **_harness_defaults(self),
+                "sources": [source.without_harness_fields() for source in self.sources],
+            }
+        )
 
 
 class FactCheckReport(BaseModel):
@@ -185,6 +238,15 @@ class FactCheckReport(BaseModel):
     )
     findings: list[AspectFinding] = Field(default_factory=list)
     sources: list[SourceEvidence] = Field(default_factory=list)
+
+    def without_harness_fields(self) -> "FactCheckReport":
+        """Copy with harness-assigned fields reset on every finding and source."""
+        return self.model_copy(
+            update={
+                "findings": [finding.without_harness_fields() for finding in self.findings],
+                "sources": [source.without_harness_fields() for source in self.sources],
+            }
+        )
 
 
 class ReviewDecision(BaseModel):

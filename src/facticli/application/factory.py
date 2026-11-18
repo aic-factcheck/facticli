@@ -7,13 +7,14 @@ from facticli.adapters import (
     CompatibleResearchAdapter,
     CompatibleReviewAdapter,
     CompatibleSingleAgentAdapter,
+    build_search_tools,
     configure_inference_client,
     load_inference_config,
 )
 from facticli.core.constraints import FACT_CHECK_DOMAINS
 
 from .citations import CitationHealthChecker
-from .config import STRATEGIES, ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
+from .config import SEARCH_CAP_FACTOR, STRATEGIES, ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
 from .repository import RunArtifactRepository
 from .services import ClaimExtractionService, FactCheckService, SingleAgentFactCheckService
 from .stages import CitationCheckStage, ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, ReviewStage
@@ -55,24 +56,34 @@ def build_fact_check_service(
         knowledge_store_dir=config.knowledge_store_dir,
         token_budget=config.token_budget,
         retry_budget=config.retry_budget,
+        stage_efforts=dict(config.stage_efforts),
     )
+    search_tools = build_search_tools(
+        search_provider=config.search_provider,
+        search_context_size=config.search_context_size,
+        max_chars_per_field=config.max_chars_per_result_field,
+        max_total_chars=config.max_tool_output_chars,
+        search_results_per_query=config.search_results_per_query,
+    )
+    search_cap = SEARCH_CAP_FACTOR * config.tool_call_budget
 
     if config.strategy == "single_agent":
+        # The single agent gets the search allowance the pipeline has across all its checks.
         checker = CompatibleSingleAgentAdapter(
             model=models["single_agent"],
             max_turns=config.single_agent_max_turns,
-            search_context_size=config.search_context_size,
+            tools=search_tools,
             search_provider=config.search_provider,
+            tool_call_budget=config.tool_call_budget * config.max_checks,
             reasoning_effort=config.effort_for("single_agent"),
             retry_attempts=config.model_retry_attempts,
-            max_chars_per_field=config.max_chars_per_result_field,
-            max_total_chars=config.max_tool_output_chars,
         )
         return SingleAgentFactCheckService(
             checker=checker,
             max_checks=config.max_checks,
             max_search_queries_per_check=config.max_search_queries_per_check,
             stage_models={"single_agent": models["single_agent"]},
+            search_cap=search_cap * config.max_checks,
             **common,
         )
 
@@ -85,12 +96,11 @@ def build_fact_check_service(
     researcher = CompatibleResearchAdapter(
         model=models["research"],
         max_turns=config.max_turns,
-        search_context_size=config.search_context_size,
+        tools=search_tools,
         search_provider=config.search_provider,
+        tool_call_budget=config.tool_call_budget,
         reasoning_effort=config.effort_for("research"),
         retry_attempts=config.model_retry_attempts,
-        max_chars_per_field=config.max_chars_per_result_field,
-        max_total_chars=config.max_tool_output_chars,
     )
     judge = CompatibleJudgeAdapter(
         model=models["judge"],
@@ -116,6 +126,7 @@ def build_fact_check_service(
             max_parallel_research=config.max_parallel_research,
             research_timeout_seconds=config.research_timeout_seconds,
             research_retry_attempts=config.research_retry_attempts,
+            search_cap=search_cap,
         ),
         judge_stage=JudgeStage(judge=judge),
         review_stage=ReviewStage(

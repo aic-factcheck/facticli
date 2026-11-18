@@ -106,8 +106,10 @@ def _format_progress_event(event: ProgressEvent) -> list[str]:
         signal = payload.get("signal", "")
         confidence = float(payload.get("confidence", 0.0))
         summary = _truncate_text(str(payload.get("summary", "")))
+        stop_reason = payload.get("stop_reason")
+        suffix = f" | cut short: {stop_reason}" if stop_reason else ""
         return [
-            f"[progress] [{aspect_id}] {signal} | confidence {confidence:.2f}",
+            f"[progress] [{aspect_id}] {signal} | confidence {confidence:.2f}{suffix}",
             f"           {summary}",
         ]
     if event.kind == "research_check_failed":
@@ -286,7 +288,19 @@ def build_parser() -> argparse.ArgumentParser:
         type=search_results_int,
         default=5,
         dest="search_results_per_query",
-        help="Number of search results to fetch per query (1-20, default 5).",
+        help=(
+            "Results per query when the model does not ask for a number (1-20, default 5); "
+            "used by the brave and knowledge_store tools."
+        ),
+    )
+    check_parser.add_argument(
+        "--tool-call-budget",
+        type=positive_int,
+        default=8,
+        help=(
+            "Searches a researcher is told to plan for per check (default: 8). The brave and knowledge_store "
+            "tools refuse calls beyond twice this number."
+        ),
     )
     check_parser.add_argument(
         "--block-fact-checkers",
@@ -423,6 +437,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
         verify_sources=bool(_arg(args, "verify_sources", False)),
         block_fact_checkers=bool(_arg(args, "block_fact_checkers", False)),
         blocked_domains=tuple(_arg(args, "blocked_domains", None) or ()),
+        tool_call_budget=int(_arg(args, "tool_call_budget", 8)),
     )
 
     if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):

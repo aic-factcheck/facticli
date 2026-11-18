@@ -1,17 +1,34 @@
 from __future__ import annotations
 
+import asyncio
+import io
+import json
+import tempfile
 import unittest
+from contextlib import redirect_stderr
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import httpx
+import openai
 
 from facticli.averitec_submission import (
+    EXIT_ABORTED,
+    _run,
     build_failed_submission_row,
+    build_parser,
     build_submission_evidence,
     build_submission_row,
 )
+from facticli.core.artifacts import RunArtifacts
 from facticli.core.contracts import (
     AspectFinding,
     EvidenceSignal,
     FactCheckReport,
+    FindingStatus,
     SourceEvidence,
+    SourceGrounding,
     VeracityVerdict,
 )
 
@@ -111,6 +128,78 @@ class AveritecSubmissionMappingTests(unittest.TestCase):
         self.assertEqual(row["claim_id"], 8)
         self.assertEqual(row["pred_label"], "Not Enough Evidence")
         self.assertEqual(row["evidence"], [])
+
+
+class _BatchService:
+    """Succeeds on the first claim, then fails every later one with the given error."""
+
+    def __init__(self, error: Exception) -> None:
+        self.error = error
+        self.calls = 0
+
+    async def check_claim(self, claim: str, claim_id=None, claim_date=None):
+        self.calls += 1
+        if self.calls > 1:
+            raise self.error
+        report = _make_report()
+        report.sources[0].grounding = SourceGrounding.QUOTE_MATCHED
+        return SimpleNamespace(report=report, artifacts=RunArtifacts(claim=claim, normalized_claim=claim, report_final=report))
+
+
+class BatchRunTests(unittest.TestCase):
+    def _run_batch(self, service, records: list[dict] | None = None, extra_args: tuple[str, ...] = ()):
+        """Run the batch CLI over four claims; return (exit code, rows, manifest, stderr)."""
+        records = records or [{"claim": f"Claim {index}."} for index in range(4)]
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = Path(tmp) / "claims.json"
+            input_path.write_text(json.dumps(records), encoding="utf-8")
+            output_path = Path(tmp) / "submission.json"
+            manifest_path = Path(tmp) / "submission.runinfo.json"
+            args = build_parser().parse_args(["--input", str(input_path), "--output", str(output_path), *extra_args])
+            stderr = io.StringIO()
+            with (
+                patch.dict("os.environ", {"OPENAI_API_KEY": "k", "OPENAI_API_MODEL": "m"}, clear=False),
+                patch("facticli.averitec_submission.build_fact_check_service", side_effect=[service] if service else ValueError("bad config")),
+                redirect_stderr(stderr),
+            ):
+                code = asyncio.run(_run(args))
+            rows = json.loads(output_path.read_text(encoding="utf-8")) if output_path.exists() else None
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else None
+        return code, rows, manifest, stderr.getvalue()
+
+    def test_a_fatal_error_stops_the_batch_instead_of_writing_fallback_labels(self):
+        response = httpx.Response(429, request=httpx.Request("POST", "https://api.example"))
+        quota = openai.RateLimitError("You exceeded your current quota", response=response, body={"code": "insufficient_quota"})
+        service = _BatchService(quota)
+        code, rows, manifest, stderr = self._run_batch(service)
+
+        self.assertEqual(code, EXIT_ABORTED)
+        # Only the claim that really ran is written, so --resume retries the rest.
+        self.assertEqual([(row["claim_id"], row["pred_label"]) for row in rows], [(0, "Supported")])
+        self.assertEqual(service.calls, 2)  # claims after the fatal error were not attempted
+        self.assertTrue(manifest["aborted"].startswith("quota: RateLimitError"))
+        self.assertEqual(manifest["claims"][0]["grounding"], {"quote_matched": 1})
+        self.assertIn("rerun with --resume", stderr)
+
+    def test_ordinary_failures_get_fallback_rows_and_the_batch_goes_on(self):
+        service = _BatchService(RuntimeError("flaky"))
+        code, rows, manifest, _ = self._run_batch(service, extra_args=("--tool-call-budget", "5", "--search-results", "9"))
+        self.assertEqual(code, 0)
+        self.assertEqual([row["pred_label"] for row in rows], ["Supported", *["Not Enough Evidence"] * 3])
+        self.assertEqual(service.calls, 4)
+        self.assertNotIn("aborted", manifest)
+        self.assertEqual((manifest["settings"]["tool_call_budget"], manifest["settings"]["search_results"]), (5, 9))
+
+    def test_problems_known_before_the_first_claim_exit_without_spending(self):
+        records = [{"claim": "Claim 0.", "claim_date": "25-8-2020"}, {"claim": "Claim 1.", "claim_date": "8/25/2020"}]
+        service = _BatchService(RuntimeError("unused"))
+        code, rows, _, stderr = self._run_batch(service, records, ("--claim-date-field", "claim_date"))
+        self.assertEqual((code, rows, service.calls), (2, None, 0))
+        self.assertIn("Unparseable claim date in field 'claim_date' of 1 row(s), first at row 1", stderr)
+
+        code, rows, _, stderr = self._run_batch(None)  # the service cannot be built from these settings
+        self.assertEqual((code, rows), (2, None))
+        self.assertIn("bad config", stderr)
 
 
 if __name__ == "__main__":
