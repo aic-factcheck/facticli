@@ -82,6 +82,8 @@ Not yet implemented (see `TODO.md`):
 - `src/facticli/adapters/retry_policy.py`: SDK retry policy bound to the run ledger
 - `src/facticli/adapters/provider_profile.py`: OpenAI-compatible env resolution + client bootstrap
 - `src/facticli/cli.py`: CLI parser and command handlers (config-file layering in `main`)
+- `src/facticli/check_options.py`: fact-check flags, environment checks, and runtime config shared by
+  `facticli check` and the AVeriTeC runner (add a run flag there once, not to each runner)
 - `src/facticli/averitec_submission.py`: AVeriTeC submission generation entrypoint
 - `src/facticli/averitec_eval.py`, `src/facticli/eval/*`: scorer (label metrics, Ev2R, consistency)
 - `src/facticli/artifacts_audit.py`: leakage / robustness / evidence-ablation audit over run artifacts
@@ -306,7 +308,8 @@ Claim-extraction language policy:
 - `--strategy {pipeline,single_agent}`
 - `--max-checks`, `--parallel`, `--feedback-rounds`, `--follow-up-checks`
 - `--token-budget`, `--model-retries`, `--retry-budget`
-- `--search-provider {openai,brave,knowledge_store}`, `--search-results`, `--search-context-size`
+- `--search-provider {openai,brave}` (`knowledge_store` only in the AVeriTeC runner, with
+  `--knowledge-store-dir`), `--search-results`, `--search-context-size`
 - `--tool-call-budget`, `--search-cache-dir`
 - `--block-fact-checkers`, `--blocked-domain DOMAIN`
 - `--verify-sources`, `--artifacts-dir`
@@ -328,7 +331,8 @@ Input/validation rules:
 - Config-file keys mirror long flag names (underscores) and also accept the stored attribute name;
   values go through the flag's own type and choices; unknown profiles are an error (exit 2).
 - The AVeriTeC runner exits with code 3 when a fatal error aborts the batch, and with code 2
-  before the first claim when a claim date cannot be parsed.
+  before the first claim when a claim date cannot be parsed. `--fail-fast` stops at the first
+  failed claim with code 1. Both keep the rows already completed, so `--resume` continues.
 
 ### 8.3 Environment Variables
 

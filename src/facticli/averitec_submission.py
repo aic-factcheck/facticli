@@ -9,10 +9,10 @@ from itertools import zip_longest
 from pathlib import Path
 from typing import Any
 
-from facticli.application.config import REASONING_EFFORTS, STRATEGIES, FactCheckRuntimeConfig, parse_stage_assignments
 from facticli.application.factory import build_fact_check_service
 from facticli.application.repository import FileRunArtifactRepository
-from facticli.cli_validators import non_negative_int, positive_int, search_results_int
+from facticli.check_options import add_fact_check_args, fact_check_config, missing_environment
+from facticli.cli_validators import non_negative_int, positive_int
 from facticli.core.constraints import normalize_claim_date
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
 from facticli.core.errors import classify_exception, describe_exception, is_fatal
@@ -75,102 +75,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--fail-fast",
         action="store_true",
-        help="Stop on first failed claim instead of writing a fallback prediction.",
+        help="Stop at the first failed claim instead of writing a fallback prediction; completed rows are kept (exit 1).",
     )
-    parser.add_argument(
-        "--model",
-        default=None,
-        help="Model name override. Falls back to OPENAI_API_MODEL.",
-    )
-    parser.add_argument(
-        "--base-url",
-        default=None,
-        help="OpenAI-compatible base URL override. Falls back to OPENAI_API_BASE_URL.",
-    )
-    parser.add_argument(
-        "--strategy",
-        choices=list(STRATEGIES),
-        default="pipeline",
-        help="pipeline (default) or single_agent (no-harness baseline with the same model, tool, and budget).",
-    )
-    parser.add_argument(
-        "--stage-model",
-        action="append",
-        default=None,
-        metavar="STAGE=MODEL",
-        help="Route one stage to a different model (repeatable), e.g. research=gpt-5-mini.",
-    )
-    parser.add_argument(
-        "--stage-effort",
-        action="append",
-        default=None,
-        metavar="STAGE=EFFORT",
-        help="Reasoning effort per stage (repeatable): " + ", ".join(REASONING_EFFORTS) + ".",
-    )
-    parser.add_argument(
-        "--token-budget",
-        type=positive_int,
-        default=None,
-        help="Shared token budget per claim across all stages (default: unlimited).",
-    )
-    parser.add_argument(
-        "--model-retries",
-        type=non_negative_int,
-        default=3,
-        help="Max SDK-managed retries per model call for transient errors (default: 3).",
-    )
-    parser.add_argument(
-        "--retry-budget",
-        type=non_negative_int,
-        default=12,
-        help="Max model-call retries per claim run (default: 12).",
-    )
-    parser.add_argument(
-        "--tool-call-budget",
-        type=positive_int,
-        default=8,
-        help="Searches a researcher is told to plan for per check (default: 8); the tools refuse beyond twice that.",
-    )
-    parser.add_argument(
-        "--search-cache-dir",
-        default=None,
-        help="Directory that records Brave responses and replays identical requests (needs --search-provider brave).",
-    )
-    parser.add_argument(
-        "--feedback-rounds",
-        type=non_negative_int,
-        default=0,
-        help="Bounded review/follow-up rounds per claim (default: 0).",
-    )
-    parser.add_argument(
-        "--follow-up-checks",
-        type=positive_int,
-        default=2,
-        help="Max new follow-up checks per feedback round (default: 2).",
-    )
-    parser.add_argument(
-        "--verify-sources",
-        action="store_true",
-        help="Run the citation URL health pass (live/archived/broken) after judging.",
-    )
-    parser.add_argument(
-        "--max-checks",
-        type=positive_int,
-        default=4,
-        help="Maximum number of verification checks per claim.",
-    )
-    parser.add_argument(
-        "--parallel",
-        type=positive_int,
-        default=4,
-        help="Maximum parallel research workers within each claim.",
-    )
-    parser.add_argument(
-        "--search-provider",
-        choices=["openai", "brave", "knowledge_store"],
-        default=os.getenv("FACTICLI_SEARCH_PROVIDER", "openai"),
-        help="Search backend for research stage.",
-    )
+    add_fact_check_args(parser, search_providers=("openai", "brave", "knowledge_store"))
     parser.add_argument(
         "--knowledge-store-dir",
         default=None,
@@ -182,23 +89,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="Input field holding the claim date; used as evidence cutoff (default: claim_date). Pass '' to disable.",
     )
     parser.add_argument(
-        "--block-fact-checkers",
-        action="store_true",
-        help="Block known fact-checking domains from research sources (label-leakage control).",
-    )
-    parser.add_argument(
-        "--blocked-domain",
-        action="append",
-        default=None,
-        dest="blocked_domains",
-        help="Additional domain to block (repeatable).",
-    )
-    parser.add_argument(
-        "--artifacts-dir",
-        default=None,
-        help="Directory to persist full per-run artifacts JSON (plans, findings, sources, usage) for replay and audits.",
-    )
-    parser.add_argument(
         "--run-info",
         default=None,
         help="Path for the per-claim usage/latency manifest (default: <output>.runinfo.json).",
@@ -208,42 +98,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip claims whose claim_id already exists in the output file and merge new rows into it.",
     )
-    parser.add_argument(
-        "--search-context-size",
-        choices=["low", "medium", "high"],
-        default="high",
-        help="Hosted search context size for --search-provider openai.",
-    )
-    parser.add_argument(
-        "--search-results",
-        type=search_results_int,
-        default=5,
-        dest="search_results_per_query",
-        help="Results per query when the model does not ask for a number (1..20); brave and knowledge_store only.",
-    )
     return parser
-
-
-def _validate_env(args: argparse.Namespace) -> None:
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not (api_key and api_key.strip()):
-        raise RuntimeError("OPENAI_API_KEY is not set. Export it or add it to .env.")
-    env_model = os.getenv("OPENAI_API_MODEL")
-    if not (args.model and args.model.strip()) and not (
-        env_model and env_model.strip()
-    ):
-        raise RuntimeError(
-            "OPENAI_API_MODEL is not set. Export it, add it to .env, or pass --model."
-        )
-    if args.search_provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
-        raise RuntimeError("BRAVE_SEARCH_API_KEY is not set. Export it or use --search-provider openai.")
-    if args.search_provider == "knowledge_store" and not args.knowledge_store_dir:
-        raise RuntimeError("--knowledge-store-dir is required with --search-provider knowledge_store.")
-    try:
-        parse_stage_assignments(args.stage_model, option_name="--stage-model")
-        parse_stage_assignments(args.stage_effort, allowed_values=REASONING_EFFORTS, option_name="--stage-effort")
-    except ValueError as exc:
-        raise RuntimeError(str(exc)) from exc
 
 
 def _load_input_records(path: Path) -> list[dict[str, Any]]:
@@ -371,35 +226,13 @@ def build_failed_submission_row(
 
 
 def _build_service(args: argparse.Namespace) -> Any:
-    config = FactCheckRuntimeConfig(
-        model=args.model,
-        base_url=args.base_url,
-        stage_models=parse_stage_assignments(args.stage_model, option_name="--stage-model"),
-        stage_efforts=parse_stage_assignments(
-            args.stage_effort, allowed_values=REASONING_EFFORTS, option_name="--stage-effort"
-        ),
-        model_retry_attempts=args.model_retries,
-        retry_budget=args.retry_budget,
-        strategy=args.strategy,
-        max_checks=args.max_checks,
-        max_parallel_research=args.parallel,
-        max_feedback_rounds=args.feedback_rounds,
-        max_follow_up_checks=args.follow_up_checks,
-        token_budget=args.token_budget,
-        verify_sources=args.verify_sources,
-        search_context_size=args.search_context_size,
-        search_provider=args.search_provider,
-        search_results_per_query=args.search_results_per_query,
-        block_fact_checkers=args.block_fact_checkers,
-        blocked_domains=tuple(args.blocked_domains or ()),
-        knowledge_store_dir=args.knowledge_store_dir,
-        tool_call_budget=args.tool_call_budget,
-        search_cache_dir=args.search_cache_dir,
-    )
     artifact_repository = (
         FileRunArtifactRepository(output_dir=args.artifacts_dir) if args.artifacts_dir else None
     )
-    return build_fact_check_service(config=config, artifact_repository=artifact_repository)
+    return build_fact_check_service(
+        config=fact_check_config(args, knowledge_store_dir=args.knowledge_store_dir),
+        artifact_repository=artifact_repository,
+    )
 
 
 async def _run_batch(
@@ -407,23 +240,26 @@ async def _run_batch(
     indexed_records: list[tuple[int, dict[str, Any]]],
     args: argparse.Namespace,
     service: Any,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], str | None]:
-    """Run the selected claims; return ``(rows, run info, abort reason)``.
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], tuple[int, str] | None]:
+    """Run the selected claims; return ``(rows, run info, abort)``.
+
+    ``abort`` is ``(exit code, reason)`` when the batch stopped early.
 
     A claim that fails for an ordinary reason gets a fallback row. A failure
     no retry can fix aborts the batch instead: the failing claim and everything
     not yet started are left out of the output, so ``--resume`` picks them up
-    rather than keeping fallback labels.
+    rather than keeping fallback labels. ``--fail-fast`` stops the same way
+    on any failure.
     """
     semaphore = asyncio.Semaphore(max(1, args.parallel_claims))
     ordered_rows: list[dict[str, Any] | None] = [None] * len(indexed_records)
     ordered_run_info: list[dict[str, Any] | None] = [None] * len(indexed_records)
-    abort_reason: str | None = None
+    abort: tuple[int, str] | None = None  # (exit code, reason) once the batch stops early
 
     async def process_one(
         local_index: int, row_index: int, record: dict[str, Any]
     ) -> tuple[int, dict[str, Any] | None, dict[str, Any] | None]:
-        nonlocal abort_reason
+        nonlocal abort
         claim = _extract_claim_text(record, row_index, args.claim_field)
         claim_id = _resolve_claim_id(record, row_index, args.claim_id_field)
         claim_date = (
@@ -433,18 +269,17 @@ async def _run_batch(
         )
         run_info: dict[str, Any] = {"claim_id": claim_id, "claim_date": claim_date}
         async with semaphore:
-            if abort_reason:
+            if abort:
                 return local_index, None, None
             try:
                 run = await service.check_claim(claim, claim_id=claim_id, claim_date=claim_date)
             except Exception as exc:
                 if is_fatal(classify_exception(exc)):
-                    abort_reason = abort_reason or describe_exception(exc)
+                    abort = abort or (EXIT_ABORTED, f"{describe_exception(exc)}. No retry can fix this error")
                     return local_index, None, None
                 if args.fail_fast:
-                    raise RuntimeError(
-                        f"Claim row {row_index} failed ({claim[:120]}): {type(exc).__name__}: {exc}"
-                    ) from exc
+                    abort = abort or (1, f"claim row {row_index} failed under --fail-fast: {type(exc).__name__}: {exc}")
+                    return local_index, None, None
                 print(
                     f"[warn] Claim row {row_index} failed, writing fallback label: "
                     f"{type(exc).__name__}: {exc}",
@@ -517,7 +352,7 @@ async def _run_batch(
     return (
         [row for row in ordered_rows if row is not None],
         [info for info in ordered_run_info if info is not None],
-        abort_reason,
+        abort,
     )
 
 
@@ -535,10 +370,9 @@ def _slice_records(
 
 
 async def _run(args: argparse.Namespace) -> int:
-    try:
-        _validate_env(args)
-    except RuntimeError as exc:
-        print(str(exc), file=sys.stderr)
+    missing = missing_environment(args)
+    if missing:
+        print(missing, file=sys.stderr)
         return 2
 
     input_path = Path(args.input)
@@ -610,16 +444,16 @@ async def _run(args: argparse.Namespace) -> int:
         print(str(exc), file=sys.stderr)
         return 2
     try:
-        submission_rows, run_info_rows, abort_reason = await _run_batch(
+        submission_rows, run_info_rows, abort = await _run_batch(
             indexed_records=indexed_records, args=args, service=service
         )
     except Exception as exc:
         print(f"Batch run failed: {exc}", file=sys.stderr)
         return 1
-    if abort_reason:
+    if abort:
         print(
-            f"[error] Batch aborted after {len(submission_rows)} of {len(indexed_records)} claims: {abort_reason}. "
-            "No retry can fix this error, so the remaining claims were not given fallback labels. "
+            f"[error] Batch aborted after {len(submission_rows)} of {len(indexed_records)} claims: {abort[1]}. "
+            "The remaining claims were not given fallback labels. "
             "Completed rows are written to the output file; fix the cause and rerun with --resume.",
             file=sys.stderr,
             flush=True,
@@ -678,14 +512,14 @@ async def _run(args: argparse.Namespace) -> int:
         },
         "claims": run_info_rows,
     }
-    if abort_reason:
-        manifest["aborted"] = abort_reason
+    if abort:
+        manifest["aborted"] = abort[1]
     if args.resume and run_info_path.is_file():
         previous = json.loads(run_info_path.read_text(encoding="utf-8"))
         manifest["claims"] = [*previous.get("claims", []), *run_info_rows]
     run_info_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"[info] Wrote run manifest to {run_info_path}.", file=sys.stderr, flush=True)
-    return EXIT_ABORTED if abort_reason else 0
+    return abort[0] if abort else 0
 
 
 def main(argv: list[str] | None = None) -> int:

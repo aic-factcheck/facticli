@@ -36,13 +36,8 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
                 )
             ],
         )
-        args = argparse.Namespace(
-            model="gpt-5.4",
-            base_url=None,
-            max_claims=10,
-            from_file=None,
-            text="Inflation fell below 3%.",
-            json=True,
+        args = build_parser().parse_args(
+            ["extract-claims", "Inflation fell below 3%.", "--model", "gpt-5.4", "--max-claims", "10", "--json"]
         )
 
         fake_service = AsyncMock()
@@ -61,21 +56,8 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(payload["claims"][0]["claim_id"], "c1")
 
     async def test_check_command_rejects_missing_openai_api_key(self):
-        args = argparse.Namespace(
-            claim="Some claim",
-            model="gpt-5.4",
-            base_url=None,
-            max_checks=4,
-            parallel=2,
-            feedback_rounds=0,
-            follow_up_checks=2,
-            search_provider="openai",
-            search_context_size="high",
-            search_results_per_query=5,
-            show_plan=False,
-            json=False,
-            include_artifacts=False,
-            stream_progress=False,
+        args = build_parser().parse_args(
+            ["check", "Some claim", "--model", "gpt-5.4", "--parallel", "2", "--search-provider", "openai"]
         )
 
         with patch.dict("os.environ", {}, clear=True):
@@ -83,15 +65,20 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(code, 2)
 
+    async def test_check_command_rejects_knowledge_store_it_cannot_point_at(self):
+        with patch.dict("os.environ", {"FACTICLI_SEARCH_PROVIDER": "knowledge_store"}, clear=False):
+            args = build_parser().parse_args(["check", "Some claim", "--model", "m"])
+        self.assertEqual(args.search_provider, "knowledge_store")  # argparse does not check defaults
+        stderr = io.StringIO()
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "k"}, clear=False), redirect_stderr(stderr):
+            code = await run_check_command(args)
+        self.assertEqual(code, 2)
+        self.assertIn("--knowledge-store-dir", stderr.getvalue())
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            build_parser().parse_args(["check", "Some claim", "--search-provider", "knowledge_store"])
+
     async def test_extract_claims_command_rejects_missing_model(self):
-        args = argparse.Namespace(
-            model=None,
-            base_url=None,
-            max_claims=10,
-            from_file=None,
-            text="Inflation fell below 3%.",
-            json=True,
-        )
+        args = build_parser().parse_args(["extract-claims", "Inflation fell below 3%.", "--max-claims", "10", "--json"])
 
         with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}, clear=True):
             code = await run_extract_claims_command(args)
@@ -131,20 +118,11 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         fake_service = AsyncMock()
         fake_service.check_claim = AsyncMock(return_value=fake_run)
 
-        args = argparse.Namespace(
-            claim="The first iPhone was released in 2007.",
-            model="gpt-5.4",
-            base_url=None,
-            max_checks=4,
-            parallel=2,
-            feedback_rounds=1,
-            follow_up_checks=2,
-            search_provider="openai",
-            search_context_size="high",
-            search_results_per_query=5,
-            show_plan=False,
-            json=True,
-            include_artifacts=True,
+        args = build_parser().parse_args(
+            [
+                "check", "The first iPhone was released in 2007.", "--model", "gpt-5.4", "--parallel", "2",
+                "--feedback-rounds", "1", "--search-provider", "openai", "--json", "--include-artifacts",
+            ]
         )
 
         with (
@@ -228,21 +206,11 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
                     )
                 return fake_run
 
-        args = argparse.Namespace(
-            claim="The Eiffel Tower was built in 1889.",
-            model="gpt-5.4",
-            base_url=None,
-            max_checks=4,
-            parallel=2,
-            feedback_rounds=1,
-            follow_up_checks=2,
-            search_provider="openai",
-            search_context_size="high",
-            search_results_per_query=5,
-            show_plan=False,
-            json=False,
-            include_artifacts=False,
-            stream_progress=True,
+        args = build_parser().parse_args(
+            [
+                "check", "The Eiffel Tower was built in 1889.", "--model", "gpt-5.4", "--parallel", "2",
+                "--feedback-rounds", "1", "--search-provider", "openai", "--stream-progress",
+            ]
         )
 
         with (

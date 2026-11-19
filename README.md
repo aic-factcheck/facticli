@@ -220,7 +220,7 @@ Notes:
 - Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
 - `evidence` entries include `question`, `answer`, `url`, `scraped_text`. Each entry states a different fact: every finding gets one row (question + summary) before any gets a second, and the remaining rows carry the sources' own snippets.
 - The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--search-cache-dir`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
-- A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
+- A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. `--fail-fast` stops the same way at any failure, with exit code 1. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
 
 Score a submission (label metrics, optional Ev2R), and measure verdict consistency across repeated runs (pass^k, pass@k, agreement, majority vote):
 
@@ -354,7 +354,7 @@ facticli check [--model MODEL] [--base-url BASE_URL]
                [--max-checks N] [--parallel N]
                [--feedback-rounds N] [--follow-up-checks N]
                [--token-budget N] [--model-retries N] [--retry-budget N]
-               [--search-provider {openai,brave,knowledge_store}]
+               [--search-provider {openai,brave}]
                [--search-results N] [--search-context-size {low,medium,high}]
                [--tool-call-budget N] [--search-cache-dir DIR]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
@@ -377,6 +377,7 @@ Validation notes:
 - `--feedback-rounds`, `--model-retries`, and `--retry-budget` must be integers `>= 0`.
 - `--search-results` must be an integer in `1..20`; it is the result count the brave and knowledge_store tools use when the model does not ask for one.
 - `--search-cache-dir` needs `--search-provider brave`.
+- The `knowledge_store` provider needs a store directory and claim ids, so only the AVeriTeC runner offers it (`--knowledge-store-dir`); `check` refuses it, also when it comes from `FACTICLI_SEARCH_PROVIDER`.
 - `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
@@ -520,6 +521,7 @@ src/facticli/
     retry_policy.py    # SDK retry policy bound to the run ledger
     provider_profile.py# OpenAI-compatible env resolution + client bootstrap
   cli.py               # command-line interface
+  check_options.py     # flags, env checks, and runtime config shared by `check` and the AVeriTeC runner
   brave_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)
   skills.py            # skill registry + frontmatter-aware prompt loading
   artifacts_audit.py   # leakage / robustness / evidence-ablation audit over persisted runs

@@ -197,7 +197,8 @@ Single runs per arm unless stated, so a difference of one or two claims is noise
 - [ ] Near-duplicate clustering of syndicated sources before the judge.
 - [ ] Evaluate the review loop with and without `unmatched` / `stop_reason` in its payload.
 - [ ] Hosted OpenAI search: blocklist is applied post hoc; the API's `filters` only allow-list.
-- [ ] `facticli check` offers `--search-provider knowledge_store` but has no way to point at a store.
+- [x] `facticli check` offered `--search-provider knowledge_store` with no way to point at a store, so
+      every check came back insufficient; it now refuses it (2026-11-19).
 
 ## Testing operations
 

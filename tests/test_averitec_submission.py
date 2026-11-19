@@ -233,6 +233,15 @@ class BatchRunTests(unittest.TestCase):
         self.assertNotIn("aborted", manifest)
         self.assertEqual((manifest["settings"]["tool_call_budget"], manifest["settings"]["search_results"]), (5, 9))
 
+    def test_fail_fast_stops_but_keeps_the_rows_already_finished(self):
+        service = _BatchService(RuntimeError("flaky"))
+        code, rows, manifest, stderr = self._run_batch(service, extra_args=("--fail-fast",))
+        self.assertEqual(code, 1)
+        self.assertEqual([(row["claim_id"], row["pred_label"]) for row in rows], [(0, "Supported")])
+        self.assertEqual(service.calls, 2)
+        self.assertIn("--fail-fast", manifest["aborted"])
+        self.assertIn("rerun with --resume", stderr)
+
     def test_problems_known_before_the_first_claim_exit_without_spending(self):
         records = [{"claim": "Claim 0.", "claim_date": "25-8-2020"}, {"claim": "Claim 1.", "claim_date": "8/25/2020"}]
         service = _BatchService(RuntimeError("unused"))
