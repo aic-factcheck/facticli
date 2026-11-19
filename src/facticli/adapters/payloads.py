@@ -74,6 +74,19 @@ def dated(payload: dict[str, Any], constraints: ResearchConstraints | None) -> d
     return {"reference_date": constraints.reference_date, **payload}
 
 
+def _with_run_limits(
+    payload: dict[str, Any], constraints: ResearchConstraints | None, usage_log: UsageLog | None
+) -> dict[str, Any]:
+    """Append the retrieval constraints and budget reminder blocks a searching stage needs."""
+    constraints_block = constraints_payload(constraints)
+    if constraints_block:
+        payload["constraints"] = constraints_block
+    budget_block = budget_payload(usage_log)
+    if budget_block:
+        payload["budget"] = budget_block
+    return payload
+
+
 def _unmatched_marker(source: SourceEvidence) -> dict[str, str]:
     """Flag a cited URL that was not in the search results of the check citing it.
 
@@ -105,17 +118,7 @@ def research_payload(
             "do_not_adjudicate_whole_claim": True,
         },
     }
-    constraints_block = constraints_payload(constraints)
-    if constraints_block:
-        payload["constraints"] = constraints_block
-    budget_block = budget_payload(usage_log)
-    if budget_block:
-        payload["budget"] = budget_block
-    return payload
-
-
-def _finding_status(finding: AspectFinding) -> str:
-    return finding.status.value if isinstance(finding.status, FindingStatus) else str(finding.status)
+    return _with_run_limits(payload, constraints, usage_log)
 
 
 def review_payload(
@@ -140,7 +143,7 @@ def review_payload(
             entry["finding"] = None
             entry["status"] = "missing"
         else:
-            entry["status"] = _finding_status(finding)
+            entry["status"] = finding.status.value
             entry["finding"] = {
                 "signal": finding.signal.value,
                 "confidence": finding.confidence,
@@ -223,7 +226,7 @@ def judge_payload(*, claim: str, plan: InvestigationPlan, findings: list[AspectF
                 {
                     "aspect_id": finding.aspect_id,
                     "question": finding.question,
-                    "status": _finding_status(finding),
+                    "status": finding.status.value,
                     "failure_reason": finding.failure_reason,
                 }
             )
@@ -299,11 +302,5 @@ def single_agent_payload(
             "snippets_verbatim": True,
         },
     }
-    constraints_block = constraints_payload(constraints)
-    if constraints_block:
-        payload["constraints"] = constraints_block
-    budget_block = budget_payload(usage_log)
-    if budget_block:
-        payload["budget"] = budget_block
-    return payload
+    return _with_run_limits(payload, constraints, usage_log)
 

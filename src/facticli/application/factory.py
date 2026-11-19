@@ -15,7 +15,7 @@ from facticli.core.constraints import FACT_CHECK_DOMAINS
 from facticli.core.search_cache import SearchCache
 
 from .citations import CitationHealthChecker
-from .config import SEARCH_CAP_FACTOR, STRATEGIES, ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
+from .config import SEARCH_CAP_FACTOR, STAGE_NAMES, STRATEGIES, ClaimExtractionRuntimeConfig, FactCheckRuntimeConfig
 from .repository import RunArtifactRepository
 from .services import ClaimExtractionService, FactCheckService, SingleAgentFactCheckService
 from .stages import CitationCheckStage, ClaimExtractionStage, JudgeStage, PlanStage, ResearchStage, ReviewStage
@@ -25,8 +25,7 @@ FactCheckServiceLike = FactCheckService | SingleAgentFactCheckService
 
 def resolve_stage_models(config: FactCheckRuntimeConfig | ClaimExtractionRuntimeConfig, default_model: str) -> dict[str, str]:
     """Model per stage after applying per-stage overrides to the default."""
-    stages = ("plan", "research", "review", "judge", "single_agent", "extract_claims")
-    return {stage: config.model_for(stage, default_model) for stage in stages}
+    return {stage: config.model_for(stage, default_model) for stage in STAGE_NAMES}
 
 
 def build_fact_check_service(
@@ -88,7 +87,6 @@ def build_fact_check_service(
         return SingleAgentFactCheckService(
             checker=checker,
             max_checks=config.max_checks,
-            max_search_queries_per_check=config.max_search_queries_per_check,
             stage_models={"single_agent": models["single_agent"]},
             search_cap=search_cap * config.max_checks,
             **common,
@@ -111,7 +109,7 @@ def build_fact_check_service(
     )
     judge = CompatibleJudgeAdapter(
         model=models["judge"],
-        max_turns=config.judge_max_turns,
+        max_turns=config.max_turns,
         reasoning_effort=config.effort_for("judge"),
         retry_attempts=config.model_retry_attempts,
     )
@@ -142,8 +140,6 @@ def build_fact_check_service(
             max_search_queries_per_check=config.max_search_queries_per_check,
         ),
         max_feedback_rounds=config.max_feedback_rounds,
-        max_follow_up_checks=config.max_follow_up_checks,
-        max_search_queries_per_check=config.max_search_queries_per_check,
         stage_models={stage: models[stage] for stage in ("plan", "research", "review", "judge")},
         **common,
     )

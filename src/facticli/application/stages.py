@@ -20,7 +20,7 @@ from facticli.core.contracts import (
 )
 from facticli.core.errors import ErrorKind, classify_exception, describe_exception, is_fatal
 from facticli.core.grounding import ground_finding, unresolved_citation_ids
-from facticli.core.normalize import normalize_plan_checks, normalize_query_list, normalize_source_url, normalize_text_list
+from facticli.core.normalize import normalize_plan_checks, normalize_source_url, normalize_text_list
 from facticli.core.retrieval import RetrievalJournal, activate_journal, deactivate_journal
 from facticli.core.source_quality import assign_source_tiers
 from facticli.core.usage import get_usage_log
@@ -38,7 +38,6 @@ _NO_RETRY_KINDS: frozenset[ErrorKind] = frozenset(
         ErrorKind.BAD_REQUEST,
         ErrorKind.CONTEXT_OVERFLOW,
         ErrorKind.REFUSAL,
-        ErrorKind.BUDGET,
     }
 )
 
@@ -73,13 +72,6 @@ def _apply_source_constraints(finding: AspectFinding, artifact: ResearchCheckArt
         "(fact-checking domain blocklist or evidence date cutoff)."
     )
     return finding.model_copy(update={"sources": kept, "caveats": [*finding.caveats, caveat]})
-
-
-def _tier_finding_sources(finding: AspectFinding) -> AspectFinding:
-    """Attach deterministic authority tiers to a finding's sources."""
-    if not finding.sources:
-        return finding
-    return finding.model_copy(update={"sources": assign_source_tiers(finding.sources)})
 
 
 def failed_finding(check: VerificationCheck, *, status: FindingStatus, reason: str, attempts: int) -> AspectFinding:
@@ -128,7 +120,7 @@ class PlanStage:
             max_search_queries_per_check=self.max_search_queries_per_check,
         )
         if not checks:
-            checks = [direct_check(claim, max_queries=self.max_search_queries_per_check)]
+            checks = [direct_check(claim)]
 
         plan = plan_raw.model_copy(update={"claim": claim, "checks": checks})
         artifacts.plan_normalized = plan
@@ -150,13 +142,13 @@ class PlanStage:
         return plan
 
 
-def direct_check(claim: str, *, max_queries: int) -> VerificationCheck:
+def direct_check(claim: str) -> VerificationCheck:
     """Fallback single check used when planning fails or is bypassed."""
     return VerificationCheck(
         aspect_id="claim_direct_check",
         question=f"Is this claim accurate: {claim}",
         rationale="Fallback direct verification when planning fails.",
-        search_queries=normalize_query_list([claim], max_queries=max_queries),
+        search_queries=[claim],
         acceptance_criteria=["The central assertion is confirmed or contradicted by at least two independent sources."],
     )
 
@@ -225,7 +217,8 @@ class ResearchStage:
                         else:
                             finding = await task
                         # Provenance first, on the sources exactly as the model returned them.
-                        finding = _tier_finding_sources(ground_finding(finding, journal))
+                        finding = ground_finding(finding, journal)
+                        finding = finding.model_copy(update={"sources": assign_source_tiers(finding.sources)})
                         # Artifact keeps the unfiltered (but tiered and grounded) finding for leakage audits.
                         artifact.finding = finding
                         return index, check, _apply_source_constraints(finding, artifact)
@@ -457,8 +450,8 @@ class ReviewStage:
             checks=decision_raw.follow_up_checks,
             max_checks=self.max_follow_up_checks,
             max_search_queries_per_check=self.max_search_queries_per_check,
+            taken_aspect_ids=[check.aspect_id for check in plan.checks],
         )
-        follow_up_checks = self._dedupe_follow_up_checks(follow_up_checks, plan)
 
         if normalized_action == ReviewAction.FOLLOW_UP and not retry_aspect_ids and not follow_up_checks:
             normalized_action = ReviewAction.FINALIZE
@@ -473,12 +466,6 @@ class ReviewStage:
             }
         )
         review_artifact.decision = decision_final
-        if follow_up_checks:
-            review_artifact.follow_up_plan = InvestigationPlan(
-                claim=claim,
-                checks=follow_up_checks,
-                assumptions=[],
-            )
 
         await emit_progress(
             progress_callback,
@@ -508,23 +495,6 @@ class ReviewStage:
             seen.add(candidate)
             normalized.append(candidate)
         return normalized
-
-    def _dedupe_follow_up_checks(
-        self,
-        follow_up_checks: list[VerificationCheck],
-        plan: InvestigationPlan,
-    ) -> list[VerificationCheck]:
-        used_aspect_ids = {check.aspect_id for check in plan.checks}
-        deduped: list[VerificationCheck] = []
-        for check in follow_up_checks:
-            aspect_id = check.aspect_id
-            suffix = 2
-            while aspect_id in used_aspect_ids:
-                aspect_id = f"{check.aspect_id}_{suffix}"
-                suffix += 1
-            used_aspect_ids.add(aspect_id)
-            deduped.append(check.model_copy(update={"aspect_id": aspect_id}))
-        return deduped
 
 
 @dataclass(frozen=True)

@@ -178,6 +178,46 @@ class ApplicationServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([check.aspect_id for check in run.plan.checks], ["check_1", "check_2"])
         self.assertEqual([finding.aspect_id for finding in run.findings], ["check_1", "check_2"])
 
+    async def test_retried_check_is_researched_again_but_planned_once(self):
+        class _RetryReviewStage(_ReviewStage):
+            async def execute(self, claim, plan, findings, artifacts, *, round_index, progress_callback=None):
+                decision = await super().execute(
+                    claim, plan, findings, artifacts, round_index=round_index, progress_callback=progress_callback
+                )
+                return decision.model_copy(update={"retry_aspect_ids": ["check_1"]}) if self.calls == 1 else decision
+
+        class _CountingResearchStage(_ResearchStage):
+            def __init__(self) -> None:
+                self.calls: list[list[str]] = []
+
+            async def execute(self, claim, plan, artifacts, progress_callback=None):
+                self.calls.append([check.aspect_id for check in plan.checks])
+                return [
+                    AspectFinding(
+                        aspect_id=check.aspect_id,
+                        question=check.question,
+                        signal=EvidenceSignal.SUPPORTS,
+                        summary=f"Round {len(self.calls)}.",
+                        confidence=0.8,
+                    )
+                    for check in plan.checks
+                ]
+
+        research_stage = _CountingResearchStage()
+        service = FactCheckService(
+            plan_stage=_PlanStage(),
+            research_stage=research_stage,
+            judge_stage=_JudgeStage(),
+            review_stage=_RetryReviewStage(),
+            max_feedback_rounds=2,
+        )
+
+        run = await service.check_claim("The Eiffel Tower was built in 1889.")
+
+        self.assertEqual(research_stage.calls, [["check_1"], ["check_1", "check_2"]])
+        self.assertEqual([check.aspect_id for check in run.plan.checks], ["check_1", "check_2"])
+        self.assertEqual([finding.summary for finding in run.findings], ["Round 2.", "Round 2."])
+
 
 if __name__ == "__main__":
     unittest.main()

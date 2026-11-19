@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .contracts import VerificationCheck
@@ -10,30 +11,6 @@ def sanitize_aspect_id(raw_aspect_id: str, fallback_index: int) -> str:
     lowered = raw_aspect_id.strip().lower()
     cleaned = re.sub(r"[^a-z0-9_]+", "_", lowered).strip("_")
     return cleaned or f"check_{fallback_index}"
-
-
-def normalize_query_list(
-    queries: list[str],
-    fallback: list[str] | None = None,
-    max_queries: int = 5,
-) -> list[str]:
-    candidates = [*queries, *(fallback or [])]
-    normalized: list[str] = []
-    seen: set[str] = set()
-
-    for candidate in candidates:
-        query = candidate.strip()
-        if not query:
-            continue
-        query_key = query.casefold()
-        if query_key in seen:
-            continue
-        seen.add(query_key)
-        normalized.append(query)
-        if len(normalized) >= max(1, max_queries):
-            break
-
-    return normalized
 
 
 def normalize_text_list(values: list[str], max_items: int = 8) -> list[str]:
@@ -59,9 +36,11 @@ def normalize_plan_checks(
     checks: list[VerificationCheck],
     max_checks: int,
     max_search_queries_per_check: int,
+    taken_aspect_ids: Iterable[str] = (),
 ) -> list[VerificationCheck]:
+    """Repair and cap checks; every aspect_id is unique, also against ``taken_aspect_ids``."""
     normalized_checks: list[VerificationCheck] = []
-    used_aspect_ids: set[str] = set()
+    used_aspect_ids: set[str] = set(taken_aspect_ids)
 
     for index, check in enumerate(checks, start=1):
         question = check.question.strip()
@@ -82,10 +61,8 @@ def normalize_plan_checks(
                     "aspect_id": aspect_id,
                     "question": question,
                     "rationale": check.rationale.strip(),
-                    "search_queries": normalize_query_list(
-                        check.search_queries,
-                        fallback=[question, claim],
-                        max_queries=max_search_queries_per_check,
+                    "search_queries": normalize_text_list(
+                        [*check.search_queries, question, claim], max_items=max_search_queries_per_check
                     ),
                     "acceptance_criteria": normalize_text_list(check.acceptance_criteria),
                 }

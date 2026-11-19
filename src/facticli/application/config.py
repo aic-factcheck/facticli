@@ -52,7 +52,6 @@ class FactCheckRuntimeConfig(InferenceConfig):
     search_provider: str = "openai"
     search_results_per_query: int = 5
     max_search_queries_per_check: int = 5
-    judge_max_turns: int = 12
     single_agent_max_turns: int = 24
     research_timeout_seconds: float = 120.0
     research_retry_attempts: int = 1

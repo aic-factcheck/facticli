@@ -125,17 +125,10 @@ class _RunContext:
             self.artifacts.retrieval_summary = summarize_retrieval(receipts)
 
 
-@dataclass(frozen=True)
-class FactCheckService:
-    """High-level orchestrator that wires planning, research, review, and judging."""
-    plan_stage: PlanStage
-    research_stage: ResearchStage
-    judge_stage: JudgeStage
-    review_stage: ReviewStage | None = None
+@dataclass(frozen=True, kw_only=True)
+class _RunSettings:
+    """Run-level controls shared by both strategies, and the run lifecycle around them."""
     citation_stage: CitationCheckStage | None = None
-    max_feedback_rounds: int = 0
-    max_follow_up_checks: int = 2
-    max_search_queries_per_check: int = 5
     artifact_repository: RunArtifactRepository | None = None
     blocked_domains: tuple[str, ...] = ()
     knowledge_store_dir: str | None = None
@@ -143,6 +136,58 @@ class FactCheckService:
     retry_budget: int | None = None
     stage_models: dict[str, str] = field(default_factory=dict)
     stage_efforts: dict[str, str] = field(default_factory=dict)
+
+    def _open_run(
+        self, claim: str, *, claim_id: str | int | None, claim_date: str | None, strategy: str
+    ) -> _RunContext:
+        return _RunContext(
+            claim=claim,
+            claim_id=claim_id,
+            claim_date=claim_date,
+            blocked_domains=self.blocked_domains,
+            knowledge_store_dir=self.knowledge_store_dir,
+            token_budget=self.token_budget,
+            retry_budget=self.retry_budget,
+            strategy=strategy,
+            stage_models=self.stage_models,
+            stage_efforts=self.stage_efforts,
+        )
+
+    async def _finish_run(
+        self,
+        run: _RunContext,
+        *,
+        plan: InvestigationPlan,
+        findings: list[AspectFinding],
+        report: FactCheckReport,
+        progress_callback: ProgressCallback | None,
+    ) -> FactCheckRun:
+        artifacts = run.artifacts
+        if self.artifact_repository is not None:
+            self.artifact_repository.save(artifacts)
+        await emit_progress(
+            progress_callback,
+            "run_completed",
+            {
+                "claim": run.normalized_claim,
+                "verdict": report.verdict.value,
+                "verdict_confidence": report.verdict_confidence,
+                "budget": artifacts.budget.model_dump() if artifacts.budget else None,
+            },
+        )
+        return FactCheckRun(
+            claim=run.normalized_claim, plan=plan, findings=findings, report=report, artifacts=artifacts
+        )
+
+
+@dataclass(frozen=True, kw_only=True)
+class FactCheckService(_RunSettings):
+    """High-level orchestrator that wires planning, research, review, and judging."""
+    plan_stage: PlanStage
+    research_stage: ResearchStage
+    judge_stage: JudgeStage
+    review_stage: ReviewStage | None = None
+    max_feedback_rounds: int = 0
 
     async def check_claim(
         self,
@@ -158,18 +203,7 @@ class FactCheckService:
         backends that honor it; claim_id selects the offline knowledge store
         entry when the knowledge_store search provider is active.
         """
-        run = _RunContext(
-            claim=claim,
-            claim_id=claim_id,
-            claim_date=claim_date,
-            blocked_domains=self.blocked_domains,
-            knowledge_store_dir=self.knowledge_store_dir,
-            token_budget=self.token_budget,
-            retry_budget=self.retry_budget,
-            strategy="pipeline",
-            stage_models=self.stage_models,
-            stage_efforts=self.stage_efforts,
-        )
+        run = self._open_run(claim, claim_id=claim_id, claim_date=claim_date, strategy="pipeline")
         artifacts = run.artifacts
         normalized_claim = run.normalized_claim
         with run:
@@ -203,26 +237,8 @@ class FactCheckService:
             if self.citation_stage is not None:
                 report = await self.citation_stage.execute(report, artifacts, progress_callback=progress_callback)
 
-        if self.artifact_repository is not None:
-            self.artifact_repository.save(artifacts)
-
-        await emit_progress(
-            progress_callback,
-            "run_completed",
-            {
-                "claim": normalized_claim,
-                "verdict": report.verdict.value,
-                "verdict_confidence": report.verdict_confidence,
-                "budget": artifacts.budget.model_dump() if artifacts.budget else None,
-            },
-        )
-
-        return FactCheckRun(
-            claim=normalized_claim,
-            plan=plan,
-            findings=findings,
-            report=report,
-            artifacts=artifacts,
+        return await self._finish_run(
+            run, plan=plan, findings=findings, report=report, progress_callback=progress_callback
         )
 
     async def _run_feedback_loop(
@@ -238,9 +254,6 @@ class FactCheckService:
         if self.review_stage is None or self.max_feedback_rounds <= 0:
             return plan, findings
 
-        current_plan = plan
-        current_findings = findings
-
         for round_index in range(1, self.max_feedback_rounds + 1):
             if usage_log is not None and usage_log.token_budget_exhausted():
                 usage_log.record_skipped_stage(f"review_round_{round_index}")
@@ -253,8 +266,8 @@ class FactCheckService:
 
             decision = await self.review_stage.execute(
                 claim=claim,
-                plan=current_plan,
-                findings=current_findings,
+                plan=plan,
+                findings=findings,
                 artifacts=artifacts,
                 round_index=round_index,
                 progress_callback=progress_callback,
@@ -262,18 +275,16 @@ class FactCheckService:
             if decision.action != ReviewAction.FOLLOW_UP:
                 break
 
-            # ReviewStage already normalized and deduped follow_up_checks.
-            # Here we just build the combined plan from retries + new checks.
-            follow_up_plan = self._build_follow_up_plan(
+            # ReviewStage keeps only retry ids of planned checks and gives
+            # follow-up checks aspect ids the plan does not use yet.
+            follow_up_plan = InvestigationPlan(
                 claim=claim,
-                current_plan=current_plan,
-                current_findings=current_findings,
-                retry_aspect_ids=decision.retry_aspect_ids,
-                follow_up_checks=decision.follow_up_checks,
+                checks=[
+                    *(check for check in plan.checks if check.aspect_id in decision.retry_aspect_ids),
+                    *decision.follow_up_checks,
+                ],
+                assumptions=[],
             )
-            if not follow_up_plan.checks:
-                break
-
             if artifacts.review_rounds:
                 artifacts.review_rounds[-1].follow_up_plan = follow_up_plan
             await emit_progress(
@@ -291,89 +302,35 @@ class FactCheckService:
                 artifacts=artifacts,
                 progress_callback=progress_callback,
             )
-            current_plan = self._merge_plan(current_plan, follow_up_plan)
-            current_findings = self._merge_findings(current_findings, new_findings)
+            plan = plan.model_copy(update={"checks": [*plan.checks, *decision.follow_up_checks]})
+            findings = self._merge_findings(findings, new_findings)
             await emit_progress(
                 progress_callback,
                 "feedback_round_completed",
                 {
                     "round_index": round_index,
-                    "finding_count": len(current_findings),
+                    "finding_count": len(findings),
                 },
             )
 
-        return current_plan, current_findings
+        return plan, findings
 
-    def _build_follow_up_plan(
-        self,
-        *,
-        claim: str,
-        current_plan: InvestigationPlan,
-        current_findings: list[AspectFinding],
-        retry_aspect_ids: list[str],
-        follow_up_checks: list[VerificationCheck],
-    ) -> InvestigationPlan:
-        findings_by_aspect = {finding.aspect_id: finding for finding in current_findings}
-        retry_checks = [
-            check
-            for check in current_plan.checks
-            if check.aspect_id in retry_aspect_ids and check.aspect_id in findings_by_aspect
-        ]
-
-        # follow_up_checks are already normalized by ReviewStage; just dedupe
-        # against the current plan's aspect_ids.
-        existing_aspect_ids = {check.aspect_id for check in current_plan.checks}
-        unique_follow_up_checks = []
-        for check in follow_up_checks:
-            if check.aspect_id in existing_aspect_ids:
-                continue
-            unique_follow_up_checks.append(check)
-            existing_aspect_ids.add(check.aspect_id)
-
-        return InvestigationPlan(
-            claim=claim,
-            checks=[*retry_checks, *unique_follow_up_checks],
-            assumptions=[],
-        )
-
-    def _merge_plan(
-        self,
-        current_plan: InvestigationPlan,
-        follow_up_plan: InvestigationPlan,
-    ) -> InvestigationPlan:
-        existing_aspect_ids = {check.aspect_id for check in current_plan.checks}
-        merged_checks = list(current_plan.checks)
-        for check in follow_up_plan.checks:
-            if check.aspect_id in existing_aspect_ids:
-                continue
-            merged_checks.append(check)
-            existing_aspect_ids.add(check.aspect_id)
-        return current_plan.model_copy(update={"checks": merged_checks})
-
+    @staticmethod
     def _merge_findings(
-        self,
         current_findings: list[AspectFinding],
         new_findings: list[AspectFinding],
     ) -> list[AspectFinding]:
         """Merge follow-up findings; a retry never overwrites a completed finding with a failed one."""
-        findings_by_aspect = {finding.aspect_id: finding for finding in current_findings}
-        ordered_aspect_ids = [finding.aspect_id for finding in current_findings]
-
+        merged = {finding.aspect_id: finding for finding in current_findings}
         for finding in new_findings:
-            if finding.aspect_id not in findings_by_aspect:
-                ordered_aspect_ids.append(finding.aspect_id)
-                findings_by_aspect[finding.aspect_id] = finding
-                continue
-            previous = findings_by_aspect[finding.aspect_id]
-            if not finding.is_observation and previous.is_observation:
-                continue
-            findings_by_aspect[finding.aspect_id] = finding
-
-        return [findings_by_aspect[aspect_id] for aspect_id in ordered_aspect_ids]
+            previous = merged.get(finding.aspect_id)
+            if previous is None or finding.is_observation or not previous.is_observation:
+                merged[finding.aspect_id] = finding
+        return list(merged.values())
 
 
-@dataclass(frozen=True)
-class SingleAgentFactCheckService:
+@dataclass(frozen=True, kw_only=True)
+class SingleAgentFactCheckService(_RunSettings):
     """No-harness baseline: one agent, one prompt, same output contract and controls.
 
     Used to measure what the plan/research/review/judge decomposition buys
@@ -385,15 +342,6 @@ class SingleAgentFactCheckService:
     """
     checker: SingleAgentChecker
     max_checks: int = 4
-    max_search_queries_per_check: int = 5
-    citation_stage: CitationCheckStage | None = None
-    artifact_repository: RunArtifactRepository | None = None
-    blocked_domains: tuple[str, ...] = ()
-    knowledge_store_dir: str | None = None
-    token_budget: int | None = None
-    retry_budget: int | None = None
-    stage_models: dict[str, str] = field(default_factory=dict)
-    stage_efforts: dict[str, str] = field(default_factory=dict)
     search_cap: int | None = None
 
     async def check_claim(
@@ -404,18 +352,7 @@ class SingleAgentFactCheckService:
         claim_id: str | int | None = None,
         claim_date: str | None = None,
     ) -> FactCheckRun:
-        run = _RunContext(
-            claim=claim,
-            claim_id=claim_id,
-            claim_date=claim_date,
-            blocked_domains=self.blocked_domains,
-            knowledge_store_dir=self.knowledge_store_dir,
-            token_budget=self.token_budget,
-            retry_budget=self.retry_budget,
-            strategy="single_agent",
-            stage_models=self.stage_models,
-            stage_efforts=self.stage_efforts,
-        )
+        run = self._open_run(claim, claim_id=claim_id, claim_date=claim_date, strategy="single_agent")
         artifacts = run.artifacts
         normalized_claim = run.normalized_claim
         with run:
@@ -429,6 +366,7 @@ class SingleAgentFactCheckService:
                 deactivate_journal(journal_token)
             artifacts.report_raw = report_raw
 
+            checks: list[VerificationCheck] = []
             findings: list[AspectFinding] = []
             for index, finding in enumerate(report_raw.findings[: self.max_checks], start=1):
                 aspect_id = finding.aspect_id.strip() or f"aspect_{index}"
@@ -444,22 +382,10 @@ class SingleAgentFactCheckService:
                 filtered = _apply_source_constraints(grounded, artifact)
                 tiered = filtered.model_copy(update={"sources": assign_source_tiers(filtered.sources)})
                 artifact.finding = tiered
+                checks.append(check)
                 findings.append(tiered)
 
-            plan = InvestigationPlan(
-                claim=normalized_claim,
-                checks=[
-                    VerificationCheck(
-                        aspect_id=finding.aspect_id,
-                        question=finding.question,
-                        rationale="Aspect identified by the single-agent baseline.",
-                        search_queries=[],
-                    )
-                    for finding in findings
-                ]
-                or [direct_check(normalized_claim, max_queries=self.max_search_queries_per_check)],
-                assumptions=[],
-            )
+            plan = InvestigationPlan(claim=normalized_claim, checks=checks or [direct_check(normalized_claim)])
             artifacts.plan_raw = plan
             artifacts.plan_normalized = plan
 
@@ -506,25 +432,8 @@ class SingleAgentFactCheckService:
             if self.citation_stage is not None:
                 report = await self.citation_stage.execute(report, artifacts, progress_callback=progress_callback)
 
-        if self.artifact_repository is not None:
-            self.artifact_repository.save(artifacts)
-
-        await emit_progress(
-            progress_callback,
-            "run_completed",
-            {
-                "claim": normalized_claim,
-                "verdict": report.verdict.value,
-                "verdict_confidence": report.verdict_confidence,
-                "budget": artifacts.budget.model_dump() if artifacts.budget else None,
-            },
-        )
-        return FactCheckRun(
-            claim=normalized_claim,
-            plan=plan,
-            findings=findings,
-            report=report,
-            artifacts=artifacts,
+        return await self._finish_run(
+            run, plan=plan, findings=findings, report=report, progress_callback=progress_callback
         )
 
 
