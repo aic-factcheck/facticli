@@ -176,8 +176,17 @@ Single runs per arm unless stated, so a difference of one or two claims is noise
 - Evidence packing, 40 saved reports scored twice with Ev2R (gpt-5.2): mean recall 0.72 with distinct
   rows vs 0.63 with one summary per source; better on 8 of 10 claims, worse on 1. The old packing put
   8.6 rows per claim into the submission but only 2.9 distinct answers.
+- Harness audit (2026-11-19, same setup, 10 claims): 8/10 correct at 103k tokens per claim, research 92%
+  of tokens (plan 1.8k, judge 6.9k). 20 checks, 3.8 model requests and 8.6 searches each; no failed
+  attempt, timeout, wrap-up call, or cap refusal. The retry, timeout, wrap-up, and cap machinery costs
+  nothing when it does not fire, so the spend is evidence tokens.
 
 ### Built, measured, and not adopted
+- Lower search budget (`--tool-call-budget 5` instead of 8, 2026-11-19): 32% fewer tokens (69.7k per
+  claim) but 6/10 correct instead of 8/10, both losses turning into `Not Enough Evidence`. Rerun twice
+  at budget 8 on the same code: claim 307 `Refuted` both times, so that loss is the budget; claim 270
+  `Not Enough Evidence` once (it flips at budget 8 too, see above). Fewer searches cost verdicts, as
+  with the 1x cap.
 - Page reading (`fetch_page` on search results, Wayback snapshot under a claim date, visible-text
   extraction, passage selection): 42% more tokens, no verdict change, and only 13 of 40 reads found a
   snapshot from before the claim date. It also adds a fetch surface (SSRF checks, a DNS-rebinding
