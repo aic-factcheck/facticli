@@ -29,7 +29,7 @@ from facticli.core.errors import (
     is_fatal,
     is_retryable,
 )
-from facticli.core.source_quality import assign_source_tiers, classify_source_tier, tier_counts
+from facticli.core.source_quality import assign_source_tiers, classify_source_tier
 from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, truncate_middle, truncate_search_results
 from facticli.core.usage import (
     activate_usage_log,
@@ -90,22 +90,22 @@ class SourceTierTests(unittest.TestCase):
             "https://www.reddit.com/r/x/comments/1": SourceTier.USER_GENERATED,
             "https://random-blog.example/post": SourceTier.OTHER,
             "not a url": SourceTier.OTHER,
+            # The most specific listed domain wins over a parent entry or a suffix rule.
+            "https://dictionary.cambridge.org/dictionary/english/x": SourceTier.REFERENCE,
+            "https://www.cambridge.org/core/journals/x": SourceTier.PRIMARY,
+            "https://www.loc.gov/item/x": SourceTier.REFERENCE,
+            "https://web.archive.org/web/2020/https://www.politifact.com/factchecks/x": SourceTier.FACT_CHECKER,
         }
         for url, expected in cases.items():
             self.assertEqual(classify_source_tier(url), expected, url)
 
-    def test_overrides_and_assignment(self):
-        self.assertEqual(
-            classify_source_tier("https://mypaper.example/a", {"mypaper.example": SourceTier.NEWS}),
-            SourceTier.NEWS,
-        )
+    def test_assignment(self):
         sources = [
             SourceEvidence(title="a", url="https://www.bbc.com/news/1", snippet="s"),
             SourceEvidence(title="b", url="https://x.org", snippet="s", tier=SourceTier.PRIMARY),
         ]
         tiered = assign_source_tiers(sources)
         self.assertEqual([s.tier for s in tiered], [SourceTier.NEWS, SourceTier.PRIMARY])
-        self.assertEqual(tier_counts(tiered), {"news": 1, "primary": 1})
         # Originals are untouched.
         self.assertIsNone(sources[0].tier)
 

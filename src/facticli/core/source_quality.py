@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .constraints import FACT_CHECK_DOMAINS, url_domain
+from .constraints import FACT_CHECK_DOMAINS, is_blocked_url, url_domain
 from .contracts import SourceEvidence, SourceTier
 
 # Deterministic authority tiering. LLM judges weight sources by how often they
@@ -425,78 +425,40 @@ def _host_matches(host: str, domain: str) -> bool:
     return host == domain or host.endswith("." + domain)
 
 
-def _matches_any(host: str, domains: frozenset[str]) -> bool:
-    return any(_host_matches(host, domain) for domain in domains)
+_NAMED_TIERS: tuple[tuple[frozenset[str], SourceTier], ...] = (
+    (USER_GENERATED_DOMAINS, SourceTier.USER_GENERATED),
+    (PRIMARY_DOMAINS, SourceTier.PRIMARY),
+    (REFERENCE_DOMAINS, SourceTier.REFERENCE),
+    (NEWS_DOMAINS, SourceTier.NEWS),
+)
 
 
-def _fact_check_host(host: str, path: str) -> bool:
-    host_and_path = host + path
-    for entry in FACT_CHECK_DOMAINS:
-        if "/" in entry:
-            if host_and_path.startswith(entry):
-                return True
-        elif _host_matches(host, entry):
-            return True
-    return False
-
-
-def classify_source_tier(url: str, extra_tiers: dict[str, SourceTier] | None = None) -> SourceTier:
+def classify_source_tier(url: str) -> SourceTier:
     """Return the authority tier for a URL.
 
-    Precedence: caller-provided overrides, fact-checker table, user-generated
-    platforms, primary domains and suffixes, reference works, news outlets,
-    then ``other``. Fact-checkers are classified before primary domains so
-    that a fact-check section hosted on a news or government domain keeps
-    its fact-checker tier.
+    Fact-checkers come first (the blocklist matcher, so a fact-check section
+    on a news domain or a Wayback copy of a fact-check counts). Otherwise the
+    most specific listed domain wins, so ``dictionary.cambridge.org`` is a
+    reference work although ``cambridge.org`` is primary, and a listed domain
+    beats a suffix rule such as ``.gov``. Unlisted hosts fall back to the
+    primary suffixes, then ``other``.
     """
+    if is_blocked_url(url, FACT_CHECK_DOMAINS):
+        return SourceTier.FACT_CHECKER
     host = url_domain(url)
     if not host:
         return SourceTier.OTHER
-    try:
-        from urllib.parse import urlparse
-
-        path = urlparse(url).path.lower()
-    except ValueError:
-        path = ""
-
-    if extra_tiers:
-        for domain, tier in extra_tiers.items():
-            if _host_matches(host, domain.lower().strip().removeprefix("www.")):
-                return tier
-
-    if _fact_check_host(host, path):
-        return SourceTier.FACT_CHECKER
-    if _matches_any(host, USER_GENERATED_DOMAINS):
-        return SourceTier.USER_GENERATED
-    if _matches_any(host, PRIMARY_DOMAINS):
+    matches = [(domain, tier) for domains, tier in _NAMED_TIERS for domain in domains if _host_matches(host, domain)]
+    if matches:
+        return max(matches, key=lambda match: len(match[0]))[1]
+    if host.endswith(PRIMARY_SUFFIXES):
         return SourceTier.PRIMARY
-    if any(host.endswith(suffix) for suffix in PRIMARY_SUFFIXES):
-        return SourceTier.PRIMARY
-    if _matches_any(host, REFERENCE_DOMAINS):
-        return SourceTier.REFERENCE
-    if _matches_any(host, NEWS_DOMAINS):
-        return SourceTier.NEWS
     return SourceTier.OTHER
 
 
-def assign_source_tiers(
-    sources: list[SourceEvidence],
-    extra_tiers: dict[str, SourceTier] | None = None,
-) -> list[SourceEvidence]:
+def assign_source_tiers(sources: list[SourceEvidence]) -> list[SourceEvidence]:
     """Return copies of the sources with ``tier`` filled in where missing."""
-    tiered: list[SourceEvidence] = []
-    for source in sources:
-        if source.tier is not None:
-            tiered.append(source)
-            continue
-        tiered.append(source.model_copy(update={"tier": classify_source_tier(source.url, extra_tiers)}))
-    return tiered
-
-
-def tier_counts(sources: list[SourceEvidence]) -> dict[str, int]:
-    """Count sources per tier for summaries and judge context."""
-    counts: dict[str, int] = {}
-    for source in sources:
-        key = source.tier.value if source.tier is not None else "untiered"
-        counts[key] = counts.get(key, 0) + 1
-    return counts
+    return [
+        source if source.tier is not None else source.model_copy(update={"tier": classify_source_tier(source.url)})
+        for source in sources
+    ]
