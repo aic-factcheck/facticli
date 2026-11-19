@@ -19,6 +19,7 @@ from facticli.application.interfaces import (
     SingleAgentChecker,
 )
 from facticli.brave_search import build_brave_web_search_tool
+from facticli.exa_search import build_exa_web_search_tool
 from facticli.core.constraints import get_constraints
 from facticli.core.contracts import (
     AspectFinding,
@@ -60,6 +61,7 @@ def build_model_settings(
     reasoning_effort: str | None = None,
     retry_attempts: int = 0,
     response_include: list[str] | None = None,
+    service_tier: str | None = None,
 ) -> ModelSettings:
     """Shared ModelSettings: optional reasoning effort and SDK-managed retries.
 
@@ -72,6 +74,7 @@ def build_model_settings(
         reasoning=Reasoning(effort=reasoning_effort) if reasoning_effort else None,  # type: ignore[arg-type]
         retry=build_retry_settings(retry_attempts),
         response_include=response_include,  # type: ignore[arg-type]
+        extra_args={"service_tier": service_tier} if service_tier else None,
     )
 
 
@@ -90,6 +93,15 @@ def build_search_tools(
     if search_provider == "brave":
         return [
             build_brave_web_search_tool(
+                max_chars_per_field=max_chars_per_field,
+                max_total_chars=max_total_chars,
+                default_count=search_results_per_query,
+                cache=cache,
+            )
+        ]
+    if search_provider == "exa":
+        return [
+            build_exa_web_search_tool(
                 max_chars_per_field=max_chars_per_field,
                 max_total_chars=max_total_chars,
                 default_count=search_results_per_query,
@@ -177,6 +189,7 @@ class _StageRunner:
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
         tools: Sequence[Tool] = (),
+        service_tier: str | None = None,
     ) -> None:
         hosted_search = any(isinstance(tool, WebSearchTool) for tool in tools)
         settings = build_model_settings(
@@ -184,6 +197,7 @@ class _StageRunner:
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
             response_include=[HOSTED_SEARCH_INCLUDE] if hosted_search else None,
+            service_tier=service_tier,
         )
         self._agent: Agent[None] = Agent(
             name=name,
@@ -264,6 +278,7 @@ class CompatiblePlannerAdapter(Planner):
         *,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="claim_planner",
@@ -273,6 +288,7 @@ class CompatiblePlannerAdapter(Planner):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
         )
 
     async def plan(self, claim: str, max_checks: int) -> InvestigationPlan:
@@ -302,6 +318,7 @@ class CompatibleResearchAdapter(Researcher):
         tool_call_budget: int,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="check_researcher",
@@ -311,6 +328,7 @@ class CompatibleResearchAdapter(Researcher):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
             tools=tools,
         )
         self._search_provider = search_provider
@@ -353,6 +371,7 @@ class CompatibleJudgeAdapter(Judge):
         *,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="veracity_judge",
@@ -362,6 +381,7 @@ class CompatibleJudgeAdapter(Judge):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
         )
 
     async def judge(
@@ -386,6 +406,7 @@ class CompatibleReviewAdapter(Reviewer):
         *,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="evidence_review",
@@ -395,6 +416,7 @@ class CompatibleReviewAdapter(Reviewer):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
         )
 
     async def review(
@@ -431,6 +453,7 @@ class CompatibleSingleAgentAdapter(SingleAgentChecker):
         tool_call_budget: int,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="single_agent_fact_checker",
@@ -440,6 +463,7 @@ class CompatibleSingleAgentAdapter(SingleAgentChecker):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
             tools=tools,
         )
         self._search_provider = search_provider
@@ -474,6 +498,7 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
         *,
         reasoning_effort: str | None = None,
         retry_attempts: int = 0,
+        service_tier: str | None = None,
     ):
         self._runner = _StageRunner(
             name="checkworthy_claim_extractor",
@@ -483,6 +508,7 @@ class CompatibleClaimExtractionAdapter(ClaimExtractionBackend):
             max_turns=max_turns,
             reasoning_effort=reasoning_effort,
             retry_attempts=retry_attempts,
+            service_tier=service_tier,
         )
 
     async def extract(self, input_text: str, max_claims: int) -> ClaimExtractionResult:

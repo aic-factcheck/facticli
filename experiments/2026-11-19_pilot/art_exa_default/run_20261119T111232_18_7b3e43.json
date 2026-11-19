@@ -1,0 +1,638 @@
+{
+  "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "normalized_claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "claim_id": "18",
+  "constraints": {
+    "claim_id": "18",
+    "claim_date": "2020-10-28",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-28"
+  },
+  "plan_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "rationale": "The claim depends on the applicable receipt deadlines and whether a timely postmark can allow a ballot to be counted after Election Day.",
+        "search_queries": [
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "state election officials mail ballot postmarked before election day received after election day counted",
+          "mail ballot receipt deadlines by state postmark election day current law",
+          "federal court rulings mail ballots received after election day state deadlines"
+        ],
+        "acceptance_criteria": [
+          "Official election authorities or applicable statutes establish whether and where ballots postmarked before Election Day may be counted when received afterward, including any receipt deadline.",
+          "The findings identify the rules' effective dates and account for any relevant court orders or recent changes in force at the time of investigation."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers generally to elections in the United States rather than to a specified state, locality, or election year.",
+      "The ballot otherwise satisfies applicable eligibility, signature, and other counting requirements.",
+      "In the absence of a stated election date, assess rules in force at the time of investigation."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "rationale": "The claim depends on the applicable receipt deadlines and whether a timely postmark can allow a ballot to be counted after Election Day.",
+        "search_queries": [
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "state election officials mail ballot postmarked before election day received after election day counted",
+          "mail ballot receipt deadlines by state postmark election day current law",
+          "federal court rulings mail ballots received after election day state deadlines",
+          "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?"
+        ],
+        "acceptance_criteria": [
+          "Official election authorities or applicable statutes establish whether and where ballots postmarked before Election Day may be counted when received afterward, including any receipt deadline.",
+          "The findings identify the rules' effective dates and account for any relevant court orders or recent changes in force at the time of investigation."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers generally to elections in the United States rather than to a specified state, locality, or election year.",
+      "The ballot otherwise satisfies applicable eligibility, signature, and other counting requirements.",
+      "In the absence of a stated election date, assess rules in force at the time of investigation."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "rationale": "The claim depends on the applicable receipt deadlines and whether a timely postmark can allow a ballot to be counted after Election Day.",
+        "search_queries": [
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "state election officials mail ballot postmarked before election day received after election day counted",
+          "mail ballot receipt deadlines by state postmark election day current law",
+          "federal court rulings mail ballots received after election day state deadlines",
+          "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?"
+        ],
+        "acceptance_criteria": [
+          "Official election authorities or applicable statutes establish whether and where ballots postmarked before Election Day may be counted when received afterward, including any receipt deadline.",
+          "The findings identify the rules' effective dates and account for any relevant court orders or recent changes in force at the time of investigation."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, receipt deadlines varied by state; a timely postmark did not always mean a ballot arriving after Election Day would be rejected. California’s AB 860, signed June 18, required ballots postmarked by November 3 to be counted if received within 17 days afterward; Kansas set a November 6 receipt deadline for ballots postmarked by Election Day. Court decisions also affected deadlines: Wisconsin ballots had to be received by Election Day, while Pennsylvania’s three-day extension remained in place but faced a possible further court challenge.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Election Officials Urge Alternatives To Mailing Back Ballots",
+            "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+            "snippet": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+            "publisher": "NPR",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Justices deny fast, new look at Pennsylvania ballot deadline",
+            "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+            "snippet": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+            "publisher": "Associated Press",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These are examples, not a complete state-by-state inventory. Ballots also had to meet other applicable eligibility and validation requirements.",
+          "Pennsylvania’s extension remained subject to potential judicial review as of the reference date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:eac.gov 2020 mail ballot postmarked election day received after deadline state",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 election state mail ballot postmark November 3 received after election day deadlines November 2020 state election officials",
+          "urls": [
+            "https://www.usatoday.com/story/news/factcheck/2020/10/30/fact-check-some-mail-ballots-arriving-post-election-day-count/6075311002/",
+            "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "October 28 2020 Supreme Court Pennsylvania absentee ballots November 6 ruling election deadline November 3",
+          "urls": [
+            "https://www.scotusblog.com/2020/10/supreme-court-leaves-in-place-order-requiring-pennsylvania-to-count-absentee-ballots-after-election-day/",
+            "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+            "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "https://www.cnbc.com/2020/10/28/supreme-court-wont-fast-track-gop-challenge-to-pennsylvania-ballot-deadline.html",
+            "https://www.inquirer.com/politics/election/spl/pa-election-mail-ballots-us-supreme-court-denies-motion-republican-party-20201028.html",
+            "https://www.spotlightpa.org/news/2020/10/pa-mail-ballots-republican-voters-donald-trump/",
+            "https://apnews.com/article/virus-outbreak-state-courts-voting-pennsylvania-amy-coney-barrett-c13e057a7fd30c57fbf23c1e98a4be9c"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 California secretary state 17 days November 20 mail ballot postmarked election day law October 2020",
+          "urls": [
+            "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "https://calvoter.org/content/deadline-return-california-ballots-nov-3-waiting-until-then-risky",
+            "https://americanjournalnews.com/voting-by-mail-2020-election-states-ballots-deadlines-november-3/",
+            "https://patch.com/california/healdsburg/healdsburg-sonoma-county-voters-urged-return-ballots-early"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 Kansas secretary state election ballot postmarked November 3 received November 6 mail in ballot",
+          "urls": [
+            "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "https://www.kansas.com/news/politics-government/election/voter-guide/article246353785.html",
+            "https://www.usatoday.com/story/news/factcheck/2020/10/30/fact-check-some-mail-ballots-arriving-post-election-day-count/6075311002/",
+            "https://www.kansascity.com/news/politics-government/election/article246732911.html",
+            "https://www.kshb.com/news/election-2020/election-guide/what-happens-to-mail-in-ballots-after-drop-off"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.98,
+    "justification": "As of October 28, 2020, some states allowed otherwise valid mail-in ballots postmarked by Election Day to be counted if they arrived afterward. [S1][S2] California required such ballots to be counted if received within 17 days after Election Day, and Kansas set a November 6 receipt deadline for its November 3 election. [S1][S2] Rules differed by state: Wisconsin required ballots to be received by Election Day. [S3] Inference: The claim is false as a general statement about U.S. elections, although it describes the rule in some jurisdictions.",
+    "key_points": [
+      "California allowed qualifying ballots to arrive up to 17 days after Election Day. [S1]",
+      "Kansas allowed qualifying advance ballots to arrive by November 6, three days after Election Day. [S2]",
+      "Wisconsin required ballots to be received by Election Day. [S3]"
+    ],
+    "counter_argument": "The claim accurately described Wisconsin's receipt deadline for the 2020 election: a timely postmark did not save a ballot received after Election Day. [S3] That does not establish a general U.S. rule, because California and Kansas provided later receipt deadlines. [S1][S2]",
+    "evidence_gaps": [
+      "The evidence provides examples rather than a complete state-by-state inventory of deadlines as of October 28, 2020.",
+      "Pennsylvania's three-day extension faced possible further judicial review as of the reference date. [S4]"
+    ],
+    "findings": [
+      {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, receipt deadlines varied by state; a timely postmark did not always mean a ballot arriving after Election Day would be rejected. California’s AB 860, signed June 18, required ballots postmarked by November 3 to be counted if received within 17 days afterward; Kansas set a November 6 receipt deadline for ballots postmarked by Election Day. Court decisions also affected deadlines: Wisconsin ballots had to be received by Election Day, while Pennsylvania’s three-day extension remained in place but faced a possible further court challenge.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Election Officials Urge Alternatives To Mailing Back Ballots",
+            "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+            "snippet": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+            "publisher": "NPR",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Justices deny fast, new look at Pennsylvania ballot deadline",
+            "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+            "snippet": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+            "publisher": "Associated Press",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "These are examples, not a complete state-by-state inventory. Ballots also had to meet other applicable eligibility and validation requirements.",
+          "Pennsylvania’s extension remained subject to potential judicial review as of the reference date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+        "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+        "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+        "publisher": "Kansas Secretary of State",
+        "published_at": "2020-08-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Election Officials Urge Alternatives To Mailing Back Ballots",
+        "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+        "snippet": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+        "publisher": "NPR",
+        "published_at": "2020-10-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Justices deny fast, new look at Pennsylvania ballot deadline",
+        "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+        "snippet": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+        "publisher": "Associated Press",
+        "published_at": "2020-10-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.98,
+    "justification": "As of October 28, 2020, some states allowed otherwise valid mail-in ballots postmarked by Election Day to be counted if they arrived afterward. [S1][S2] California required such ballots to be counted if received within 17 days after Election Day, and Kansas set a November 6 receipt deadline for its November 3 election. [S1][S2] Rules differed by state: Wisconsin required ballots to be received by Election Day. [S3] Inference: The claim is false as a general statement about U.S. elections, although it describes the rule in some jurisdictions.",
+    "key_points": [
+      "California allowed qualifying ballots to arrive up to 17 days after Election Day. [S1]",
+      "Kansas allowed qualifying advance ballots to arrive by November 6, three days after Election Day. [S2]",
+      "Wisconsin required ballots to be received by Election Day. [S3]"
+    ],
+    "counter_argument": "The claim accurately described Wisconsin's receipt deadline for the 2020 election: a timely postmark did not save a ballot received after Election Day. [S3] That does not establish a general U.S. rule, because California and Kansas provided later receipt deadlines. [S1][S2]",
+    "evidence_gaps": [
+      "The evidence provides examples rather than a complete state-by-state inventory of deadlines as of October 28, 2020.",
+      "Pennsylvania's three-day extension faced possible further judicial review as of the reference date. [S4]"
+    ],
+    "findings": [
+      {
+        "aspect_id": "ballot_receipt_deadlines",
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, receipt deadlines varied by state; a timely postmark did not always mean a ballot arriving after Election Day would be rejected. California’s AB 860, signed June 18, required ballots postmarked by November 3 to be counted if received within 17 days afterward; Kansas set a November 6 receipt deadline for ballots postmarked by Election Day. Court decisions also affected deadlines: Wisconsin ballots had to be received by Election Day, while Pennsylvania’s three-day extension remained in place but faced a possible further court challenge.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Election Officials Urge Alternatives To Mailing Back Ballots",
+            "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+            "snippet": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+            "publisher": "NPR",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Justices deny fast, new look at Pennsylvania ballot deadline",
+            "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+            "snippet": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+            "publisher": "Associated Press",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These are examples, not a complete state-by-state inventory. Ballots also had to meet other applicable eligibility and validation requirements.",
+          "Pennsylvania’s extension remained subject to potential judicial review as of the reference date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+        "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+        "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+        "publisher": "Kansas Secretary of State",
+        "published_at": "2020-08-26",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Election Officials Urge Alternatives To Mailing Back Ballots",
+        "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+        "snippet": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+        "publisher": "NPR",
+        "published_at": "2020-10-28",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Justices deny fast, new look at Pennsylvania ballot deadline",
+        "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+        "snippet": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+        "publisher": "Associated Press",
+        "published_at": "2020-10-28",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:11:36.883291+00:00",
+  "duration_seconds": 56.02383234491572,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 983,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 528,
+      "reasoning_tokens": 172,
+      "total_tokens": 1511,
+      "duration_seconds": 10.59517101990059,
+      "started_at": "2026-11-19T11:11:36.883592+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 14741,
+      "cached_input_tokens": 5265,
+      "cache_write_tokens": 9467,
+      "output_tokens": 1251,
+      "reasoning_tokens": 175,
+      "total_tokens": 15992,
+      "duration_seconds": 22.35053297597915,
+      "started_at": "2026-11-19T11:11:47.479638+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3191,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3188,
+      "output_tokens": 1891,
+      "reasoning_tokens": 86,
+      "total_tokens": 5082,
+      "duration_seconds": 23.064958805684,
+      "started_at": "2026-11-19T11:12:09.841020+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 5,
+    "input_tokens": 18915,
+    "cached_input_tokens": 5265,
+    "cache_write_tokens": 12655,
+    "output_tokens": 3670,
+    "reasoning_tokens": 433,
+    "total_tokens": 22585,
+    "llm_seconds": 56.01066280156374,
+    "cache_hit_rate": 0.2784,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 983.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 528.0,
+        "reasoning_tokens": 172.0,
+        "total_tokens": 1511.0,
+        "llm_seconds": 10.59517101990059,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 3.0,
+        "input_tokens": 14741.0,
+        "cached_input_tokens": 5265.0,
+        "cache_write_tokens": 9467.0,
+        "output_tokens": 1251.0,
+        "reasoning_tokens": 175.0,
+        "total_tokens": 15992.0,
+        "llm_seconds": 22.35053297597915,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3191.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3188.0,
+        "output_tokens": 1891.0,
+        "reasoning_tokens": 86.0,
+        "total_tokens": 5082.0,
+        "llm_seconds": 23.064958805684,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 22585,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 5,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 17
+  },
+  "unresolved_citations": []
+}

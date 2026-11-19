@@ -35,9 +35,9 @@ def build_fact_check_service(
     """Composition root: wire adapters and stages for the configured strategy."""
     if config.strategy not in STRATEGIES:
         raise ValueError(f"Unsupported strategy: {config.strategy!r}; expected one of {', '.join(STRATEGIES)}")
-    if config.search_cache_dir and config.search_provider != "brave":
+    if config.search_cache_dir and config.search_provider not in ("brave", "exa"):
         raise ValueError(
-            "--search-cache-dir records Brave responses and needs --search-provider brave: hosted OpenAI search "
+            "--search-cache-dir records Brave or Exa responses and needs --search-provider brave or exa: hosted OpenAI search "
             "runs inside the provider and the knowledge store is already local."
         )
 
@@ -83,6 +83,7 @@ def build_fact_check_service(
             tool_call_budget=config.tool_call_budget * config.max_checks,
             reasoning_effort=config.effort_for("single_agent"),
             retry_attempts=config.model_retry_attempts,
+            service_tier=config.service_tier,
         )
         return SingleAgentFactCheckService(
             checker=checker,
@@ -97,6 +98,7 @@ def build_fact_check_service(
         max_turns=config.max_turns,
         reasoning_effort=config.effort_for("plan"),
         retry_attempts=config.model_retry_attempts,
+        service_tier=config.service_tier,
     )
     researcher = CompatibleResearchAdapter(
         model=models["research"],
@@ -106,18 +108,21 @@ def build_fact_check_service(
         tool_call_budget=config.tool_call_budget,
         reasoning_effort=config.effort_for("research"),
         retry_attempts=config.model_retry_attempts,
+        service_tier=config.service_tier,
     )
     judge = CompatibleJudgeAdapter(
         model=models["judge"],
         max_turns=config.max_turns,
         reasoning_effort=config.effort_for("judge"),
         retry_attempts=config.model_retry_attempts,
+        service_tier=config.service_tier,
     )
     review = CompatibleReviewAdapter(
         model=models["review"],
         max_turns=config.max_turns,
         reasoning_effort=config.effort_for("review"),
         retry_attempts=config.model_retry_attempts,
+        service_tier=config.service_tier,
     )
 
     return FactCheckService(
@@ -129,7 +134,7 @@ def build_fact_check_service(
         research_stage=ResearchStage(
             researcher=researcher,
             max_parallel_research=config.max_parallel_research,
-            research_timeout_seconds=config.research_timeout_seconds,
+            research_timeout_seconds=config.effective_research_timeout_seconds,
             research_retry_attempts=config.research_retry_attempts,
             search_cap=search_cap,
         ),
@@ -172,6 +177,7 @@ def build_claim_extraction_service(config: ClaimExtractionRuntimeConfig) -> Clai
         max_turns=config.max_turns,
         reasoning_effort=config.effort_for("extract_claims"),
         retry_attempts=config.model_retry_attempts,
+        service_tier=config.service_tier,
     )
 
     return ClaimExtractionService(

@@ -1,0 +1,638 @@
+{
+  "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+  "normalized_claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+  "claim_id": "127769",
+  "constraints": {
+    "claim_id": "127769",
+    "claim_date": "2026-07-01",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2026-07-01"
+  },
+  "plan_raw": {
+    "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+    "checks": [
+      {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "rationale": "The claim describes a single incident whose identity, agency, date, location, and circumstances can be verified together through accounts of the event.",
+        "search_queries": [
+          "\"Leticia Ugboaja\" \"ICE\" \"June 28, 2026\" McAllen",
+          "\"Sister Letty Ugboaja\" detained Sunday Mass McAllen",
+          "site:ice.gov Ugboaja McAllen detention",
+          "Catholic diocese McAllen Sister Leticia Ugboaja ICE detained Mass"
+        ],
+        "acceptance_criteria": [
+          "Done when an authoritative firsthand account or multiple independent, credible reports establish whether the incident occurred and identify the person and detaining agency.",
+          "Done when the evidence establishes the incident date, location, and whether she was traveling to Sunday Mass, distinguishing the event date from publication dates.",
+          "Done when material contradictions or the absence of verifiable evidence are documented."
+        ]
+      }
+    ],
+    "assumptions": []
+  },
+  "plan_normalized": {
+    "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+    "checks": [
+      {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "rationale": "The claim describes a single incident whose identity, agency, date, location, and circumstances can be verified together through accounts of the event.",
+        "search_queries": [
+          "\"Leticia Ugboaja\" \"ICE\" \"June 28, 2026\" McAllen",
+          "\"Sister Letty Ugboaja\" detained Sunday Mass McAllen",
+          "site:ice.gov Ugboaja McAllen detention",
+          "Catholic diocese McAllen Sister Leticia Ugboaja ICE detained Mass",
+          "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?"
+        ],
+        "acceptance_criteria": [
+          "Done when an authoritative firsthand account or multiple independent, credible reports establish whether the incident occurred and identify the person and detaining agency.",
+          "Done when the evidence establishes the incident date, location, and whether she was traveling to Sunday Mass, distinguishing the event date from publication dates.",
+          "Done when material contradictions or the absence of verifiable evidence are documented."
+        ]
+      }
+    ],
+    "assumptions": []
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "rationale": "The claim describes a single incident whose identity, agency, date, location, and circumstances can be verified together through accounts of the event.",
+        "search_queries": [
+          "\"Leticia Ugboaja\" \"ICE\" \"June 28, 2026\" McAllen",
+          "\"Sister Letty Ugboaja\" detained Sunday Mass McAllen",
+          "site:ice.gov Ugboaja McAllen detention",
+          "Catholic diocese McAllen Sister Leticia Ugboaja ICE detained Mass",
+          "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?"
+        ],
+        "acceptance_criteria": [
+          "Done when an authoritative firsthand account or multiple independent, credible reports establish whether the incident occurred and identify the person and detaining agency.",
+          "Done when the evidence establishes the incident date, location, and whether she was traveling to Sunday Mass, distinguishing the event date from publication dates.",
+          "Done when material contradictions or the absence of verifiable evidence are documented."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "signal": "supports",
+        "summary": "Multiple reports say ICE detained Sister Leticia “Letty” Ugboaja on Sunday, June 28, 2026, as she walked to Mass at Our Lady of Sorrows Church in McAllen, Texas. The parish reported the detention that day, and the Diocese of Brownsville later confirmed her release. She was released from custody that evening after lawmakers contacted federal officials.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "ICE detains nun who was heading to Mass in McAllen",
+            "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+            "snippet": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Texas nun detained by immigration officers sparks social media outcry",
+            "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+            "snippet": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+            "publisher": "Associated Press",
+            "published_at": "2026-06-29",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Diocese of Brownsville Says Sister Leticia Ugboaja Released After ICE Detention",
+            "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+            "snippet": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+            "publisher": "Texas Border Business",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Diocese of Brownsville calls nun’s detainment ‘wildly disturbing’",
+            "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "snippet": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The diocese said questions remained about the circumstances surrounding the detention; the reason for it had not been established in the cited reporting."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Sister Letty Ugboaja\" detained Sunday Mass McAllen",
+          "urls": [
+            "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+            "https://www.tpr.org/news/2026-06-29/south-texas-nun-released-after-being-detained-by-ice",
+            "https://www.ms.now/news/ice-arrest-of-nun-in-southern-texas-spurs-bipartisan-concern",
+            "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "https://www.silive.com/nation/2026/07/ice-detains-nun-heading-to-mass-in-texas-then-releases-her.html",
+            "https://texaspolitics.com/2026/06/29/texas-lawmakers-react-after-ice-detains-nun-before-mass/",
+            "https://www.newsfromthestates.com/article/catholic-bishop-seeks-information-wildly-disturbing-ice-arrest-nun-walking-south-texas",
+            "https://icetracking.org/case/ice-arrest-nun-sister-letty-ugboaja-mcallen"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Leticia Ugboaja\" \"ICE\" \"June 28, 2026\" McAllen",
+          "urls": [
+            "https://standingrecord.com/entries/2026/06/28/federal-unlawful-detention-8ad0acb7/",
+            "https://angelusnews.com/news/ice-detention-sister-reax",
+            "https://www.ibtimes.co.uk/nun-arrest-texas-immigration-debate-1806319",
+            "https://www.catholicworldreport.com/2026/07/01/nun-arrested-by-ice-while-walking-to-sunday-mass-in-texas-released-after-lawmakers-intervention/",
+            "https://www.ncregister.com/cna/nun-arrested-by-ice-while-walking-to-sunday-mass-in-texas-released-after-lawmakers-intervention"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Leticia\" \"Ugboaja\" McAllen diocese June 30 2026 nun ICE Texas Tribune",
+          "urls": [
+            "https://www.texastribune.org/2026/06/30/texas-mcallen-nun-ice-detention-sister-letty/",
+            "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+            "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+            "https://americancatholicnews.com/texas-ice-agents-detain-nigerian-born-religious-sister-walking-to-sunday-mass-in-mcallen/",
+            "https://www.krgv.com/news/catholic-diocese-of-brownsville-reacts-after-nun-detained-by-ice/",
+            "https://www.osvnews.com/ice-detains-texas-based-religious-sister-on-her-way-to-mass-releases-her-several-hours-later/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Leticia Ugboaja\" \"Bishop\" diocese Brownsville sister ICE Sunday June 28",
+          "urls": [
+            "https://www.globalsistersreport.org/news/brownsville-bishop-calls-arrest-nun-his-texas-diocese-wildly-disturbing",
+            "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "https://www.osvnews.com/ice-detains-texas-based-religious-sister-on-her-way-to-mass-releases-her-several-hours-later/",
+            "https://www.fox26houston.com/news/texas-diocese-calls-nuns-detainment-ice-wildly-disturbing",
+            "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Sister Letty\" \"Ugboaja\" site:house.gov June 2026",
+          "urls": [
+            "https://democraticwomenscaucus.house.gov/news/documentsingle.aspx?DocumentID=794",
+            "https://juliabrownley.house.gov/brownley-amo-jackson-kelly-lead-73-colleagues-demanding-answers-on-ebola-outbreak-and-trumps-global-health-failures/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.88,
+    "justification": "The Associated Press reported that ICE detained Sister Leticia Ugboaja while she was walking to Our Lady of Sorrows Church in McAllen on Sunday. [S2] A report citing the Diocese of Brownsville identifies the date as June 28 and says she was going to Sunday Mass. [S3] Another local report identifies her as Sister Letty and says she was released later that evening. [S4]",
+    "key_points": [
+      "Reports identify ICE as the detaining agency and McAllen as the location. [S1][S2]",
+      "The reported incident date was June 28, 2026, and Ugboaja was walking to attend Sunday Mass. [S3]",
+      "Sister Leticia Ugboaja was also known as Sister Letty. [S4]"
+    ],
+    "counter_argument": "A case for Not Enough Evidence is that the supplied evidence does not include a direct diocesan statement or ICE record, and the Associated Press snippet identifies the day only as Sunday. [S2][S3] That does not prevail because multiple reports corroborate the detention, and the report citing the diocese supplies the exact date and purpose of her journey. [S1][S2][S3]",
+    "evidence_gaps": [
+      "A direct diocesan or parish statement and an ICE record were not supplied; these would provide firsthand confirmation of the incident and its circumstances."
+    ],
+    "findings": [
+      {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "signal": "supports",
+        "summary": "Multiple reports say ICE detained Sister Leticia “Letty” Ugboaja on Sunday, June 28, 2026, as she walked to Mass at Our Lady of Sorrows Church in McAllen, Texas. The parish reported the detention that day, and the Diocese of Brownsville later confirmed her release. She was released from custody that evening after lawmakers contacted federal officials.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "ICE detains nun who was heading to Mass in McAllen",
+            "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+            "snippet": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Texas nun detained by immigration officers sparks social media outcry",
+            "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+            "snippet": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+            "publisher": "Associated Press",
+            "published_at": "2026-06-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Diocese of Brownsville Says Sister Leticia Ugboaja Released After ICE Detention",
+            "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+            "snippet": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+            "publisher": "Texas Border Business",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Diocese of Brownsville calls nun’s detainment ‘wildly disturbing’",
+            "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "snippet": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The diocese said questions remained about the circumstances surrounding the detention; the reason for it had not been established in the cited reporting."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "ICE detains nun who was heading to Mass in McAllen",
+        "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+        "snippet": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+        "publisher": "MyRGV.com",
+        "published_at": "2026-06-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Texas nun detained by immigration officers sparks social media outcry",
+        "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+        "snippet": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+        "publisher": "Associated Press",
+        "published_at": "2026-06-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Diocese of Brownsville Says Sister Leticia Ugboaja Released After ICE Detention",
+        "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+        "snippet": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+        "publisher": "Texas Border Business",
+        "published_at": "2026-06-30",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Diocese of Brownsville calls nun’s detainment ‘wildly disturbing’",
+        "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+        "snippet": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+        "publisher": "MyRGV.com",
+        "published_at": "2026-06-30",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.88,
+    "justification": "The Associated Press reported that ICE detained Sister Leticia Ugboaja while she was walking to Our Lady of Sorrows Church in McAllen on Sunday. [S2] A report citing the Diocese of Brownsville identifies the date as June 28 and says she was going to Sunday Mass. [S3] Another local report identifies her as Sister Letty and says she was released later that evening. [S4]",
+    "key_points": [
+      "Reports identify ICE as the detaining agency and McAllen as the location. [S1][S2]",
+      "The reported incident date was June 28, 2026, and Ugboaja was walking to attend Sunday Mass. [S3]",
+      "Sister Leticia Ugboaja was also known as Sister Letty. [S4]"
+    ],
+    "counter_argument": "A case for Not Enough Evidence is that the supplied evidence does not include a direct diocesan statement or ICE record, and the Associated Press snippet identifies the day only as Sunday. [S2][S3] That does not prevail because multiple reports corroborate the detention, and the report citing the diocese supplies the exact date and purpose of her journey. [S1][S2][S3]",
+    "evidence_gaps": [
+      "A direct diocesan or parish statement and an ICE record were not supplied; these would provide firsthand confirmation of the incident and its circumstances."
+    ],
+    "findings": [
+      {
+        "aspect_id": "detention_event",
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "signal": "supports",
+        "summary": "Multiple reports say ICE detained Sister Leticia “Letty” Ugboaja on Sunday, June 28, 2026, as she walked to Mass at Our Lady of Sorrows Church in McAllen, Texas. The parish reported the detention that day, and the Diocese of Brownsville later confirmed her release. She was released from custody that evening after lawmakers contacted federal officials.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "ICE detains nun who was heading to Mass in McAllen",
+            "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+            "snippet": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Texas nun detained by immigration officers sparks social media outcry",
+            "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+            "snippet": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+            "publisher": "Associated Press",
+            "published_at": "2026-06-29",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Diocese of Brownsville Says Sister Leticia Ugboaja Released After ICE Detention",
+            "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+            "snippet": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+            "publisher": "Texas Border Business",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Diocese of Brownsville calls nun’s detainment ‘wildly disturbing’",
+            "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+            "snippet": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+            "publisher": "MyRGV.com",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The diocese said questions remained about the circumstances surrounding the detention; the reason for it had not been established in the cited reporting."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "ICE detains nun who was heading to Mass in McAllen",
+        "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+        "snippet": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+        "publisher": "MyRGV.com",
+        "published_at": "2026-06-28",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Texas nun detained by immigration officers sparks social media outcry",
+        "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+        "snippet": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+        "publisher": "Associated Press",
+        "published_at": "2026-06-29",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Diocese of Brownsville Says Sister Leticia Ugboaja Released After ICE Detention",
+        "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+        "snippet": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+        "publisher": "Texas Border Business",
+        "published_at": "2026-06-30",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Diocese of Brownsville calls nun’s detainment ‘wildly disturbing’",
+        "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+        "snippet": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+        "publisher": "MyRGV.com",
+        "published_at": "2026-06-30",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:10.014904+00:00",
+  "duration_seconds": 40.27441235212609,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 995,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 446,
+      "reasoning_tokens": 126,
+      "total_tokens": 1441,
+      "duration_seconds": 9.26377443736419,
+      "started_at": "2026-11-19T11:07:10.015273+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 22837,
+      "cached_input_tokens": 9482,
+      "cache_write_tokens": 13346,
+      "output_tokens": 972,
+      "reasoning_tokens": 47,
+      "total_tokens": 23809,
+      "duration_seconds": 17.80766709567979,
+      "started_at": "2026-11-19T11:07:19.279732+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3092,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3089,
+      "output_tokens": 1843,
+      "reasoning_tokens": 95,
+      "total_tokens": 4935,
+      "duration_seconds": 13.193331168964505,
+      "started_at": "2026-11-19T11:07:37.094923+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 5,
+    "input_tokens": 26924,
+    "cached_input_tokens": 9482,
+    "cache_write_tokens": 16435,
+    "output_tokens": 3261,
+    "reasoning_tokens": 268,
+    "total_tokens": 30185,
+    "llm_seconds": 40.264772702008486,
+    "cache_hit_rate": 0.3522,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 995.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 446.0,
+        "reasoning_tokens": 126.0,
+        "total_tokens": 1441.0,
+        "llm_seconds": 9.26377443736419,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 3.0,
+        "input_tokens": 22837.0,
+        "cached_input_tokens": 9482.0,
+        "cache_write_tokens": 13346.0,
+        "output_tokens": 972.0,
+        "reasoning_tokens": 47.0,
+        "total_tokens": 23809.0,
+        "llm_seconds": 17.80766709567979,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3092.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3089.0,
+        "output_tokens": 1843.0,
+        "reasoning_tokens": 95.0,
+        "total_tokens": 4935.0,
+        "llm_seconds": 13.193331168964505,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 30185,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 5,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 23
+  },
+  "unresolved_citations": []
+}

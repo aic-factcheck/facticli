@@ -1,0 +1,1362 @@
+{
+  "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+  "normalized_claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+  "claim_id": "30",
+  "constraints": {
+    "claim_id": "30",
+    "claim_date": "2020-10-26",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-26"
+  },
+  "plan_raw": {
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "checks": [
+      {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "rationale": "The claimed retirement and its alleged motivation are the central factual assertion and are best assessed together using Pogba’s statements and national-team records.",
+        "search_queries": [
+          "Paul Pogba international retirement Macron Islamist terrorism statement France team",
+          "Pogba retirement Macron comments denial official statement",
+          "Paul Pogba retraite internationale propos Macron terrorisme déclaration équipe de France",
+          "site:fff.fr Pogba équipe de France retraite Macron"
+        ],
+        "acceptance_criteria": [
+          "Locate Pogba’s own statement or an authoritative representative’s statement addressing the reported retirement and alleged reason.",
+          "Check French Football Federation records or other reliable contemporaneous reporting for evidence of retirement and subsequent national-team appearances, with dates."
+        ]
+      },
+      {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "rationale": "The claim attributes a particular category of comments to Macron as the trigger for Pogba’s alleged action.",
+        "search_queries": [
+          "Macron comments Islamist terrorism Pogba retirement reports original speech",
+          "site:elysee.fr Macron discours terrorisme islamiste Pogba",
+          "Macron propos terrorisme islamiste déclaration Pogba retraite internationale"
+        ],
+        "acceptance_criteria": [
+          "Identify the relevant remarks and their date using an official transcript or recording, supported by contemporaneous reporting.",
+          "Establish how those remarks were connected to the reported retirement in the original or contemporaneous coverage."
+        ]
+      },
+      {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "rationale": "The claim identifies both affiliations in the present tense, but playing status can change over time.",
+        "search_queries": [
+          "Paul Pogba Manchester United France national team club career dates official",
+          "site:manutd.com Paul Pogba departure dates player",
+          "site:fff.fr Paul Pogba sélections équipe de France dernières",
+          "Paul Pogba club actuel équipe de France carrière dates"
+        ],
+        "acceptance_criteria": [
+          "Establish the relevant circulation date and verify Pogba’s Manchester United and France affiliations at that time from club, federation or authoritative competition records.",
+          "Identify his latest documented club and national-team status, including the dates of the supporting records."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers to a reported retirement story associated with Macron’s remarks, rather than an unspecified later episode; researchers should establish the story’s date.",
+      "“Retired from international football” means ending availability for France’s national team, not merely missing a squad or match."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "checks": [
+      {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "rationale": "The claimed retirement and its alleged motivation are the central factual assertion and are best assessed together using Pogba’s statements and national-team records.",
+        "search_queries": [
+          "Paul Pogba international retirement Macron Islamist terrorism statement France team",
+          "Pogba retirement Macron comments denial official statement",
+          "Paul Pogba retraite internationale propos Macron terrorisme déclaration équipe de France",
+          "site:fff.fr Pogba équipe de France retraite Macron",
+          "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?"
+        ],
+        "acceptance_criteria": [
+          "Locate Pogba’s own statement or an authoritative representative’s statement addressing the reported retirement and alleged reason.",
+          "Check French Football Federation records or other reliable contemporaneous reporting for evidence of retirement and subsequent national-team appearances, with dates."
+        ]
+      },
+      {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "rationale": "The claim attributes a particular category of comments to Macron as the trigger for Pogba’s alleged action.",
+        "search_queries": [
+          "Macron comments Islamist terrorism Pogba retirement reports original speech",
+          "site:elysee.fr Macron discours terrorisme islamiste Pogba",
+          "Macron propos terrorisme islamiste déclaration Pogba retraite internationale",
+          "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+          "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism."
+        ],
+        "acceptance_criteria": [
+          "Identify the relevant remarks and their date using an official transcript or recording, supported by contemporaneous reporting.",
+          "Establish how those remarks were connected to the reported retirement in the original or contemporaneous coverage."
+        ]
+      },
+      {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "rationale": "The claim identifies both affiliations in the present tense, but playing status can change over time.",
+        "search_queries": [
+          "Paul Pogba Manchester United France national team club career dates official",
+          "site:manutd.com Paul Pogba departure dates player",
+          "site:fff.fr Paul Pogba sélections équipe de France dernières",
+          "Paul Pogba club actuel équipe de France carrière dates",
+          "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?"
+        ],
+        "acceptance_criteria": [
+          "Establish the relevant circulation date and verify Pogba’s Manchester United and France affiliations at that time from club, federation or authoritative competition records.",
+          "Identify his latest documented club and national-team status, including the dates of the supporting records."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers to a reported retirement story associated with Macron’s remarks, rather than an unspecified later episode; researchers should establish the story’s date.",
+      "“Retired from international football” means ending availability for France’s national team, not merely missing a squad or match."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "rationale": "The claimed retirement and its alleged motivation are the central factual assertion and are best assessed together using Pogba’s statements and national-team records.",
+        "search_queries": [
+          "Paul Pogba international retirement Macron Islamist terrorism statement France team",
+          "Pogba retirement Macron comments denial official statement",
+          "Paul Pogba retraite internationale propos Macron terrorisme déclaration équipe de France",
+          "site:fff.fr Pogba équipe de France retraite Macron",
+          "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?"
+        ],
+        "acceptance_criteria": [
+          "Locate Pogba’s own statement or an authoritative representative’s statement addressing the reported retirement and alleged reason.",
+          "Check French Football Federation records or other reliable contemporaneous reporting for evidence of retirement and subsequent national-team appearances, with dates."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "signal": "refutes",
+        "summary": "On October 26, 2020, Pogba denied reports that he had quit France’s national team over Macron’s comments, calling them unfounded and fake news. Reuters and the BBC independently reported his denial. The French Football Federation records that he had played for France against Croatia on October 14, before the retirement rumor arose.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.co.uk/sport/football/54691842",
+            "snippet": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "'Fake news': Pogba denies quitting France team over Macron comments",
+            "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+            "snippet": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+            "publisher": "Reuters",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The October 14 appearance preceded the rumor and cannot itself establish whether Pogba played again afterward. The evidence cutoff is October 26, 2020."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Pogba retirement Macron comments denial official statement October 26 2020",
+          "urls": [
+            "https://www.reuters.com/article/soccer-france-pogba/update-1-soccer-fake-news-pogba-denies-quitting-france-team-over-macron-comments-idINL1N2HH0V0",
+            "https://metro.co.uk/2020/10/26/paul-pogba-french-national-team-manchester-united-news-emmanuel-macron-13480909/",
+            "https://www.straitstimes.com/sport/football/football-pogbas-slams-france-retirement-rumours-as-fake-news",
+            "https://www.middleeastmonitor.com/20201026-paul-pogba-denies-quitting-france-team-over-macrons-islamophobic-comments/",
+            "https://www.arabnews.com/node/1754411/sport",
+            "https://www.dailysabah.com/sports/football/pogba-denies-france-retirement-rumors-vows-legal-action",
+            "https://archive.dhakatribune.com/sport/football/2020/10/26/pogba-denies-quitting-france-team-over-macron-comments",
+            "https://www.malaymail.com/news/sports/2020/10/26/fake-news-pogba-denies-quitting-france-team-over-macron-comments/1916535",
+            "https://www.dailystar.co.uk/sport/football/paul-pogba-france-macron-islam-22904758"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Paul Pogba international retirement Macron Islamist terrorism statement France team October 26 2020",
+          "urls": [
+            "https://www.thedailystar.net/sports/football/news/fake-unacceptable-news-pogba-slams-rumors-him-quitting-france-1984513",
+            "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+            "https://metro.co.uk/2020/10/26/paul-pogba-french-national-team-manchester-united-news-emmanuel-macron-13480909/",
+            "https://www.middleeastmonitor.com/20201026-paul-pogba-denies-quitting-france-team-over-macrons-islamophobic-comments/",
+            "https://www.reuters.com/article/sports/soccer/fake-news-pogba-denies-quitting-france-team-over-macron-comments-idUSL4N2HH2R1/",
+            "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "https://www.dailymail.com/sport/sportsnews/article-8879445/Paul-Pogba-QUIT-France-duty-Macron-said-Islam-source-international-terrorism.html",
+            "https://www.yahoo.com/lifestyle/fake-news-pogba-denies-quitting-124551219.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:fff.fr pogba croatie france 14 octobre 2020 titulaire",
+          "urls": [
+            "https://www.fff.fr/actualites/194844-croatie-france",
+            "https://www.fff.fr/actualites/194844-croatie-france?themePath=equipes-de-france-1/",
+            "https://www.fff.fr/equipes-de-france/1/france-a/matchs/3034/2020-10-12/croatie-france",
+            "https://www.fff.fr/actualites/194288-tout-sur-le-rassemblement-d-octobre",
+            "https://www.fff.fr/equipes-de-france/1/france-a/matchs/3032/2020-09-08/france-croatie",
+            "https://www.fff.fr/article/1645-didier-deschamps-c-etait-tres-tactique-.html",
+            "https://www.fff.fr/diaporamas/equipes-de-france-1/details/194865-croatie-france-en-images-1",
+            "https://www.fff.fr/actualites/194705-didier-deschamps-1?themePath=equipes-de-france-1/",
+            "https://www.fff.fr/selection/matchs/1751-pays-bas-france.html",
+            "https://www.fff.fr/actualites/191587-huit-matches-au-menu-en-2020"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Paul Pogba \"100% unfounded\" \"never said\" October 26 2020 retirement",
+          "urls": [
+            "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+            "https://www.freepressjournal.in/sports/unacceptable-fake-news-paul-pogba-slams-the-sun-for-claiming-he-retired-from-international-football",
+            "https://www.bbc.co.uk/sport/football/54691842",
+            "https://www.latestly.com/sports/cricket/paul-pogba-to-retire-from-france-national-team-manchester-united-star-brands-rumours-as-unacceptable-fake-news-2109155.html",
+            "https://metro.co.uk/2020/10/26/paul-pogba-french-national-team-manchester-united-news-emmanuel-macron-13480909/",
+            "https://www.arabnews.com/node/1754411/sport",
+            "https://www.skysports.com/football/news/11095/12115111/paul-pogba-man-utd-midfielder-angry-and-appalled-over-reports-he-quit-france-team",
+            "https://www.withinnigeria.com/2020/10/26/pogba-breaks-silence-on-retirement-from-france-national-team/",
+            "https://archive.dhakatribune.com/sport/football/2020/10/26/pogba-denies-quitting-france-team-over-macron-comments"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Paul Pogba France Croatia October 14 2020 match started result Nations League",
+          "urls": [
+            "https://www.espn.co.uk/football/report?gameId=570699",
+            "https://uefa.com/uefanationsleague/match/2030063--croatia-vs-france/postmatch/report",
+            "https://www.goal.com/en-us/match/croatia-v-france/report/1sfrzcd5efqou4evo5x66ueei",
+            "https://www.11v11.com/matches/croatia-v-france-14-october-2020-367669/",
+            "https://www.france24.com/en/20201015-mbappe-goal-gives-france-2-1-nations-league-win-over-croatia",
+            "https://int.soccerway.com/matches/2020/10/14/europe/uefa-nations-league/croatia/france/3243369/",
+            "https://www.croatiaweek.com/uefa-nations-league-france-take-the-points-against-croatia-in-zagreb/",
+            "https://apnews.com/article/international-soccer-portugal-zagreb-world-cup-lucas-digne-3004587eea1491506f442d680f64eda7",
+            "https://www.goal.com/en-gb/match/croatia-v-france/1sfrzcd5efqou4evo5x66ueei",
+            "https://www.foxsports.com/soccer/nations-league-croatia-vs-france-oct-14-2020-game-boxscore-63220"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "rationale": "The claim attributes a particular category of comments to Macron as the trigger for Pogba’s alleged action.",
+        "search_queries": [
+          "Macron comments Islamist terrorism Pogba retirement reports original speech",
+          "site:elysee.fr Macron discours terrorisme islamiste Pogba",
+          "Macron propos terrorisme islamiste déclaration Pogba retraite internationale",
+          "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+          "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism."
+        ],
+        "acceptance_criteria": [
+          "Identify the relevant remarks and their date using an official transcript or recording, supported by contemporaneous reporting.",
+          "Establish how those remarks were connected to the reported retirement in the original or contemporaneous coverage."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "signal": "supports",
+        "summary": "On 16 October 2020, Macron described the killing of teacher Samuel Paty as an Islamist terrorist attack, saying Paty had been murdered for teaching freedom of expression and freedom of belief. Contemporaneous coverage connected that description to reports that Pogba had quit the national team, which Pogba rejected. Some coverage also attributed to Macron a statement that unity and firmness were the only answers to Islamist terrorism; Sky News attributed that statement to education minister Jean-Michel Blanquer.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Déclaration du Président Emmanuel Macron suite à l’attentat de Conflans-Sainte-Honorine",
+            "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+            "snippet": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+            "publisher": "Élysée",
+            "published_at": "2020-10-16",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Paul Pogba denies reports he has quit French national team over Emmanuel Macron’s terrorism comments",
+            "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+            "snippet": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+            "publisher": "The Independent",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "France terror attack: Teacher decapitated in Paris suburb named as Samuel Paty",
+            "url": "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+            "snippet": "Education minister Jean-Michel Blanquer tweeted that the republic had been attacked through the \"despicable assassination of one of its servants\". He added that \"unity and firmness are the only answers to the monstrosity of Islamist terrorism\".",
+            "publisher": "Sky News",
+            "published_at": "2020-10-18",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Paul Pogba to quit French national team over Macron’s comments on Islam: reports",
+            "url": "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "snippet": "Macron had described the beheading as an ‘Islamic terrorist attack’, adding that “unity and firmness are the only answers to the monstrosity of Islamist terrorism”.",
+            "publisher": "The Week",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The reporting on Pogba incorrectly attributed Blanquer’s unity-and-firmness statement to Macron.",
+          "The check establishes the remarks and their connection to the reports, not that Pogba actually retired."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:elysee.fr Macron discours terrorisme islamiste octobre 2020 Samuel Paty",
+          "urls": [
+            "https://www.elysee.fr/emmanuel-macron/2020/10/21/ceremonie-dhommage-national-a-samuel-paty-a-la-sorbonne",
+            "https://www.elysee.fr/emmanuel-macron/2020/10/02/la-republique-en-actes-discours-du-president-de-la-republique-sur-le-theme-de-la-lutte-contre-les-separatismes",
+            "https://www.elysee.fr/emmanuel-macron/2020/10/19/visite-du-premier-ministre-de-la-republique-dirak-m-mustafa-al-kadhimi-a-paris",
+            "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+            "https://www.elysee.fr/front/pdf/elysee-module-16114-fr.pdf",
+            "https://www.elysee.fr/emmanuel-macron/2018/12/31/voeux-aux-francais-2019",
+            "https://www.elysee.fr/emmanuel-macron/2017/09/11/discours-du-president-de-la-republique-emmanuel-macron-a-la-pnyx-athenes-le-jeudi-7-septembre-201",
+            "https://www.elysee.fr/emmanuel-macron/2018/12/17/entretien-du-president-de-la-republique-avec-roch-marc-christian-kabore-president-du-burkina-faso"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Macron comments Islamist terrorism Pogba retirement reports original speech October 2020",
+          "urls": [
+            "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+            "https://www.reuters.com/article/sports/soccer/fake-news-pogba-denies-quitting-france-team-over-macron-comments-idUSL4N2HH2R1/",
+            "https://www.tbsnews.net/sports/pogba-will-not-quit-france-team-after-marcons-statements-islamic-terrorism-150013",
+            "https://metro.co.uk/2020/10/26/paul-pogba-french-national-team-manchester-united-news-emmanuel-macron-13480909/",
+            "https://www.rt.com/sport/504580-pogba-macron-islam-terrorism/",
+            "https://www.dailymail.com/sport/sportsnews/article-8879445/Paul-Pogba-QUIT-France-duty-Macron-said-Islam-source-international-terrorism.html",
+            "https://sg.news.yahoo.com/video/fake-news-pogba-denies-quitting-124551219.html",
+            "https://www.manchestereveningnews.co.uk/sport/football/football-news/paul-pogba-news-france-islam-19166639"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:elysee.fr \"unité\" \"fermeté\" \"monstruosité\" \"terrorisme islamiste\" octobre 2020",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Macron October 16 2020 teacher Islamist terrorist attack Pogba 26 October",
+          "urls": [
+            "https://www.theguardian.com/world/2020/oct/16/french-police-shoot-man-dead-after-knife-attack-near-paris-school",
+            "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "https://www.bbc.com/news/world-europe-54579403",
+            "https://www.republicworld.com/sports/football/paul-pogba-quits-frances-football-team-after-president-macrons-remarks-on-islam-reports",
+            "https://www.tbsnews.net/sports/pogba-will-not-quit-france-team-after-marcons-statements-islamic-terrorism-150013",
+            "https://www.dailymail.com/sport/sportsnews/article-8879445/Paul-Pogba-QUIT-France-duty-Macron-said-Islam-source-international-terrorism.html",
+            "https://www.cbsnews.com/news/paris-teacher-killed-beheaded-after-allegedly-showing-muhammed-caricatures/",
+            "https://metro.co.uk/2020/10/26/paul-pogba-french-national-team-manchester-united-news-emmanuel-macron-13480909/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Macron \"unity and firmness\" \"monstrosity\" \"October\" 2020 terrorism Paty",
+          "urls": [
+            "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+            "https://abcnews.go.com/amp/International/knife-wielding-man-paris-suburb-shot-dead-police/story?id=73658040",
+            "https://ca.news.yahoo.com/france-attack-man-shot-police-174500759.html",
+            "https://www.standard.co.uk/news/world/paris-attack-terror-history-teacher-beheaded-nine-arrested-a4571990.html",
+            "https://www.dailymail.com/sport/sportsnews/article-8879445/Paul-Pogba-QUIT-France-duty-Macron-said-Islam-source-international-terrorism.html",
+            "https://www.rt.com/news/503798-prosecutor-paris-suburb-beheading-chechen/",
+            "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "rationale": "The claim identifies both affiliations in the present tense, but playing status can change over time.",
+        "search_queries": [
+          "Paul Pogba Manchester United France national team club career dates official",
+          "site:manutd.com Paul Pogba departure dates player",
+          "site:fff.fr Paul Pogba sélections équipe de France dernières",
+          "Paul Pogba club actuel équipe de France carrière dates",
+          "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?"
+        ],
+        "acceptance_criteria": [
+          "Establish the relevant circulation date and verify Pogba’s Manchester United and France affiliations at that time from club, federation or authoritative competition records.",
+          "Identify his latest documented club and national-team status, including the dates of the supporting records."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "signal": "supports",
+        "summary": "The retirement story was circulating on 26 October 2020, when the BBC described Pogba as a Manchester United and France midfielder and reported his denial. Manchester United documented his substitute appearance against Chelsea on 24 October. France’s federation documented his appearance for France against Croatia on 14 October. These are the latest playing-status records identified within the evidence cutoff: he remained a United player and had not retired from France.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.com/sport/football/54691842",
+            "snippet": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Solskjaer praises Pogba performance in Man Utd 0 Chelsea 0 on 24 October 2020",
+            "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+            "snippet": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+            "publisher": "Manchester United",
+            "published_at": "2020-10-25",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Latest status is assessed only through the 26 October 2020 evidence cutoff; later career changes are outside this check."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Paul Pogba Manchester United France national team October 2020 retirement report Macron October 26 2020",
+          "urls": [
+            "https://www.reuters.com/article/sports/soccer/fake-news-pogba-denies-quitting-france-team-over-macron-comments-idUSL4N2HH2R1/",
+            "https://www.bbc.com/sport/football/54691842",
+            "https://www.yahoo.com/lifestyle/fake-news-pogba-denies-quitting-124551219.html",
+            "https://www.straitstimes.com/sport/football/football-pogbas-slams-france-retirement-rumours-as-fake-news",
+            "https://www.rfi.fr/en/france/20201026-french-football-star-pogba-say-reports-of-his-retirement-are-fake-news",
+            "https://www.dailystar.co.uk/sport/football/paul-pogba-france-macron-islam-22904758",
+            "https://news.yahoo.com/fake-news-pogba-denies-quitting-124551219.html",
+            "https://www.france24.com/en/live-news/20201026-pogba-s-slams-france-retirement-rumours-as-fake-news"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Paul Pogba Manchester United France national team October 2020 played 2020 October international match",
+          "urls": [
+            "https://strettynews.com/2020/10/12/paul-pogba-shines-vs-portugal-in-nations-league/",
+            "https://www.besoccer.com/new/pogba-returns-to-the-french-national-team-after-more-than-a-year-away-894091",
+            "https://scroll.in/field/974658/paul-pogba-included-in-france-squad-for-nations-league-matches-against-portugal-and-croatia",
+            "https://www.ibtimes.com/uefa-nations-league-manchester-united-midfielder-shines-france-portugal-matchup-3060503",
+            "https://strettynews.com/2020/10/26/paul-pogba-not-quitting-france-national-team/",
+            "https://www.france24.com/en/20201001-pogba-returns-to-france-squad-for-nations-league-matches",
+            "https://translate.google.com/translate?client=srp&hl=pt&sl=en&tl=pt&u=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPaul_Pogba",
+            "https://www.dailystar.co.uk/sport/football/paul-pogba-france-macron-islam-22904758"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:manutd.com 24 October 2020 Chelsea Pogba substitute Cavani Manchester United",
+          "urls": [
+            "https://www.manutd.com/es/news/detail/man-utd-v-chelsea-premier-league-match-report-24-october-2020",
+            "https://www.manutd.com/es/news/detail/edinson-cavani-makes-man-utd-debut-in-premier-league-v-chelsea",
+            "https://www.manutd.com/en/news/detail/early-team-news-for-man-utd-v-chelsea-sat-24-oct-2020",
+            "https://www.manutd.com/en/news/detail/cavani-can-bag-goals-for-us-says-ole",
+            "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+            "https://www.manutd.com/es/news/detail/victor-lindelof-voted-man-of-the-match-from-man-utd-0-chelsea-0-on-24-october-2020",
+            "https://www.manutd.com/en/news/detail/talking-points-from-man-utd-v-chelsea-in-the-premier-league-24-october-2020",
+            "https://manutd.com/en/news/detail/teams-confirmed-for-man-utd-v-chelsea-on-24-october-2020"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:fff.fr 14 octobre 2020 croatie france Pogba 2 1",
+          "urls": [
+            "https://www.fff.fr/actualites/194844-croatie-france?themePath=equipes-de-france-1/",
+            "https://www.fff.fr/actualites/194844-croatie-france",
+            "https://www.fff.fr/equipes-de-france/1/france-a/matchs/3034/2020-10-12/croatie-france",
+            "https://www.fff.fr/actualites/195067-croatie-franve-1-2-le-resume-video",
+            "https://www.fff.fr/actualites/194288-tout-sur-le-rassemblement-d-octobre",
+            "https://www.fff.fr/equipes-de-france/1/france-a/matchs/3032/2020-09-08/france-croatie",
+            "https://www.fff.fr/actualites/195024-le-best-of-du-rassemblement-d-octobre?themePath=equipes-de-france-1/",
+            "https://www.fff.fr/actualites/194288-tout-sur-le-rassemblement-d-octobre?themePath=equipes-de-france-1%2F"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:uefa.com croatia france 14 october 2020 Pogba squad 2 1",
+          "urls": [
+            "https://uefa.com/uefanationsleague/match/2030063--croatia-vs-france/postmatch/report",
+            "https://www.uefa.com/uefanationsleague/news/0262-10974b111173-5e6711752c5e-1000--croatia-vs-france-preview/",
+            "https://www.uefa.com/uefanationsleague/news/0262-10976e5a2185-0ac02bfe6e38-1000--croatie-france-presentation/",
+            "https://www.uefa.com/uefanationsleague/match/2030063--croatia-vs-france/prematch/preview/",
+            "https://uefa.com/uefaeuro-2020/news/0254-0d41684d1216-06773df7faed-1000--euro-2020-schedule-all-the-fixtures",
+            "https://www.uefa.com/uefanationsleague/news/0262-109659f9171f-74e3cb0d45bd-1000--france-0-0-portugal-stalemate-at-stade-de-france/",
+            "https://www.uefa.com/uefanationsleague/news/0261-1053fc45bd9b-f655f970c953-1000--france-4-2-croatia-les-bleus-complete-thrilling-comeback-v/",
+            "https://www.uefa.com/uefaeuro/history/news/0257-0e1597b01d2b-1b059ab9106b-1000--euro-groups-head-to-heads/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "Pogba explicitly rejected the retirement reports as unfounded, and Reuters reported that he labeled the allegation fake news [S1][S2]. The reports linked the alleged retirement to Macron’s description of the killing of teacher Samuel Paty as an Islamist terrorist attack; Macron did make that description on 16 October 2020 [S4][S5]. Pogba was a Manchester United player and had played for France shortly before the reports circulated [S3][S9]. Inference: The accurate context about his affiliations and Macron’s remarks does not substantiate the alleged retirement.",
+    "key_points": [
+      "Pogba called the reports unfounded and fake news [S1][S2].",
+      "The French federation recorded his appearance against Croatia on 14 October, before the rumor; that appearance cannot establish what happened afterward [S3].",
+      "One report attributed a unity-and-firmness statement to Macron, while Sky News attributed it to education minister Jean-Michel Blanquer [S6][S7]."
+    ],
+    "counter_argument": "Contemporaneous reports did claim that Pogba had stepped down in response to Macron’s remarks [S5][S7]. But those reports do not overcome Pogba’s explicit denial, which was reported by both the BBC and Reuters [S1][S2].",
+    "evidence_gaps": [
+      "The original social-media post or a direct statement from Pogba was not supplied; the denial is available through contemporaneous reporting.",
+      "The supplied federation appearance record predates the rumor, and no subsequent national-team appearance or federation statement is provided within the 26 October 2020 cutoff."
+    ],
+    "findings": [
+      {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "signal": "supports",
+        "summary": "On 16 October 2020, Macron described the killing of teacher Samuel Paty as an Islamist terrorist attack, saying Paty had been murdered for teaching freedom of expression and freedom of belief. Contemporaneous coverage connected that description to reports that Pogba had quit the national team, which Pogba rejected. Some coverage also attributed to Macron a statement that unity and firmness were the only answers to Islamist terrorism; Sky News attributed that statement to education minister Jean-Michel Blanquer.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Déclaration du Président Emmanuel Macron suite à l’attentat de Conflans-Sainte-Honorine",
+            "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+            "snippet": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+            "publisher": "Élysée",
+            "published_at": "2020-10-16",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Paul Pogba denies reports he has quit French national team over Emmanuel Macron’s terrorism comments",
+            "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+            "snippet": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+            "publisher": "The Independent",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "France terror attack: Teacher decapitated in Paris suburb named as Samuel Paty",
+            "url": "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+            "snippet": "Education minister Jean-Michel Blanquer tweeted that the republic had been attacked through the \"despicable assassination of one of its servants\". He added that \"unity and firmness are the only answers to the monstrosity of Islamist terrorism\".",
+            "publisher": "Sky News",
+            "published_at": "2020-10-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Paul Pogba to quit French national team over Macron’s comments on Islam: reports",
+            "url": "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "snippet": "Macron had described the beheading as an ‘Islamic terrorist attack’, adding that “unity and firmness are the only answers to the monstrosity of Islamist terrorism”.",
+            "publisher": "The Week",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The reporting on Pogba incorrectly attributed Blanquer’s unity-and-firmness statement to Macron.",
+          "The check establishes the remarks and their connection to the reports, not that Pogba actually retired."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "signal": "supports",
+        "summary": "The retirement story was circulating on 26 October 2020, when the BBC described Pogba as a Manchester United and France midfielder and reported his denial. Manchester United documented his substitute appearance against Chelsea on 24 October. France’s federation documented his appearance for France against Croatia on 14 October. These are the latest playing-status records identified within the evidence cutoff: he remained a United player and had not retired from France.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.com/sport/football/54691842",
+            "snippet": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Solskjaer praises Pogba performance in Man Utd 0 Chelsea 0 on 24 October 2020",
+            "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+            "snippet": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+            "publisher": "Manchester United",
+            "published_at": "2020-10-25",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "Latest status is assessed only through the 26 October 2020 evidence cutoff; later career changes are outside this check."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "signal": "refutes",
+        "summary": "On October 26, 2020, Pogba denied reports that he had quit France’s national team over Macron’s comments, calling them unfounded and fake news. Reuters and the BBC independently reported his denial. The French Football Federation records that he had played for France against Croatia on October 14, before the retirement rumor arose.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.co.uk/sport/football/54691842",
+            "snippet": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "'Fake news': Pogba denies quitting France team over Macron comments",
+            "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+            "snippet": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+            "publisher": "Reuters",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The October 14 appearance preceded the rumor and cannot itself establish whether Pogba played again afterward. The evidence cutoff is October 26, 2020."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+        "url": "https://www.bbc.co.uk/sport/football/54691842",
+        "snippet": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+        "publisher": "BBC Sport",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "'Fake news': Pogba denies quitting France team over Macron comments",
+        "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+        "snippet": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+        "publisher": "Reuters",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+        "url": "https://www.fff.fr/actualites/194844-croatie-france",
+        "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+        "publisher": "Fédération Française de Football",
+        "published_at": "2020-10-15",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Déclaration du Président Emmanuel Macron suite à l’attentat de Conflans-Sainte-Honorine",
+        "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+        "snippet": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+        "publisher": "Élysée",
+        "published_at": "2020-10-16",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Paul Pogba denies reports he has quit French national team over Emmanuel Macron’s terrorism comments",
+        "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+        "snippet": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+        "publisher": "The Independent",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "France terror attack: Teacher decapitated in Paris suburb named as Samuel Paty",
+        "url": "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+        "snippet": "Education minister Jean-Michel Blanquer tweeted that the republic had been attacked through the \"despicable assassination of one of its servants\". He added that \"unity and firmness are the only answers to the monstrosity of Islamist terrorism\".",
+        "publisher": "Sky News",
+        "published_at": "2020-10-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Paul Pogba to quit French national team over Macron’s comments on Islam: reports",
+        "url": "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+        "snippet": "Macron had described the beheading as an ‘Islamic terrorist attack’, adding that “unity and firmness are the only answers to the monstrosity of Islamist terrorism”.",
+        "publisher": "The Week",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Solskjaer praises Pogba performance in Man Utd 0 Chelsea 0 on 24 October 2020",
+        "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+        "snippet": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+        "publisher": "Manchester United",
+        "published_at": "2020-10-25",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "Pogba explicitly rejected the retirement reports as unfounded, and Reuters reported that he labeled the allegation fake news [S1][S2]. The reports linked the alleged retirement to Macron’s description of the killing of teacher Samuel Paty as an Islamist terrorist attack; Macron did make that description on 16 October 2020 [S4][S5]. Pogba was a Manchester United player and had played for France shortly before the reports circulated [S3][S9]. Inference: The accurate context about his affiliations and Macron’s remarks does not substantiate the alleged retirement.",
+    "key_points": [
+      "Pogba called the reports unfounded and fake news [S1][S2].",
+      "The French federation recorded his appearance against Croatia on 14 October, before the rumor; that appearance cannot establish what happened afterward [S3].",
+      "One report attributed a unity-and-firmness statement to Macron, while Sky News attributed it to education minister Jean-Michel Blanquer [S6][S7]."
+    ],
+    "counter_argument": "Contemporaneous reports did claim that Pogba had stepped down in response to Macron’s remarks [S5][S7]. But those reports do not overcome Pogba’s explicit denial, which was reported by both the BBC and Reuters [S1][S2].",
+    "evidence_gaps": [
+      "The original social-media post or a direct statement from Pogba was not supplied; the denial is available through contemporaneous reporting.",
+      "The supplied federation appearance record predates the rumor, and no subsequent national-team appearance or federation statement is provided within the 26 October 2020 cutoff."
+    ],
+    "findings": [
+      {
+        "aspect_id": "retirement_reason",
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "signal": "refutes",
+        "summary": "On October 26, 2020, Pogba denied reports that he had quit France’s national team over Macron’s comments, calling them unfounded and fake news. Reuters and the BBC independently reported his denial. The French Football Federation records that he had played for France against Croatia on October 14, before the retirement rumor arose.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.co.uk/sport/football/54691842",
+            "snippet": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "'Fake news': Pogba denies quitting France team over Macron comments",
+            "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+            "snippet": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+            "publisher": "Reuters",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The October 14 appearance preceded the rumor and cannot itself establish whether Pogba played again afterward. The evidence cutoff is October 26, 2020."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "macron_comments",
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "signal": "supports",
+        "summary": "On 16 October 2020, Macron described the killing of teacher Samuel Paty as an Islamist terrorist attack, saying Paty had been murdered for teaching freedom of expression and freedom of belief. Contemporaneous coverage connected that description to reports that Pogba had quit the national team, which Pogba rejected. Some coverage also attributed to Macron a statement that unity and firmness were the only answers to Islamist terrorism; Sky News attributed that statement to education minister Jean-Michel Blanquer.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Déclaration du Président Emmanuel Macron suite à l’attentat de Conflans-Sainte-Honorine",
+            "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+            "snippet": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+            "publisher": "Élysée",
+            "published_at": "2020-10-16",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Paul Pogba denies reports he has quit French national team over Emmanuel Macron’s terrorism comments",
+            "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+            "snippet": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+            "publisher": "The Independent",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "France terror attack: Teacher decapitated in Paris suburb named as Samuel Paty",
+            "url": "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+            "snippet": "Education minister Jean-Michel Blanquer tweeted that the republic had been attacked through the \"despicable assassination of one of its servants\". He added that \"unity and firmness are the only answers to the monstrosity of Islamist terrorism\".",
+            "publisher": "Sky News",
+            "published_at": "2020-10-18",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Paul Pogba to quit French national team over Macron’s comments on Islam: reports",
+            "url": "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+            "snippet": "Macron had described the beheading as an ‘Islamic terrorist attack’, adding that “unity and firmness are the only answers to the monstrosity of Islamist terrorism”.",
+            "publisher": "The Week",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The reporting on Pogba incorrectly attributed Blanquer’s unity-and-firmness statement to Macron.",
+          "The check establishes the remarks and their connection to the reports, not that Pogba actually retired."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "playing_affiliations",
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "signal": "supports",
+        "summary": "The retirement story was circulating on 26 October 2020, when the BBC described Pogba as a Manchester United and France midfielder and reported his denial. Manchester United documented his substitute appearance against Chelsea on 24 October. France’s federation documented his appearance for France against Croatia on 14 October. These are the latest playing-status records identified within the evidence cutoff: he remained a United player and had not retired from France.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+            "url": "https://www.bbc.com/sport/football/54691842",
+            "snippet": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.",
+            "publisher": "BBC Sport",
+            "published_at": "2020-10-26",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Solskjaer praises Pogba performance in Man Utd 0 Chelsea 0 on 24 October 2020",
+            "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+            "snippet": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+            "publisher": "Manchester United",
+            "published_at": "2020-10-25",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+            "url": "https://www.fff.fr/actualites/194844-croatie-france",
+            "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+            "publisher": "Fédération Française de Football",
+            "published_at": "2020-10-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Latest status is assessed only through the 26 October 2020 evidence cutoff; later career changes are outside this check."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+        "url": "https://www.bbc.co.uk/sport/football/54691842",
+        "snippet": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+        "publisher": "BBC Sport",
+        "published_at": "2020-10-26",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "'Fake news': Pogba denies quitting France team over Macron comments",
+        "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+        "snippet": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+        "publisher": "Reuters",
+        "published_at": "2020-10-26",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Equipes de France - Les Bleus de caractère en Croatie (2-1)",
+        "url": "https://www.fff.fr/actualites/194844-croatie-france",
+        "snippet": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+        "publisher": "Fédération Française de Football",
+        "published_at": "2020-10-15",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Déclaration du Président Emmanuel Macron suite à l’attentat de Conflans-Sainte-Honorine",
+        "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+        "snippet": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+        "publisher": "Élysée",
+        "published_at": "2020-10-16",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Paul Pogba denies reports he has quit French national team over Emmanuel Macron’s terrorism comments",
+        "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+        "snippet": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+        "publisher": "The Independent",
+        "published_at": "2020-10-26",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "France terror attack: Teacher decapitated in Paris suburb named as Samuel Paty",
+        "url": "https://news.sky.com/story/france-attack-man-shot-by-french-police-after-decapitation-in-paris-suburbs-12105885",
+        "snippet": "Education minister Jean-Michel Blanquer tweeted that the republic had been attacked through the \"despicable assassination of one of its servants\". He added that \"unity and firmness are the only answers to the monstrosity of Islamist terrorism\".",
+        "publisher": "Sky News",
+        "published_at": "2020-10-18",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Paul Pogba to quit French national team over Macron’s comments on Islam: reports",
+        "url": "https://www.theweek.in/news/sports/2020/10/26/paul-pogba-to-quit-french-national-team-over-macrons-comments-on-islam.html",
+        "snippet": "Macron had described the beheading as an ‘Islamic terrorist attack’, adding that “unity and firmness are the only answers to the monstrosity of Islamist terrorism”.",
+        "publisher": "The Week",
+        "published_at": "2020-10-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Paul Pogba: Man Utd star to take legal action over reports he was quitting France national team",
+        "url": "https://www.bbc.com/sport/football/54691842",
+        "snippet": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.",
+        "publisher": "BBC Sport",
+        "published_at": "2020-10-26",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Solskjaer praises Pogba performance in Man Utd 0 Chelsea 0 on 24 October 2020",
+        "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+        "snippet": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+        "publisher": "Manchester United",
+        "published_at": "2020-10-25",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:08:20.982605+00:00",
+  "duration_seconds": 61.726371408905834,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 988,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 851,
+      "reasoning_tokens": 151,
+      "total_tokens": 1839,
+      "duration_seconds": 12.024988264311105,
+      "started_at": "2026-11-19T11:08:20.982967+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 27506,
+      "cached_input_tokens": 9756,
+      "cache_write_tokens": 17741,
+      "output_tokens": 1050,
+      "reasoning_tokens": 88,
+      "total_tokens": 28556,
+      "duration_seconds": 17.65133807202801,
+      "started_at": "2026-11-19T11:08:33.008577+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 24634,
+      "cached_input_tokens": 10401,
+      "cache_write_tokens": 14224,
+      "output_tokens": 1195,
+      "reasoning_tokens": 96,
+      "total_tokens": 25829,
+      "duration_seconds": 17.624003659002483,
+      "started_at": "2026-11-19T11:08:33.012332+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 24891,
+      "cached_input_tokens": 9424,
+      "cache_write_tokens": 15458,
+      "output_tokens": 1127,
+      "reasoning_tokens": 144,
+      "total_tokens": 26018,
+      "duration_seconds": 18.232178664766252,
+      "started_at": "2026-11-19T11:08:33.016274+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 4595,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4592,
+      "output_tokens": 4148,
+      "reasoning_tokens": 300,
+      "total_tokens": 8743,
+      "duration_seconds": 31.451055739074945,
+      "started_at": "2026-11-19T11:08:51.257080+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 11,
+    "input_tokens": 82614,
+    "cached_input_tokens": 29581,
+    "cache_write_tokens": 52015,
+    "output_tokens": 8371,
+    "reasoning_tokens": 779,
+    "total_tokens": 90985,
+    "llm_seconds": 96.9835643991828,
+    "cache_hit_rate": 0.3581,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 988.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 851.0,
+        "reasoning_tokens": 151.0,
+        "total_tokens": 1839.0,
+        "llm_seconds": 12.024988264311105,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 3.0,
+        "requests": 9.0,
+        "input_tokens": 77031.0,
+        "cached_input_tokens": 29581.0,
+        "cache_write_tokens": 47423.0,
+        "output_tokens": 3372.0,
+        "reasoning_tokens": 328.0,
+        "total_tokens": 80403.0,
+        "llm_seconds": 53.507520395796746,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 4595.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 4592.0,
+        "output_tokens": 4148.0,
+        "reasoning_tokens": 300.0,
+        "total_tokens": 8743.0,
+        "llm_seconds": 31.451055739074945,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 90985,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 15,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 91
+  },
+  "unresolved_citations": []
+}

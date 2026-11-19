@@ -1,0 +1,1349 @@
+{
+  "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+  "normalized_claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+  "claim_id": "7",
+  "constraints": {
+    "claim_id": "7",
+    "claim_date": "2020-10-30",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-30"
+  },
+  "plan_raw": {
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "checks": [
+      {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "rationale": "The claim cites $750 as Trump’s tax payment; the tax type and year determine what that figure means.",
+        "search_queries": [
+          "Donald Trump $750 federal income tax 2016 2017 tax records",
+          "site:congress.gov Trump tax returns 750 federal income tax report",
+          "Trump tax returns $750 other taxes paid years"
+        ],
+        "acceptance_criteria": [
+          "Officially released tax records or a credible investigation based on tax records establish the amount, tax type, and relevant year or years.",
+          "The finding distinguishes federal income tax from other taxes and explains any limits in the available records."
+        ]
+      },
+      {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "rationale": "The claim compares Trump’s payment with that of the listener, whose own tax payment is not specified.",
+        "search_queries": [
+          "IRS individual income tax statistics tax liability distribution 2016 2017",
+          "site:irs.gov SOI individual income tax returns tax liability distribution 2017",
+          "typical US taxpayer federal income tax paid 750 comparison 2016 2017"
+        ],
+        "acceptance_criteria": [
+          "Official tax statistics or a credible analysis establish how taxpayers’ annual federal income tax liabilities compared with $750 in the relevant period.",
+          "The finding states whether the comparison applies to all taxpayers, a typical taxpayer, or only some taxpayers, and notes the absence of the listener’s tax information."
+        ]
+      },
+      {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "rationale": "The claim attributes specific words and an explanation to Trump, so the original wording and context matter.",
+        "search_queries": [
+          "Trump \"that makes me smart\" federal income taxes debate transcript",
+          "Trump \"Because I'm smart\" \"game the system\" taxes transcript",
+          "site:presidency.ucsb.edu Trump debate transcript taxes smart"
+        ],
+        "acceptance_criteria": [
+          "A primary transcript or recording establishes Trump’s actual words and the preceding tax-related statement.",
+          "The finding distinguishes an exact quotation from a paraphrase and identifies the date and context."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The $750 figure is interpreted as an annual U.S. federal income tax figure, not necessarily Trump’s total taxes of every kind.",
+      "“You” is interpreted as an unspecified U.S. taxpayer; no particular listener’s tax payment is assumed."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "checks": [
+      {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "rationale": "The claim cites $750 as Trump’s tax payment; the tax type and year determine what that figure means.",
+        "search_queries": [
+          "Donald Trump $750 federal income tax 2016 2017 tax records",
+          "site:congress.gov Trump tax returns 750 federal income tax report",
+          "Trump tax returns $750 other taxes paid years",
+          "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "Officially released tax records or a credible investigation based on tax records establish the amount, tax type, and relevant year or years.",
+          "The finding distinguishes federal income tax from other taxes and explains any limits in the available records."
+        ]
+      },
+      {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "rationale": "The claim compares Trump’s payment with that of the listener, whose own tax payment is not specified.",
+        "search_queries": [
+          "IRS individual income tax statistics tax liability distribution 2016 2017",
+          "site:irs.gov SOI individual income tax returns tax liability distribution 2017",
+          "typical US taxpayer federal income tax paid 750 comparison 2016 2017",
+          "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "Official tax statistics or a credible analysis establish how taxpayers’ annual federal income tax liabilities compared with $750 in the relevant period.",
+          "The finding states whether the comparison applies to all taxpayers, a typical taxpayer, or only some taxpayers, and notes the absence of the listener’s tax information."
+        ]
+      },
+      {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "rationale": "The claim attributes specific words and an explanation to Trump, so the original wording and context matter.",
+        "search_queries": [
+          "Trump \"that makes me smart\" federal income taxes debate transcript",
+          "Trump \"Because I'm smart\" \"game the system\" taxes transcript",
+          "site:presidency.ucsb.edu Trump debate transcript taxes smart",
+          "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "A primary transcript or recording establishes Trump’s actual words and the preceding tax-related statement.",
+          "The finding distinguishes an exact quotation from a paraphrase and identifies the date and context."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The $750 figure is interpreted as an annual U.S. federal income tax figure, not necessarily Trump’s total taxes of every kind.",
+      "“You” is interpreted as an unspecified U.S. taxpayer; no particular listener’s tax payment is assumed."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "rationale": "The claim cites $750 as Trump’s tax payment; the tax type and year determine what that figure means.",
+        "search_queries": [
+          "Donald Trump $750 federal income tax 2016 2017 tax records",
+          "site:congress.gov Trump tax returns 750 federal income tax report",
+          "Trump tax returns $750 other taxes paid years",
+          "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "Officially released tax records or a credible investigation based on tax records establish the amount, tax type, and relevant year or years.",
+          "The finding distinguishes federal income tax from other taxes and explains any limits in the available records."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "signal": "supports",
+        "summary": "The New York Times reported from tax-return data that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, and that he paid no income tax in 10 of the 15 years before his election. The $750 figure does not encompass all taxes: Trump or his companies also paid foreign taxes in 2017. A separately disclosed 2005 return showed $38 million in federal income tax. The Times did not have his personal returns for 2018 or 2019.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "What We Learned from Trump Tax Report: $750, Huge Losses and More",
+            "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+            "snippet": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump Paid $38 Million in 2005 Federal Income Tax, White House Says Before Report",
+            "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+            "snippet": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+            "publisher": "NBC News",
+            "published_at": "2017-03-15",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump Dismisses 'New York Times' Report That He Paid Little In Federal Income Taxes",
+            "url": "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+            "snippet": "Trump and his companies paid taxes of $15,598 in Panama, $145,400 in India and $156,824 in the Philippines in 2017, one of the years the report says Trump paid just $750 in income taxes to the U.S. government.",
+            "publisher": "NPR",
+            "published_at": "2020-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The 2016 and 2017 figures come from the Times investigation; the underlying records were not publicly released, and Trump disputed the report.",
+          "The foreign-tax amounts are attributed to Trump or his companies, not necessarily to Trump personally."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Donald Trump $750 federal income tax 2016 2017 tax records New York Times September 2020 taxes other taxes",
+          "urls": [
+            "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "https://www.bbc.com/news/technology-54319948",
+            "https://www.latimes.com/world-nation/story/2020-09-27/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017",
+            "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+            "https://www.clickondetroit.com/news/politics/2020/09/27/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017/",
+            "https://www.aljazeera.com/news/2020/9/27/donald-trump-paid-no-income-tax-in-10-of-last-15-years-ny-times",
+            "https://www.wowt.com/2020/09/28/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump tax returns 750 other taxes paid years 2016 2017 2020 investigation payroll property taxes",
+          "urls": [
+            "https://waysandmeans.house.gov/2020/10/02/faqs-on-claims-regarding-president-trumps-tax-returns/",
+            "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "https://www.bbc.com/news/technology-54319948",
+            "https://www.usatoday.com/story/news/politics/2020/09/27/donald-trump-denies-income-tax-report/3556287001/",
+            "https://www.salon.com/2020/09/28/trump-tax-returns-show-he-paid-no-taxes-for-10-years-claimed-golf-courses-lost-315-million-report/",
+            "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+            "https://www.pbs.org/newshour/show/what-nyt-report-tells-us-about-trumps-taxes-and-what-it-doesnt"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "New York Times Trump tax return 2018 2019 not available 2020 returns income tax 750",
+          "urls": [
+            "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "https://www.cbsnews.com/news/trump-tax-returns-new-york-times-report/",
+            "https://www.nbcnews.com/politics/donald-trump/trump-lashes-out-new-york-times-report-alleging-years-tax-n1241220",
+            "https://www.cnn.com/2020/09/27/politics/trump-income-taxes-new-york-times-report/index.html",
+            "https://www.aljazeera.com/news/2020/9/27/donald-trump-paid-no-income-tax-in-10-of-last-15-years-ny-times",
+            "https://www.reuters.com/world/trump-frequently-paid-no-federal-income-taxes-years-leading-up-presidency-new-2020-09-27/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump 2005 tax return 38 million tax 150 million released 2017 NBC",
+          "urls": [
+            "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+            "https://www.nytimes.com/2017/03/14/us/politics/donald-trump-taxes.html",
+            "https://www.cnn.com/2017/03/14/politics/trump-tax-returns-release/index.html",
+            "https://www.nytimes.com/interactive/2017/03/14/us/politics/document-Donald-Trump-2005-Tax.html",
+            "https://www.politico.com/story/2017/03/trump-taxes-rachel-maddow-236066",
+            "https://www.pbs.org/newshour/politics/white-house-says-trump-paid-38m-taxes-made-150m-05",
+            "https://www.washingtonpost.com/news/post-politics/wp/2017/03/14/report-trump-paid-38-million-in-income-taxes-in-2005/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "2020 New York Times Trump 750 income taxes prepaid 2016 2017 5.2 million tax credits",
+          "urls": [
+            "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "https://www.latimes.com/world-nation/story/2020-09-27/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017",
+            "https://www.bbc.com/news/technology-54319948",
+            "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+            "https://vinnews.com/2020/09/28/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017/",
+            "https://www.clickondetroit.com/news/politics/2020/09/27/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017/",
+            "https://www.wowt.com/2020/09/28/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "rationale": "The claim compares Trump’s payment with that of the listener, whose own tax payment is not specified.",
+        "search_queries": [
+          "IRS individual income tax statistics tax liability distribution 2016 2017",
+          "site:irs.gov SOI individual income tax returns tax liability distribution 2017",
+          "typical US taxpayer federal income tax paid 750 comparison 2016 2017",
+          "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "Official tax statistics or a credible analysis establish how taxpayers’ annual federal income tax liabilities compared with $750 in the relevant period.",
+          "The finding states whether the comparison applies to all taxpayers, a typical taxpayer, or only some taxpayers, and notes the absence of the listener’s tax information."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "signal": "insufficient",
+        "summary": "The New York Times reported that Trump’s federal income tax liability was $750 in each of 2016 and 2017. Tax Policy Center modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years. Separately, the Congressional Budget Office estimated that households in the middle income fifth paid an average of $2,200 in 2016. These comparisons do not establish what an unspecified listener paid.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "When they got to line 56, the one for income taxes due, the amount was the same each year: $750.",
+            "publisher": "The New York Times",
+            "published_at": "2020-10-21",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Donald Trump paid $750 in income tax in 2017. About half of Americans paid more.",
+            "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "snippet": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+            "publisher": "Vox",
+            "published_at": "2020-09-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump likely paid less in federal income tax than average middle-class American",
+            "url": "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+            "snippet": "In 2016, households in the middle 20 per cent of the US income distribution paid an average of $2,200 (£1,711) in federal income taxes, according to the Congressional Budget Office, a nonpartisan government agency.",
+            "publisher": "The Independent",
+            "published_at": "2020-09-29",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The listener’s income, filing status, credits and tax liability are unknown.",
+          "The Tax Policy Center estimate concerns tax units, including some that would file only if their income were high enough; a tax unit is not necessarily the same as a household or an individual.",
+          "The comparison concerns federal individual income tax, not payroll taxes or all taxes.",
+          "The New York Times finding is cited from the visible search snippet."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "IRS individual income tax statistics tax liability distribution 2016 2017 percentage taxpayers 750 Donald Trump 2020",
+          "urls": [
+            "https://www.cnbc.com/2020/09/28/how-much-the-average-american-pays-in-taxes-each-year.html",
+            "https://www.forbes.com/sites/howardgleckman/2020/10/02/fewer-than-05-percent-of-very-high-income-households-paid-as-little-tax-as-donald-trump/",
+            "https://www.spokesman.com/stories/2020/sep/29/trump-paid-750-in-federal-income-tax-in-2017-spoka/",
+            "https://www.reuters.com/article/us-usa-trump-taxes-revenue-explainer/explainer-the-4-trillion-u-s-government-relies-on-individual-taxpayers-idUSKBN26J30F",
+            "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+            "https://www.reuters.com/article/us-usa-trump-taxes-revenue-explainer-idUKKBN26J30F/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "typical US taxpayer federal income tax paid 750 comparison 2016 2017 trump",
+          "urls": [
+            "https://www.cnbc.com/2020/09/28/how-much-the-average-american-pays-in-taxes-each-year.html",
+            "https://www.businessinsider.com/comparison-of-trump-to-typical-worker-owing-750-income-tax-2020-9",
+            "https://www.sacbee.com/news/nation-world/national/article246063155.html",
+            "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "https://www.latimes.com/business/story/2020-09-28/trump-taxes-750-tax-payment",
+            "https://www.bbc.com/news/technology-54319948",
+            "https://www.rollingstone.com/politics/politics-news/trump-paid-only-750-in-federal-income-taxes-in-2016-and-2017-1067302/",
+            "https://www.latimes.com/world-nation/story/2020-09-27/ny-times-trump-paid-750-in-us-income-taxes-in-2016-2017"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"2016\" \"$750\" \"middle\" \"tax\" \"tax policy center\" trump income percent",
+          "urls": [
+            "https://www.forbes.com/sites/howardgleckman/2020/10/02/fewer-than-05-percent-of-very-high-income-households-paid-as-little-tax-as-donald-trump/",
+            "https://taxpolicycenter.org/sites/default/files/alfresco/publication-pdfs/2000924-an-analysis-of-donald-trumps-revised-tax-plan.pdf",
+            "https://www.americanprogress.org/issues/economy/news/2020/10/28/492473/6-ways-trump-administration-rigging-already-unfair-tax-code/",
+            "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "https://taxpolicycenter.org/taxvox/final-tax-bill-falls-far-short-president-trumps-campaign-promises"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"2016\" \"750\" \"tax units\" tax policy center trump half income tax",
+          "urls": [
+            "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "https://taxpolicycenter.org/sites/default/files/alfresco/publication-pdfs/2000924-an-analysis-of-donald-trumps-revised-tax-plan.pdf",
+            "https://www.usatoday.com/in-depth/news/politics/elections/2020/09/29/trump-taxes-how-2017-return-compares-other-presidents/3561627001/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "CBO 2016 income distribution household 2200 average income taxes middle quintile",
+          "urls": [
+            "https://www.cbo.gov/publication/55413",
+            "https://ideas.repec.org/p/cbo/report/55413.html",
+            "https://www.cbo.gov/system/files/2019-12/55941-CBO-Household-Income.pdf",
+            "https://abitos.com/the-congressional-budget-office-cbo-recently-published-a-report-titled-the-distribution-of-household-income-2016/",
+            "https://econpapers.repec.org/paper/cboreport/55413.htm",
+            "https://cbo.gov/sites/default/files/114th-congress-2015-2016/reports/51361-householdincomefedtaxes.pdf",
+            "https://www.crfb.org/blogs/cbos-analysis-distribution-taxes",
+            "https://ideas.repec.org/p/cbo/report/55941.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "rationale": "The claim attributes specific words and an explanation to Trump, so the original wording and context matter.",
+        "search_queries": [
+          "Trump \"that makes me smart\" federal income taxes debate transcript",
+          "Trump \"Because I'm smart\" \"game the system\" taxes transcript",
+          "site:presidency.ucsb.edu Trump debate transcript taxes smart",
+          "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+          "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’"
+        ],
+        "acceptance_criteria": [
+          "A primary transcript or recording establishes Trump’s actual words and the preceding tax-related statement.",
+          "The finding distinguishes an exact quotation from a paraphrase and identifies the date and context."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "signal": "refutes",
+        "summary": "In the September 26, 2016 presidential debate, Hillary Clinton said records from Trump’s casino-license applications showed that he had paid no federal income tax in certain years. Trump responded, “That makes me smart.” He did not say “Because I’m smart. I know how to game the system” in that exchange; those words are a paraphrase, not an exact quotation. At an October 3, 2016 rally, however, Trump separately said he had “brilliantly” used tax laws to his benefit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "CPD: September 26, 2016 Debate Transcript",
+            "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Commission on Presidential Debates",
+            "published_at": "2016-09-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Full transcript: First 2016 presidential debate",
+            "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Politico",
+            "published_at": "2016-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump boasts about 'brilliantly' using the tax laws",
+            "url": "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+            "snippet": "“As a businessman and real estate developer, I have legally used the tax laws to my benefit and to the benefit of my company, my investors and my employees. I mean, honestly, I have brilliantly — I have brilliantly used those laws,” Trump said during a rally in Pueblo, Colorado.",
+            "publisher": "Politico",
+            "published_at": "2016-10-03",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The debate transcript establishes what Trump said in that exchange; it cannot establish whether he used the attributed words on any other occasion.",
+          "This finding does not verify the $750 tax figure."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump \"that makes me smart\" federal income taxes debate transcript 2016 Clinton",
+          "urls": [
+            "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+            "https://www.nbcnews.com/storyline/2016-presidential-debates/full-transcript-first-presidential-debate-between-trump-clinton-n655141",
+            "https://www.latimes.com/politics/la-na-pol-debate-transcript-clinton-trump-20160926-snap-htmlstory.html",
+            "https://www.ibtimes.com/trump-vs-clinton-full-transcript-first-presidential-debate-2016-2422370",
+            "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+            "https://www.ms.now/transcript/2016-10-03-msna909591",
+            "https://www.independent.co.uk/news/world/americas/first-presidential-debate-full-transcript-read-hillary-clinton-donald-trump-a7332081.html",
+            "https://www.cbsnews.com/news/hillary-clinton-donald-trump-presidential-debate-hofstra-university-transcript-video/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump \"Because I'm smart\" \"game the system\" taxes transcript debate Biden",
+          "urls": [
+            "https://www.tennessean.com/story/news/politics/2020/10/23/transcript-final-trump-biden-welker-presidential-debate/3740420001/",
+            "https://www.usatoday.com/story/news/politics/elections/2020/10/23/debate-transcript-trump-biden-final-presidential-debate-nashville/3740152001/",
+            "https://transcripts.cnn.com/show/se/date/2020-10-22/segment/02",
+            "https://genius.com/Donald-trump-and-joe-biden-second-presidential-debate-2020-annotated",
+            "https://www.debates.org/voter-education/debate-transcripts/october-22-2020-debate-transcript/",
+            "https://archive.org/details/BLOOMBERG_20201023_003000_Balance_of_Power_The_Presidential_Debates",
+            "https://www.politico.com/news/2020/10/22/wheres-the-beef-for-biden-its-cmon-431541"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump taxes \"that makes me smart\" \"game the system\" debate Biden 2020 quote 2016",
+          "urls": [
+            "https://www.vanityfair.com/news/2017/12/gop-tax-plan-riddled-with-loopholes-just-begging-to-be-exploited"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Trump October 9 2016 debate tax \"brilliantly\" \"tax laws\" carried interest depreciation transcript",
+          "urls": [
+            "https://crooksandliars.com/2016/10/trump-i-have-brilliantly-used-tax-laws-my",
+            "https://www.ms.now/transcript/2016-10-03-msna909581",
+            "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+            "https://www.nbcnews.com/politics/2016-election/trump-i-have-brilliantly-used-tax-laws-my-benefit-n658951",
+            "https://www.washingtonpost.com/news/post-politics/wp/2016/10/03/trump-says-he-brilliantly-used-tax-laws-to-his-advantage/",
+            "https://www.tpr.org/2016-10-04/is-it-fair-that-businesses-get-to-carry-forward-their-losses"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.78,
+    "justification": "The New York Times reported that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, based on tax-return data it obtained; those figures do not represent every kind of tax. [S1][S4] Modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years, but it cannot establish what an unspecified listener paid. [S5] In the 2016 debate exchange about paying no federal income tax, Trump said, “That makes me smart,” not the words presented here as a direct quotation. [S7][S8] He separately said he had “brilliantly” used tax laws to his benefit. [S9] Inference: The verdict turns on treating the attributed words as an exact quote and the 2016 debate as the exchange being recalled; the quotation misstates that exchange, although it conveys part of its substance.",
+    "key_points": [
+      "The $750 figure is supported for federal income-tax liability in 2016 and 2017, not for all taxes or all years. [S1][S3][S4]",
+      "About half of modeled tax units paid more than $750 in federal income tax in those years; the listener’s payment is unknown. [S5]",
+      "The debate transcript records “That makes me smart,” rather than the quotation attributed to Trump in the claim. [S7][S8]",
+      "The transcript establishes what Trump said in that exchange, not whether he used the attributed words on another occasion. [S7]"
+    ],
+    "counter_argument": "A case for Conflicting Evidence/Cherrypicking is that the $750 figure is supported and the attributed words paraphrase Trump’s actual remarks about being smart and using tax laws to his benefit. [S1][S7][S9] That verdict was not adopted because the claim presents specific words as a direct quotation, and the identified debate exchange does not contain them. [S7][S8]",
+    "evidence_gaps": [
+      "The underlying 2016 and 2017 tax-return records used by The New York Times were not publicly released in the available evidence.",
+      "The available evidence does not establish the unspecified listener’s federal income-tax liability.",
+      "The debate transcript does not rule out Trump having used the attributed words on another occasion.",
+      "The Times reporting cited here did not include Trump’s personal returns for 2018 or 2019."
+    ],
+    "findings": [
+      {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "signal": "supports",
+        "summary": "The New York Times reported from tax-return data that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, and that he paid no income tax in 10 of the 15 years before his election. The $750 figure does not encompass all taxes: Trump or his companies also paid foreign taxes in 2017. A separately disclosed 2005 return showed $38 million in federal income tax. The Times did not have his personal returns for 2018 or 2019.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "What We Learned from Trump Tax Report: $750, Huge Losses and More",
+            "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+            "snippet": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Trump Paid $38 Million in 2005 Federal Income Tax, White House Says Before Report",
+            "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+            "snippet": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+            "publisher": "NBC News",
+            "published_at": "2017-03-15",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Trump Dismisses 'New York Times' Report That He Paid Little In Federal Income Taxes",
+            "url": "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+            "snippet": "Trump and his companies paid taxes of $15,598 in Panama, $145,400 in India and $156,824 in the Philippines in 2017, one of the years the report says Trump paid just $750 in income taxes to the U.S. government.",
+            "publisher": "NPR",
+            "published_at": "2020-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The 2016 and 2017 figures come from the Times investigation; the underlying records were not publicly released, and Trump disputed the report.",
+          "The foreign-tax amounts are attributed to Trump or his companies, not necessarily to Trump personally."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "signal": "refutes",
+        "summary": "In the September 26, 2016 presidential debate, Hillary Clinton said records from Trump’s casino-license applications showed that he had paid no federal income tax in certain years. Trump responded, “That makes me smart.” He did not say “Because I’m smart. I know how to game the system” in that exchange; those words are a paraphrase, not an exact quotation. At an October 3, 2016 rally, however, Trump separately said he had “brilliantly” used tax laws to his benefit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "CPD: September 26, 2016 Debate Transcript",
+            "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Commission on Presidential Debates",
+            "published_at": "2016-09-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Full transcript: First 2016 presidential debate",
+            "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Politico",
+            "published_at": "2016-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Trump boasts about 'brilliantly' using the tax laws",
+            "url": "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+            "snippet": "“As a businessman and real estate developer, I have legally used the tax laws to my benefit and to the benefit of my company, my investors and my employees. I mean, honestly, I have brilliantly — I have brilliantly used those laws,” Trump said during a rally in Pueblo, Colorado.",
+            "publisher": "Politico",
+            "published_at": "2016-10-03",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The debate transcript establishes what Trump said in that exchange; it cannot establish whether he used the attributed words on any other occasion.",
+          "This finding does not verify the $750 tax figure."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "signal": "insufficient",
+        "summary": "The New York Times reported that Trump’s federal income tax liability was $750 in each of 2016 and 2017. Tax Policy Center modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years. Separately, the Congressional Budget Office estimated that households in the middle income fifth paid an average of $2,200 in 2016. These comparisons do not establish what an unspecified listener paid.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Donald Trump paid $750 in income tax in 2017. About half of Americans paid more.",
+            "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "snippet": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+            "publisher": "Vox",
+            "published_at": "2020-09-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Trump likely paid less in federal income tax than average middle-class American",
+            "url": "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+            "snippet": "In 2016, households in the middle 20 per cent of the US income distribution paid an average of $2,200 (£1,711) in federal income taxes, according to the Congressional Budget Office, a nonpartisan government agency.",
+            "publisher": "The Independent",
+            "published_at": "2020-09-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The listener’s income, filing status, credits and tax liability are unknown.",
+          "The Tax Policy Center estimate concerns tax units, including some that would file only if their income were high enough; a tax unit is not necessarily the same as a household or an individual.",
+          "The comparison concerns federal individual income tax, not payroll taxes or all taxes.",
+          "The New York Times finding is cited from the visible search snippet."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+        "publisher": "The New York Times",
+        "published_at": "2020-09-27",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "What We Learned from Trump Tax Report: $750, Huge Losses and More",
+        "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+        "snippet": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+        "publisher": "The New York Times",
+        "published_at": "2020-09-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Trump Paid $38 Million in 2005 Federal Income Tax, White House Says Before Report",
+        "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+        "snippet": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+        "publisher": "NBC News",
+        "published_at": "2017-03-15",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Trump Dismisses 'New York Times' Report That He Paid Little In Federal Income Taxes",
+        "url": "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+        "snippet": "Trump and his companies paid taxes of $15,598 in Panama, $145,400 in India and $156,824 in the Philippines in 2017, one of the years the report says Trump paid just $750 in income taxes to the U.S. government.",
+        "publisher": "NPR",
+        "published_at": "2020-09-27",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Donald Trump paid $750 in income tax in 2017. About half of Americans paid more.",
+        "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+        "snippet": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+        "publisher": "Vox",
+        "published_at": "2020-09-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Trump likely paid less in federal income tax than average middle-class American",
+        "url": "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+        "snippet": "In 2016, households in the middle 20 per cent of the US income distribution paid an average of $2,200 (£1,711) in federal income taxes, according to the Congressional Budget Office, a nonpartisan government agency.",
+        "publisher": "The Independent",
+        "published_at": "2020-09-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "CPD: September 26, 2016 Debate Transcript",
+        "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+        "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "publisher": "Commission on Presidential Debates",
+        "published_at": "2016-09-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Full transcript: First 2016 presidential debate",
+        "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+        "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "publisher": "Politico",
+        "published_at": "2016-09-27",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Trump boasts about 'brilliantly' using the tax laws",
+        "url": "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+        "snippet": "“As a businessman and real estate developer, I have legally used the tax laws to my benefit and to the benefit of my company, my investors and my employees. I mean, honestly, I have brilliantly — I have brilliantly used those laws,” Trump said during a rally in Pueblo, Colorado.",
+        "publisher": "Politico",
+        "published_at": "2016-10-03",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.78,
+    "justification": "The New York Times reported that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, based on tax-return data it obtained; those figures do not represent every kind of tax. [S1][S4] Modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years, but it cannot establish what an unspecified listener paid. [S5] In the 2016 debate exchange about paying no federal income tax, Trump said, “That makes me smart,” not the words presented here as a direct quotation. [S7][S8] He separately said he had “brilliantly” used tax laws to his benefit. [S9] Inference: The verdict turns on treating the attributed words as an exact quote and the 2016 debate as the exchange being recalled; the quotation misstates that exchange, although it conveys part of its substance.",
+    "key_points": [
+      "The $750 figure is supported for federal income-tax liability in 2016 and 2017, not for all taxes or all years. [S1][S3][S4]",
+      "About half of modeled tax units paid more than $750 in federal income tax in those years; the listener’s payment is unknown. [S5]",
+      "The debate transcript records “That makes me smart,” rather than the quotation attributed to Trump in the claim. [S7][S8]",
+      "The transcript establishes what Trump said in that exchange, not whether he used the attributed words on another occasion. [S7]"
+    ],
+    "counter_argument": "A case for Conflicting Evidence/Cherrypicking is that the $750 figure is supported and the attributed words paraphrase Trump’s actual remarks about being smart and using tax laws to his benefit. [S1][S7][S9] That verdict was not adopted because the claim presents specific words as a direct quotation, and the identified debate exchange does not contain them. [S7][S8]",
+    "evidence_gaps": [
+      "The underlying 2016 and 2017 tax-return records used by The New York Times were not publicly released in the available evidence.",
+      "The available evidence does not establish the unspecified listener’s federal income-tax liability.",
+      "The debate transcript does not rule out Trump having used the attributed words on another occasion.",
+      "The Times reporting cited here did not include Trump’s personal returns for 2018 or 2019."
+    ],
+    "findings": [
+      {
+        "aspect_id": "trump_tax_payment",
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "signal": "supports",
+        "summary": "The New York Times reported from tax-return data that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, and that he paid no income tax in 10 of the 15 years before his election. The $750 figure does not encompass all taxes: Trump or his companies also paid foreign taxes in 2017. A separately disclosed 2005 return showed $38 million in federal income tax. The Times did not have his personal returns for 2018 or 2019.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "What We Learned from Trump Tax Report: $750, Huge Losses and More",
+            "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+            "snippet": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+            "publisher": "The New York Times",
+            "published_at": "2020-09-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump Paid $38 Million in 2005 Federal Income Tax, White House Says Before Report",
+            "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+            "snippet": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+            "publisher": "NBC News",
+            "published_at": "2017-03-15",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump Dismisses 'New York Times' Report That He Paid Little In Federal Income Taxes",
+            "url": "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+            "snippet": "Trump and his companies paid taxes of $15,598 in Panama, $145,400 in India and $156,824 in the Philippines in 2017, one of the years the report says Trump paid just $750 in income taxes to the U.S. government.",
+            "publisher": "NPR",
+            "published_at": "2020-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The 2016 and 2017 figures come from the Times investigation; the underlying records were not publicly released, and Trump disputed the report.",
+          "The foreign-tax amounts are attributed to Trump or his companies, not necessarily to Trump personally."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "taxpayer_comparison",
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "signal": "insufficient",
+        "summary": "The New York Times reported that Trump’s federal income tax liability was $750 in each of 2016 and 2017. Tax Policy Center modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years. Separately, the Congressional Budget Office estimated that households in the middle income fifth paid an average of $2,200 in 2016. These comparisons do not establish what an unspecified listener paid.",
+        "confidence": 0.95,
+        "sources": [
+          {
+            "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+            "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+            "snippet": "When they got to line 56, the one for income taxes due, the amount was the same each year: $750.",
+            "publisher": "The New York Times",
+            "published_at": "2020-10-21",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Donald Trump paid $750 in income tax in 2017. About half of Americans paid more.",
+            "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+            "snippet": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+            "publisher": "Vox",
+            "published_at": "2020-09-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump likely paid less in federal income tax than average middle-class American",
+            "url": "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+            "snippet": "In 2016, households in the middle 20 per cent of the US income distribution paid an average of $2,200 (£1,711) in federal income taxes, according to the Congressional Budget Office, a nonpartisan government agency.",
+            "publisher": "The Independent",
+            "published_at": "2020-09-29",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The listener’s income, filing status, credits and tax liability are unknown.",
+          "The Tax Policy Center estimate concerns tax units, including some that would file only if their income were high enough; a tax unit is not necessarily the same as a household or an individual.",
+          "The comparison concerns federal individual income tax, not payroll taxes or all taxes.",
+          "The New York Times finding is cited from the visible search snippet."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "trump_quote_context",
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "signal": "refutes",
+        "summary": "In the September 26, 2016 presidential debate, Hillary Clinton said records from Trump’s casino-license applications showed that he had paid no federal income tax in certain years. Trump responded, “That makes me smart.” He did not say “Because I’m smart. I know how to game the system” in that exchange; those words are a paraphrase, not an exact quotation. At an October 3, 2016 rally, however, Trump separately said he had “brilliantly” used tax laws to his benefit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "CPD: September 26, 2016 Debate Transcript",
+            "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Commission on Presidential Debates",
+            "published_at": "2016-09-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Full transcript: First 2016 presidential debate",
+            "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+            "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+            "publisher": "Politico",
+            "published_at": "2016-09-27",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Trump boasts about 'brilliantly' using the tax laws",
+            "url": "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+            "snippet": "“As a businessman and real estate developer, I have legally used the tax laws to my benefit and to the benefit of my company, my investors and my employees. I mean, honestly, I have brilliantly — I have brilliantly used those laws,” Trump said during a rally in Pueblo, Colorado.",
+            "publisher": "Politico",
+            "published_at": "2016-10-03",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The debate transcript establishes what Trump said in that exchange; it cannot establish whether he used the attributed words on any other occasion.",
+          "This finding does not verify the $750 tax figure."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Trump’s Taxes Show Chronic Losses and Years of Income Tax Avoidance",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "snippet": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+        "publisher": "The New York Times",
+        "published_at": "2020-09-27",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "What We Learned from Trump Tax Report: $750, Huge Losses and More",
+        "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+        "snippet": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+        "publisher": "The New York Times",
+        "published_at": "2020-09-28",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Trump Paid $38 Million in 2005 Federal Income Tax, White House Says Before Report",
+        "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+        "snippet": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+        "publisher": "NBC News",
+        "published_at": "2017-03-15",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Trump Dismisses 'New York Times' Report That He Paid Little In Federal Income Taxes",
+        "url": "https://www.npr.org/2020/09/27/917566141/trump-dismisses-new-york-times-reporting-that-he-paid-little-in-federal-income-t",
+        "snippet": "Trump and his companies paid taxes of $15,598 in Panama, $145,400 in India and $156,824 in the Philippines in 2017, one of the years the report says Trump paid just $750 in income taxes to the U.S. government.",
+        "publisher": "NPR",
+        "published_at": "2020-09-27",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Donald Trump paid $750 in income tax in 2017. About half of Americans paid more.",
+        "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+        "snippet": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+        "publisher": "Vox",
+        "published_at": "2020-09-28",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Trump likely paid less in federal income tax than average middle-class American",
+        "url": "https://www.the-independent.com/news/world/americas/us-politics/trump-tax-returns-income-middle-class-americans-b692059.html",
+        "snippet": "In 2016, households in the middle 20 per cent of the US income distribution paid an average of $2,200 (£1,711) in federal income taxes, according to the Congressional Budget Office, a nonpartisan government agency.",
+        "publisher": "The Independent",
+        "published_at": "2020-09-29",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "CPD: September 26, 2016 Debate Transcript",
+        "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+        "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "publisher": "Commission on Presidential Debates",
+        "published_at": "2016-09-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Full transcript: First 2016 presidential debate",
+        "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+        "snippet": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "publisher": "Politico",
+        "published_at": "2016-09-27",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Trump boasts about 'brilliantly' using the tax laws",
+        "url": "https://www.politico.com/story/2016/10/donald-trump-tax-laws-229061",
+        "snippet": "“As a businessman and real estate developer, I have legally used the tax laws to my benefit and to the benefit of my company, my investors and my employees. I mean, honestly, I have brilliantly — I have brilliantly used those laws,” Trump said during a rally in Pueblo, Colorado.",
+        "publisher": "Politico",
+        "published_at": "2016-10-03",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:10.052947+00:00",
+  "duration_seconds": 70.92310317512602,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 1012,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 943,
+      "reasoning_tokens": 202,
+      "total_tokens": 1955,
+      "duration_seconds": 14.964237064123154,
+      "started_at": "2026-11-19T11:07:10.053172+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 25216,
+      "cached_input_tokens": 10100,
+      "cache_write_tokens": 15107,
+      "output_tokens": 1344,
+      "reasoning_tokens": 149,
+      "total_tokens": 26560,
+      "duration_seconds": 20.4040360879153,
+      "started_at": "2026-11-19T11:07:25.032402+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 25458,
+      "cached_input_tokens": 10522,
+      "cache_write_tokens": 14927,
+      "output_tokens": 1082,
+      "reasoning_tokens": 125,
+      "total_tokens": 26540,
+      "duration_seconds": 19.038332850206643,
+      "started_at": "2026-11-19T11:07:25.035963+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 21562,
+      "cached_input_tokens": 10662,
+      "cache_write_tokens": 10891,
+      "output_tokens": 1071,
+      "reasoning_tokens": 69,
+      "total_tokens": 22633,
+      "duration_seconds": 17.78795985598117,
+      "started_at": "2026-11-19T11:07:25.039725+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 4884,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4881,
+      "output_tokens": 5001,
+      "reasoning_tokens": 493,
+      "total_tokens": 9885,
+      "duration_seconds": 35.52390196034685,
+      "started_at": "2026-11-19T11:07:45.450560+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 11,
+    "input_tokens": 78132,
+    "cached_input_tokens": 31284,
+    "cache_write_tokens": 45806,
+    "output_tokens": 9441,
+    "reasoning_tokens": 1038,
+    "total_tokens": 87573,
+    "llm_seconds": 107.71846781857312,
+    "cache_hit_rate": 0.4004,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 1012.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 943.0,
+        "reasoning_tokens": 202.0,
+        "total_tokens": 1955.0,
+        "llm_seconds": 14.964237064123154,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 3.0,
+        "requests": 9.0,
+        "input_tokens": 72236.0,
+        "cached_input_tokens": 31284.0,
+        "cache_write_tokens": 40925.0,
+        "output_tokens": 3497.0,
+        "reasoning_tokens": 343.0,
+        "total_tokens": 75733.0,
+        "llm_seconds": 57.230328794103116,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 4884.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 4881.0,
+        "output_tokens": 5001.0,
+        "reasoning_tokens": 493.0,
+        "total_tokens": 9885.0,
+        "llm_seconds": 35.52390196034685,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 87573,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 14,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 69
+  },
+  "unresolved_citations": []
+}

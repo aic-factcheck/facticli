@@ -1,0 +1,532 @@
+{
+  "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+  "normalized_claim": "The New York post Endorsed Donald trumps bid for re-election.",
+  "claim_id": "32",
+  "constraints": {
+    "claim_id": "32",
+    "claim_date": "2020-10-26",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-26"
+  },
+  "plan_raw": {
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "checks": [
+      {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "rationale": "A documented editorial endorsement during the campaign would establish whether the newspaper supported Trump's re-election bid.",
+        "search_queries": [
+          "New York Post editorial endorsement Trump reelection 2020",
+          "site:nypost.com editorial board endorse Donald Trump president 2020",
+          "New York Post 2020 presidential endorsement Trump editorial"
+        ],
+        "acceptance_criteria": [
+          "Locate the New York Post's original endorsement or a contemporaneous editorial-board statement and verify its wording and publication date.",
+          "If the original cannot be located, establish the endorsement and its timing through reliable contemporaneous reporting."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The unspecified re-election bid refers to Trump's 2020 campaign for a second presidential term.",
+      "An endorsement by the New York Post means an institutional endorsement by its editorial board, not an opinion expressed by an individual contributor."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "checks": [
+      {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "rationale": "A documented editorial endorsement during the campaign would establish whether the newspaper supported Trump's re-election bid.",
+        "search_queries": [
+          "New York Post editorial endorsement Trump reelection 2020",
+          "site:nypost.com editorial board endorse Donald Trump president 2020",
+          "New York Post 2020 presidential endorsement Trump editorial",
+          "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+          "The New York post Endorsed Donald trumps bid for re-election."
+        ],
+        "acceptance_criteria": [
+          "Locate the New York Post's original endorsement or a contemporaneous editorial-board statement and verify its wording and publication date.",
+          "If the original cannot be located, establish the endorsement and its timing through reliable contemporaneous reporting."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The unspecified re-election bid refers to Trump's 2020 campaign for a second presidential term.",
+      "An endorsement by the New York Post means an institutional endorsement by its editorial board, not an opinion expressed by an individual contributor."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "rationale": "A documented editorial endorsement during the campaign would establish whether the newspaper supported Trump's re-election bid.",
+        "search_queries": [
+          "New York Post editorial endorsement Trump reelection 2020",
+          "site:nypost.com editorial board endorse Donald Trump president 2020",
+          "New York Post 2020 presidential endorsement Trump editorial",
+          "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+          "The New York post Endorsed Donald trumps bid for re-election."
+        ],
+        "acceptance_criteria": [
+          "Locate the New York Post's original endorsement or a contemporaneous editorial-board statement and verify its wording and publication date.",
+          "If the original cannot be located, establish the endorsement and its timing through reliable contemporaneous reporting."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "signal": "supports",
+        "summary": "The New York Post published an editorial on October 26, 2020, explicitly endorsing Donald Trump for re-election. Contemporaneous reporting by The Atlanta Journal-Constitution and Fox News corroborated the endorsement and attributed it to the paper’s editorial staff or board.",
+        "confidence": 1.0,
+        "sources": [
+          {
+            "title": "The New York Post endorses President Donald J. Trump for re-election",
+            "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+            "snippet": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+            "publisher": "New York Post",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "President gets endorsed by major newspaper",
+            "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+            "snippet": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+            "publisher": "The Atlanta Journal-Constitution",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "NY Post endorses Trump: 'Make America great again, again’ and 'tick off' Hollywood with reelection",
+            "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+            "snippet": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+            "publisher": "Fox News",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "New York Post editorial endorsement Trump reelection 2020 October 26",
+          "urls": [
+            "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+            "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+            "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+            "https://www.mediaite.com/media/print/ny-post-endorses-trump-in-call-to-defeat-globalism-and-liberal-elites-his-reelection-will-really-tick-off-hollywood/",
+            "https://www.washingtonexaminer.com/news/2120415/new-york-post-endorses-trump-following-hunter-biden-reporting/",
+            "https://thefederalist.com/2020/10/26/like-so-many-conservatives-the-new-york-post-has-come-around-on-trump/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:nypost.com editorial board endorse Donald Trump president 2020 October 26",
+          "urls": [
+            "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+            "https://nypost.com/2020/10/06/the-new-york-times-endorses-joe-biden-for-president/",
+            "https://nypost.com/2020/10/19/minnesotans-tilting-toward-trump-and-other-commentary/",
+            "https://nypost.com/2020/10/16/bidens-no-placeholder-and-other-commentary/",
+            "https://nypost.com/2020/10/02/trump-doesnt-back-supremacists-and-other-commentary/",
+            "https://nypost.com/2020/10/26/trump-mocks-biden-for-mixing-him-up-with-george-w-bush/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.89,
+    "justification": "The New York Post published an endorsement of President Donald Trump for re-election on October 26, 2020. [S1] Contemporaneous reports attributed the endorsement to the paper’s editorial staff or board. [S2][S3] The verdict assumes the claim refers to Trump’s 2020 presidential campaign.",
+    "key_points": [
+      "The Post’s own endorsement was published on October 26, 2020. [S1]",
+      "Fox News attributed the endorsement to the Post’s editorial board. [S3]"
+    ],
+    "counter_argument": "The original snippet does not explicitly identify the editorial board, so it might be questioned whether the endorsement was institutional. However, the Post’s headline presents it as the newspaper’s endorsement, and contemporaneous reporting attributes it to the editorial staff or board. [S1][S2][S3]",
+    "evidence_gaps": [
+      "The supplied excerpt from the original endorsement does not include its byline or explicitly identify the editorial board."
+    ],
+    "findings": [
+      {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "signal": "supports",
+        "summary": "The New York Post published an editorial on October 26, 2020, explicitly endorsing Donald Trump for re-election. Contemporaneous reporting by The Atlanta Journal-Constitution and Fox News corroborated the endorsement and attributed it to the paper’s editorial staff or board.",
+        "confidence": 1.0,
+        "sources": [
+          {
+            "title": "The New York Post endorses President Donald J. Trump for re-election",
+            "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+            "snippet": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+            "publisher": "New York Post",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "President gets endorsed by major newspaper",
+            "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+            "snippet": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+            "publisher": "The Atlanta Journal-Constitution",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "NY Post endorses Trump: 'Make America great again, again’ and 'tick off' Hollywood with reelection",
+            "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+            "snippet": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+            "publisher": "Fox News",
+            "published_at": "2020-10-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "The New York Post endorses President Donald J. Trump for re-election",
+        "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "snippet": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+        "publisher": "New York Post",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "President gets endorsed by major newspaper",
+        "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+        "snippet": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+        "publisher": "The Atlanta Journal-Constitution",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "NY Post endorses Trump: 'Make America great again, again’ and 'tick off' Hollywood with reelection",
+        "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+        "snippet": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+        "publisher": "Fox News",
+        "published_at": "2020-10-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.89,
+    "justification": "The New York Post published an endorsement of President Donald Trump for re-election on October 26, 2020. [S1] Contemporaneous reports attributed the endorsement to the paper’s editorial staff or board. [S2][S3] The verdict assumes the claim refers to Trump’s 2020 presidential campaign.",
+    "key_points": [
+      "The Post’s own endorsement was published on October 26, 2020. [S1]",
+      "Fox News attributed the endorsement to the Post’s editorial board. [S3]"
+    ],
+    "counter_argument": "The original snippet does not explicitly identify the editorial board, so it might be questioned whether the endorsement was institutional. However, the Post’s headline presents it as the newspaper’s endorsement, and contemporaneous reporting attributes it to the editorial staff or board. [S1][S2][S3]",
+    "evidence_gaps": [
+      "The supplied excerpt from the original endorsement does not include its byline or explicitly identify the editorial board."
+    ],
+    "findings": [
+      {
+        "aspect_id": "endorsement_2020",
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "signal": "supports",
+        "summary": "The New York Post published an editorial on October 26, 2020, explicitly endorsing Donald Trump for re-election. Contemporaneous reporting by The Atlanta Journal-Constitution and Fox News corroborated the endorsement and attributed it to the paper’s editorial staff or board.",
+        "confidence": 1.0,
+        "sources": [
+          {
+            "title": "The New York Post endorses President Donald J. Trump for re-election",
+            "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+            "snippet": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+            "publisher": "New York Post",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "President gets endorsed by major newspaper",
+            "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+            "snippet": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+            "publisher": "The Atlanta Journal-Constitution",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "NY Post endorses Trump: 'Make America great again, again’ and 'tick off' Hollywood with reelection",
+            "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+            "snippet": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+            "publisher": "Fox News",
+            "published_at": "2020-10-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "The New York Post endorses President Donald J. Trump for re-election",
+        "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "snippet": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+        "publisher": "New York Post",
+        "published_at": "2020-10-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "President gets endorsed by major newspaper",
+        "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+        "snippet": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+        "publisher": "The Atlanta Journal-Constitution",
+        "published_at": "2020-10-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "NY Post endorses Trump: 'Make America great again, again’ and 'tick off' Hollywood with reelection",
+        "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+        "snippet": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+        "publisher": "Fox News",
+        "published_at": "2020-10-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:11:25.798134+00:00",
+  "duration_seconds": 34.654715220909566,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 972,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 406,
+      "reasoning_tokens": 133,
+      "total_tokens": 1378,
+      "duration_seconds": 7.758273974061012,
+      "started_at": "2026-11-19T11:11:25.798305+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 2,
+      "input_tokens": 8560,
+      "cached_input_tokens": 2023,
+      "cache_write_tokens": 6531,
+      "output_tokens": 568,
+      "reasoning_tokens": 36,
+      "total_tokens": 9128,
+      "duration_seconds": 10.848562261089683,
+      "started_at": "2026-11-19T11:11:33.557454+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 2786,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2783,
+      "output_tokens": 1254,
+      "reasoning_tokens": 86,
+      "total_tokens": 4040,
+      "duration_seconds": 16.03518432099372,
+      "started_at": "2026-11-19T11:11:44.416621+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 4,
+    "input_tokens": 12318,
+    "cached_input_tokens": 2023,
+    "cache_write_tokens": 9314,
+    "output_tokens": 2228,
+    "reasoning_tokens": 255,
+    "total_tokens": 14546,
+    "llm_seconds": 34.642020556144416,
+    "cache_hit_rate": 0.1642,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 972.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 406.0,
+        "reasoning_tokens": 133.0,
+        "total_tokens": 1378.0,
+        "llm_seconds": 7.758273974061012,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 2.0,
+        "input_tokens": 8560.0,
+        "cached_input_tokens": 2023.0,
+        "cache_write_tokens": 6531.0,
+        "output_tokens": 568.0,
+        "reasoning_tokens": 36.0,
+        "total_tokens": 9128.0,
+        "llm_seconds": 10.848562261089683,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 2786.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 2783.0,
+        "output_tokens": 1254.0,
+        "reasoning_tokens": 86.0,
+        "total_tokens": 4040.0,
+        "llm_seconds": 16.03518432099372,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 14546,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 2,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 11
+  },
+  "unresolved_citations": []
+}

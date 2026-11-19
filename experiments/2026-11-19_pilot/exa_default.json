@@ -1,0 +1,338 @@
+[
+  {
+    "claim_id": 7,
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "What reliable evidence establishes whether Donald Trump paid $750 in federal income tax, for which tax year or years, and what that figure measures?",
+        "answer": "The New York Times reported, based on Trump’s tax-return data, that his federal income tax was $750 in each of 2016 and 2017. For 2017, the figure represents income tax liability after applying business tax credits, not his total liability for all types of taxes. Trump disputed the report, and his sons said his companies paid payroll, real-estate and other taxes.",
+        "url": "https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html",
+        "scraped_text": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation. The figures below, drawn from Mr. Trump’s tax-return data for 2017, show how his accountants arrived at that figure for one of those years."
+      },
+      {
+        "question": "For the tax year or years associated with the $750 figure, how did that amount compare with federal income taxes paid by other U.S. taxpayers?",
+        "answer": "The New York Times reported that Trump paid $750 in federal income taxes in each of 2016 and 2017. According to Tax Policy Center models, about half of U.S. tax units paid more than $750 in federal income tax in each of those years. Separately, the Congressional Budget Office estimated that households in the middle 20% of the income distribution paid an average of $2,200 in federal income taxes in 2016. These comparisons do not establish what any particular listener paid.",
+        "url": "https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html",
+        "scraped_text": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation."
+      },
+      {
+        "question": "Did Donald Trump say 'Because I’m smart' and 'I know how to game the system' in response to the $750 tax figure or another question about his taxes, and what was the context?",
+        "answer": "At the September 26, 2016 debate, Trump said, “That makes me smart,” after Hillary Clinton referred to records showing he had paid no federal income tax in certain earlier years. He was not responding to the $750 figure: that figure for 2016 and 2017 was reported in September 2020. The debate transcript does not include the attributed words “I know how to game the system”; in a later 2016 debate, Trump did say he understood the tax code better than anyone who had run for president.",
+        "url": "https://www.latimes.com/politics/la-na-pol-debate-transcript-clinton-trump-20160926-snap-htmlstory.html",
+        "scraped_text": "Or maybe he doesn't want the American people, all of you watching tonight, to know that he's paid nothing in federal taxes, because the only years that anybody's ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn't pay any federal income tax.\n\nTRUMP: That makes me smart."
+      },
+      {
+        "question": "What reliable evidence establishes whether Donald Trump paid $750 in federal income tax, for which tax year or years, and what that figure measures?",
+        "answer": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation. The figures below, drawn from Mr. Trump’s tax-return data for 2017, show how his accountants arrived at that figure for one of those years.",
+        "url": "https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html",
+        "scraped_text": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation. The figures below, drawn from Mr. Trump’s tax-return data for 2017, show how his accountants arrived at that figure for one of those years."
+      },
+      {
+        "question": "For the tax year or years associated with the $750 figure, how did that amount compare with federal income taxes paid by other U.S. taxpayers?",
+        "answer": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation.",
+        "url": "https://www.nytimes.com/2020/09/29/us/trump-750-taxes.html",
+        "scraped_text": "The small amount of federal income taxes President Trump paid in both 2016 and 2017 — just $750 each year — has become the focus of much attention since it was revealed in a New York Times investigation."
+      },
+      {
+        "question": "Did Donald Trump say 'Because I’m smart' and 'I know how to game the system' in response to the $750 tax figure or another question about his taxes, and what was the context?",
+        "answer": "Or maybe he doesn't want the American people, all of you watching tonight, to know that he's paid nothing in federal taxes, because the only years that anybody's ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn't pay any federal income tax. TRUMP: That makes me smart.",
+        "url": "https://www.latimes.com/politics/la-na-pol-debate-transcript-clinton-trump-20160926-snap-htmlstory.html",
+        "scraped_text": "Or maybe he doesn't want the American people, all of you watching tonight, to know that he's paid nothing in federal taxes, because the only years that anybody's ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn't pay any federal income tax.\n\nTRUMP: That makes me smart."
+      },
+      {
+        "question": "What reliable evidence establishes whether Donald Trump paid $750 in federal income tax, for which tax year or years, and what that figure measures?",
+        "answer": "According to The New York Times, Trump's tax bill comes from subtracting $7,435,107 of his general business credit from his $7,435,857 alternative minimum tax.",
+        "url": "https://www.businessinsider.com/charts-federal-income-tax-paid-by-recent-presidential-candidates-trump-2020-9",
+        "scraped_text": "According to The New York Times, Trump's tax bill comes from subtracting $7,435,107 of his general business credit from his $7,435,857 alternative minimum tax."
+      },
+      {
+        "question": "For the tax year or years associated with the $750 figure, how did that amount compare with federal income taxes paid by other U.S. taxpayers?",
+        "answer": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+        "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+        "scraped_text": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017."
+      },
+      {
+        "question": "Did Donald Trump say 'Because I’m smart' and 'I know how to game the system' in response to the $750 tax figure or another question about his taxes, and what was the context?",
+        "answer": "When Hillary Clinton said that her Republican rival Donald Trump had paid no federal income tax in some years, Trump didn’t deny it. In fact, he said: “That makes me smart.”",
+        "url": "https://www.cnn.com/2016/09/26/politics/donald-trump-federal-income-taxes-smart-debate",
+        "scraped_text": "When Hillary Clinton said that her Republican rival Donald Trump had paid no federal income tax in some years, Trump didn’t deny it. \n\n In fact, he said: “That makes me smart.”"
+      },
+      {
+        "question": "What reliable evidence establishes whether Donald Trump paid $750 in federal income tax, for which tax year or years, and what that figure measures?",
+        "answer": "Mr Donald Trump's companies pay millions of dollars in payroll, real estate and other taxes, his sons said on Tuesday (Sept 29) in defending their father against the New York Times' reporting on the President's avoidance of income tax.",
+        "url": "https://www.straitstimes.com/world/united-states/trump-sons-say-president-pays-payroll-taxes-uses-loopholes",
+        "scraped_text": "Mr Donald Trump's companies pay millions of dollars in payroll, real estate and other taxes, his sons said on Tuesday (Sept 29) in defending their father against the New York Times' reporting on the President's avoidance of income tax."
+      }
+    ]
+  },
+  {
+    "claim_id": 18,
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "answer": "As of October 28, 2020, receipt deadlines varied by state; a timely postmark did not always mean a ballot arriving after Election Day would be rejected. California’s AB 860, signed June 18, required ballots postmarked by November 3 to be counted if received within 17 days afterward; Kansas set a November 6 receipt deadline for ballots postmarked by Election Day. Court decisions also affected deadlines: Wisconsin ballots had to be received by Election Day, while Pennsylvania’s three-day extension remained in place but faced a possible further court challenge.",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "scraped_text": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day."
+      },
+      {
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "answer": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day.",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "scraped_text": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day."
+      },
+      {
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "answer": "November 3 – GENERAL ELECTION - November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+        "url": "https://sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+        "scraped_text": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day"
+      },
+      {
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "answer": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count.",
+        "url": "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p",
+        "scraped_text": "On Monday, the Supreme Court rejected Wisconsin's plan to count mail ballots received six days after Election Day if the envelopes were postmarked by Nov. 3. The ballots must now be in the hands of election clerks by 8 p.m. on Nov. 3. or they will not count."
+      },
+      {
+        "question": "Under current U.S. election rules, are mail-in ballots postmarked before Election Day always rejected if they arrive after Election Day, or do some jurisdictions count them if they arrive within a specified period?",
+        "answer": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper.",
+        "url": "https://apnews.com/article/election-2020-pennsylvania-amy-coney-barrett-elections-courts-57d6c7a32284071f36986006e37ee2d3",
+        "scraped_text": "The court’s order left open the possibility that the justices could take up and decide after the election whether a three-day extension to receive and count absentee ballots ordered by Pennsylvania’s high court was proper."
+      }
+    ]
+  },
+  {
+    "claim_id": 30,
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Did Paul Pogba retire from international football in response to Emmanuel Macron’s comments on Islamist terrorism?",
+        "answer": "On 26 October 2020, Pogba denied the reports that he had quit France’s national team over Macron’s comments, calling them “100% unfounded” and saying he would take legal action. Manchester United also said the stories were unfounded and that he remained committed to playing for his country. Pogba had played for France on 14 October, before the retirement allegation appeared.",
+        "url": "https://www.bbc.com/sport/football/54691842",
+        "scraped_text": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.... “Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,” he said."
+      },
+      {
+        "question": "What comments by French President Emmanuel Macron about Islamist terrorism were linked to the Pogba retirement allegation, and when and in what context were they made?",
+        "answer": "Contemporaneous reports linked the allegation to Macron’s description of the murder of teacher Samuel Paty as an Islamist terrorist attack. On October 16, 2020, after the killing, Macron said at Conflans-Sainte-Honorine that Paty had been the victim of an “attentat terroriste islamiste caractérisé,” or a clear Islamist terrorist attack; Paty had shown pupils cartoons of the Prophet Muhammad during a discussion of free speech. Reuters also connected the allegation to Macron’s October 2 speech on “Islamist separatism.” Some reports characterized Macron’s remarks as saying Islam was the source of international terrorism, but the cited official transcript of the October 16 statement describes the attack as Islamist terrorism rather than making that claim.",
+        "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+        "scraped_text": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”."
+      },
+      {
+        "question": "Which club did Paul Pogba play for, and was he part of the French national team, when the retirement allegation circulated and at the latest verifiable date?",
+        "answer": "Pogba played for Manchester United and was part of the France national team when the allegation circulated in October 2020. UEFA records him appearing for France against Croatia on October 14, and Manchester United named him in its squad on October 17. On October 26, the latest date permitted by the evidence cutoff, the club said he remained fully committed to playing for France.",
+        "url": "https://www.uefa.com/uefanationsleague/news/0262-109c6887eaac-fee8a75ebf1a-1000--croatia-1-2-france-les-bleus-snatch-late-victory/",
+        "scraped_text": "France: Lloris; Mendy, Varane, Lenglet, Digne (Hernández 83); Tolisso (Camavinga 63), Nzonzi, Rabiot (Pogba 74); Griezmann (Giroud 83); Mbappé, Martial (Coman 63)"
+      },
+      {
+        "question": "Did Paul Pogba retire from international football in response to Emmanuel Macron’s comments on Islamist terrorism?",
+        "answer": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.... “Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,” he said.",
+        "url": "https://www.bbc.com/sport/football/54691842",
+        "scraped_text": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.... “Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,” he said."
+      },
+      {
+        "question": "What comments by French President Emmanuel Macron about Islamist terrorism were linked to the Pogba retirement allegation, and when and in what context were they made?",
+        "answer": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+        "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+        "scraped_text": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”."
+      },
+      {
+        "question": "Which club did Paul Pogba play for, and was he part of the French national team, when the retirement allegation circulated and at the latest verifiable date?",
+        "answer": "France: Lloris; Mendy, Varane, Lenglet, Digne (Hernández 83); Tolisso (Camavinga 63), Nzonzi, Rabiot (Pogba 74); Griezmann (Giroud 83); Mbappé, Martial (Coman 63)",
+        "url": "https://www.uefa.com/uefanationsleague/news/0262-109c6887eaac-fee8a75ebf1a-1000--croatia-1-2-france-les-bleus-snatch-late-victory/",
+        "scraped_text": "France: Lloris; Mendy, Varane, Lenglet, Digne (Hernández 83); Tolisso (Camavinga 63), Nzonzi, Rabiot (Pogba 74); Griezmann (Giroud 83); Mbappé, Martial (Coman 63)"
+      },
+      {
+        "question": "Did Paul Pogba retire from international football in response to Emmanuel Macron’s comments on Islamist terrorism?",
+        "answer": "Manchester United released a statement later Monday in support of Pogba, saying: \"Paul supports respect for his own religion and all religions, and is against any form of violence. These stories are totally unfounded. Paul is fully committed to playing for his country.\"",
+        "url": "https://www.espn.com/soccer/story/_/id/37608163/man-united-midfielder-pogba-angry-appalled-media-treatment",
+        "scraped_text": "Manchester United released a statement later Monday in support of Pogba, saying: \"Paul supports respect for his own religion and all religions, and is against any form of violence. These stories are totally unfounded. Paul is fully committed to playing for his country.\""
+      },
+      {
+        "question": "What comments by French President Emmanuel Macron about Islamist terrorism were linked to the Pogba retirement allegation, and when and in what context were they made?",
+        "answer": "Ce vendredi 16 octobre, le Président Emmanuel Macron s'est rendu à Conflans-Sainte-Honorine suite à l'attentat perpétré contre un professeur.... Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+        "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+        "scraped_text": "Ce vendredi 16 octobre, le Président Emmanuel Macron s'est rendu à Conflans-Sainte-Honorine suite à l'attentat perpétré contre un professeur.... Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé."
+      },
+      {
+        "question": "Which club did Paul Pogba play for, and was he part of the French national team, when the retirement allegation circulated and at the latest verifiable date?",
+        "answer": "United: De Gea; Wan-Bissaka, Lindelof, Maguire (c), Shaw; Fred, McTominay; Mata, Fernandes, James; Rashford. Subs: Henderson, Bailly, Telles, Pogba, Matic, van de Beek, Ighalo.",
+        "url": "https://www.manutd.com/en/news/detail/team-news-newcastle-v-man-utd-premier-league-17-october-2020",
+        "scraped_text": "United: De Gea; Wan-Bissaka, Lindelof, Maguire (c), Shaw; Fred, McTominay; Mata, Fernandes, James; Rashford. Subs: Henderson, Bailly, Telles, Pogba, Matic, van de Beek, Ighalo."
+      },
+      {
+        "question": "Did Paul Pogba retire from international football in response to Emmanuel Macron’s comments on Islamist terrorism?",
+        "answer": "According to reports in the Middle East picked up by British tabloid The Sun, World Cup winner Pogba wanted to end his international career after Macron vowed to take the fight to Islamic radicals after the October 16 beheading of history teacher Samuel Paty.... \"Unacceptable, fake news,\" Pogba, a converted Muslim, posted on Instagram with a screenshot of The Sun's article.",
+        "url": "https://www.france24.com/en/live-news/20201026-pogba-s-slams-france-retirement-rumours-as-fake-news",
+        "scraped_text": "According to reports in the Middle East picked up by British tabloid The Sun, World Cup winner Pogba wanted to end his international career after Macron vowed to take the fight to Islamic radicals after the October 16 beheading of history teacher Samuel Paty.... \"Unacceptable, fake news,\" Pogba, a converted Muslim, posted on Instagram with a screenshot of The Sun's article."
+      }
+    ]
+  },
+  {
+    "claim_id": 32,
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "pred_label": "Supported",
+    "evidence": [
+      {
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "answer": "The New York Post published an editorial on October 26, 2020, explicitly endorsing Donald Trump for re-election. Contemporaneous reporting by The Atlanta Journal-Constitution and Fox News corroborated the endorsement and attributed it to the paper’s editorial staff or board.",
+        "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "scraped_text": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election."
+      },
+      {
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "answer": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election.",
+        "url": "https://nypost.com/2020/10/26/the-new-york-post-endorses-president-donald-j-trump-for-re-election/",
+        "scraped_text": "Published Oct. 26, 2020 Updated Oct. 26, 2020, 3:51 p.m. ET ... The New York Post endorses President Donald J. Trump for re-election."
+      },
+      {
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "answer": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+        "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+        "scraped_text": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy."
+      },
+      {
+        "question": "Did the New York Post's editorial board endorse Donald Trump for re-election in the 2020 U.S. presidential election?",
+        "answer": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote.",
+        "url": "https://www.foxnews.com/media/new-york-post-endorse-trump-tick-off-hollywood",
+        "scraped_text": "In endorsing him, we’re choosing to focus on President Trump’s actions and accomplishments. He has kept his promises,” the editorial board wrote."
+      }
+    ]
+  },
+  {
+    "claim_id": 270,
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "pred_label": "Not Enough Evidence",
+    "evidence": [
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "answer": "No firsthand source for the claimed wording was found. The earliest located repetition is a December 2013 blog post that attributes it to Pelosi without identifying an original interview or transcript. In a September 2013 CNN interview, Pelosi was asked about union concerns that the Affordable Care Act could undermine the 40-hour workweek; her recorded response described the law as a liberation allowing people to follow their passions, not the claimed statement that employers cutting hours is good. In an earlier 2012 remark, she described people choosing to change jobs or become self-employed without losing access to health care.",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "scraped_text": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities."
+      },
+      {
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "answer": "A contemporary account connects similar remarks about following one’s passion to a CNN interview in September 2013. Pelosi was House Democratic leader, not Speaker, at that time: an official congressional press release identifies her as Democratic Leader that month, and NBC reports that her first Speakership lasted from 2007 to 2011. She regained the Speakership in January 2019, so the title was accurate as of the claim’s 2020 reference date.",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "scraped_text": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "answer": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "scraped_text": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities."
+      },
+      {
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "answer": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "scraped_text": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "answer": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+        "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+        "scraped_text": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\""
+      },
+      {
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "answer": "Today on CNN’s State of the Union with Candy Crowley, Rep. Nancy Pelosi (D-CA) spoke about a potential Hillary Clinton presidential run, the stituation in Syria, ... House again, the Pope’s stance on homosexuality, and the House’s short term spending plan",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "scraped_text": "Today on CNN’s State of the Union with Candy Crowley, Rep. Nancy Pelosi (D-CA) spoke about a potential Hillary Clinton presidential run, the stituation in Syria, ... House again, the Pope’s stance on homosexuality, and the House’s short term spending plan"
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "answer": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+        "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+        "scraped_text": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care"
+      },
+      {
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "answer": "September 27, 2013 Press Release Washington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+        "scraped_text": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "answer": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "scraped_text": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\""
+      },
+      {
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "answer": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+        "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+        "scraped_text": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed"
+      }
+    ]
+  },
+  {
+    "claim_id": 425,
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "answer": "The CRTC authorized the non-Canadian Fox News service for digital distribution in 2004, describing it as a 24-hour U.S. cable news network. Rogers subsequently added Fox News Channel to its Canadian digital lineup. In 2018, The Globe and Mail reported that Bell Fibe and Rogers viewers could add Fox News to certain television packages.",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+        "scraped_text": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis."
+      },
+      {
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "answer": "Canadian broadcasting regulations prohibit licensees from broadcasting false or misleading news, but that is narrower than a general criminal prohibition on lying over the airwaves. The CRTC says a breach must be flagrant before it takes action on a complaint; it retained the relevant radio and television provisions in 2011. A separate Criminal Code offence of spreading false news was struck down by the Supreme Court in 1992.",
+        "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+        "scraped_text": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged."
+      },
+      {
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "answer": "The CRTC approved the U.S. Fox News service for digital distribution in Canada in 2004, and its 2017 compilation still listed Fox News among authorized non-Canadian services. CBC independently reported the 2004 approval. These records contradict the assertion that the channel was barred because of a false-statements law.",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+        "scraped_text": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis."
+      },
+      {
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "answer": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+        "scraped_text": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis."
+      },
+      {
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "answer": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+        "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+        "scraped_text": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged."
+      },
+      {
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "answer": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+        "scraped_text": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events."
+      },
+      {
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "answer": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+        "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+        "scraped_text": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint."
+      },
+      {
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "answer": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network Fox News FOX Sports Racing",
+        "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+        "scraped_text": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing"
+      },
+      {
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "answer": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+        "url": "http://www.adnews.com/19975",
+        "scraped_text": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada."
+      },
+      {
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "answer": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+        "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+        "scraped_text": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:"
+      }
+    ]
+  }
+]

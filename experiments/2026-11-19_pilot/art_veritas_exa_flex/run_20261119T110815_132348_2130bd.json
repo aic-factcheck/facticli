@@ -1,0 +1,770 @@
+{
+  "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+  "normalized_claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+  "claim_id": "132348",
+  "constraints": {
+    "claim_id": "132348",
+    "claim_date": "2026-07-01",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2026-07-01"
+  },
+  "plan_raw": {
+    "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+    "checks": [
+      {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "rationale": "Ustalenie podstawy prawnej, zakresu uprawnień i okresu ważności pozwala sprawdzić twierdzenie bez zakładania, że dotyczy ono wszystkich migrantów lub konkretnego programu.",
+        "search_queries": [
+          "site:inclusion.gob.es autorización residencia trabajo duración un año requisitos extranjeros",
+          "site:boe.es reglamento extranjería autorización residencia trabajo vigencia un año",
+          "Spain migrants residence and work permit one year eligibility current rules",
+          "Hiszpania migranci roczne zezwolenie na pobyt i pracę warunki"
+        ],
+        "acceptance_criteria": [
+          "Obowiązujący przepis lub oficjalna informacja administracji Hiszpanii określa, czy istnieje zezwolenie obejmujące pobyt i pracę, oraz podaje jego okres ważności i warunki przyznania.",
+          "Ustalenia wskazują datę obowiązywania przepisów i wyjaśniają, czy roczny okres dotyczy ogólnej procedury, czy tylko określonych kategorii lub rodzajów zezwoleń."
+        ]
+      }
+    ],
+    "assumptions": [
+      "Twierdzenie dotyczy obecnie obowiązujących zasad w Hiszpanii; nie wskazuje konkretnego programu migracyjnego.",
+      "„Uprawnieni migranci” oznaczają osoby spełniające warunki danego rodzaju zezwolenia, a nie wszystkich migrantów."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+    "checks": [
+      {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "rationale": "Ustalenie podstawy prawnej, zakresu uprawnień i okresu ważności pozwala sprawdzić twierdzenie bez zakładania, że dotyczy ono wszystkich migrantów lub konkretnego programu.",
+        "search_queries": [
+          "site:inclusion.gob.es autorización residencia trabajo duración un año requisitos extranjeros",
+          "site:boe.es reglamento extranjería autorización residencia trabajo vigencia un año",
+          "Spain migrants residence and work permit one year eligibility current rules",
+          "Hiszpania migranci roczne zezwolenie na pobyt i pracę warunki",
+          "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?"
+        ],
+        "acceptance_criteria": [
+          "Obowiązujący przepis lub oficjalna informacja administracji Hiszpanii określa, czy istnieje zezwolenie obejmujące pobyt i pracę, oraz podaje jego okres ważności i warunki przyznania.",
+          "Ustalenia wskazują datę obowiązywania przepisów i wyjaśniają, czy roczny okres dotyczy ogólnej procedury, czy tylko określonych kategorii lub rodzajów zezwoleń."
+        ]
+      }
+    ],
+    "assumptions": [
+      "Twierdzenie dotyczy obecnie obowiązujących zasad w Hiszpanii; nie wskazuje konkretnego programu migracyjnego.",
+      "„Uprawnieni migranci” oznaczają osoby spełniające warunki danego rodzaju zezwolenia, a nie wszystkich migrantów."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "rationale": "Ustalenie podstawy prawnej, zakresu uprawnień i okresu ważności pozwala sprawdzić twierdzenie bez zakładania, że dotyczy ono wszystkich migrantów lub konkretnego programu.",
+        "search_queries": [
+          "site:inclusion.gob.es autorización residencia trabajo duración un año requisitos extranjeros",
+          "site:boe.es reglamento extranjería autorización residencia trabajo vigencia un año",
+          "Spain migrants residence and work permit one year eligibility current rules",
+          "Hiszpania migranci roczne zezwolenie na pobyt i pracę warunki",
+          "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?"
+        ],
+        "acceptance_criteria": [
+          "Obowiązujący przepis lub oficjalna informacja administracji Hiszpanii określa, czy istnieje zezwolenie obejmujące pobyt i pracę, oraz podaje jego okres ważności i warunki przyznania.",
+          "Ustalenia wskazują datę obowiązywania przepisów i wyjaśniają, czy roczny okres dotyczy ogólnej procedury, czy tylko określonych kategorii lub rodzajów zezwoleń."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "signal": "supports",
+        "summary": "Tak. Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje m.in. roczne zezwolenia na pobyt i pracę w czterech procedurach arraigo: drugiej szansy, społeczno-pracowniczej, społecznej i społeczno-edukacyjnej; arraigo rodzinne jest wyjątkiem i trwa pięć lat. Zasadniczo wymagany jest dwuletni nieprzerwany pobyt w Hiszpanii, z wyjątkiem arraigo rodzinnego, oraz spełnienie warunków właściwych dla danej kategorii, np. przedstawienie wymaganych umów o pracę w procedurze społeczno-pracowniczej. Odrębna nowelizacja obowiązująca od 16 kwietnia 2026 r. przewiduje także roczne zezwolenie na pobyt i pracę w ramach nadzwyczajnego arraigo dla uprawnionych osób, które były w Hiszpanii przed 1 stycznia 2026 r.; termin składania wniosków upłynął 30 czerwca 2026 r. Roczny okres nie dotyczy więc wszystkich migrantów ani wszystkich zezwoleń: przykładowo zezwolenie na pracę sezonową ma czteroletnią ważność, z limitem pracy do dziewięciu miesięcy rocznie.",
+        "confidence": 0.96,
+        "sources": [
+          {
+            "title": "Real Decreto 1155/2024, de 19 de noviembre",
+            "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+            "snippet": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2024-11-20",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Las solicitudes para residir y trabajar en España crecen cerca del 50% desde la entrada en vigor del nuevo Reglamento de la Ley de Extranjería",
+            "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+            "snippet": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+            "publisher": "Ministerio de Inclusión, Seguridad Social y Migraciones",
+            "published_at": "2025-11-21",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "La figura del arraigo en el nuevo Reglamento de Extranjería",
+            "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+            "snippet": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+            "publisher": "ATD Abogados",
+            "published_at": "2025-06-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Caso práctico: ¿Qué tipos de arraigo existen y cuáles son sus principales características y requisitos?",
+            "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+            "snippet": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+            "publisher": "Vademecum Legal",
+            "published_at": "2026-02-09",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Real Decreto 316/2026, de 14 de abril",
+            "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+            "snippet": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2026-04-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Publicada la reforma que aprueba la regularización de inmigrantes",
+            "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+            "snippet": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+            "publisher": "Iberley",
+            "published_at": "2026-04-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Zezwolenia wymagają spełnienia dodatkowych warunków właściwych dla danej procedury; nie są przyznawane automatycznie wszystkim migrantom.",
+          "Termin nadzwyczajnej procedury wskazany w przytoczonym źródle upłynął dzień przed datą oceny."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:inclusion.gob.es autorización residencia trabajo duración un año requisitos extranjeros reglamento 2025 arraigo",
+          "urls": [
+            "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:boe.es reglamento extranjería autorización residencia trabajo vigencia un año 1155/2024",
+          "urls": [
+            "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+            "https://www.boe.es/eli/es/rd/2026/04/14/316"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:inclusion.gob.es 2026 regularización extraordinaria cinco meses 31 diciembre 2025 autorización un año junio 2026",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:inclusion.gob.es \"arraigo\" \"un año\" \"habilita\" 2025 cinco familiar",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:boe.es 1155/2024 \"autorización inicial\" \"un año\" \"cuenta ajena\" duración 2025",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:boe.es \"316/2026\" \"un año\" \"31 de diciembre de 2025\" \"solicitudes\" arraigo",
+          "urls": [
+            "https://www.boe.es/eli/es/rd/2026/04/14/316"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Real Decreto 316/2026\" \"autorización\" \"un año\" \"requisitos\" abril 2026 arraigo extraordinario",
+          "urls": [
+            "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+            "https://boeexplicado.es/norma/real-decreto-316-2026-modifica-real-decreto-1155-2024-aprueba-reglamento-ley-organica",
+            "https://cimayasociados.com/noticias/arraigo-extraordinario-2026-requisitos/",
+            "https://www.boe.es/eli/es/rd/2026/04/14/316",
+            "https://www.prodespachos.com/art%C3%ADculos/rd-316-2026-nueva-ventana-de-autorizaciones-extraordinarias-de-residencia-y-trabajo-hasta-el-30-06-2026/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"reglamento\" \"arraigo\" \"un año\" \"cinco años\" 2025 1155 residencia trabajo duración cuenta ajena inicial",
+          "urls": [
+            "https://web.icam.es/se-aprueba-el-nuevo-reglamento-de-extranjeria-incluyendo-importantes-modificaciones-en-las-modalidades-de-arraigo-y-en-el-acceso-a-los-visados-y-autorizaciones-de-residencia/",
+            "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+            "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.88,
+    "justification": "Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje pięć rodzajów zezwoleń w procedurze arraigo; według analizy prawnej cztery z nich dają roczne prawo pobytu i pracy, a rodzinne trwa pięć lat [S1][S2][S3]. Uzyskanie zezwolenia wymaga spełnienia warunków danej procedury, w tym co do zasady dwóch lat nieprzerwanego pobytu w Hiszpanii [S2][S4]. Odrębny przepis przewiduje również roczne prawo pobytu i pracy w ramach nadzwyczajnego arraigo, choć wskazany termin składania wniosków upłynął 30 czerwca 2026 r. [S5][S6]. Roczny okres nie jest jednak regułą dla wszystkich zezwoleń: zezwolenie na pracę sezonową jest ważne przez cztery lata [S2].",
+    "key_points": [
+      "Cztery rodzaje arraigo przewidują roczne zezwolenia na pobyt i pracę; rodzinne jest pięcioletnie [S3].",
+      "Warunki zależą od procedury; arraigo społeczno-pracownicze wymaga m.in. odpowiednich umów o pracę [S4].",
+      "Termin wnioskowania w opisanej procedurze nadzwyczajnej upłynął przed datą oceny [S6].",
+      "Zezwolenie na pracę sezonową ma inną, czteroletnią ważność [S2]."
+    ],
+    "counter_argument": "Można uznać twierdzenie za mylące, jeśli odczytać je jako odnoszące się do wszystkich uprawnionych migrantów: arraigo rodzinne trwa pięć lat, a zezwolenie na pracę sezonową cztery lata [S2][S3]. Przy przyjętym założeniu twierdzenie nie mówi jednak, że wszystkie zezwolenia są roczne; istnienie innych okresów ważności go nie obala.",
+    "evidence_gaps": [
+      "Przytoczony fragment regulaminu z 2024 r. potwierdza datę wejścia w życie, ale nie zawiera przepisów o rocznej ważności poszczególnych rodzajów arraigo; tę informację podaje analiza prawna [S1][S3].",
+      "Przytoczone źródła nie rozstrzygają, czy po 30 czerwca 2026 r. przedłużono termin składania wniosków w procedurze nadzwyczajnej."
+    ],
+    "findings": [
+      {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "signal": "supports",
+        "summary": "Tak. Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje m.in. roczne zezwolenia na pobyt i pracę w czterech procedurach arraigo: drugiej szansy, społeczno-pracowniczej, społecznej i społeczno-edukacyjnej; arraigo rodzinne jest wyjątkiem i trwa pięć lat. Zasadniczo wymagany jest dwuletni nieprzerwany pobyt w Hiszpanii, z wyjątkiem arraigo rodzinnego, oraz spełnienie warunków właściwych dla danej kategorii, np. przedstawienie wymaganych umów o pracę w procedurze społeczno-pracowniczej. Odrębna nowelizacja obowiązująca od 16 kwietnia 2026 r. przewiduje także roczne zezwolenie na pobyt i pracę w ramach nadzwyczajnego arraigo dla uprawnionych osób, które były w Hiszpanii przed 1 stycznia 2026 r.; termin składania wniosków upłynął 30 czerwca 2026 r. Roczny okres nie dotyczy więc wszystkich migrantów ani wszystkich zezwoleń: przykładowo zezwolenie na pracę sezonową ma czteroletnią ważność, z limitem pracy do dziewięciu miesięcy rocznie.",
+        "confidence": 0.96,
+        "sources": [
+          {
+            "title": "Real Decreto 1155/2024, de 19 de noviembre",
+            "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+            "snippet": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2024-11-20",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Las solicitudes para residir y trabajar en España crecen cerca del 50% desde la entrada en vigor del nuevo Reglamento de la Ley de Extranjería",
+            "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+            "snippet": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+            "publisher": "Ministerio de Inclusión, Seguridad Social y Migraciones",
+            "published_at": "2025-11-21",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "La figura del arraigo en el nuevo Reglamento de Extranjería",
+            "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+            "snippet": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+            "publisher": "ATD Abogados",
+            "published_at": "2025-06-23",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Caso práctico: ¿Qué tipos de arraigo existen y cuáles son sus principales características y requisitos?",
+            "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+            "snippet": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+            "publisher": "Vademecum Legal",
+            "published_at": "2026-02-09",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Real Decreto 316/2026, de 14 de abril",
+            "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+            "snippet": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2026-04-15",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Publicada la reforma que aprueba la regularización de inmigrantes",
+            "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+            "snippet": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+            "publisher": "Iberley",
+            "published_at": "2026-04-15",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "Zezwolenia wymagają spełnienia dodatkowych warunków właściwych dla danej procedury; nie są przyznawane automatycznie wszystkim migrantom.",
+          "Termin nadzwyczajnej procedury wskazany w przytoczonym źródle upłynął dzień przed datą oceny."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Real Decreto 1155/2024, de 19 de noviembre",
+        "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+        "snippet": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+        "publisher": "Boletín Oficial del Estado",
+        "published_at": "2024-11-20",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Las solicitudes para residir y trabajar en España crecen cerca del 50% desde la entrada en vigor del nuevo Reglamento de la Ley de Extranjería",
+        "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+        "snippet": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+        "publisher": "Ministerio de Inclusión, Seguridad Social y Migraciones",
+        "published_at": "2025-11-21",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "La figura del arraigo en el nuevo Reglamento de Extranjería",
+        "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+        "snippet": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+        "publisher": "ATD Abogados",
+        "published_at": "2025-06-23",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Caso práctico: ¿Qué tipos de arraigo existen y cuáles son sus principales características y requisitos?",
+        "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+        "snippet": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+        "publisher": "Vademecum Legal",
+        "published_at": "2026-02-09",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Real Decreto 316/2026, de 14 de abril",
+        "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+        "snippet": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+        "publisher": "Boletín Oficial del Estado",
+        "published_at": "2026-04-15",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Publicada la reforma que aprueba la regularización de inmigrantes",
+        "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+        "snippet": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+        "publisher": "Iberley",
+        "published_at": "2026-04-15",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+    "verdict": "Supported",
+    "verdict_confidence": 0.88,
+    "justification": "Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje pięć rodzajów zezwoleń w procedurze arraigo; według analizy prawnej cztery z nich dają roczne prawo pobytu i pracy, a rodzinne trwa pięć lat [S1][S2][S3]. Uzyskanie zezwolenia wymaga spełnienia warunków danej procedury, w tym co do zasady dwóch lat nieprzerwanego pobytu w Hiszpanii [S2][S4]. Odrębny przepis przewiduje również roczne prawo pobytu i pracy w ramach nadzwyczajnego arraigo, choć wskazany termin składania wniosków upłynął 30 czerwca 2026 r. [S5][S6]. Roczny okres nie jest jednak regułą dla wszystkich zezwoleń: zezwolenie na pracę sezonową jest ważne przez cztery lata [S2].",
+    "key_points": [
+      "Cztery rodzaje arraigo przewidują roczne zezwolenia na pobyt i pracę; rodzinne jest pięcioletnie [S3].",
+      "Warunki zależą od procedury; arraigo społeczno-pracownicze wymaga m.in. odpowiednich umów o pracę [S4].",
+      "Termin wnioskowania w opisanej procedurze nadzwyczajnej upłynął przed datą oceny [S6].",
+      "Zezwolenie na pracę sezonową ma inną, czteroletnią ważność [S2]."
+    ],
+    "counter_argument": "Można uznać twierdzenie za mylące, jeśli odczytać je jako odnoszące się do wszystkich uprawnionych migrantów: arraigo rodzinne trwa pięć lat, a zezwolenie na pracę sezonową cztery lata [S2][S3]. Przy przyjętym założeniu twierdzenie nie mówi jednak, że wszystkie zezwolenia są roczne; istnienie innych okresów ważności go nie obala.",
+    "evidence_gaps": [
+      "Przytoczony fragment regulaminu z 2024 r. potwierdza datę wejścia w życie, ale nie zawiera przepisów o rocznej ważności poszczególnych rodzajów arraigo; tę informację podaje analiza prawna [S1][S3].",
+      "Przytoczone źródła nie rozstrzygają, czy po 30 czerwca 2026 r. przedłużono termin składania wniosków w procedurze nadzwyczajnej."
+    ],
+    "findings": [
+      {
+        "aspect_id": "residence_work_permits",
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "signal": "supports",
+        "summary": "Tak. Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje m.in. roczne zezwolenia na pobyt i pracę w czterech procedurach arraigo: drugiej szansy, społeczno-pracowniczej, społecznej i społeczno-edukacyjnej; arraigo rodzinne jest wyjątkiem i trwa pięć lat. Zasadniczo wymagany jest dwuletni nieprzerwany pobyt w Hiszpanii, z wyjątkiem arraigo rodzinnego, oraz spełnienie warunków właściwych dla danej kategorii, np. przedstawienie wymaganych umów o pracę w procedurze społeczno-pracowniczej. Odrębna nowelizacja obowiązująca od 16 kwietnia 2026 r. przewiduje także roczne zezwolenie na pobyt i pracę w ramach nadzwyczajnego arraigo dla uprawnionych osób, które były w Hiszpanii przed 1 stycznia 2026 r.; termin składania wniosków upłynął 30 czerwca 2026 r. Roczny okres nie dotyczy więc wszystkich migrantów ani wszystkich zezwoleń: przykładowo zezwolenie na pracę sezonową ma czteroletnią ważność, z limitem pracy do dziewięciu miesięcy rocznie.",
+        "confidence": 0.96,
+        "sources": [
+          {
+            "title": "Real Decreto 1155/2024, de 19 de noviembre",
+            "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+            "snippet": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2024-11-20",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Las solicitudes para residir y trabajar en España crecen cerca del 50% desde la entrada en vigor del nuevo Reglamento de la Ley de Extranjería",
+            "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+            "snippet": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+            "publisher": "Ministerio de Inclusión, Seguridad Social y Migraciones",
+            "published_at": "2025-11-21",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "La figura del arraigo en el nuevo Reglamento de Extranjería",
+            "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+            "snippet": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+            "publisher": "ATD Abogados",
+            "published_at": "2025-06-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Caso práctico: ¿Qué tipos de arraigo existen y cuáles son sus principales características y requisitos?",
+            "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+            "snippet": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+            "publisher": "Vademecum Legal",
+            "published_at": "2026-02-09",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Real Decreto 316/2026, de 14 de abril",
+            "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+            "snippet": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+            "publisher": "Boletín Oficial del Estado",
+            "published_at": "2026-04-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Publicada la reforma que aprueba la regularización de inmigrantes",
+            "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+            "snippet": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+            "publisher": "Iberley",
+            "published_at": "2026-04-15",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Zezwolenia wymagają spełnienia dodatkowych warunków właściwych dla danej procedury; nie są przyznawane automatycznie wszystkim migrantom.",
+          "Termin nadzwyczajnej procedury wskazany w przytoczonym źródle upłynął dzień przed datą oceny."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Real Decreto 1155/2024, de 19 de noviembre",
+        "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+        "snippet": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+        "publisher": "Boletín Oficial del Estado",
+        "published_at": "2024-11-20",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Las solicitudes para residir y trabajar en España crecen cerca del 50% desde la entrada en vigor del nuevo Reglamento de la Ley de Extranjería",
+        "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+        "snippet": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+        "publisher": "Ministerio de Inclusión, Seguridad Social y Migraciones",
+        "published_at": "2025-11-21",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "La figura del arraigo en el nuevo Reglamento de Extranjería",
+        "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+        "snippet": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+        "publisher": "ATD Abogados",
+        "published_at": "2025-06-23",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Caso práctico: ¿Qué tipos de arraigo existen y cuáles son sus principales características y requisitos?",
+        "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+        "snippet": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+        "publisher": "Vademecum Legal",
+        "published_at": "2026-02-09",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Real Decreto 316/2026, de 14 de abril",
+        "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+        "snippet": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+        "publisher": "Boletín Oficial del Estado",
+        "published_at": "2026-04-15",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Publicada la reforma que aprueba la regularización de inmigrantes",
+        "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+        "snippet": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+        "publisher": "Iberley",
+        "published_at": "2026-04-15",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:10.019783+00:00",
+  "duration_seconds": 65.67789531080052,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 982,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 634,
+      "reasoning_tokens": 185,
+      "total_tokens": 1616,
+      "duration_seconds": 12.13819917384535,
+      "started_at": "2026-11-19T11:07:10.019904+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 19510,
+      "cached_input_tokens": 11427,
+      "cache_write_tokens": 8071,
+      "output_tokens": 2157,
+      "reasoning_tokens": 245,
+      "total_tokens": 21667,
+      "duration_seconds": 29.808872734662145,
+      "started_at": "2026-11-19T11:07:22.159200+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3950,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3947,
+      "output_tokens": 3288,
+      "reasoning_tokens": 166,
+      "total_tokens": 7238,
+      "duration_seconds": 23.680207525845617,
+      "started_at": "2026-11-19T11:07:52.016221+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 24442,
+    "cached_input_tokens": 11427,
+    "cache_write_tokens": 12018,
+    "output_tokens": 6079,
+    "reasoning_tokens": 596,
+    "total_tokens": 30521,
+    "llm_seconds": 65.62727943435311,
+    "cache_hit_rate": 0.4675,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 982.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 634.0,
+        "reasoning_tokens": 185.0,
+        "total_tokens": 1616.0,
+        "llm_seconds": 12.13819917384535,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 19510.0,
+        "cached_input_tokens": 11427.0,
+        "cache_write_tokens": 8071.0,
+        "output_tokens": 2157.0,
+        "reasoning_tokens": 245.0,
+        "total_tokens": 21667.0,
+        "llm_seconds": 29.808872734662145,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3950.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3947.0,
+        "output_tokens": 3288.0,
+        "reasoning_tokens": 166.0,
+        "total_tokens": 7238.0,
+        "llm_seconds": 23.680207525845617,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 30521,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 10
+  },
+  "unresolved_citations": []
+}

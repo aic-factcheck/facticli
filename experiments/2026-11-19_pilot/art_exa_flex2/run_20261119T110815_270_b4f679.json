@@ -1,0 +1,1092 @@
+{
+  "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "normalized_claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "claim_id": "270",
+  "constraints": {
+    "claim_id": "270",
+    "claim_date": "2020-09-24",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-09-24"
+  },
+  "plan_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "rationale": "The claim depends on both the accuracy of the quotation and its attribution to Pelosi in the stated context.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" cutting hours \"dreams\" \"passions\" transcript video",
+          "site:gov Pelosi employers hours pursue dreams passions remarks transcript",
+          "Pelosi work hours pursue dreams passions employers original remarks"
+        ],
+        "acceptance_criteria": [
+          "A contemporaneous recording, transcript, or authoritative account establishes the words Pelosi used and their context, or a documented search finds no such source.",
+          "Any difference between a verbatim quotation and a paraphrase or edited quotation is identified."
+        ]
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "rationale": "The claim identifies Pelosi as House Speaker, making her office at the time of the relevant remarks a checkable temporal detail.",
+        "search_queries": [
+          "Nancy Pelosi employers cutting hours dreams passions remarks date House Speaker",
+          "site:history.house.gov Nancy Pelosi Speaker dates leadership",
+          "site:congress.gov Nancy Pelosi Speaker House dates employers hours remarks"
+        ],
+        "acceptance_criteria": [
+          "The date of the identifiable statement is established from a contemporaneous source, and official House or congressional records establish Pelosi's office on that date.",
+          "If no identifiable statement can be dated, that limitation is reported rather than assigning an office to an assumed date."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The description 'House Speaker Nancy Pelosi' is interpreted as referring to her office when she made the relevant statement."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "rationale": "The claim depends on both the accuracy of the quotation and its attribution to Pelosi in the stated context.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" cutting hours \"dreams\" \"passions\" transcript video",
+          "site:gov Pelosi employers hours pursue dreams passions remarks transcript",
+          "Pelosi work hours pursue dreams passions employers original remarks",
+          "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?"
+        ],
+        "acceptance_criteria": [
+          "A contemporaneous recording, transcript, or authoritative account establishes the words Pelosi used and their context, or a documented search finds no such source.",
+          "Any difference between a verbatim quotation and a paraphrase or edited quotation is identified."
+        ]
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "rationale": "The claim identifies Pelosi as House Speaker, making her office at the time of the relevant remarks a checkable temporal detail.",
+        "search_queries": [
+          "Nancy Pelosi employers cutting hours dreams passions remarks date House Speaker",
+          "site:history.house.gov Nancy Pelosi Speaker dates leadership",
+          "site:congress.gov Nancy Pelosi Speaker House dates employers hours remarks",
+          "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+          "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”"
+        ],
+        "acceptance_criteria": [
+          "The date of the identifiable statement is established from a contemporaneous source, and official House or congressional records establish Pelosi's office on that date.",
+          "If no identifiable statement can be dated, that limitation is reported rather than assigning an office to an assumed date."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The description 'House Speaker Nancy Pelosi' is interpreted as referring to her office when she made the relevant statement."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "rationale": "The claim depends on both the accuracy of the quotation and its attribution to Pelosi in the stated context.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" cutting hours \"dreams\" \"passions\" transcript video",
+          "site:gov Pelosi employers hours pursue dreams passions remarks transcript",
+          "Pelosi work hours pursue dreams passions employers original remarks",
+          "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?"
+        ],
+        "acceptance_criteria": [
+          "A contemporaneous recording, transcript, or authoritative account establishes the words Pelosi used and their context, or a documented search finds no such source.",
+          "Any difference between a verbatim quotation and a paraphrase or edited quotation is identified."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "signal": "refutes",
+        "summary": "The search found no contemporaneous recording or transcript supporting the attributed quotation. An unsourced 2013 blog repeated those words, but a recording and contemporaneous report show Pelosi using different words in 2010. She described the Affordable Care Act as enabling people to leave a job and pursue creative work while retaining health coverage; she did not say in that statement that employer-imposed cuts to hours were good.",
+        "confidence": 0.89,
+        "sources": [
+          {
+            "title": "Pelosi to Aspiring Musicians: Quit Your Job, Taxpayers Will Cover Your Health Care",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+            "snippet": "“We see it as an entrepreneurial bill,” Pelosi said, “a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.” \n\n Pelosi made the remarks while speaking at the Capitol on Wednesday to the Asian American and Pacific Islanders Summit.",
+            "publisher": "CNSNews",
+            "published_at": "2010-05-14",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Nancy Pelosi's Message to America's Youth",
+            "url": "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+            "snippet": "(BEGIN VIDEO CLIP)\n\nSPEAKER OF THE HOUSE NANCY PELOSI, D-CALIF.: We see it as an entrepreneurial bill — a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.\n\n(END VIDEO CLIP)",
+            "publisher": "Fox News",
+            "published_at": "2010-05-19",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The 2013 blog attributes the exact words to Pelosi but supplies no recording or transcript for them.",
+          "The evidence does not establish who originated the attributed quotation or whether it was intended as a paraphrase of the 2010 remarks."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Nancy Pelosi\" cutting hours \"dreams\" \"passions\" transcript video",
+          "urls": [
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771",
+            "https://www.politico.com/story/2012/09/house-women-dnc-speech-text-080686",
+            "https://www.prnewswire.com/news-releases/pelosi-remarks-at-press-availability-with-us-olympic-and-paralympic-athletes-91750819.html",
+            "https://exa.ai/library/podcast/bssxwbrxygk/episode/wp5sdx3n0s6",
+            "https://www.wral.com/story/11509335/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "urls": [
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://mediabiasfactcheck.com/turning-point-usa/?amp=1"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi \"employers cutting hours\" \"dreams and passions\" fabricated satire 2013",
+          "urls": [
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://mediabiasfactcheck.com/turning-point-usa/?amp=1"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi 2014 CBO work fewer hours pursue passion dream health care artist photographer leave job",
+          "urls": [
+            "https://hotair.com/kevin-glass/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce-n187482",
+            "https://archive.cnsnews.com/news/article/pelosi-obamacare-means-you-could-be-photographer-or-writer",
+            "https://www.americanthinker.com/articles/2014/11/nancy_pelosi_should_quit_and_follow_her_passions.html",
+            "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771",
+            "https://drrichswier.com/2014/03/13/obamacare-art-appreciation-lesson-1-whats-art/",
+            "https://www.politico.com/story/2014/02/nancy-pelosi-women-103405"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi \"dreams\" \"passions\" work hours employers obamacare 2014 CBO",
+          "urls": [
+            "https://www.politico.com/magazine/story/2014/02/obamacare-jobs-party-of-less-work-103184",
+            "https://www.americanthinker.com/articles/2014/11/nancy_pelosi_should_quit_and_follow_her_passions.html",
+            "https://dateline.radioamerica.org/2014/02/page/5/",
+            "https://www.govinfo.gov/content/pkg/CREC-2013-09-27/html/CREC-2013-09-27-pt1-PgH5899-7.htm",
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771",
+            "https://www.politico.com/story/2012/09/house-women-dnc-speech-text-080686",
+            "https://obamawhitehouse.archives.gov/the-press-office/2014/01/31/remarks-first-lady-dncc-womens-luncheon"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"pelosi\" \"we see it as an entrepreneurial bill\" \"2010\" musician",
+          "urls": [
+            "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+            "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+            "https://newrepublic.com/article/75148/stalin-mao-kristol",
+            "https://washingtonmonthly.com/2010/05/25/kristols-selective-editing/",
+            "https://escholarship.org/uc/item/71g9n4gd",
+            "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "http://notableandquotable.blogspot.com/2010/05/nancy-pelosi-on-entrepreneurial-spirit.html",
+            "https://hotair.com/ed-morrissey/2010/05/15/pelosi-hey-quit-your-job-well-pay-for-your-health-coverage-n169229"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"pelosi\" \"focus on your talent\" \"job locked\" 2010 health care speaker press conference",
+          "urls": [
+            "https://www.reviewjournal.com/opinion/washington-will-take-care-of-you/",
+            "https://weeklystandardarchives.com/articles/marx-keynes-pelosi/",
+            "https://hotair.com/ed-morrissey/2010/05/15/pelosi-hey-quit-your-job-well-pay-for-your-health-coverage-n169229",
+            "https://washingtonmonthly.com/2010/05/25/kristols-selective-editing/",
+            "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "https://escholarship.org/uc/item/71g9n4gd",
+            "https://newrepublic.com/article/75148/stalin-mao-kristol"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2014 Pelosi \"people are leaving their jobs\" \"following their aspirations\" job locked cbo",
+          "urls": [
+            "https://hotair.com/kevin-glass/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce-n187482",
+            "http://notanothernewenglandsportsblog.blogspot.com/2014/02/more-0bamacare-good-news-democrats-spin.html",
+            "http://tarheelred.com/2014/02/10/democrats-support-freedom/",
+            "https://p2alm.com/2014/02/15/rep-keith-ellison-d-mn-and-house-minority-leader-nancy-pelosi-d-ca-think-americans-losing-jobs-because-of-obamacare-is-a-good-thing/",
+            "http://scaramouchee.blogspot.com/2014/02/the-lunacy-of-finding-your-passion-o.html",
+            "https://kirvensbreakfastclub.blogspot.com/2014/02/online-story-nbc-news-says-veteran.html",
+            "https://www.blogmocracy.com/tag/death-panels/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "rationale": "The claim identifies Pelosi as House Speaker, making her office at the time of the relevant remarks a checkable temporal detail.",
+        "search_queries": [
+          "Nancy Pelosi employers cutting hours dreams passions remarks date House Speaker",
+          "site:history.house.gov Nancy Pelosi Speaker dates leadership",
+          "site:congress.gov Nancy Pelosi Speaker House dates employers hours remarks",
+          "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+          "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”"
+        ],
+        "acceptance_criteria": [
+          "The date of the identifiable statement is established from a contemporaneous source, and official House or congressional records establish Pelosi's office on that date.",
+          "If no identifiable statement can be dated, that limitation is reported rather than assigning an office to an assumed date."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "signal": "refutes",
+        "summary": "In a closely matching CNN interview published on September 22, 2013, Pelosi discussed concerns about the 40-hour workweek and described the freedom to follow one’s passion. Contemporary reporting and official House press releases identify her then as House Democratic leader, not Speaker. The exact wording in the claim appears in a 2018 article, but that article does not date or source the purported quotation.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” ... This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+            "snippet": "September 12, 2013 Press Release\n\nContact: Drew Hammill, 202-226-7616\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-09-12",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Stupid Statements by Senseless Statesmen!",
+            "url": "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "snippet": "Then she really displayed her brilliant thinking by saying, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+            "publisher": "Don Boys",
+            "published_at": "2018-08-16",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The exact quoted wording could not be dated to an identifiable Pelosi statement. The finding about her office concerns the closely matching 2013 remarks, not an assumed date for the exact quotation.",
+          "CNN says the interview was recorded before its September 22 publication; the retrieved excerpt does not establish the recording date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:history.house.gov Nancy Pelosi Speaker dates leadership minority leader 2014",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi employers cutting hours dreams passions remarks date House Speaker",
+          "urls": [
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://www.forbes.com/2010/05/24/mills-college-commencement-nancy-pelosi-leadership-education-speech.html",
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-remarks-campus-progress-national-conference",
+            "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-against-gop-outsourcers-bill-of-rights"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi \"cutting hours\" \"pursue\" \"passions\" employer 2014",
+          "urls": [
+            "https://winteryknight.com/2013/09/27/nancy-pelosi-forcing-workers-to-work-fewer-hours-gives-them-freedom/",
+            "https://hotair.com/allahpundit/2014/02/08/quotes-of-the-day-1639-n187553",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html",
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://www.treasurenet.com/threads/here-is-a-list-of-over-300-employers-who-have-reportedly-cut-hours-to-avoid-obamacare.378408/",
+            "https://patriotpost.us/opinion/23188-nice-work-if-you-can-quit-it-2014-02-06"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"pelosi\" \"hours\" \"passion\" obamacare 2013 cutting hours",
+          "urls": [
+            "http://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://winteryknight.com/2013/09/27/nancy-pelosi-forcing-workers-to-work-fewer-hours-gives-them-freedom/",
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi \"employers cutting hours\" \"dreams\" passions 2013",
+          "urls": [
+            "https://www.city-data.com/forum/politics-other-controversies/1961232-pelosi-death-40-hour-work-week-18.html",
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://www.advicegoddess.com/archives/2013/07/the-unions-that.html",
+            "https://madisonvagop.blogspot.com/2013/09/",
+            "https://www.govinfo.gov/content/pkg/CREC-2014-04-03/html/CREC-2014-04-03-pt1-PgH2861-2.htm",
+            "https://thefederalist.com/2014/02/06/how-obamacare-hurts-the-poor/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:pelosi.house.gov \"September\" \"2013\" \"Democratic Leader Nancy Pelosi\"",
+          "urls": [
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+            "https://pelosi.house.gov/news/press-releases/pelosi-statement-on-gops-continuing-resolution",
+            "http://pelosi.house.gov/news/press-releases/pelosi-statement-on-the-5th-anniversary-of-the-financial-crisis",
+            "http://pelosi.house.gov/news/press-releases/pelosi-welch-and-house-democrats-send-letter-to-president-obama-supporting-clean",
+            "https://pelosi.house.gov/news/press-releases/pelosi-statement-on-california-s-new-minimum-wage-law"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Pelosi\" \"Crowley\" \"follow your passion\" 2013 40 hour work week",
+          "urls": [
+            "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley \"passion\" \"40\"",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.78,
+    "justification": "The exact quotation appears in a 2013 blog post and a 2018 article, but neither excerpt identifies a recording or transcript for it. [S3][S7] In a recorded 2010 statement, Pelosi used different words to argue that health coverage would let people leave work and pursue creative ambitions. [S2] A 2013 CNN interview also linked health coverage and the freedom to follow one’s passion, after a question about concerns over the 40-hour workweek, but the supplied excerpt does not contain the claimed quotation. [S4] Pelosi was identified as Speaker in the 2010 clip and as Democratic leader in 2013; the exact attributed quotation cannot be assigned a date from the available evidence. [S2][S5][S6] Inference: The attributed words are unsubstantiated, but the excerpts do not definitively establish that she never said them.",
+    "key_points": [
+      "The two supplied publications that use the exact quotation do not identify an underlying recording or transcript. [S3][S7]",
+      "A 2010 video clip records different remarks about leaving work to pursue creative ambitions while retaining health care. [S2]",
+      "A 2013 CNN interview contains related language about pursuing a passion, but its supplied excerpt is not the claimed quotation. [S4]",
+      "The findings label the quotation refuted, but the available excerpts do not rule out an unidentified occasion on which it was said. [S2][S4]"
+    ],
+    "counter_argument": "A refuted verdict is plausible because the identifiable 2010 and 2013 remarks use different language, while the exact quotation appears in unsourced secondary accounts. [S2][S3][S4][S7] It was not adopted because those excerpts do not conclusively disprove that Pelosi said the quoted words on another occasion.",
+    "evidence_gaps": [
+      "A dated, complete recording or transcript of the alleged employer-hours statement, or an authoritative investigation tracing the quotation to a misquotation, would materially firm up the verdict.",
+      "The exact quotation could not be tied to an identifiable date, so Pelosi’s office at the time of that alleged statement cannot be independently established."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "signal": "refutes",
+        "summary": "The search found no contemporaneous recording or transcript supporting the attributed quotation. An unsourced 2013 blog repeated those words, but a recording and contemporaneous report show Pelosi using different words in 2010. She described the Affordable Care Act as enabling people to leave a job and pursue creative work while retaining health coverage; she did not say in that statement that employer-imposed cuts to hours were good.",
+        "confidence": 0.89,
+        "sources": [
+          {
+            "title": "Pelosi to Aspiring Musicians: Quit Your Job, Taxpayers Will Cover Your Health Care",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+            "snippet": "“We see it as an entrepreneurial bill,” Pelosi said, “a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.” \n\n Pelosi made the remarks while speaking at the Capitol on Wednesday to the Asian American and Pacific Islanders Summit.",
+            "publisher": "CNSNews",
+            "published_at": "2010-05-14",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Nancy Pelosi's Message to America's Youth",
+            "url": "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+            "snippet": "(BEGIN VIDEO CLIP)\n\nSPEAKER OF THE HOUSE NANCY PELOSI, D-CALIF.: We see it as an entrepreneurial bill — a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.\n\n(END VIDEO CLIP)",
+            "publisher": "Fox News",
+            "published_at": "2010-05-19",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The 2013 blog attributes the exact words to Pelosi but supplies no recording or transcript for them.",
+          "The evidence does not establish who originated the attributed quotation or whether it was intended as a paraphrase of the 2010 remarks."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "signal": "refutes",
+        "summary": "In a closely matching CNN interview published on September 22, 2013, Pelosi discussed concerns about the 40-hour workweek and described the freedom to follow one’s passion. Contemporary reporting and official House press releases identify her then as House Democratic leader, not Speaker. The exact wording in the claim appears in a 2018 article, but that article does not date or source the purported quotation.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” ... This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+            "snippet": "September 12, 2013 Press Release\n\nContact: Drew Hammill, 202-226-7616\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-09-12",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Stupid Statements by Senseless Statesmen!",
+            "url": "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "snippet": "Then she really displayed her brilliant thinking by saying, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+            "publisher": "Don Boys",
+            "published_at": "2018-08-16",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The exact quoted wording could not be dated to an identifiable Pelosi statement. The finding about her office concerns the closely matching 2013 remarks, not an assumed date for the exact quotation.",
+          "CNN says the interview was recorded before its September 22 publication; the retrieved excerpt does not establish the recording date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi to Aspiring Musicians: Quit Your Job, Taxpayers Will Cover Your Health Care",
+        "url": "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+        "snippet": "“We see it as an entrepreneurial bill,” Pelosi said, “a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.” \n\n Pelosi made the remarks while speaking at the Capitol on Wednesday to the Asian American and Pacific Islanders Summit.",
+        "publisher": "CNSNews",
+        "published_at": "2010-05-14",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Nancy Pelosi's Message to America's Youth",
+        "url": "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+        "snippet": "(BEGIN VIDEO CLIP)\n\nSPEAKER OF THE HOUSE NANCY PELOSI, D-CALIF.: We see it as an entrepreneurial bill — a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.\n\n(END VIDEO CLIP)",
+        "publisher": "Fox News",
+        "published_at": "2010-05-19",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” ... This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy.",
+        "publisher": "CNN",
+        "published_at": "2013-09-22",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Religion & Liberty Online",
+        "published_at": "2013-09-24",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+        "snippet": "September 12, 2013 Press Release\n\nContact: Drew Hammill, 202-226-7616\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+        "publisher": "Representative Nancy Pelosi",
+        "published_at": "2013-09-12",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Stupid Statements by Senseless Statesmen!",
+        "url": "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+        "snippet": "Then she really displayed her brilliant thinking by saying, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+        "publisher": "Don Boys",
+        "published_at": "2018-08-16",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.78,
+    "justification": "The exact quotation appears in a 2013 blog post and a 2018 article, but neither excerpt identifies a recording or transcript for it. [S3][S7] In a recorded 2010 statement, Pelosi used different words to argue that health coverage would let people leave work and pursue creative ambitions. [S2] A 2013 CNN interview also linked health coverage and the freedom to follow one’s passion, after a question about concerns over the 40-hour workweek, but the supplied excerpt does not contain the claimed quotation. [S4] Pelosi was identified as Speaker in the 2010 clip and as Democratic leader in 2013; the exact attributed quotation cannot be assigned a date from the available evidence. [S2][S5][S6] Inference: The attributed words are unsubstantiated, but the excerpts do not definitively establish that she never said them.",
+    "key_points": [
+      "The two supplied publications that use the exact quotation do not identify an underlying recording or transcript. [S3][S7]",
+      "A 2010 video clip records different remarks about leaving work to pursue creative ambitions while retaining health care. [S2]",
+      "A 2013 CNN interview contains related language about pursuing a passion, but its supplied excerpt is not the claimed quotation. [S4]",
+      "The findings label the quotation refuted, but the available excerpts do not rule out an unidentified occasion on which it was said. [S2][S4]"
+    ],
+    "counter_argument": "A refuted verdict is plausible because the identifiable 2010 and 2013 remarks use different language, while the exact quotation appears in unsourced secondary accounts. [S2][S3][S4][S7] It was not adopted because those excerpts do not conclusively disprove that Pelosi said the quoted words on another occasion.",
+    "evidence_gaps": [
+      "A dated, complete recording or transcript of the alleged employer-hours statement, or an authoritative investigation tracing the quotation to a misquotation, would materially firm up the verdict.",
+      "The exact quotation could not be tied to an identifiable date, so Pelosi’s office at the time of that alleged statement cannot be independently established."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting hours, and what was the context of any matching or closely related statement?",
+        "signal": "refutes",
+        "summary": "The search found no contemporaneous recording or transcript supporting the attributed quotation. An unsourced 2013 blog repeated those words, but a recording and contemporaneous report show Pelosi using different words in 2010. She described the Affordable Care Act as enabling people to leave a job and pursue creative work while retaining health coverage; she did not say in that statement that employer-imposed cuts to hours were good.",
+        "confidence": 0.89,
+        "sources": [
+          {
+            "title": "Pelosi to Aspiring Musicians: Quit Your Job, Taxpayers Will Cover Your Health Care",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+            "snippet": "“We see it as an entrepreneurial bill,” Pelosi said, “a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.” \n\n Pelosi made the remarks while speaking at the Capitol on Wednesday to the Asian American and Pacific Islanders Summit.",
+            "publisher": "CNSNews",
+            "published_at": "2010-05-14",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Nancy Pelosi's Message to America's Youth",
+            "url": "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+            "snippet": "(BEGIN VIDEO CLIP)\n\nSPEAKER OF THE HOUSE NANCY PELOSI, D-CALIF.: We see it as an entrepreneurial bill — a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.\n\n(END VIDEO CLIP)",
+            "publisher": "Fox News",
+            "published_at": "2010-05-19",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The 2013 blog attributes the exact words to Pelosi but supplies no recording or transcript for them.",
+          "The evidence does not establish who originated the attributed quotation or whether it was intended as a paraphrase of the 2010 remarks."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "Was Nancy Pelosi Speaker of the US House when she made the statement quoted or most closely matching the claim?",
+        "signal": "refutes",
+        "summary": "In a closely matching CNN interview published on September 22, 2013, Pelosi discussed concerns about the 40-hour workweek and described the freedom to follow one’s passion. Contemporary reporting and official House press releases identify her then as House Democratic leader, not Speaker. The exact wording in the claim appears in a 2018 article, but that article does not date or source the purported quotation.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” ... This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+            "snippet": "September 12, 2013 Press Release\n\nContact: Drew Hammill, 202-226-7616\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-09-12",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Stupid Statements by Senseless Statesmen!",
+            "url": "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "snippet": "Then she really displayed her brilliant thinking by saying, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+            "publisher": "Don Boys",
+            "published_at": "2018-08-16",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The exact quoted wording could not be dated to an identifiable Pelosi statement. The finding about her office concerns the closely matching 2013 remarks, not an assumed date for the exact quotation.",
+          "CNN says the interview was recorded before its September 22 publication; the retrieved excerpt does not establish the recording date."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi to Aspiring Musicians: Quit Your Job, Taxpayers Will Cover Your Health Care",
+        "url": "https://archive.cnsnews.com/news/article/pelosi-aspiring-musicians-quit-your-job-taxpayers-will-cover-your-health-care",
+        "snippet": "“We see it as an entrepreneurial bill,” Pelosi said, “a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.” \n\n Pelosi made the remarks while speaking at the Capitol on Wednesday to the Asian American and Pacific Islanders Summit.",
+        "publisher": "CNSNews",
+        "published_at": "2010-05-14",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Nancy Pelosi's Message to America's Youth",
+        "url": "https://www.foxnews.com/story/nancy-pelosis-message-to-americas-youth",
+        "snippet": "(BEGIN VIDEO CLIP)\n\nSPEAKER OF THE HOUSE NANCY PELOSI, D-CALIF.: We see it as an entrepreneurial bill — a bill that says to someone, if you want to be creative and be a musician or whatever, you can leave your work, focus on your talent, your skill, your passion, your aspirations because you will have health care.\n\n(END VIDEO CLIP)",
+        "publisher": "Fox News",
+        "published_at": "2010-05-19",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": "user_generated",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” ... This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy.",
+        "publisher": "CNN",
+        "published_at": "2013-09-22",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Religion & Liberty Online",
+        "published_at": "2013-09-24",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-49",
+        "snippet": "September 12, 2013 Press Release\n\nContact: Drew Hammill, 202-226-7616\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+        "publisher": "Representative Nancy Pelosi",
+        "published_at": "2013-09-12",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Stupid Statements by Senseless Statesmen!",
+        "url": "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+        "snippet": "Then she really displayed her brilliant thinking by saying, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+        "publisher": "Don Boys",
+        "published_at": "2018-08-16",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:09.731357+00:00",
+  "duration_seconds": 65.70166132599115,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 990,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 760,
+      "reasoning_tokens": 281,
+      "total_tokens": 1750,
+      "duration_seconds": 15.506100530736148,
+      "started_at": "2026-11-19T11:07:09.731446+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 43038,
+      "cached_input_tokens": 20629,
+      "cache_write_tokens": 22397,
+      "output_tokens": 1167,
+      "reasoning_tokens": 121,
+      "total_tokens": 44205,
+      "duration_seconds": 23.323772475123405,
+      "started_at": "2026-11-19T11:07:25.238387+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 34642,
+      "cached_input_tokens": 18670,
+      "cache_write_tokens": 15960,
+      "output_tokens": 1400,
+      "reasoning_tokens": 211,
+      "total_tokens": 36042,
+      "duration_seconds": 26.998948608059436,
+      "started_at": "2026-11-19T11:07:25.242107+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3965,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3962,
+      "output_tokens": 3290,
+      "reasoning_tokens": 212,
+      "total_tokens": 7255,
+      "duration_seconds": 23.17500367993489,
+      "started_at": "2026-11-19T11:07:52.255853+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 10,
+    "input_tokens": 82635,
+    "cached_input_tokens": 39299,
+    "cache_write_tokens": 42319,
+    "output_tokens": 6617,
+    "reasoning_tokens": 825,
+    "total_tokens": 89252,
+    "llm_seconds": 89.00382529385388,
+    "cache_hit_rate": 0.4756,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 990.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 760.0,
+        "reasoning_tokens": 281.0,
+        "total_tokens": 1750.0,
+        "llm_seconds": 15.506100530736148,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 2.0,
+        "requests": 8.0,
+        "input_tokens": 77680.0,
+        "cached_input_tokens": 39299.0,
+        "cache_write_tokens": 38357.0,
+        "output_tokens": 2567.0,
+        "reasoning_tokens": 332.0,
+        "total_tokens": 80247.0,
+        "llm_seconds": 50.32272108318284,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3965.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3962.0,
+        "output_tokens": 3290.0,
+        "reasoning_tokens": 212.0,
+        "total_tokens": 7255.0,
+        "llm_seconds": 23.17500367993489,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 89252,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 16,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 57
+  },
+  "unresolved_citations": []
+}

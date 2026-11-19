@@ -1,0 +1,501 @@
+{
+  "input": "../../data/averitec/dev_20.json",
+  "output": "exa_default.json",
+  "settings": {
+    "model": "gpt-6.1-terra",
+    "stage_models": [],
+    "stage_efforts": [],
+    "strategy": "pipeline",
+    "service_tier": "default",
+    "token_budget": null,
+    "model_retries": 3,
+    "retry_budget": 12,
+    "feedback_rounds": 0,
+    "follow_up_checks": 2,
+    "verify_sources": false,
+    "base_url": "https://api.openai.com/v1",
+    "search_provider": "exa",
+    "search_context_size": "high",
+    "search_results": 5,
+    "tool_call_budget": 8,
+    "search_cache_dir": null,
+    "max_checks": 4,
+    "parallel_research": 4,
+    "parallel_claims": 3,
+    "block_fact_checkers": true,
+    "blocked_domains": [],
+    "claim_date_field": "claim_date",
+    "knowledge_store_dir": null,
+    "artifacts_dir": "art_exa_default"
+  },
+  "claims": [
+    {
+      "claim_id": 7,
+      "claim_date": "30-10-2020",
+      "duration_seconds": 94.73162264330313,
+      "usage": {
+        "requests": 15,
+        "input_tokens": 130645,
+        "cached_input_tokens": 77342,
+        "cache_write_tokens": 52249,
+        "output_tokens": 8856,
+        "reasoning_tokens": 718,
+        "total_tokens": 139501,
+        "llm_seconds": 142.41310369269922,
+        "cache_hit_rate": 0.592,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 1012,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 886,
+            "reasoning_tokens": 160,
+            "total_tokens": 1898,
+            "llm_seconds": 15.566661123652011,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 3,
+            "requests": 13,
+            "input_tokens": 124844,
+            "cached_input_tokens": 77342,
+            "cache_write_tokens": 47463,
+            "output_tokens": 3468,
+            "reasoning_tokens": 331,
+            "total_tokens": 128312,
+            "llm_seconds": 75.10439161211252,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 4789,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 4786,
+            "output_tokens": 4502,
+            "reasoning_tokens": 227,
+            "total_tokens": 9291,
+            "llm_seconds": 51.74205095693469,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Refuted",
+      "verdict_confidence": 0.78,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 139501,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 10
+      }
+    },
+    {
+      "claim_id": 425,
+      "claim_date": "2-9-2020",
+      "duration_seconds": 83.64612945402041,
+      "usage": {
+        "requests": 14,
+        "input_tokens": 79380,
+        "cached_input_tokens": 43363,
+        "cache_write_tokens": 34998,
+        "output_tokens": 7772,
+        "reasoning_tokens": 572,
+        "total_tokens": 87152,
+        "llm_seconds": 127.28841875260696,
+        "cache_hit_rate": 0.5463,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 980,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 759,
+            "reasoning_tokens": 137,
+            "total_tokens": 1739,
+            "llm_seconds": 12.844222611747682,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 3,
+            "requests": 12,
+            "input_tokens": 74005,
+            "cached_input_tokens": 43363,
+            "cache_write_tokens": 30606,
+            "output_tokens": 3224,
+            "reasoning_tokens": 315,
+            "total_tokens": 77229,
+            "llm_seconds": 69.92241806583479,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 4395,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 4392,
+            "output_tokens": 3789,
+            "reasoning_tokens": 120,
+            "total_tokens": 8184,
+            "llm_seconds": 44.521778075024486,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Refuted",
+      "verdict_confidence": 0.89,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 87152,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 9
+      }
+    },
+    {
+      "claim_id": 270,
+      "claim_date": "24-9-2020",
+      "duration_seconds": 91.84136311663315,
+      "usage": {
+        "requests": 10,
+        "input_tokens": 71474,
+        "cached_input_tokens": 37123,
+        "cache_write_tokens": 33334,
+        "output_tokens": 7484,
+        "reasoning_tokens": 934,
+        "total_tokens": 78958,
+        "llm_seconds": 117.7800064641051,
+        "cache_hit_rate": 0.5194,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 990,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 918,
+            "reasoning_tokens": 418,
+            "total_tokens": 1908,
+            "llm_seconds": 18.62870745314285,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 2,
+            "requests": 8,
+            "input_tokens": 66267,
+            "cached_input_tokens": 37123,
+            "cache_write_tokens": 29120,
+            "output_tokens": 2862,
+            "reasoning_tokens": 367,
+            "total_tokens": 69129,
+            "llm_seconds": 55.704346692189574,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 4217,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 4214,
+            "output_tokens": 3704,
+            "reasoning_tokens": 149,
+            "total_tokens": 7921,
+            "llm_seconds": 43.446952318772674,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Not Enough Evidence",
+      "verdict_confidence": 0.8,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 78958,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 8
+      }
+    },
+    {
+      "claim_id": 32,
+      "claim_date": "26-10-2020",
+      "duration_seconds": 34.654715220909566,
+      "usage": {
+        "requests": 4,
+        "input_tokens": 12318,
+        "cached_input_tokens": 2023,
+        "cache_write_tokens": 9314,
+        "output_tokens": 2228,
+        "reasoning_tokens": 255,
+        "total_tokens": 14546,
+        "llm_seconds": 34.642020556144416,
+        "cache_hit_rate": 0.1642,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 972,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 406,
+            "reasoning_tokens": 133,
+            "total_tokens": 1378,
+            "llm_seconds": 7.758273974061012,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 1,
+            "requests": 2,
+            "input_tokens": 8560,
+            "cached_input_tokens": 2023,
+            "cache_write_tokens": 6531,
+            "output_tokens": 568,
+            "reasoning_tokens": 36,
+            "total_tokens": 9128,
+            "llm_seconds": 10.848562261089683,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 2786,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 2783,
+            "output_tokens": 1254,
+            "reasoning_tokens": 86,
+            "total_tokens": 4040,
+            "llm_seconds": 16.03518432099372,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Supported",
+      "verdict_confidence": 0.89,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 14546,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 3
+      }
+    },
+    {
+      "claim_id": 30,
+      "claim_date": "26-10-2020",
+      "duration_seconds": 89.96048884605989,
+      "usage": {
+        "requests": 11,
+        "input_tokens": 64747,
+        "cached_input_tokens": 27684,
+        "cache_write_tokens": 36045,
+        "output_tokens": 8982,
+        "reasoning_tokens": 485,
+        "total_tokens": 73729,
+        "llm_seconds": 129.6377376099117,
+        "cache_hit_rate": 0.4276,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 988,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 777,
+            "reasoning_tokens": 115,
+            "total_tokens": 1765,
+            "llm_seconds": 13.30069577973336,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 3,
+            "requests": 9,
+            "input_tokens": 58919,
+            "cached_input_tokens": 27684,
+            "cache_write_tokens": 31208,
+            "output_tokens": 3537,
+            "reasoning_tokens": 266,
+            "total_tokens": 62456,
+            "llm_seconds": 62.91945772944018,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 4840,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 4837,
+            "output_tokens": 4668,
+            "reasoning_tokens": 104,
+            "total_tokens": 9508,
+            "llm_seconds": 53.41758410073817,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Refuted",
+      "verdict_confidence": 0.89,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 73729,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 10
+      }
+    },
+    {
+      "claim_id": 18,
+      "claim_date": "28-10-2020",
+      "duration_seconds": 56.02383234491572,
+      "usage": {
+        "requests": 5,
+        "input_tokens": 18915,
+        "cached_input_tokens": 5265,
+        "cache_write_tokens": 12655,
+        "output_tokens": 3670,
+        "reasoning_tokens": 433,
+        "total_tokens": 22585,
+        "llm_seconds": 56.01066280156374,
+        "cache_hit_rate": 0.2784,
+        "failed_attempts": 0,
+        "failed_attempt_tokens": 0,
+        "wrap_up_calls": 0,
+        "per_stage": {
+          "plan": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 983,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 0,
+            "output_tokens": 528,
+            "reasoning_tokens": 172,
+            "total_tokens": 1511,
+            "llm_seconds": 10.59517101990059,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "research": {
+            "calls": 1,
+            "requests": 3,
+            "input_tokens": 14741,
+            "cached_input_tokens": 5265,
+            "cache_write_tokens": 9467,
+            "output_tokens": 1251,
+            "reasoning_tokens": 175,
+            "total_tokens": 15992,
+            "llm_seconds": 22.35053297597915,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          },
+          "judge": {
+            "calls": 1,
+            "requests": 1,
+            "input_tokens": 3191,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 3188,
+            "output_tokens": 1891,
+            "reasoning_tokens": 86,
+            "total_tokens": 5082,
+            "llm_seconds": 23.064958805684,
+            "failed_attempts": 0,
+            "failed_attempt_tokens": 0
+          }
+        }
+      },
+      "verdict": "Refuted",
+      "verdict_confidence": 0.98,
+      "strategy": "pipeline",
+      "budget": {
+        "token_budget": null,
+        "tokens_used": 22585,
+        "token_budget_exhausted": false,
+        "retry_budget": 12,
+        "retries_used": 0,
+        "retry_budget_exhausted": false,
+        "skipped_stages": []
+      },
+      "failed_checks": 0,
+      "removed_source_count": 0,
+      "cut_short_checks": 0,
+      "grounding": {
+        "quote_matched": 4
+      }
+    }
+  ]
+}

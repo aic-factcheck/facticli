@@ -77,7 +77,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Stop at the first failed claim instead of writing a fallback prediction; completed rows are kept (exit 1).",
     )
-    add_fact_check_args(parser, search_providers=("openai", "brave", "knowledge_store"))
+    add_fact_check_args(parser, search_providers=("openai", "brave", "exa", "knowledge_store"))
     parser.add_argument(
         "--knowledge-store-dir",
         default=None,
@@ -489,6 +489,7 @@ async def _run(args: argparse.Namespace) -> int:
             "stage_models": args.stage_model or [],
             "stage_efforts": args.stage_effort or [],
             "strategy": args.strategy,
+            "service_tier": getattr(args, "service_tier", None),
             "token_budget": args.token_budget,
             "model_retries": args.model_retries,
             "retry_budget": args.retry_budget,

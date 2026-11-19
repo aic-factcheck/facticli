@@ -1,0 +1,1028 @@
+{
+  "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+  "normalized_claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+  "claim_id": "127007",
+  "constraints": {
+    "claim_id": "127007",
+    "claim_date": "2026-07-02",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2026-07-02"
+  },
+  "plan_raw": {
+    "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+    "checks": [
+      {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "rationale": "The number of rules, their applicability to I-95, and their effective date are central to the claim.",
+        "search_queries": [
+          "\"Interstate 95\" \"seven\" \"new traffic rules\" \"tomorrow\"",
+          "\"I-95\" \"7 new rules\" effective date",
+          "site:gov \"I-95\" \"traffic rules\" effective enforcement"
+        ],
+        "acceptance_criteria": [
+          "Done when the claim's publication or reference date and the resulting meaning of 'tomorrow' are established, or the date cannot be determined.",
+          "Done when official rules, legislation, or transportation-agency notices identify the applicable I-95 location, the rules, and their effective dates, allowing the count and timing to be assessed."
+        ]
+      },
+      {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "rationale": "Automated detection, immediate issuance of a fine, and later delivery of a citation are distinct enforcement processes.",
+        "search_queries": [
+          "\"I-95\" \"new rules\" \"automated enforcement\" \"instant fines\"",
+          "\"Interstate 95\" automated traffic enforcement citation fine issuance",
+          "site:gov \"I-95\" automated enforcement camera fines citations"
+        ],
+        "acceptance_criteria": [
+          "Done when an official enforcement-agency description or governing law establishes whether an automated system applies to the relevant I-95 rules and location.",
+          "Done when official documentation establishes whether fines can be issued immediately or whether detection, review, citation, or payment occurs later."
+        ]
+      }
+    ],
+    "assumptions": [
+      "Interstate 95 refers to the U.S. interstate highway; the relevant state or local jurisdiction must be identified from the claim's source or official records.",
+      "'Tomorrow' means the day after the claim was published or made; no publication date is supplied.",
+      "'Instant fines' means fines issued immediately, rather than merely violations detected immediately and citations issued later."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+    "checks": [
+      {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "rationale": "The number of rules, their applicability to I-95, and their effective date are central to the claim.",
+        "search_queries": [
+          "\"Interstate 95\" \"seven\" \"new traffic rules\" \"tomorrow\"",
+          "\"I-95\" \"7 new rules\" effective date",
+          "site:gov \"I-95\" \"traffic rules\" effective enforcement",
+          "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+          "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers."
+        ],
+        "acceptance_criteria": [
+          "Done when the claim's publication or reference date and the resulting meaning of 'tomorrow' are established, or the date cannot be determined.",
+          "Done when official rules, legislation, or transportation-agency notices identify the applicable I-95 location, the rules, and their effective dates, allowing the count and timing to be assessed."
+        ]
+      },
+      {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "rationale": "Automated detection, immediate issuance of a fine, and later delivery of a citation are distinct enforcement processes.",
+        "search_queries": [
+          "\"I-95\" \"new rules\" \"automated enforcement\" \"instant fines\"",
+          "\"Interstate 95\" automated traffic enforcement citation fine issuance",
+          "site:gov \"I-95\" automated enforcement camera fines citations",
+          "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+          "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers."
+        ],
+        "acceptance_criteria": [
+          "Done when an official enforcement-agency description or governing law establishes whether an automated system applies to the relevant I-95 rules and location.",
+          "Done when official documentation establishes whether fines can be issued immediately or whether detection, review, citation, or payment occurs later."
+        ]
+      }
+    ],
+    "assumptions": [
+      "Interstate 95 refers to the U.S. interstate highway; the relevant state or local jurisdiction must be identified from the claim's source or official records.",
+      "'Tomorrow' means the day after the claim was published or made; no publication date is supplied.",
+      "'Instant fines' means fines issued immediately, rather than merely violations detected immediately and citations issued later."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "rationale": "The number of rules, their applicability to I-95, and their effective date are central to the claim.",
+        "search_queries": [
+          "\"Interstate 95\" \"seven\" \"new traffic rules\" \"tomorrow\"",
+          "\"I-95\" \"7 new rules\" effective date",
+          "site:gov \"I-95\" \"traffic rules\" effective enforcement",
+          "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+          "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers."
+        ],
+        "acceptance_criteria": [
+          "Done when the claim's publication or reference date and the resulting meaning of 'tomorrow' are established, or the date cannot be determined.",
+          "Done when official rules, legislation, or transportation-agency notices identify the applicable I-95 location, the rules, and their effective dates, allowing the count and timing to be assessed."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "signal": "insufficient",
+        "summary": "The claim’s publication date is not supplied, so its ‘tomorrow’ cannot be determined. A similar I-95 claim appeared on a page dated June 23, 2026, but it is not established as the source of this claim. Delaware officials reported that automated speed enforcement began on northbound I-95 at Churchmans Marsh on May 2, with fines beginning May 23; that notice describes speed enforcement, not seven new rules. The sources found do not establish seven new rules taking effect together on any part of I-95.",
+        "confidence": 0.83,
+        "sources": [
+          {
+            "title": "Draconian New I95 Highway Travel Laws and Insta-Fines",
+            "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "snippet": "behind the wheel on this corridor tomorrow or anytime this week.",
+            "publisher": "CAR ANTICS",
+            "published_at": "2026-06-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Statewide - I-95/Churchmans Road ESSP Camera to Issue Violations Starting May 23rd",
+            "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+            "snippet": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+            "publisher": "Delaware Department of Transportation, via PublicNow",
+            "published_at": "2026-05-22",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Speed enforcement to begin in I-95 work zone in Delaware in May",
+            "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "snippet": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+            "publisher": "Delaware Online",
+            "published_at": "2026-05-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The reference date of July 2, 2026 is an evaluation date, not an established publication date for the claim.",
+          "The June 23 page contains a similar claim, but the available evidence does not establish that it is the claim’s original source or when its embedded video was made.",
+          "The search did not produce official notices establishing the claimed set of seven rules and their effective date; the Delaware notice alone cannot rule out every local change along I-95."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"7 new rules\" effective date automated fines",
+          "urls": [
+            "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "https://www.al.com/news/2026/04/alabama-will-use-cameras-to-ticket-speeding-drivers-in-highway-work-zones-what-to-know.html",
+            "https://fox59.com/news/enforcement-starts-in-2-new-interstate-safe-zones/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Interstate 95\" \"seven\" \"new traffic rules\" \"tomorrow\"",
+          "urls": [
+            "https://www.clickorlando.com/news/local/2026/01/06/the-only-warning-youre-getting-brevard-sheriff-promises-major-traffic-crackdown/",
+            "https://baynews9.com/fl/tampa/news/2026/01/08/brevard-sheriff-s-office--fhp-step-up-enforcement-on-i-95"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "DelDOT Churchmans Marsh electronic speed safety May 2 2026 i95 21 day warning official",
+          "urls": [
+            "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+            "https://www.delawareonline.com/story/news/traffic/2026/05/22/speed-cameras-interstate-95-issue-fines-delaware/90219624007/",
+            "https://workzonesafety.org/publication/new-castle-county-electronic-speed-safety-program-to-begin-in-i-95-churchmans-marsh-work-zone/",
+            "https://www.delawarepublic.org/politics-government/2026-05-04/deldot-to-move-speed-cameras-to-bridge-rehabilitation-site-after-dozens-of-crashes",
+            "https://www.i95exitguide.com/roadnews/delaware-dot-begins-speed-cameras-on-i-95-work-zone/",
+            "https://www.wdel.com/news/i-95-work-zone-speed-camera-going-live/article_0b3e3467-a1cc-4b30-8916-d235b3122f56.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"seven\" \"rules\" \"cameras\" new enforcement",
+          "urls": [
+            "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "https://www.somdnews.com/enquirer_gazette/news/local/speeding-tickets-increased-on-capital-beltway-during-pandemic/article_a756ad0d-807c-561c-91af-7f41828ac524.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"7 new traffic rules\" automated enforcement",
+          "urls": [
+            "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "https://myrye.com/2026/06/westchester-i95-construction-upgrades/",
+            "https://www.wric.com/news/virginia-news/virginia-state-police-to-conduct-safety-operation-along-i-95-to-reduce-dangerous-driving/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"interstate 95\" \"seven new\" \"rules\" automated fines viral",
+          "urls": [
+            "https://www.expresslanes.com/node?page=13",
+            "https://www.newarkpostonline.com/news/the-year-ahead-23-newark-stories-to-watch-in-2023/article_1f996bab-67c9-5fee-a3ff-e01b7206d672.html",
+            "https://ongardens.org/2021/02/22/why-are-workers-chopping-down-oaks-on-a-key-gardens-road/",
+            "https://reason.com/2025/03/18/lawn-sign-liberalism-vs-supply-side-progressivism/",
+            "https://northernvirginiamag.com/hot-heats-up/",
+            "https://www.postandcourier.com/news/federal-law-has-south-carolina-cops-searching-cars-on-interstates-for-drug-money/article_4cfc6652-3cba-11e7-a418-ef11e68a9f6f.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"seven\" \"tomorrow\" \"rules\" cameras fines",
+          "urls": [
+            "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "https://www.wpri.com/news/politics/new-rules-taking-effect-in-rhode-island-and-massachusetts-in-2026/",
+            "https://micro.carbon60.com/highway-safety",
+            "https://www.prnewswire.com/news-releases/pennsylvania-turnpike-and-penndot-announce-70-mph-speed-limit-expansion-300260932.html",
+            "https://contactattorneysam.com/deadly-truck-driver-violations/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"7 new\" \"rules\" \"tomorrow\" instant fines seven highway",
+          "urls": [
+            "https://www.nbcnewyork.com/weather/weather-stories/snow-nyc-how-much-weather-forecast-winter-storm-warning-hudson-valley/5128319/?_osource=SocialFlowTwt_NYBrand",
+            "https://aecn.timehorse.com/search/label/Tesla%20Model%20S",
+            "https://m.thewolfweb.com/message_topic.aspx?page=7&topic=611511",
+            "https://www.dcnewsnow.com/weather/weather-forecast/passing-showers-on-tap-cloudy-and-cool-saturday/",
+            "https://www.dcnewsnow.com/weather/weather-forecast/morning-rain-turns-to-snow-this-evening/",
+            "https://travels.fsearcy.com/?cat=53",
+            "https://eathealthy365.com/what-cars-can-you-rent-at-enterprise-haverhill-ma/",
+            "https://www.dcnewsnow.com/weather/weather-forecast/quiet-mild-saturday-snow-returns-sunday/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "rationale": "Automated detection, immediate issuance of a fine, and later delivery of a citation are distinct enforcement processes.",
+        "search_queries": [
+          "\"I-95\" \"new rules\" \"automated enforcement\" \"instant fines\"",
+          "\"Interstate 95\" automated traffic enforcement citation fine issuance",
+          "site:gov \"I-95\" automated enforcement camera fines citations",
+          "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+          "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers."
+        ],
+        "acceptance_criteria": [
+          "Done when an official enforcement-agency description or governing law establishes whether an automated system applies to the relevant I-95 rules and location.",
+          "Done when official documentation establishes whether fines can be issued immediately or whether detection, review, citation, or payment occurs later."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "signal": "insufficient",
+        "summary": "No evidence found establishes an automated system authorized to enforce seven new rules across I-95 or issue instant fines. Existing systems do enforce speed limits in particular I-95 work zones: Delaware announced one for the I-95/Route 896 construction zone, and a 2026 report describes another in the Churchmans Marsh work zone. Connecticut’s work-zone system detects potential violations automatically, but state police review cases before a notice of liability is issued.",
+        "confidence": 0.86,
+        "sources": [
+          {
+            "title": "CTDOT to Activate Work Zone Speed Cameras on June 1",
+            "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "snippet": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+            "publisher": "Connecticut Department of Transportation",
+            "published_at": "2026-05-29",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Electronic Speed Safety Program to begin in I-95/Route 896 Construction Zone",
+            "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+            "snippet": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+            "publisher": "State of Delaware News",
+            "published_at": "2024-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Speed Cameras Coming to I-95 Work Zone in New Castle County",
+            "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+            "snippet": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+            "publisher": "TV Delmarva",
+            "published_at": "2026-05-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The claim does not identify a state, I-95 segment, enforcement agency or specific rules. The sources describe local speed-enforcement programs, not an identified seven-rule system.",
+          "Connecticut’s review procedure does not by itself establish the procedure in every I-95 jurisdiction."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"new rules\" \"automated enforcement\" \"instant fines\"",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Interstate 95\" automated traffic enforcement citation fine issuance",
+          "urls": [
+            "https://www.pressherald.com/2025/07/28/are-maine-police-allowed-to-use-traffic-cameras-to-remotely-write-tickets-fact-brief/",
+            "https://www.centralmaine.com/2025/07/24/new-cameras-on-maine-highways-will-not-be-used-for-ticketing-surveillance-purposes/",
+            "https://i-95eastlyme.com/news-media/news/speed-cameras-keep-watch-over-interstate-95-work-zone-in-east-lyme",
+            "https://nottinghammd.com/2019/09/19/work-zone-speed-camera-enforcement-to-begin-on-nb-i-95-in-harford-county/",
+            "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+            "https://www.newarkpostonline.com/news/speed-cameras-now-in-use-along-i-95-construction-zone-in-newark/article_eb804f44-2f9e-11ef-935f-bb9773d0ce65.html",
+            "https://ctnewsjunkie.com/2023/08/16/one-driver-cited-by-speed-enforcement-camera-pilot-program/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"7 new\" rules fines automated cameras traffic",
+          "urls": [
+            "https://wblk.com/speeding-tickets-auto-ny/",
+            "https://legalclarity.org/nh-pay-by-plate-rates-payment-window-and-penalties/",
+            "https://www.i95exitguide.com/roadnews/new-jersey-turnpike-construction-and-maintenance-updates-june-1-7/",
+            "https://en.m.wikipedia.org/wiki/Interstate_95"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"seven\" \"new\" \"traffic\" \"rules\" cameras fines",
+          "urls": [
+            "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "https://www.newhavenindependent.org/2024/05/21/alders_greenlight_traffic_cameras/",
+            "https://blog.holamiami.com/driving-in-miami-7-fast-facts-you-need-to-know/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:gov \"I-95\" \"speed\" \"automated\" \"mail\" work zone camera",
+          "urls": [
+            "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "https://news.delaware.gov/2022/01/10/electronic-speed-safety-program-to-begin-in-i-95-restore-the-corridor-construction-zone/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:portal.ct.gov 2026 \"I-95\" \"speed\" \"cameras\" \"reviewed\" work zone",
+          "urls": [
+            "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "https://portal.ct.gov/dot/ctdot-press-releases/2025/ctdot-delivers-major-infrastructure-upgrades-and-safety-innovations-across-state-in-2025",
+            "https://portal.ct.gov/dot/ctdot-press-releases/archive/2023/2023-year-in-review"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:news.delaware.gov 2026 \"I-95\" \"Electronic Speed Safety\" \"May\" notice",
+          "urls": [
+            "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+            "https://news.delaware.gov/2022/01/10/electronic-speed-safety-program-to-begin-in-i-95-restore-the-corridor-construction-zone/",
+            "https://news.delaware.gov/2022/04/14/electronic-speed-safety-program-in-i-95-restore-the-corridor-construction-zone-to-begin-issuing-violations/",
+            "https://news.delaware.gov/2024/07/22/use-extreme-caution-traveling-through-work-zones/",
+            "https://news.delaware.gov/2026/01/16/deldot-reminds-drivers-about-work-zone-awareness/",
+            "https://news.delaware.gov/2026/04/21/deldot-highlights-national-work-zone-safety-awareness-week/",
+            "https://news.delaware.gov/category/safety-and-homeland-security/page/41/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"I-95\" \"seven\" \"rules\" \"automated\" \"enforcement\" fines",
+          "urls": [
+            "https://www.somdnews.com/enquirer_gazette/news/local/speeding-tickets-increased-on-capital-beltway-during-pandemic/article_a756ad0d-807c-561c-91af-7f41828ac524.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.89,
+    "justification": "The claim does not identify a publication date or an I-95 jurisdiction, so its reference to “tomorrow” cannot be matched to an official effective date. A similarly titled page is dated June 23, 2026, but the evidence does not establish that it is the source of this claim.[S1] Delaware announced automated speed enforcement in an I-95 work zone, with warnings beginning May 2 and fines beginning May 23, 2026; the notice does not establish the claimed seven-rule system.[S2] Connecticut’s work-zone system detects potential speeding violations automatically, but state police review cases before notices of liability are issued.[S4] Inference: These local programs do not establish that seven new rules will take effect together or that an unidentified system can issue fines instantly.",
+    "key_points": [
+      "The claim’s publication date and applicable I-95 location are not established; a similar page cannot be confirmed as its source.[S1]",
+      "Delaware’s Churchmans Marsh program concerns work-zone speeding, with fines starting May 23, 2026.[S2]",
+      "Connecticut requires police review before issuing a notice of liability, although that procedure cannot be generalized to every I-95 jurisdiction.[S4]",
+      "Delaware also announced an automated speed-safety program for a separate I-95 construction zone in 2024.[S5]"
+    ],
+    "counter_argument": "A case for refuting the claim is that the documented programs concern work-zone speeding rather than seven new rules, and Connecticut’s system requires review before a notice is issued.[S2][S4][S5] That does not prevail because the claim’s date and jurisdiction are unknown, and the local examples do not rule out an unidentified program elsewhere on I-95.",
+    "evidence_gaps": [
+      "The claim’s original publication date and source, needed to determine what “tomorrow” means.",
+      "The state, I-95 segment, seven alleged rules, and official notices establishing their effective dates.",
+      "Documentation for the alleged enforcement system showing its authority, review process, and whether fines are issued immediately."
+    ],
+    "findings": [
+      {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "signal": "insufficient",
+        "summary": "The claim’s publication date is not supplied, so its ‘tomorrow’ cannot be determined. A similar I-95 claim appeared on a page dated June 23, 2026, but it is not established as the source of this claim. Delaware officials reported that automated speed enforcement began on northbound I-95 at Churchmans Marsh on May 2, with fines beginning May 23; that notice describes speed enforcement, not seven new rules. The sources found do not establish seven new rules taking effect together on any part of I-95.",
+        "confidence": 0.83,
+        "sources": [
+          {
+            "title": "Draconian New I95 Highway Travel Laws and Insta-Fines",
+            "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "snippet": "behind the wheel on this corridor tomorrow or anytime this week.",
+            "publisher": "CAR ANTICS",
+            "published_at": "2026-06-23",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Statewide - I-95/Churchmans Road ESSP Camera to Issue Violations Starting May 23rd",
+            "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+            "snippet": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+            "publisher": "Delaware Department of Transportation, via PublicNow",
+            "published_at": "2026-05-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Speed enforcement to begin in I-95 work zone in Delaware in May",
+            "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "snippet": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+            "publisher": "Delaware Online",
+            "published_at": "2026-05-01",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The reference date of July 2, 2026 is an evaluation date, not an established publication date for the claim.",
+          "The June 23 page contains a similar claim, but the available evidence does not establish that it is the claim’s original source or when its embedded video was made.",
+          "The search did not produce official notices establishing the claimed set of seven rules and their effective date; the Delaware notice alone cannot rule out every local change along I-95."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "signal": "insufficient",
+        "summary": "No evidence found establishes an automated system authorized to enforce seven new rules across I-95 or issue instant fines. Existing systems do enforce speed limits in particular I-95 work zones: Delaware announced one for the I-95/Route 896 construction zone, and a 2026 report describes another in the Churchmans Marsh work zone. Connecticut’s work-zone system detects potential violations automatically, but state police review cases before a notice of liability is issued.",
+        "confidence": 0.86,
+        "sources": [
+          {
+            "title": "CTDOT to Activate Work Zone Speed Cameras on June 1",
+            "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "snippet": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+            "publisher": "Connecticut Department of Transportation",
+            "published_at": "2026-05-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Electronic Speed Safety Program to begin in I-95/Route 896 Construction Zone",
+            "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+            "snippet": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+            "publisher": "State of Delaware News",
+            "published_at": "2024-06-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Speed Cameras Coming to I-95 Work Zone in New Castle County",
+            "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+            "snippet": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+            "publisher": "TV Delmarva",
+            "published_at": "2026-05-01",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The claim does not identify a state, I-95 segment, enforcement agency or specific rules. The sources describe local speed-enforcement programs, not an identified seven-rule system.",
+          "Connecticut’s review procedure does not by itself establish the procedure in every I-95 jurisdiction."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Draconian New I95 Highway Travel Laws and Insta-Fines",
+        "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+        "snippet": "behind the wheel on this corridor tomorrow or anytime this week.",
+        "publisher": "CAR ANTICS",
+        "published_at": "2026-06-23",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Statewide - I-95/Churchmans Road ESSP Camera to Issue Violations Starting May 23rd",
+        "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+        "snippet": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+        "publisher": "Delaware Department of Transportation, via PublicNow",
+        "published_at": "2026-05-22",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Speed enforcement to begin in I-95 work zone in Delaware in May",
+        "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+        "snippet": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+        "publisher": "Delaware Online",
+        "published_at": "2026-05-01",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "CTDOT to Activate Work Zone Speed Cameras on June 1",
+        "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+        "snippet": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+        "publisher": "Connecticut Department of Transportation",
+        "published_at": "2026-05-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Electronic Speed Safety Program to begin in I-95/Route 896 Construction Zone",
+        "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+        "snippet": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+        "publisher": "State of Delaware News",
+        "published_at": "2024-06-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Speed Cameras Coming to I-95 Work Zone in New Castle County",
+        "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+        "snippet": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+        "publisher": "TV Delmarva",
+        "published_at": "2026-05-01",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.89,
+    "justification": "The claim does not identify a publication date or an I-95 jurisdiction, so its reference to “tomorrow” cannot be matched to an official effective date. A similarly titled page is dated June 23, 2026, but the evidence does not establish that it is the source of this claim.[S1] Delaware announced automated speed enforcement in an I-95 work zone, with warnings beginning May 2 and fines beginning May 23, 2026; the notice does not establish the claimed seven-rule system.[S2] Connecticut’s work-zone system detects potential speeding violations automatically, but state police review cases before notices of liability are issued.[S4] Inference: These local programs do not establish that seven new rules will take effect together or that an unidentified system can issue fines instantly.",
+    "key_points": [
+      "The claim’s publication date and applicable I-95 location are not established; a similar page cannot be confirmed as its source.[S1]",
+      "Delaware’s Churchmans Marsh program concerns work-zone speeding, with fines starting May 23, 2026.[S2]",
+      "Connecticut requires police review before issuing a notice of liability, although that procedure cannot be generalized to every I-95 jurisdiction.[S4]",
+      "Delaware also announced an automated speed-safety program for a separate I-95 construction zone in 2024.[S5]"
+    ],
+    "counter_argument": "A case for refuting the claim is that the documented programs concern work-zone speeding rather than seven new rules, and Connecticut’s system requires review before a notice is issued.[S2][S4][S5] That does not prevail because the claim’s date and jurisdiction are unknown, and the local examples do not rule out an unidentified program elsewhere on I-95.",
+    "evidence_gaps": [
+      "The claim’s original publication date and source, needed to determine what “tomorrow” means.",
+      "The state, I-95 segment, seven alleged rules, and official notices establishing their effective dates.",
+      "Documentation for the alleged enforcement system showing its authority, review process, and whether fines are issued immediately."
+    ],
+    "findings": [
+      {
+        "aspect_id": "rules_and_timing",
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "signal": "insufficient",
+        "summary": "The claim’s publication date is not supplied, so its ‘tomorrow’ cannot be determined. A similar I-95 claim appeared on a page dated June 23, 2026, but it is not established as the source of this claim. Delaware officials reported that automated speed enforcement began on northbound I-95 at Churchmans Marsh on May 2, with fines beginning May 23; that notice describes speed enforcement, not seven new rules. The sources found do not establish seven new rules taking effect together on any part of I-95.",
+        "confidence": 0.83,
+        "sources": [
+          {
+            "title": "Draconian New I95 Highway Travel Laws and Insta-Fines",
+            "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+            "snippet": "behind the wheel on this corridor tomorrow or anytime this week.",
+            "publisher": "CAR ANTICS",
+            "published_at": "2026-06-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Statewide - I-95/Churchmans Road ESSP Camera to Issue Violations Starting May 23rd",
+            "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+            "snippet": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+            "publisher": "Delaware Department of Transportation, via PublicNow",
+            "published_at": "2026-05-22",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Speed enforcement to begin in I-95 work zone in Delaware in May",
+            "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+            "snippet": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+            "publisher": "Delaware Online",
+            "published_at": "2026-05-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The reference date of July 2, 2026 is an evaluation date, not an established publication date for the claim.",
+          "The June 23 page contains a similar claim, but the available evidence does not establish that it is the claim’s original source or when its embedded video was made.",
+          "The search did not produce official notices establishing the claimed set of seven rules and their effective date; the Delaware notice alone cannot rule out every local change along I-95."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "automated_fines",
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "signal": "insufficient",
+        "summary": "No evidence found establishes an automated system authorized to enforce seven new rules across I-95 or issue instant fines. Existing systems do enforce speed limits in particular I-95 work zones: Delaware announced one for the I-95/Route 896 construction zone, and a 2026 report describes another in the Churchmans Marsh work zone. Connecticut’s work-zone system detects potential violations automatically, but state police review cases before a notice of liability is issued.",
+        "confidence": 0.86,
+        "sources": [
+          {
+            "title": "CTDOT to Activate Work Zone Speed Cameras on June 1",
+            "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+            "snippet": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+            "publisher": "Connecticut Department of Transportation",
+            "published_at": "2026-05-29",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Electronic Speed Safety Program to begin in I-95/Route 896 Construction Zone",
+            "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+            "snippet": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+            "publisher": "State of Delaware News",
+            "published_at": "2024-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Speed Cameras Coming to I-95 Work Zone in New Castle County",
+            "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+            "snippet": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+            "publisher": "TV Delmarva",
+            "published_at": "2026-05-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The claim does not identify a state, I-95 segment, enforcement agency or specific rules. The sources describe local speed-enforcement programs, not an identified seven-rule system.",
+          "Connecticut’s review procedure does not by itself establish the procedure in every I-95 jurisdiction."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Draconian New I95 Highway Travel Laws and Insta-Fines",
+        "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+        "snippet": "behind the wheel on this corridor tomorrow or anytime this week.",
+        "publisher": "CAR ANTICS",
+        "published_at": "2026-06-23",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Statewide - I-95/Churchmans Road ESSP Camera to Issue Violations Starting May 23rd",
+        "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+        "snippet": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+        "publisher": "Delaware Department of Transportation, via PublicNow",
+        "published_at": "2026-05-22",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Speed enforcement to begin in I-95 work zone in Delaware in May",
+        "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+        "snippet": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+        "publisher": "Delaware Online",
+        "published_at": "2026-05-01",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "CTDOT to Activate Work Zone Speed Cameras on June 1",
+        "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+        "snippet": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+        "publisher": "Connecticut Department of Transportation",
+        "published_at": "2026-05-29",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Electronic Speed Safety Program to begin in I-95/Route 896 Construction Zone",
+        "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+        "snippet": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+        "publisher": "State of Delaware News",
+        "published_at": "2024-06-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Speed Cameras Coming to I-95 Work Zone in New Castle County",
+        "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+        "snippet": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+        "publisher": "TV Delmarva",
+        "published_at": "2026-05-01",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:10.023606+00:00",
+  "duration_seconds": 59.859249151777476,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 982,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 761,
+      "reasoning_tokens": 226,
+      "total_tokens": 1743,
+      "duration_seconds": 15.0445536528714,
+      "started_at": "2026-11-19T11:07:10.023715+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 35904,
+      "cached_input_tokens": 19389,
+      "cache_write_tokens": 16503,
+      "output_tokens": 1204,
+      "reasoning_tokens": 124,
+      "total_tokens": 37108,
+      "duration_seconds": 24.840071568265557,
+      "started_at": "2026-11-19T11:07:25.068769+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 28729,
+      "cached_input_tokens": 15777,
+      "cache_write_tokens": 12940,
+      "output_tokens": 1288,
+      "reasoning_tokens": 200,
+      "total_tokens": 30017,
+      "duration_seconds": 21.877075852826238,
+      "started_at": "2026-11-19T11:07:25.079480+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3937,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3934,
+      "output_tokens": 2951,
+      "reasoning_tokens": 83,
+      "total_tokens": 6888,
+      "duration_seconds": 19.948766248766333,
+      "started_at": "2026-11-19T11:07:49.932831+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 10,
+    "input_tokens": 69552,
+    "cached_input_tokens": 35166,
+    "cache_write_tokens": 33377,
+    "output_tokens": 6204,
+    "reasoning_tokens": 633,
+    "total_tokens": 75756,
+    "llm_seconds": 81.71046732272953,
+    "cache_hit_rate": 0.5056,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 982.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 761.0,
+        "reasoning_tokens": 226.0,
+        "total_tokens": 1743.0,
+        "llm_seconds": 15.0445536528714,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 2.0,
+        "requests": 8.0,
+        "input_tokens": 64633.0,
+        "cached_input_tokens": 35166.0,
+        "cache_write_tokens": 29443.0,
+        "output_tokens": 2492.0,
+        "reasoning_tokens": 324.0,
+        "total_tokens": 67125.0,
+        "llm_seconds": 46.717147421091795,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3937.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3934.0,
+        "output_tokens": 2951.0,
+        "reasoning_tokens": 83.0,
+        "total_tokens": 6888.0,
+        "llm_seconds": 19.948766248766333,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 75756,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 16,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 56
+  },
+  "unresolved_citations": []
+}

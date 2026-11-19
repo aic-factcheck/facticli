@@ -61,6 +61,9 @@ Not yet implemented (see `TODO.md`):
   - OpenAI-compatible models via Agents SDK
   - hosted `WebSearchTool` for open web retrieval
   - Brave Search API for custom retrieval
+  - Exa search API (`exa_search.py`): blocklist and claim-date cutoff applied by the engine
+    (`excludeDomains`, `endPublishedDate`); undated results are dropped under a cutoff because
+    Exa lets them through its date filter
 
 ## 4) Repository Layout
 
@@ -309,7 +312,9 @@ Claim-extraction language policy:
 - `--strategy {pipeline,single_agent}`
 - `--max-checks`, `--parallel`, `--feedback-rounds`, `--follow-up-checks`
 - `--token-budget`, `--model-retries`, `--retry-budget`
-- `--search-provider {openai,brave}` (`knowledge_store` only in the AVeriTeC runner, with
+- `--service-tier {auto,default,flex,priority}` (default `FACTICLI_SERVICE_TIER`; flex raises the
+  research timeout to 600 s)
+- `--search-provider {openai,brave,exa}` (`knowledge_store` only in the AVeriTeC runner, with
   `--knowledge-store-dir`), `--search-results`, `--search-context-size`
 - `--tool-call-budget`, `--search-cache-dir`
 - `--block-fact-checkers`, `--blocked-domain DOMAIN`
@@ -340,7 +345,8 @@ Input/validation rules:
 - `OPENAI_API_BASE_URL` (OpenAI-compatible base URL; optional for OpenAI default)
 - `OPENAI_API_KEY` (required for live checks)
 - `OPENAI_API_MODEL` (required unless passed with `--model`)
-- `FACTICLI_SEARCH_PROVIDER`, `BRAVE_SEARCH_API_KEY` (retrieval)
+- `FACTICLI_SEARCH_PROVIDER`, `BRAVE_SEARCH_API_KEY`, `EXA_API_KEY` (retrieval)
+- `FACTICLI_SERVICE_TIER` (OpenAI processing tier, e.g. `flex`)
 - `FACTICLI_CONFIG`, `FACTICLI_PROFILE` (config file layering)
 
 ## 9) Important Design Constraints

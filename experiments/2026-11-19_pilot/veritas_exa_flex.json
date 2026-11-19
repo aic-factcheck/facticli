@@ -1,0 +1,210 @@
+[
+  {
+    "claim_id": 126410,
+    "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "answer": "Le 1er juillet 2026, Deutsche Welle a démenti avoir rapporté l’existence d’une telle pétition. Contactée par le média chilien Mala Espina, DW a confirmé que son nom avait été utilisé dans une désinformation virale. Une recherche indépendante de Fast Check dans les publications de DW n’a pas non plus retrouvé le reportage allégué.",
+        "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+        "scraped_text": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa."
+      },
+      {
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "answer": "Oui. L’Allemagne a été éliminée le 29 juin 2026 en seizièmes de finale par le Paraguay : 1-1 après prolongation, puis 4-3 aux tirs au but. Elle avait auparavant terminé première de son groupe, avec deux victoires contre Curaçao et la Côte d’Ivoire, puis une défaite contre l’Équateur.",
+        "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+        "scraped_text": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale"
+      },
+      {
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "answer": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026. Mais aucune pétition originale ni archive fiable établissant ses auteurs, sa date et son contenu n’a été retrouvée. Deutsche Welle et le média chilien Fast Check ont tous deux contesté l’allégation ; le second indique avoir recherché une telle pétition dans les médias. Cela constitue une absence de preuve, non une démonstration que toute pétition de ce type est impossible.",
+        "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+        "scraped_text": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht."
+      },
+      {
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "answer": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+        "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+        "scraped_text": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa."
+      },
+      {
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "answer": "Publié 29 juin 2026 Au terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but. ## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+        "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+        "scraped_text": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale"
+      },
+      {
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "answer": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+        "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+        "scraped_text": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht."
+      },
+      {
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "answer": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana. DW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+        "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+        "scraped_text": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio."
+      },
+      {
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "answer": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+        "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+        "scraped_text": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick."
+      },
+      {
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "answer": "Tras revisar las noticias de Deutsche Welle y otros medios de comunicación, se constató que no existe una petición o colecta de firmas de parte de los alemanes, para prohibir la participación en la selección de fútbol de jugadores africanos y musulmanes.",
+        "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+        "scraped_text": "Tras revisar las noticias de Deutsche Welle y otros medios de comunicación, se constató que no existe una petición o colecta de firmas de parte de los alemanes, para prohibir la participación en la selección de fútbol de jugadores africanos y musulmanes."
+      },
+      {
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "answer": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+        "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+        "scraped_text": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto."
+      }
+    ]
+  },
+  {
+    "claim_id": 127007,
+    "claim": "Seven new traffic rules will take effect tomorrow on Interstate 95 under an automated enforcement system that could issue instant fines to drivers.",
+    "pred_label": "Not Enough Evidence",
+    "evidence": [
+      {
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "answer": "The claim’s publication date is not supplied, so its ‘tomorrow’ cannot be determined. A similar I-95 claim appeared on a page dated June 23, 2026, but it is not established as the source of this claim. Delaware officials reported that automated speed enforcement began on northbound I-95 at Churchmans Marsh on May 2, with fines beginning May 23; that notice describes speed enforcement, not seven new rules. The sources found do not establish seven new rules taking effect together on any part of I-95.",
+        "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+        "scraped_text": "behind the wheel on this corridor tomorrow or anytime this week."
+      },
+      {
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "answer": "No evidence found establishes an automated system authorized to enforce seven new rules across I-95 or issue instant fines. Existing systems do enforce speed limits in particular I-95 work zones: Delaware announced one for the I-95/Route 896 construction zone, and a 2026 report describes another in the Churchmans Marsh work zone. Connecticut’s work-zone system detects potential violations automatically, but state police review cases before a notice of liability is issued.",
+        "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+        "scraped_text": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability."
+      },
+      {
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "answer": "behind the wheel on this corridor tomorrow or anytime this week.",
+        "url": "https://wp.carantics.com/draconian-new-i95-highway-travel-laws-and-insta-fines/",
+        "scraped_text": "behind the wheel on this corridor tomorrow or anytime this week."
+      },
+      {
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "answer": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability.",
+        "url": "https://portal.ct.gov/dot/ctdot-press-releases/2026/ctdot-to-activate-work-zone-speed-cameras-on-june-1",
+        "scraped_text": "The Know the Zone: Automated Work Zone Speed Control Program uses speed cameras to enforce speed limits in designated highway work zones. ... The system uses radar to detect vehicles traveling 10 mph or more above the posted speed limit and captures images to document potential violations. All cases are reviewed by the Division of State Police within the Department of Emergency Services and Public Protection prior to issuance of a Notice of Liability."
+      },
+      {
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "answer": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00",
+        "url": "https://www.publicnow.com/view/282A8A25D3423343F1F359A489A9B6ACEA285BF1",
+        "scraped_text": "On May 2, 2026, the Delaware Department of Transportation (DelDOT), in partnership with the Delaware State Police, activated an Electronic Speed Safety Program (ESSP) on northbound I-95 in the Churchmans Marsh work zone. The first 21 days were a warning period with no fines being assessed. Beginning Saturday, May 23, 2026, registered vehicle owners receiving a first offense will receive a base violation of $20.00"
+      },
+      {
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "answer": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project.",
+        "url": "https://news.delaware.gov/2024/06/18/electronic-speed-safety-program-to-begin-in-i-95-route-896-construction-zone/",
+        "scraped_text": "The Delaware Department of Transportation (DelDOT) in partnership with the Delaware State Police announce that beginning Monday, July 8, 2024, the Electronic Speed Safety Program (ESSP) will be active in the I-95/Route 896 construction zone in Newark and will last until the end of the project."
+      },
+      {
+        "question": "Do seven new traffic rules apply to any part of Interstate 95 beginning the day after this claim was published or made?",
+        "answer": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2.",
+        "url": "https://www.delawareonline.com/story/news/2026/05/01/speed-enforcement-to-begin-i95-work-zone-delaware-may-2026/89889843007/",
+        "scraped_text": "The Delaware Department of Transportation announced on May 1 that fines will be issued to drivers who speed in the Churchmans Marsh work zone on I-95 North. The new Electronic Speed Safety Program will begin on May 2."
+      },
+      {
+        "question": "Is an automated enforcement system authorized to enforce the claimed new I-95 rules and issue fines instantly to drivers?",
+        "answer": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit.",
+        "url": "https://tvdelmarva.com/wp/speed-cameras-coming-to-i-95-work-zone-in-new-castle-county/",
+        "scraped_text": "DelDOT and Delaware State Police will launch automated speed enforcement on northbound Interstate 95 through the Churchmans Marsh construction zone beginning Saturday, May 2, 2026. ... Starting May 23, 2026, vehicle owners caught speeding will face a minimum $20 fine plus additional penalties for each mile per hour above the 50 mph work zone speed limit."
+      }
+    ]
+  },
+  {
+    "claim_id": 127769,
+    "claim": "On June 28, 2026, ICE detained Catholic nun Sister Leticia \"Letty\" Ugboaja while she was on her way to Sunday Mass in McAllen, Texas.",
+    "pred_label": "Supported",
+    "evidence": [
+      {
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "answer": "Multiple reports say ICE detained Sister Leticia “Letty” Ugboaja on Sunday, June 28, 2026, as she walked to Mass at Our Lady of Sorrows Church in McAllen, Texas. The parish reported the detention that day, and the Diocese of Brownsville later confirmed her release. She was released from custody that evening after lawmakers contacted federal officials.",
+        "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+        "scraped_text": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen."
+      },
+      {
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "answer": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen.",
+        "url": "https://myrgv.com/local-news/2026/06/28/ice-detains-nun-who-was-heading-to-mass-in-mcallen/",
+        "scraped_text": "Ugboaja was detained by U.S. Immigration and Customs Enforcement officials at 9 a.m. Sunday while walking to Our Lady of Sorrows Parish in McAllen."
+      },
+      {
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "answer": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers.",
+        "url": "https://apnews.com/article/nun-ice-immigration-texas-mcallen-96582ec2ab9582b0b0b5a6ba3c38153b",
+        "scraped_text": "Sister Leticia Ugboaja was walking to Our Lady of Sorrows Church in McAllen, Texas, just a few miles from the U.S.-Mexico border on Sunday when she was detained by U.S. Immigration and Customs Enforcement officers."
+      },
+      {
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "answer": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass.",
+        "url": "https://texasborderbusiness.com/diocese-of-brownsville-says-sister-leticia-ugboaja-released-after-ice-detention/",
+        "scraped_text": "The Diocese of Brownsville announced that Sister Leticia Ugboaja of the Daughters of Mary Mother of Mercy has been released after being detained by U.S. Immigration and Customs Enforcement on June 28 while walking to Our Lady of Sorrows Church in McAllen to attend Sunday Mass."
+      },
+      {
+        "question": "Was Catholic nun Sister Leticia \"Letty\" Ugboaja detained by ICE in McAllen, Texas, on June 28, 2026, while traveling to Sunday Mass?",
+        "answer": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen. Ugboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS.",
+        "url": "https://myrgv.com/publications/the-monitor/2026/06/30/diocese-of-brownsville-calls-nuns-detainment-wildly-disturbing/",
+        "scraped_text": "Sister Leticia Ugboaja, also known as Sister Letty, was detained by U.S. Immigration and Customs Enforcement officials on Sunday morning while she was walking to Our Lady of Sorrows Church in McAllen.\n\nUgboaja would go on to be released from the Raymondville detention center later that same evening after Valley congressional delegates spoke with DHS."
+      }
+    ]
+  },
+  {
+    "claim_id": 132348,
+    "claim": "Hiszpania przyznaje uprawnionym migrantom roczne zezwolenia na pobyt i pracę.",
+    "pred_label": "Supported",
+    "evidence": [
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "Tak. Hiszpański regulamin cudzoziemców, obowiązujący od 20 maja 2025 r., przewiduje m.in. roczne zezwolenia na pobyt i pracę w czterech procedurach arraigo: drugiej szansy, społeczno-pracowniczej, społecznej i społeczno-edukacyjnej; arraigo rodzinne jest wyjątkiem i trwa pięć lat. Zasadniczo wymagany jest dwuletni nieprzerwany pobyt w Hiszpanii, z wyjątkiem arraigo rodzinnego, oraz spełnienie warunków właściwych dla danej kategorii, np. przedstawienie wymaganych umów o pracę w procedurze społeczno-pracowniczej. Odrębna nowelizacja obowiązująca od 16 kwietnia 2026 r. przewiduje także roczne zezwolenie na pobyt i pracę w ramach nadzwyczajnego arraigo dla uprawnionych osób, które były w Hiszpanii przed 1 stycznia 2026 r.; termin składania wniosków upłynął 30 czerwca 2026 r. Roczny okres nie dotyczy więc wszystkich migrantów ani wszystkich zezwoleń: przykładowo zezwolenie na pracę sezonową ma czteroletnią ważność, z limitem pracy do dziewięciu miesięcy rocznie.",
+        "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+        "scraped_text": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025"
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025",
+        "url": "https://www.boe.es/eli/es/rd/2024/11/19/1155/con",
+        "scraped_text": "Publicado en: «BOE» núm. 280, de 20/11/2024. Entrada en vigor: 20/05/2025"
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año",
+        "url": "https://www.inclusion.gob.es/w/las-solicitudes-para-residir-y-trabajar-en-espana-se-duplican-desde-la-entrada-en-vigor-del-nuevo-reglamento-de-la-ley-de-extranjeria",
+        "scraped_text": "El nuevo Reglamento de Extranjería establece cinco figuras de arraigo, definiendo y creando nuevas categorías: segunda oportunidad, sociolaboral, social, socioformativo y familiar. Además de esta configuración, reduce y homogeneiza el tiempo de permanencia continuada en España exigido para todos los tipos de arraigo, pasando de tres años a dos, excepto para el arraigo familiar que no presenta este requisito. ... El nuevo Reglamento de Extranjería también ha incorporado cambios positivos para la autorización de residencia y trabajo en actividades de temporada que ahora ofrece cuatro años de vigencia, permitiendo trabajar un período máximo de nueve meses por año"
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años.",
+        "url": "https://atdjuridico.com/la-figura-del-arraigo-en-el-nuevo-reglamento-de-extranjeria/",
+        "scraped_text": "Todas las figuras de arraigo otorgan un permiso de residencia y trabajo. Su duración será de un año, con excepción del arraigo familiar, que tendrá una duración de cinco años."
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global.",
+        "url": "https://www.vademecumlegal.es/extranjeria/practicos/caso-practico-que-tipos-arraigo-existen-cuales-son-sus-principales-caracteristicas-requisitos-2131",
+        "scraped_text": "Arraigo sociolaboral: presentar uno o varios contratos de trabajo que garanticen al menos el salario mínimo interprofesional o el establecido en convenio colectivo, sumando una jornada semanal no inferior a 20 horas en cómputo global."
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026",
+        "url": "https://www.boe.es/eli/es/rd/2026/04/14/316",
+        "scraped_text": "La autorización de residencia temporal por circunstancias excepcionales por razón de arraigo extraordinario tendrá una vigencia de un año y habilitará a sus titulares a residir y trabajar por cuenta ajena y por cuenta propia, en cualquier parte del territorio español, ocupación o sector de actividad. ... Fecha de publicación: 15/04/2026 ... Fecha de entrada en vigor: 16/04/2026"
+      },
+      {
+        "question": "Czy obecnie obowiązujące przepisy Hiszpanii przewidują przyznawanie uprawnionym migrantom zezwoleń obejmujących zarówno pobyt, jak i pracę, ważnych przez rok, oraz jakich kategorii migrantów i procedur to dotyczy?",
+        "answer": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en",
+        "url": "https://www.iberley.es/noticias/publicada-reforma-que-aprueba-regularizacion-inmigrantes-36325",
+        "scraped_text": "por circunstancias excepcionales por razón de arraigo extraordinario para ... se encontraran en España antes del 1 de enero de 2026, y que también puede solicitarse hasta el 30 de junio de 2026. Su vigencia será de un año con posibilidad de prórroga en"
+      }
+    ]
+  }
+]

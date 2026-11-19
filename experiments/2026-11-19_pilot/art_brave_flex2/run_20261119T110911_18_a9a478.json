@@ -1,0 +1,756 @@
+{
+  "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "normalized_claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "claim_id": "18",
+  "constraints": {
+    "claim_id": "18",
+    "claim_date": "2020-10-28",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-28"
+  },
+  "plan_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "rationale": "The claim depends on whether a post-Election Day arrival causes rejection despite an earlier postmark; jurisdiction and arrival deadlines may affect the outcome.",
+        "search_queries": [
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day states",
+          "site:usa.gov absentee ballot postmark received election day state deadlines",
+          "state election official mail ballot postmarked before election day received after deadline",
+          "mail ballot postmark receipt deadlines by state current federal election court rulings"
+        ],
+        "acceptance_criteria": [
+          "Done when current official state election guidance or statutes establish whether at least one state accepts an otherwise valid ballot postmarked before Election Day and received afterward within a specified deadline.",
+          "Done when current official guidance or statutes establish the treatment of post-Election Day arrivals in states with different receipt deadlines, including applicable limits.",
+          "Done when the findings identify the election cycle or effective date and account for any relevant changes in law or court rulings."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim concerns U.S. federal general elections; no state or election year is specified.",
+      "The ballot is otherwise valid, and the question concerns rejection based on its postmark and arrival dates rather than other defects."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "rationale": "The claim depends on whether a post-Election Day arrival causes rejection despite an earlier postmark; jurisdiction and arrival deadlines may affect the outcome.",
+        "search_queries": [
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day states",
+          "site:usa.gov absentee ballot postmark received election day state deadlines",
+          "state election official mail ballot postmarked before election day received after deadline",
+          "mail ballot postmark receipt deadlines by state current federal election court rulings",
+          "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?"
+        ],
+        "acceptance_criteria": [
+          "Done when current official state election guidance or statutes establish whether at least one state accepts an otherwise valid ballot postmarked before Election Day and received afterward within a specified deadline.",
+          "Done when current official guidance or statutes establish the treatment of post-Election Day arrivals in states with different receipt deadlines, including applicable limits.",
+          "Done when the findings identify the election cycle or effective date and account for any relevant changes in law or court rulings."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim concerns U.S. federal general elections; no state or election year is specified.",
+      "The ballot is otherwise valid, and the question concerns rejection based on its postmark and arrival dates rather than other defects."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "rationale": "The claim depends on whether a post-Election Day arrival causes rejection despite an earlier postmark; jurisdiction and arrival deadlines may affect the outcome.",
+        "search_queries": [
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day states",
+          "site:usa.gov absentee ballot postmark received election day state deadlines",
+          "state election official mail ballot postmarked before election day received after deadline",
+          "mail ballot postmark receipt deadlines by state current federal election court rulings",
+          "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?"
+        ],
+        "acceptance_criteria": [
+          "Done when current official state election guidance or statutes establish whether at least one state accepts an otherwise valid ballot postmarked before Election Day and received afterward within a specified deadline.",
+          "Done when current official guidance or statutes establish the treatment of post-Election Day arrivals in states with different receipt deadlines, including applicable limits.",
+          "Done when the findings identify the election cycle or effective date and account for any relevant changes in law or court rulings."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "signal": "refutes",
+        "summary": "For the November 3, 2020 general election, treatment of an otherwise valid ballot arriving after Election Day depended on the state and the length of the delay. California accepted ballots postmarked by Election Day if received by November 20; Texas allowed qualifying ballots to arrive by 5 p.m. the following day. Florida generally required receipt by 7 p.m. on Election Day, regardless of postmark. In North Carolina, the Supreme Court left in place an extension allowing ballots postmarked by Election Day to arrive by 5 p.m. November 12, rather than the earlier three-day limit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Frequently Asked Questions | Official Voter Information Guide | California Secretary of State",
+            "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+            "snippet": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+            "publisher": "California Secretary of State",
+            "published_at": null,
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "2017 Legislative Summary",
+            "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+            "snippet": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+            "publisher": "Texas Secretary of State",
+            "published_at": "2017-10-25",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "How vote-by-mail works in Florida",
+            "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+            "snippet": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+            "publisher": "FOX 35 Orlando",
+            "published_at": "2020-10-02",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "PIX11",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov.",
+            "publisher": "battlefordsNOW",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These examples describe rules as of October 28, 2020, for the 2020 general election; they are not a current guide for later elections.",
+          "Different rules may apply to military and overseas voters. Florida’s general deadline is supported here by contemporary news reporting rather than an official 2020 state guidance document."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "2020 state absentee ballot receipt deadlines postmarked election day NCSL 2020 November election",
+          "urls": [
+            "https://s3.amazonaws.com/dl.ncsbe.gov/Candidate%20Filing/Candidates%20Guide_07132020%20%20(4).pdf",
+            "https://www.capradio.org/articles/2020/07/28/how-early-should-you-send-in-your-mail-in-ballot-to-make-sure-it-gets-counted-the-answer-varies-by-state/",
+            "https://www.wrtv.com/news/election-2020-voter-registration-and-absentee-ballot-deadlines-for-each-state/",
+            "https://www.bazelon.org/wp-content/uploads/2020/10/Absentee-Ballot-Requirements-by-State-2020-Update-FINAL.pdf",
+            "https://www.wxyz.com/news/election-2020/election-2020-voter-registration-and-absentee-ballot-deadlines-for-each-state",
+            "https://s3.amazonaws.com/dl.ncsbe.gov/Outreach/Absentee/FAQs_Absentee_Voting_2020_FINAL.pdf",
+            "https://mountainx.com/blogwire/nc-state-board-releases-faq-on-absentee-by-mail-voting/",
+            "https://www.citizen-times.com/story/news/local/2020/09/17/nc-mail-in-absentee-voting-2020-election-questions-and-answers/3483356001/",
+            "https://carolinapublicpress.org/37245/faq-voting-nc-2020/",
+            "https://www.wataugademocrat.com/election/nc-elections-board-releases-info-on-absentee-by-mail-voting/article_4cb6e64d-1369-5c86-88cc-e64ac1728956.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "2020 election state mail ballots postmarked election day received after November 3 state deadline ballot California Texas",
+          "urls": [
+            "https://www.newsweek.com/these-states-invalidate-mail-ballots-after-election-day-1522060",
+            "https://www.usnews.com/news/elections/articles/how-to-vote-by-mail-in-all-50-states-in-the-2020-election",
+            "https://www.capradio.org/articles/2020/07/28/how-early-should-you-send-in-your-mail-in-ballot-to-make-sure-it-gets-counted-the-answer-varies-by-state/",
+            "https://www.sacbee.com/news/politics-government/election/article245380065.html",
+            "https://www.mercurynews.com/2020/10/18/california-ballot-tracking-security-vote-count-mail-in-ballot-2020-election/",
+            "https://www.kvue.com/article/news/politics/vote-texas/texas-voting-mail-in-ballots-election-results-2020-counted-tallied/269-1406f839-d1d3-4731-88db-feda760f3718",
+            "https://www.latimes.com/projects/2020-election-california-voting-guide/",
+            "https://www.klobuchar.senate.gov/public/_cache/files/6/5/657ca04f-67b2-4abb-bc1f-b9173d647aaa/EC5986AABBCC6126EA538DA4CCF5CF3C.10-28-20-election-night-report.pdf"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:sos.ca.gov \"2020\" \"November 20\" \"postmarked\" ballot November 3",
+          "urls": [
+            "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+            "https://elections.cdn.sos.ca.gov/ccrov/pdf/2020/june/20135jl.pdf",
+            "https://elections.cdn.sos.ca.gov/ccrov/pdf/2020/august/20177jl.pdf",
+            "https://vig.cdn.sos.ca.gov/2016/general/en/pdf/complete-vig.pdf"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:sos.texas.gov 2020 November 4 5 p.m. postmarked election day mail ballot",
+          "urls": [
+            "https://www.sos.texas.gov/elections/laws/advisory2020-18.shtml",
+            "https://www.sos.texas.gov/elections/laws/advisory2020-14.shtml",
+            "https://www.sos.texas.gov/elections/laws/moveact-emailballotinstr.shtml",
+            "https://www.sos.texas.gov/elections/voter/2019-important-election-dates.shtml",
+            "https://www.sos.texas.gov/elections/forms/2020-march-primary-calendar.pdf",
+            "https://www.sos.texas.gov/elections/forms/adv-12-may-2-2020-uniform-election-date.pdf",
+            "https://www.sos.texas.gov/elections/laws/moveact-faqs.shtml",
+            "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "2020 vote absentee ballot must be received 7 pm November 3 Florida state election official postmarked",
+          "urls": [
+            "https://www.sun-sentinel.com/news/politics/elections/fl-ne-florida-mail-voting-guide-absentee-voting-ballots-20200926-cypp2iddlncdvhdei3jfmv4xqq-story.html",
+            "https://www.wrtv.com/news/election-2020-voter-registration-and-absentee-ballot-deadlines-for-each-state/",
+            "https://www.fox13news.com/news/voting-in-florida-2020-tampa-bay-area-election-guide",
+            "https://www.bazelon.org/wp-content/uploads/2020/10/Absentee-Ballot-Requirements-by-State-2020-Update-FINAL.pdf",
+            "https://www.news5cleveland.com/news/election-2020/election-2020-voter-registration-and-absentee-ballot-deadlines-for-each-state",
+            "https://www.news4jax.com/vote-2020/2020/09/24/florida-vote-by-mail-ballots-start-to-go-out-thursday-what-you-need-to-know/",
+            "https://www.miamiherald.com/news/politics-government/election/voter-guide/article246262120.html",
+            "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+            "https://en.as.com/en/2020/10/16/latest_news/1602804588_097722.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "October 28 2020 supreme court North Carolina mail ballots November 12 nine days election deadline",
+          "urls": [
+            "https://www.washingtontimes.com/news/2020/oct/28/supreme-court-denies-fast-track-mail-ballot-disput/",
+            "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "https://www.princegeorgecitizen.com/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12-1.24229274",
+            "https://www.courthousenews.com/supreme-court-keeps-north-carolina-extended-ballot-count-in-place/",
+            "https://www.newsobserver.com/news/politics-government/election/article246597743.html",
+            "https://www.washingtonpost.com/local/legal-issues/north-carolina-ballots/2020/10/21/3bc443d4-13a6-11eb-bc10-40b25382f1be_story.html",
+            "https://www.wbtv.com/2020/10/21/court-rulings-clarify-nc-mail-voting-rules-how-make-sure-your-ballot-counts/",
+            "https://www.nbcnews.com/politics/2020-election/north-carolina-gop-asks-supreme-court-roll-back-extra-time-n1244368"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"2020\" \"ballots\" \"received\" \"7 p.m.\" \"postmarks\" site:gov Florida election",
+          "urls": [
+            "https://oag.dc.gov/sites/default/files/2020-10/Carson-v-Simon-Amicus.pdf",
+            "https://oag.ca.gov/sites/default/files/Carson-v-Simon-Amicus.pdf"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"2020\" \"vote-by-mail\" \"postmark\" \"7 p.m.\" \"florida\" supervisor elections",
+          "urls": [
+            "https://www.politico.com/states/florida/story/2020/09/17/more-than-35-000-mail-in-ballots-were-rejected-in-florida-primary-1317327",
+            "https://www.naplesnews.com/story/news/columnists/brent-batten/2020/08/18/election-day-postmark-isnt-enough-get-ballot-counted-brent-batten/3380171001/",
+            "https://www.launchthat.com/launch-the-vote/",
+            "https://www.wftv.com/news/local/coronavirus-concerns-increase-demand-vote-by-mail-ballots/VUTK7LRK7FCH7DB2ZZB5UPH4FU/",
+            "https://theweeklychallenger.com/clearing-up-the-voting-confusion/",
+            "https://www.palmbeachpost.com/story/news/2020/10/08/how-vote-mail-florida/5926095002/",
+            "https://abcnews.com/Politics/election-2020-fill-mail-ballot-correctly-avoid-rejected/story?id=73484845",
+            "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "For the November 3, 2020 election, California’s voter guide said ballots postmarked by Election Day could be received through November 20. [S1] Texas guidance also allowed qualifying ballots to arrive by 5 p.m. the day after Election Day. [S2] Rules varied: Florida generally required receipt by 7 p.m. on Election Day, regardless of the postmark. [S3] Inference: A valid ballot postmarked before Election Day would not automatically be thrown out solely because it arrived afterward; the applicable state deadline mattered.",
+    "key_points": [
+      "California allowed timely postmarked ballots to arrive through November 20. [S1]",
+      "Texas guidance allowed qualifying ballots to arrive by 5 p.m. the following day. [S2]",
+      "Florida generally required receipt by 7 p.m. on Election Day. [S3]",
+      "North Carolina’s extended 2020 deadline was 5 p.m. on November 12 for ballots postmarked by Election Day. [S4]"
+    ],
+    "counter_argument": "The claim is accurate for voters subject to Florida’s general Election Day receipt deadline, and even states accepting later arrivals impose a cutoff. [S1][S3] But it is false as a general U.S. rule because qualifying ballots could arrive after Election Day in other states. [S1][S2]",
+    "evidence_gaps": [
+      "The California guide excerpt is undated, and the Texas guidance dates from 2017; dated official guidance confirming both rules specifically for the 2020 election would strengthen the comparison.",
+      "The evidence does not provide official 2020 Florida guidance or a comprehensive state-by-state deadline inventory."
+    ],
+    "findings": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "signal": "refutes",
+        "summary": "For the November 3, 2020 general election, treatment of an otherwise valid ballot arriving after Election Day depended on the state and the length of the delay. California accepted ballots postmarked by Election Day if received by November 20; Texas allowed qualifying ballots to arrive by 5 p.m. the following day. Florida generally required receipt by 7 p.m. on Election Day, regardless of postmark. In North Carolina, the Supreme Court left in place an extension allowing ballots postmarked by Election Day to arrive by 5 p.m. November 12, rather than the earlier three-day limit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Frequently Asked Questions | Official Voter Information Guide | California Secretary of State",
+            "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+            "snippet": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+            "publisher": "California Secretary of State",
+            "published_at": null,
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "2017 Legislative Summary",
+            "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+            "snippet": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+            "publisher": "Texas Secretary of State",
+            "published_at": "2017-10-25",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "How vote-by-mail works in Florida",
+            "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+            "snippet": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+            "publisher": "FOX 35 Orlando",
+            "published_at": "2020-10-02",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "PIX11",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov.",
+            "publisher": "battlefordsNOW",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "These examples describe rules as of October 28, 2020, for the 2020 general election; they are not a current guide for later elections.",
+          "Different rules may apply to military and overseas voters. Florida’s general deadline is supported here by contemporary news reporting rather than an official 2020 state guidance document."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Frequently Asked Questions | Official Voter Information Guide | California Secretary of State",
+        "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+        "snippet": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+        "publisher": "California Secretary of State",
+        "published_at": null,
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "2017 Legislative Summary",
+        "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+        "snippet": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+        "publisher": "Texas Secretary of State",
+        "published_at": "2017-10-25",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "How vote-by-mail works in Florida",
+        "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+        "snippet": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+        "publisher": "FOX 35 Orlando",
+        "published_at": "2020-10-02",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+        "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+        "snippet": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+        "publisher": "PIX11",
+        "published_at": "2020-10-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "For the November 3, 2020 election, California’s voter guide said ballots postmarked by Election Day could be received through November 20. [S1] Texas guidance also allowed qualifying ballots to arrive by 5 p.m. the day after Election Day. [S2] Rules varied: Florida generally required receipt by 7 p.m. on Election Day, regardless of the postmark. [S3] Inference: A valid ballot postmarked before Election Day would not automatically be thrown out solely because it arrived afterward; the applicable state deadline mattered.",
+    "key_points": [
+      "California allowed timely postmarked ballots to arrive through November 20. [S1]",
+      "Texas guidance allowed qualifying ballots to arrive by 5 p.m. the following day. [S2]",
+      "Florida generally required receipt by 7 p.m. on Election Day. [S3]",
+      "North Carolina’s extended 2020 deadline was 5 p.m. on November 12 for ballots postmarked by Election Day. [S4]"
+    ],
+    "counter_argument": "The claim is accurate for voters subject to Florida’s general Election Day receipt deadline, and even states accepting later arrivals impose a cutoff. [S1][S3] But it is false as a general U.S. rule because qualifying ballots could arrive after Election Day in other states. [S1][S2]",
+    "evidence_gaps": [
+      "The California guide excerpt is undated, and the Texas guidance dates from 2017; dated official guidance confirming both rules specifically for the 2020 election would strengthen the comparison.",
+      "The evidence does not provide official 2020 Florida guidance or a comprehensive state-by-state deadline inventory."
+    ],
+    "findings": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "signal": "refutes",
+        "summary": "For the November 3, 2020 general election, treatment of an otherwise valid ballot arriving after Election Day depended on the state and the length of the delay. California accepted ballots postmarked by Election Day if received by November 20; Texas allowed qualifying ballots to arrive by 5 p.m. the following day. Florida generally required receipt by 7 p.m. on Election Day, regardless of postmark. In North Carolina, the Supreme Court left in place an extension allowing ballots postmarked by Election Day to arrive by 5 p.m. November 12, rather than the earlier three-day limit.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Frequently Asked Questions | Official Voter Information Guide | California Secretary of State",
+            "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+            "snippet": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+            "publisher": "California Secretary of State",
+            "published_at": null,
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "2017 Legislative Summary",
+            "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+            "snippet": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+            "publisher": "Texas Secretary of State",
+            "published_at": "2017-10-25",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "How vote-by-mail works in Florida",
+            "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+            "snippet": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+            "publisher": "FOX 35 Orlando",
+            "published_at": "2020-10-02",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "PIX11",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+            "url": "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+            "snippet": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov.",
+            "publisher": "battlefordsNOW",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These examples describe rules as of October 28, 2020, for the 2020 general election; they are not a current guide for later elections.",
+          "Different rules may apply to military and overseas voters. Florida’s general deadline is supported here by contemporary news reporting rather than an official 2020 state guidance document."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Frequently Asked Questions | Official Voter Information Guide | California Secretary of State",
+        "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+        "snippet": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+        "publisher": "California Secretary of State",
+        "published_at": null,
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "2017 Legislative Summary",
+        "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+        "snippet": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+        "publisher": "Texas Secretary of State",
+        "published_at": "2017-10-25",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "How vote-by-mail works in Florida",
+        "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+        "snippet": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+        "publisher": "FOX 35 Orlando",
+        "published_at": "2020-10-02",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+        "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+        "snippet": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+        "publisher": "PIX11",
+        "published_at": "2020-10-28",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Supreme Court leaves NC absentee ballot deadline at Nov. 12",
+        "url": "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+        "snippet": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov.",
+        "publisher": "battlefordsNOW",
+        "published_at": "2020-10-28",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:08:21.050402+00:00",
+  "duration_seconds": 50.69551644800231,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 983,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 603,
+      "reasoning_tokens": 224,
+      "total_tokens": 1586,
+      "duration_seconds": 8.902248512022197,
+      "started_at": "2026-11-19T11:08:21.050712+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 54375,
+      "cached_input_tokens": 30592,
+      "cache_write_tokens": 23771,
+      "output_tokens": 1514,
+      "reasoning_tokens": 155,
+      "total_tokens": 55889,
+      "duration_seconds": 24.59300768421963,
+      "started_at": "2026-11-19T11:08:29.954111+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3300,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3297,
+      "output_tokens": 2069,
+      "reasoning_tokens": 269,
+      "total_tokens": 5369,
+      "duration_seconds": 17.187517975922674,
+      "started_at": "2026-11-19T11:08:54.557668+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 58658,
+    "cached_input_tokens": 30592,
+    "cache_write_tokens": 27068,
+    "output_tokens": 4186,
+    "reasoning_tokens": 648,
+    "total_tokens": 62844,
+    "llm_seconds": 50.6827741721645,
+    "cache_hit_rate": 0.5215,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 983.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 603.0,
+        "reasoning_tokens": 224.0,
+        "total_tokens": 1586.0,
+        "llm_seconds": 8.902248512022197,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 54375.0,
+        "cached_input_tokens": 30592.0,
+        "cache_write_tokens": 23771.0,
+        "output_tokens": 1514.0,
+        "reasoning_tokens": 155.0,
+        "total_tokens": 55889.0,
+        "llm_seconds": 24.59300768421963,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3300.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3297.0,
+        "output_tokens": 2069.0,
+        "reasoning_tokens": 269.0,
+        "total_tokens": 5369.0,
+        "llm_seconds": 17.187517975922674,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 62844,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 54
+  },
+  "unresolved_citations": []
+}

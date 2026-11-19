@@ -1,0 +1,688 @@
+{
+  "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "normalized_claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "claim_id": "270",
+  "constraints": {
+    "claim_id": "270",
+    "claim_date": "2020-09-24",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-09-24"
+  },
+  "plan_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "rationale": "The claim depends on both the accuracy of the quotation and whether Pelosi was discussing employers cutting hours in the way described.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\"",
+          "\"Pelosi\" \"time to pursue their dreams and passions\" hours",
+          "Pelosi employers cutting hours good thing pursue dreams passions transcript",
+          "site:pelosi.house.gov hours pursue dreams passions employers"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary source of the relevant remarks and compare its wording with the quotation.",
+          "Establish the date, subject, and surrounding context of the remarks, including who was described as reducing work hours.",
+          "If no primary source can be located, identify whether reliable independent contemporary accounts substantiate the exact wording and context."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“House Speaker Nancy Pelosi” identifies Nancy Pelosi and does not necessarily assert that she currently holds that office."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "rationale": "The claim depends on both the accuracy of the quotation and whether Pelosi was discussing employers cutting hours in the way described.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\"",
+          "\"Pelosi\" \"time to pursue their dreams and passions\" hours",
+          "Pelosi employers cutting hours good thing pursue dreams passions transcript",
+          "site:pelosi.house.gov hours pursue dreams passions employers",
+          "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary source of the relevant remarks and compare its wording with the quotation.",
+          "Establish the date, subject, and surrounding context of the remarks, including who was described as reducing work hours.",
+          "If no primary source can be located, identify whether reliable independent contemporary accounts substantiate the exact wording and context."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“House Speaker Nancy Pelosi” identifies Nancy Pelosi and does not necessarily assert that she currently holds that office."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "rationale": "The claim depends on both the accuracy of the quotation and whether Pelosi was discussing employers cutting hours in the way described.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\"",
+          "\"Pelosi\" \"time to pursue their dreams and passions\" hours",
+          "Pelosi employers cutting hours good thing pursue dreams passions transcript",
+          "site:pelosi.house.gov hours pursue dreams passions employers",
+          "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary source of the relevant remarks and compare its wording with the quotation.",
+          "Establish the date, subject, and surrounding context of the remarks, including who was described as reducing work hours.",
+          "If no primary source can be located, identify whether reliable independent contemporary accounts substantiate the exact wording and context."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "signal": "refutes",
+        "summary": "No primary source or reliable contemporary account located substantiates the exact quotation. Pelosi did make similar remarks about the Affordable Care Act freeing people to pursue their passions without being tied to a job for health insurance. In a September 2013 CNN interview, she made such remarks in response to concerns about the law and the 40-hour workweek; a February 2014 account describes her discussing people leaving jobs because they were no longer job-locked. Those remarks differ from saying that employer-imposed cuts to workers’ hours are a good thing.",
+        "confidence": 0.87,
+        "sources": [
+          {
+            "title": "Pelosi Floor Speech in Opposition to House GOP's 38th Vote to Repeal the Affordable Care Act",
+            "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+            "snippet": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-07-19",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Acton Institute PowerBlog",
+            "published_at": "2013-09-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "20 quotes: More Obamacare, less work",
+            "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+            "snippet": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+            "publisher": "Politico",
+            "published_at": "2014-02-10",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi: Fighting \"Job Lock\" Lets Americans \"Follow Their Passion\" - Like Leaving the Workforce",
+            "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+            "snippet": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+            "publisher": "HotAir",
+            "published_at": "2014-02-05",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The accessible search results did not provide a full contemporaneous transcript of the September 2013 CNN interview; the description of that interview is from a secondary account.",
+          "The searches did not establish an original source for the claimed exact quotation."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\"",
+          "urls": [
+            "https://x.com/PolitiFact/status/808706045526810624",
+            "https://www.reddit.com/r/The_GreatMemeWar/comments/5uvbs7/nancy_pelosi_employers_cutting_hours_is_a_good/",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://me.me/i/employers-cutting-hours-is-a-good-thing-it-then-gives-8615103",
+            "https://www.reddit.com/r/PoliticalHumor/comments/chm97e/trumps_presidential_seal/",
+            "https://tech.slashdot.org/story/20/04/20/1955236/facebook-will-ban-protests-that-defy-government-guidance-on-distancing",
+            "https://thegrotto.co.za/threads/the-totally-cool-no-stress-us-election-thread.350/page-72",
+            "https://www.democraticunderground.com/100211882169"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "\"Pelosi\" \"time to pursue their dreams and passions\" hours",
+          "urls": [
+            "https://thegrotto.co.za/threads/the-totally-cool-no-stress-us-election-thread.350/page-72",
+            "https://me.me/i/employers-cutting-hours-is-a-good-thing-it-then-gives-8615103",
+            "https://www.democraticunderground.com/100211882169",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "site:pelosi.house.gov 2014 \"pursue\" \"passion\" cbo jobs hours affordable care",
+          "urls": [
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-van-hollen-press-conference-today",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-56",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-71",
+            "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-51",
+            "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-the-rule-to-bring-up-the-upton-bill"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Nancy Pelosi employers cutting hours dreams passions health care artist 2014 CBO jobs",
+          "urls": [
+            "https://www.phillyburbs.com/story/opinion/columns/your-voice/2014/03/27/we-should-have-listened-more/18013159007/",
+            "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://thehill.com/blogs/blog-briefing-room/news/197896-dems-pushing-poetry-over-jobs/",
+            "https://www.americanthinker.com/articles/2014/11/nancy_pelosi_should_quit_and_follow_her_passions.html",
+            "https://dailycaller.com/2014/02/05/pelosi-obamacare-allows-workers-to-escape-their-jobs/",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://thepeoplescube.com/obamacare-art-appreciation-lesson-1-what-s-art-t13331.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Pelosi Obamacare CBO work less hours pursue passions February 2014 transcript",
+          "urls": [
+            "https://hotair.com/allahpundit/2014/02/08/quotes-of-the-day-1639-n187553",
+            "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-59",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-van-hollen-press-conference-today",
+            "https://dailycaller.com/2014/02/05/pelosi-obamacare-allows-workers-to-escape-their-jobs/",
+            "https://www.politico.com/magazine/story/2014/02/obamacare-jobs-party-of-less-work-103184/",
+            "https://www.politico.com/story/2014/02/obamacare-first-year-enrollment-numbers-103098.html",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-71"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Nancy Pelosi Candy Crowley 2013 \"hours\" \"liberation\" \"passion\" transcript",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "Pelosi CNN september 22 2013 \"hours\" \"passion\" crowley employer health care",
+          "urls": [
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://www.americanthinker.com/blog/2013/09/a_bright_future_of_quilting_with_nancy_pelosi.html",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-press-conference-today-53",
+            "https://pelosi.house.gov/news/press-releases/pelosi-remarks-at-press-conference-on-gop-attacks-on-pre-existing-condition"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "brave",
+          "kind": "search",
+          "query": "CNN transcripts Pelosi Crowley \"40 hour\" \"liberation\" September 2013 health care",
+          "urls": [
+            "https://www.breitbart.com/clips/2013/09/22/pelosi-obama-is-liberation-from-40-hour-work-week/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.84,
+    "justification": "The supplied sources do not establish that Pelosi said the quoted words. A secondary account describes her discussing the freedom to follow passions in a 2013 CNN interview about changes to work hours, but its snippet does not provide the claimed quotation.[S2] In other remarks, Pelosi discussed freedom to follow one’s passion without being confined by health insurance needs or being “job-locked,” rather than the words attributed to her here.[S1][S3][S4] Inference: Those different remarks do not establish that she never made the claimed statement, particularly without a transcript or recording of the CNN interview.",
+    "key_points": [
+      "The available CNN interview account describes similar themes but does not quote the claimed words.[S2]",
+      "Pelosi’s documented remarks include following one’s passion and avoiding job lock, but they do not contain the attributed quotation.[S1][S3][S4]",
+      "The finding labels the claim refuted, but the supplied snippets do not conclusively rule out the quotation."
+    ],
+    "counter_argument": "A case for Refuted is that the documented remarks use different wording and discuss freedom from job lock, not employer-imposed cuts, suggesting the quotation may distort what Pelosi said.[S1][S3][S4] But the secondary account of the CNN interview links her passion remarks to changes in work hours, and the full interview is unavailable in the supplied evidence; the excerpts alone cannot rule out the exact quotation.[S2]",
+    "evidence_gaps": [
+      "A recording or full contemporaneous transcript of the September 2013 CNN interview would allow the alleged wording and its context to be checked.",
+      "The original source and date of the attributed quotation were not established."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "signal": "refutes",
+        "summary": "No primary source or reliable contemporary account located substantiates the exact quotation. Pelosi did make similar remarks about the Affordable Care Act freeing people to pursue their passions without being tied to a job for health insurance. In a September 2013 CNN interview, she made such remarks in response to concerns about the law and the 40-hour workweek; a February 2014 account describes her discussing people leaving jobs because they were no longer job-locked. Those remarks differ from saying that employer-imposed cuts to workers’ hours are a good thing.",
+        "confidence": 0.87,
+        "sources": [
+          {
+            "title": "Pelosi Floor Speech in Opposition to House GOP's 38th Vote to Repeal the Affordable Care Act",
+            "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+            "snippet": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-07-19",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Acton Institute PowerBlog",
+            "published_at": "2013-09-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "20 quotes: More Obamacare, less work",
+            "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+            "snippet": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+            "publisher": "Politico",
+            "published_at": "2014-02-10",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi: Fighting \"Job Lock\" Lets Americans \"Follow Their Passion\" - Like Leaving the Workforce",
+            "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+            "snippet": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+            "publisher": "HotAir",
+            "published_at": "2014-02-05",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The accessible search results did not provide a full contemporaneous transcript of the September 2013 CNN interview; the description of that interview is from a secondary account.",
+          "The searches did not establish an original source for the claimed exact quotation."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi Floor Speech in Opposition to House GOP's 38th Vote to Repeal the Affordable Care Act",
+        "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+        "snippet": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+        "publisher": "Representative Nancy Pelosi",
+        "published_at": "2013-07-19",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Acton Institute PowerBlog",
+        "published_at": "2013-09-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "20 quotes: More Obamacare, less work",
+        "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+        "snippet": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+        "publisher": "Politico",
+        "published_at": "2014-02-10",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi: Fighting \"Job Lock\" Lets Americans \"Follow Their Passion\" - Like Leaving the Workforce",
+        "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+        "snippet": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+        "publisher": "HotAir",
+        "published_at": "2014-02-05",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.84,
+    "justification": "The supplied sources do not establish that Pelosi said the quoted words. A secondary account describes her discussing the freedom to follow passions in a 2013 CNN interview about changes to work hours, but its snippet does not provide the claimed quotation.[S2] In other remarks, Pelosi discussed freedom to follow one’s passion without being confined by health insurance needs or being “job-locked,” rather than the words attributed to her here.[S1][S3][S4] Inference: Those different remarks do not establish that she never made the claimed statement, particularly without a transcript or recording of the CNN interview.",
+    "key_points": [
+      "The available CNN interview account describes similar themes but does not quote the claimed words.[S2]",
+      "Pelosi’s documented remarks include following one’s passion and avoiding job lock, but they do not contain the attributed quotation.[S1][S3][S4]",
+      "The finding labels the claim refuted, but the supplied snippets do not conclusively rule out the quotation."
+    ],
+    "counter_argument": "A case for Refuted is that the documented remarks use different wording and discuss freedom from job lock, not employer-imposed cuts, suggesting the quotation may distort what Pelosi said.[S1][S3][S4] But the secondary account of the CNN interview links her passion remarks to changes in work hours, and the full interview is unavailable in the supplied evidence; the excerpts alone cannot rule out the exact quotation.[S2]",
+    "evidence_gaps": [
+      "A recording or full contemporaneous transcript of the September 2013 CNN interview would allow the alleged wording and its context to be checked.",
+      "The original source and date of the attributed quotation were not established."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "signal": "refutes",
+        "summary": "No primary source or reliable contemporary account located substantiates the exact quotation. Pelosi did make similar remarks about the Affordable Care Act freeing people to pursue their passions without being tied to a job for health insurance. In a September 2013 CNN interview, she made such remarks in response to concerns about the law and the 40-hour workweek; a February 2014 account describes her discussing people leaving jobs because they were no longer job-locked. Those remarks differ from saying that employer-imposed cuts to workers’ hours are a good thing.",
+        "confidence": 0.87,
+        "sources": [
+          {
+            "title": "Pelosi Floor Speech in Opposition to House GOP's 38th Vote to Repeal the Affordable Care Act",
+            "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+            "snippet": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+            "publisher": "Representative Nancy Pelosi",
+            "published_at": "2013-07-19",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Acton Institute PowerBlog",
+            "published_at": "2013-09-26",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "20 quotes: More Obamacare, less work",
+            "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+            "snippet": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+            "publisher": "Politico",
+            "published_at": "2014-02-10",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi: Fighting \"Job Lock\" Lets Americans \"Follow Their Passion\" - Like Leaving the Workforce",
+            "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+            "snippet": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+            "publisher": "HotAir",
+            "published_at": "2014-02-05",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The accessible search results did not provide a full contemporaneous transcript of the September 2013 CNN interview; the description of that interview is from a secondary account.",
+          "The searches did not establish an original source for the claimed exact quotation."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi Floor Speech in Opposition to House GOP's 38th Vote to Repeal the Affordable Care Act",
+        "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+        "snippet": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+        "publisher": "Representative Nancy Pelosi",
+        "published_at": "2013-07-19",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Acton Institute PowerBlog",
+        "published_at": "2013-09-26",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "20 quotes: More Obamacare, less work",
+        "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+        "snippet": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+        "publisher": "Politico",
+        "published_at": "2014-02-10",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi: Fighting \"Job Lock\" Lets Americans \"Follow Their Passion\" - Like Leaving the Workforce",
+        "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+        "snippet": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+        "publisher": "HotAir",
+        "published_at": "2014-02-05",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:10.059989+00:00",
+  "duration_seconds": 51.57555925985798,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 990,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 426,
+      "reasoning_tokens": 110,
+      "total_tokens": 1416,
+      "duration_seconds": 10.230305582284927,
+      "started_at": "2026-11-19T11:07:10.060085+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 36970,
+      "cached_input_tokens": 21262,
+      "cache_write_tokens": 15696,
+      "output_tokens": 1421,
+      "reasoning_tokens": 128,
+      "total_tokens": 38391,
+      "duration_seconds": 24.752216362860054,
+      "started_at": "2026-11-19T11:07:20.291123+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3190,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3187,
+      "output_tokens": 2123,
+      "reasoning_tokens": 210,
+      "total_tokens": 5313,
+      "duration_seconds": 16.581029840745032,
+      "started_at": "2026-11-19T11:07:45.053274+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 41150,
+    "cached_input_tokens": 21262,
+    "cache_write_tokens": 18883,
+    "output_tokens": 3970,
+    "reasoning_tokens": 448,
+    "total_tokens": 45120,
+    "llm_seconds": 51.56355178589001,
+    "cache_hit_rate": 0.5167,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 990.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 426.0,
+        "reasoning_tokens": 110.0,
+        "total_tokens": 1416.0,
+        "llm_seconds": 10.230305582284927,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 36970.0,
+        "cached_input_tokens": 21262.0,
+        "cache_write_tokens": 15696.0,
+        "output_tokens": 1421.0,
+        "reasoning_tokens": 128.0,
+        "total_tokens": 38391.0,
+        "llm_seconds": 24.752216362860054,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3190.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3187.0,
+        "output_tokens": 2123.0,
+        "reasoning_tokens": 210.0,
+        "total_tokens": 5313.0,
+        "llm_seconds": 16.581029840745032,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 45120,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 30
+  },
+  "unresolved_citations": []
+}

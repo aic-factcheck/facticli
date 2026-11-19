@@ -1,0 +1,308 @@
+[
+  {
+    "claim_id": 7,
+    "claim": "Why should you pay more taxes than Donald Trump pays? And that’s a fact. $750. Remember what he said when that was raised a while ago, how he only pays … He said, ‘Because I’m smart. I know how to game the system.’",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "answer": "The New York Times reported from tax-return data that Trump’s federal income-tax liability was $750 in each of 2016 and 2017, and that he paid no income tax in 10 of the 15 years before his election. The $750 figure does not encompass all taxes: Trump or his companies also paid foreign taxes in 2017. A separately disclosed 2005 return showed $38 million in federal income tax. The Times did not have his personal returns for 2018 or 2019.",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "scraped_text": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019."
+      },
+      {
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "answer": "The New York Times reported that Trump’s federal income tax liability was $750 in each of 2016 and 2017. Tax Policy Center modeling estimated that about half of U.S. tax units paid more than $750 in federal income tax in those years. Separately, the Congressional Budget Office estimated that households in the middle income fifth paid an average of $2,200 in 2016. These comparisons do not establish what an unspecified listener paid.",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "scraped_text": "When they got to line 56, the one for income taxes due, the amount was the same each year: $750."
+      },
+      {
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "answer": "In the September 26, 2016 presidential debate, Hillary Clinton said records from Trump’s casino-license applications showed that he had paid no federal income tax in certain years. Trump responded, “That makes me smart.” He did not say “Because I’m smart. I know how to game the system” in that exchange; those words are a paraphrase, not an exact quotation. At an October 3, 2016 rally, however, Trump separately said he had “brilliantly” used tax laws to his benefit.",
+        "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+        "scraped_text": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health."
+      },
+      {
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "answer": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019.",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "scraped_text": "Although he had more than enough credits to owe no taxes at all, his accountants appear to have carved out an allowance for a small tax liability for both 2016 and 2017. When they got to line 56, the one for income taxes due, the amount was the same each year: $750. ... The New York Times has obtained tax-return data extending over more than two decades for Mr. Trump and the hundreds of companies that make up his business organization, including detailed information from his first two years in office. It does not include his personal returns for 2018 or 2019."
+      },
+      {
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "answer": "When they got to line 56, the one for income taxes due, the amount was the same each year: $750.",
+        "url": "https://www.nytimes.com/interactive/2020/09/27/us/donald-trump-taxes.html",
+        "scraped_text": "When they got to line 56, the one for income taxes due, the amount was the same each year: $750."
+      },
+      {
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "answer": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "url": "https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/",
+        "scraped_text": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health."
+      },
+      {
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "answer": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year.",
+        "url": "https://www.nytimes.com/2020/09/28/us/politics/nyt-trump-taxes-explained.html",
+        "scraped_text": "The Times’s investigative reporting team has obtained the president’s tax-return data going back over two decades. And it reveals that in 10 of the 15 years before his election as president, Trump paid $0 in income tax. In 2016 and 2017, he paid just $750 a year."
+      },
+      {
+        "question": "How did $750 in annual federal income tax compare with what U.S. taxpayers paid in the relevant year or years, and can the comparison be applied to an unspecified individual?",
+        "answer": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017.",
+        "url": "https://www.vox.com/policy-and-politics/21459782/trump-750-tax-returns-nyt",
+        "scraped_text": "Mark Mazur, the director of the Tax Policy Center (America’s leading nonpartisan tax think tank) and a former assistant secretary for tax policy at the Treasury Department, told me that according to TPC’s models, about half of American tax units* paid more than $750 in federal income taxes in 2016 and 2017."
+      },
+      {
+        "question": "What did Donald Trump say in response to a claim that he paid little or no federal income tax, and did he say the quoted words “Because I’m smart. I know how to game the system”?",
+        "answer": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health.",
+        "url": "https://www.politico.com/story/2016/09/full-transcript-first-2016-presidential-debate-228761",
+        "scraped_text": "Or maybe he doesn’t want the American people, all of you watching tonight, to know that he’s paid nothing in federal taxes, because the only years that anybody’s ever seen were a couple of years when he had to turn them over to state authorities when he was trying to get a casino license, and they showed he didn’t pay any federal income tax. TRUMP: That makes me smart. [Interruption] CLINTON: So if he’s paid zero, that means zero for troops, zero for vets, zero for schools or health."
+      },
+      {
+        "question": "For which tax year or years, if any, did Donald Trump pay $750 in federal income tax, and what do the available records show about his other tax payments?",
+        "answer": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details.",
+        "url": "https://www.nbcnews.com/news/us-news/trump-paid-38-million-2005-federal-taxes-2005-white-house-n733611",
+        "scraped_text": "The White House confirmed Tuesday night that President Donald Trump paid $38 million in federal income tax on more than $150 million in income for 2005 after MSNBC's \"The Rachel Maddow Show\" said it would release the details."
+      }
+    ]
+  },
+  {
+    "claim_id": 18,
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "For the November 3, 2020 general election, treatment of an otherwise valid ballot arriving after Election Day depended on the state and the length of the delay. California accepted ballots postmarked by Election Day if received by November 20; Texas allowed qualifying ballots to arrive by 5 p.m. the following day. Florida generally required receipt by 7 p.m. on Election Day, regardless of postmark. In North Carolina, the Supreme Court left in place an extension allowing ballots postmarked by Election Day to arrive by 5 p.m. November 12, rather than the earlier three-day limit.",
+        "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+        "scraped_text": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20."
+      },
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20.",
+        "url": "https://voterguide.sos.ca.gov/voter-info/faq.htm",
+        "scraped_text": "To ensure your ballot arrives by the deadline, return it either: By mail—must be postmarked on or before November 3 and received by your county elections office no later than November 20."
+      },
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day.",
+        "url": "https://www.sos.texas.gov/elections/laws/advisory2017-18.shtml",
+        "scraped_text": "House Bill 1151: Provides that a voted ballot by mail is timely if it is received by 5:00 p.m. on the day after election day (Monday following a Saturday election) and is postmarked by 7:00 p.m. on election day."
+      },
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m.",
+        "url": "https://www.fox35orlando.com/news/how-vote-by-mail-works-in-florida",
+        "scraped_text": "Mail-in ballots must arrive by: November 3 at 7 p.m. The date on which your ballot is postmarked is irrelevant; it must arrive at the elections office by 7 p.m."
+      },
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+        "url": "https://pix11.com/news/election-2020/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+        "scraped_text": "Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted."
+      },
+      {
+        "question": "Under current rules for U.S. federal general elections, how do states treat an otherwise valid mail-in ballot postmarked before Election Day that arrives after Election Day, and do the deadlines vary by state or length of delay?",
+        "answer": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov.",
+        "url": "https://battlefordsnow.com/2020/10/28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12/",
+        "scraped_text": "The justices on Wednesday refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days, pushing back the deadline to Nov."
+      }
+    ]
+  },
+  {
+    "claim_id": 30,
+    "claim": "Paul Pogba, who plays for Manchester United and the French national team, retired from international football in response to French President Macron’s comments on Islamist terrorism.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "answer": "On October 26, 2020, Pogba denied reports that he had quit France’s national team over Macron’s comments, calling them unfounded and fake news. Reuters and the BBC independently reported his denial. The French Football Federation records that he had played for France against Croatia on October 14, before the retirement rumor arose.",
+        "url": "https://www.bbc.co.uk/sport/football/54691842",
+        "scraped_text": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said."
+      },
+      {
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "answer": "On 16 October 2020, Macron described the killing of teacher Samuel Paty as an Islamist terrorist attack, saying Paty had been murdered for teaching freedom of expression and freedom of belief. Contemporaneous coverage connected that description to reports that Pogba had quit the national team, which Pogba rejected. Some coverage also attributed to Macron a statement that unity and firmness were the only answers to Islamist terrorism; Sky News attributed that statement to education minister Jean-Michel Blanquer.",
+        "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+        "scraped_text": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé."
+      },
+      {
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "answer": "The retirement story was circulating on 26 October 2020, when the BBC described Pogba as a Manchester United and France midfielder and reported his denial. Manchester United documented his substitute appearance against Chelsea on 24 October. France’s federation documented his appearance for France against Croatia on 14 October. These are the latest playing-status records identified within the evidence cutoff: he remained a United player and had not retired from France.",
+        "url": "https://www.bbc.com/sport/football/54691842",
+        "scraped_text": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam."
+      },
+      {
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "answer": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said.",
+        "url": "https://www.bbc.co.uk/sport/football/54691842",
+        "scraped_text": "Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam. ... World Cup winner Pogba, who is Muslim, has 10 goals and 72 caps for France. \"Absolutely 100% unfounded news about me are going around, stating things I have never said or thought,\" he said."
+      },
+      {
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "answer": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé.",
+        "url": "https://www.elysee.fr/emmanuel-macron/2020/10/16/declaration-du-president-emmanuel-macron-suite-a-lattentat-de-conflans-sainte-honorine",
+        "scraped_text": "un de nos concitoyens a été assassiné, aujourd'hui, parce qu'il enseignait, parce qu'il apprenait à des élèves la liberté d'expression, la liberté de croire et de ne pas croire. Notre compatriote a été lâchement attaqué, a été la victime d'un attentat terroriste islamiste caractérisé."
+      },
+      {
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "answer": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam.",
+        "url": "https://www.bbc.com/sport/football/54691842",
+        "scraped_text": "Manchester United and France midfielder Paul Pogba says he will take legal action after \"total fake\" reports said he was to quit international football. Pogba, 27, was reported to be quitting the France national team over comments made by the country's president, Emmanuel Macron, about Islam."
+      },
+      {
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "answer": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun.",
+        "url": "https://reuters.com/article/soccer-france-pogba-idINKBN27B1KT",
+        "scraped_text": "The Sun newspaper alleged that Pogba, a practising Muslim, reacted to Macron's comments by quitting the national team. \"Unacceptable,\" the 27-year-old wrote on a Twitter post along with a \"fake news\" sticker on a screenshot of the headline from The Sun."
+      },
+      {
+        "question": "What did President Emmanuel Macron say about Islamist terrorism in the period associated with the reported Pogba retirement, and when did he say it?",
+        "answer": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”.",
+        "url": "https://www.independent.co.uk/sport/football/international/paul-pogba-quit-french-national-team-islam-emmanuel-macron-terrorism-news-b1342498.html",
+        "scraped_text": "Reports in the Middle East claimed Pogba had stepped down from national duties over Macron’s description of the murder of French school teacher Samuel Paty as an “Islamic terrorist attack”."
+      },
+      {
+        "question": "Was Pogba a Manchester United player and a French national-team player when the retirement story circulated, and what are his latest documented club and international playing statuses?",
+        "answer": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea.",
+        "url": "https://www.manutd.com/en/news/detail/solskjaer-praises-pogba-performance-in-man-utd-0-chelsea-0-on-24-october-2020",
+        "scraped_text": "Manchester United manager Ole Gunnar Solskjaer has praised the impact Paul Pogba made in his three substitute appearances against Newcastle, Paris Saint-Germain and Chelsea."
+      },
+      {
+        "question": "Did Paul Pogba announce or undertake retirement from the French national team in response to comments by President Emmanuel Macron about Islamist terrorism?",
+        "answer": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)",
+        "url": "https://www.fff.fr/actualites/194844-croatie-france",
+        "scraped_text": "79e - 1-2 - Mbappé : sur une action en une touche de balle, Digne, alerté sur la gauche par une longue ouverture millimétrée de Pogba, adresse un centre parfait devant le but où se trouve Kylian Mbappé qui se jette pour glisser le ballon hors de portée du gardien croate. Entrée en jeu décisive pour Paul Pogba, à l'origine du but de la victoire tricolore. (Photo Franck Fife/AFP) ... Le mercredi 14 octobre 2020 à Zagreb (stade Maksimir) 4e journée de la Ligue des Nations (Ligue A, groupe 3)"
+      }
+    ]
+  },
+  {
+    "claim_id": 32,
+    "claim": "The New York post Endorsed Donald trumps bid for re-election.",
+    "pred_label": "Supported",
+    "evidence": [
+      {
+        "question": "Did the New York Post editorial board endorse Donald Trump in a presidential campaign for another term, and if so, in which election year?",
+        "answer": "The New York Post editorial board endorsed Donald Trump for a second presidential term in the 2020 election. Mediaite reported the endorsement on October 26, 2020, and the Atlanta Journal-Constitution independently reported that the Post’s editorial staff backed Trump.",
+        "url": "https://www.mediaite.com/media/print/ny-post-endorses-trump-in-call-to-defeat-globalism-and-liberal-elites-his-reelection-will-really-tick-off-hollywood/",
+        "scraped_text": "In its endorsement, the Post editorial board cited the economy, and the president’s rejection of globalism, as its primary reason for backing a second Trump term."
+      },
+      {
+        "question": "Did the New York Post editorial board endorse Donald Trump in a presidential campaign for another term, and if so, in which election year?",
+        "answer": "In its endorsement, the Post editorial board cited the economy, and the president’s rejection of globalism, as its primary reason for backing a second Trump term.",
+        "url": "https://www.mediaite.com/media/print/ny-post-endorses-trump-in-call-to-defeat-globalism-and-liberal-elites-his-reelection-will-really-tick-off-hollywood/",
+        "scraped_text": "In its endorsement, the Post editorial board cited the economy, and the president’s rejection of globalism, as its primary reason for backing a second Trump term."
+      },
+      {
+        "question": "Did the New York Post editorial board endorse Donald Trump in a presidential campaign for another term, and if so, in which election year?",
+        "answer": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy.",
+        "url": "https://www.ajc.com/news/the-new-york-post-endorses-president-trump-for-reelection/3OAYLI5FM5AK7AOQAJOTR4MCVU/",
+        "scraped_text": "The editorial staff for the New York Post, known for celebrity stories and a conservative perspective, wrote Monday that Trump was the superior candidate based primarily on his impact on the economy."
+      }
+    ]
+  },
+  {
+    "claim_id": 270,
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "pred_label": "Not Enough Evidence",
+    "evidence": [
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "answer": "No primary source or reliable contemporary account located substantiates the exact quotation. Pelosi did make similar remarks about the Affordable Care Act freeing people to pursue their passions without being tied to a job for health insurance. In a September 2013 CNN interview, she made such remarks in response to concerns about the law and the 40-hour workweek; a February 2014 account describes her discussing people leaving jobs because they were no longer job-locked. Those remarks differ from saying that employer-imposed cuts to workers’ hours are a good thing.",
+        "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+        "scraped_text": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "answer": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill.",
+        "url": "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+        "scraped_text": "A healthy life, the liberty to pursue your happiness, to be whatever you want: an artist, to be self-employed, to start your business, to change jobs, to follow your passion not your policy, and not to be confined because there is a preexisting condition in your family, or to be confined because of fear of someone getting ill."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "answer": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "url": "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "scraped_text": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "answer": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week.",
+        "url": "https://www.politico.com/gallery/2014/02/20-quotes-more-obamacare-less-work-001449",
+        "scraped_text": "“So it’s not going to cost jobs. It’s going to shift how people make a living and reach their aspirations. ... This was one of the goals. To give people life, a healthy life, liberty to pursue their happiness. And that liberty is to not be job-locked but to follow their passion,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes last week."
+      },
+      {
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting workers’ hours, and what was the context of any matching or similar remarks?",
+        "answer": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business.",
+        "url": "https://hotair.com/archives/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce",
+        "scraped_text": "“What we see is that people are leaving their jobs because they are no longer job-locked,” House Minority Leader Nancy Pelosi (D-Calif.) told reporters after House votes Tuesday afternoon. “They are following their aspirations to be a writer; to be self-employed; to start a business."
+      }
+    ]
+  },
+  {
+    "claim_id": 425,
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "pred_label": "Refuted",
+    "evidence": [
+      {
+        "question": "Is Fox News Channel currently available to viewers in Canada through authorized television providers or other lawful distribution?",
+        "answer": "The CRTC authorized Fox News for digital distribution, and a Canadian Bell Fibe TV channel listing includes Fox News Channel on channel 507. The available provider evidence is dated, however, so it does not independently establish that the same listing remained in effect on September 2, 2020.",
+        "url": "https://crtc.gc.ca/eng/archive/2006/pb2006-46.pdf",
+        "scraped_text": "List of Part 3 Eligible Satellite services for Digital Distribution Only · Al Jazeera*♦ · ART Movies♦ · Azteca 13 International · Bloomberg Television · Bridges TV · BVN-TV♦ · Canal 52 MX · Canal de las Estrellas Latinoamérica · Canal SUR♦ · iv · Channel One Russia Worldwide TV · CineLatino♦ · Discovery Wings · ET-Global Channel · Eternal Word Television Network · Eurochannel · EuroNews · Eurosportnews · Fox News"
+      },
+      {
+        "question": "Does a Canadian Radio Act or related broadcasting law currently make lying to the public via airwaves a criminal offence, and what conduct and penalties do the relevant provisions specify?",
+        "answer": "As of September 2, 2020, Canadian law did not make every lie broadcast to the public a crime, but it did prohibit broadcasting licensees from airing false or misleading news. The Broadcasting Act made contravention of its regulations a summary-conviction offence, with maximum fines of $25,000 for an individual’s first offence and $250,000 for a corporation’s; the maxima doubled for subsequent offences. The CRTC said a breach must be flagrant before it would act on a complaint. Separately, Criminal Code section 372 prohibited knowingly conveying false information by telecommunication with intent to injure or alarm a person, punishable on indictment by up to two years’ imprisonment or by summary conviction. The broader Criminal Code false-news provision, section 181, was struck down by the Supreme Court in 1992.",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/sor-86-982/20060322/P1TT3xt3.html?wbdisable=true",
+        "scraped_text": "3 A licensee shall not broadcast · (a) anything in contravention of the law; (b) any abusive comment that, when taken in context, tends or is likely to expose an individual or a group or class of individuals to hatred or contempt on the basis of race, national or ethnic origin, colour, religion, sex, sexual orientation, age or mental or physical disability; (c) any obscene or profane language; (d) any false or misleading news;"
+      },
+      {
+        "question": "What do Canadian regulatory and distribution records show about the reasons for Fox News Channel's authorization, availability or any restrictions in Canada?",
+        "answer": "The CRTC approved Fox News for Canadian digital distribution in 2004 and included it on its list of authorized non-Canadian services in 2020. CBC reported that the CRTC had rejected an earlier application because of plans for a Canadian Fox News partnership, while the 2004 approval considered competition with Canadian services. A 2005 distribution report also identified Fox News in Rogers’ mobile TV lineup. These records do not support a link between an anti-lying law and Fox News being unavailable.",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "scraped_text": "The CRTC rejected a CCTA application to bring Fox to Canada last November because Fox News U.S. and Winnipeg-based Global Television were planning to create Fox News Canada, a combination of U.S."
+      },
+      {
+        "question": "Is Fox News Channel currently available to viewers in Canada through authorized television providers or other lawful distribution?",
+        "answer": "List of Part 3 Eligible Satellite services for Digital Distribution Only · Al Jazeera*♦ · ART Movies♦ · Azteca 13 International · Bloomberg Television · Bridges TV · BVN-TV♦ · Canal 52 MX · Canal de las Estrellas Latinoamérica · Canal SUR♦ · iv · Channel One Russia Worldwide TV · CineLatino♦ · Discovery Wings · ET-Global Channel · Eternal Word Television Network · Eurochannel · EuroNews · Eurosportnews · Fox News",
+        "url": "https://crtc.gc.ca/eng/archive/2006/pb2006-46.pdf",
+        "scraped_text": "List of Part 3 Eligible Satellite services for Digital Distribution Only · Al Jazeera*♦ · ART Movies♦ · Azteca 13 International · Bloomberg Television · Bridges TV · BVN-TV♦ · Canal 52 MX · Canal de las Estrellas Latinoamérica · Canal SUR♦ · iv · Channel One Russia Worldwide TV · CineLatino♦ · Discovery Wings · ET-Global Channel · Eternal Word Television Network · Eurochannel · EuroNews · Eurosportnews · Fox News"
+      },
+      {
+        "question": "Does a Canadian Radio Act or related broadcasting law currently make lying to the public via airwaves a criminal offence, and what conduct and penalties do the relevant provisions specify?",
+        "answer": "3 A licensee shall not broadcast · (a) anything in contravention of the law; (b) any abusive comment that, when taken in context, tends or is likely to expose an individual or a group or class of individuals to hatred or contempt on the basis of race, national or ethnic origin, colour, religion, sex, sexual orientation, age or mental or physical disability; (c) any obscene or profane language; (d) any false or misleading news;",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/sor-86-982/20060322/P1TT3xt3.html?wbdisable=true",
+        "scraped_text": "3 A licensee shall not broadcast · (a) anything in contravention of the law; (b) any abusive comment that, when taken in context, tends or is likely to expose an individual or a group or class of individuals to hatred or contempt on the basis of race, national or ethnic origin, colour, religion, sex, sexual orientation, age or mental or physical disability; (c) any obscene or profane language; (d) any false or misleading news;"
+      },
+      {
+        "question": "What do Canadian regulatory and distribution records show about the reasons for Fox News Channel's authorization, availability or any restrictions in Canada?",
+        "answer": "The CRTC rejected a CCTA application to bring Fox to Canada last November because Fox News U.S. and Winnipeg-based Global Television were planning to create Fox News Canada, a combination of U.S.",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "scraped_text": "The CRTC rejected a CCTA application to bring Fox to Canada last November because Fox News U.S. and Winnipeg-based Global Television were planning to create Fox News Canada, a combination of U.S."
+      },
+      {
+        "question": "Is Fox News Channel currently available to viewers in Canada through authorized television providers or other lawful distribution?",
+        "answer": "FOX NEWS CHANNEL ..507",
+        "url": "https://pdf4pro.com/view/channel-listing-fibe-tv-bell-canada-5b9839.html",
+        "scraped_text": "FOX NEWS CHANNEL ..507"
+      },
+      {
+        "question": "Does a Canadian Radio Act or related broadcasting law currently make lying to the public via airwaves a criminal offence, and what conduct and penalties do the relevant provisions specify?",
+        "answer": "(2) Every person who contravenes or fails to comply with any regulation or order made under this Part is guilty of an offence punishable on summary conviction and is liable · (a) in the case of an individual, to a fine not exceeding twenty-five thousand dollars for a first offence and not exceeding fifty thousand dollars for each subsequent offence; or ... (b) in the case of a corporation, to a fine not exceeding two hundred and fifty thousand dollars for a first offence and not exceeding five hundred thousand dollars for each subsequent offence.",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/b-9.01/20190711/P1TT3xt3.html",
+        "scraped_text": "(2) Every person who contravenes or fails to comply with any regulation or order made under this Part is guilty of an offence punishable on summary conviction and is liable · (a) in the case of an individual, to a fine not exceeding twenty-five thousand dollars for a first offence and not exceeding fifty thousand dollars for each subsequent offence; or ... (b) in the case of a corporation, to a fine not exceeding two hundred and fifty thousand dollars for a first offence and not exceeding five hundred thousand dollars for each subsequent offence."
+      },
+      {
+        "question": "What do Canadian regulatory and distribution records show about the reasons for Fox News Channel's authorization, availability or any restrictions in Canada?",
+        "answer": "However, in its decision, the CRTC said Fox News offers little Canadian coverage and is not \"partially or totally competitive with any Canadian pay or specialty service.\" It added that the channel would \"significantly boost digital penetration in Canada\" and increase the availability of digital services in the country.",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "scraped_text": "However, in its decision, the CRTC said Fox News offers little Canadian coverage and is not \"partially or totally competitive with any Canadian pay or specialty service.\" It added that the channel would \"significantly boost digital penetration in Canada\" and increase the availability of digital services in the country."
+      },
+      {
+        "question": "Is Fox News Channel currently available to viewers in Canada through authorized television providers or other lawful distribution?",
+        "answer": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "scraped_text": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves."
+      }
+    ]
+  }
+]

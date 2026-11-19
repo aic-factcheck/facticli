@@ -13,6 +13,8 @@ REASONING_EFFORTS: tuple[str, ...] = ("none", "minimal", "low", "medium", "high"
 # stops runaway loops.
 SEARCH_CAP_FACTOR = 2
 STRATEGIES: tuple[str, ...] = ("pipeline", "single_agent")
+SERVICE_TIERS: tuple[str, ...] = ("auto", "default", "flex", "priority")
+FLEX_RESEARCH_TIMEOUT_SECONDS = 600.0
 
 
 @dataclass(frozen=True)
@@ -32,6 +34,9 @@ class InferenceConfig:
     stage_efforts: dict[str, str] = field(default_factory=dict)
     model_retry_attempts: int = 3
     retry_budget: int | None = 12
+    # OpenAI processing tier sent with every model call ("flex": half price,
+    # slower, occasionally HTTP 429 resource-unavailable, which is retried).
+    service_tier: str | None = None
 
     def model_for(self, stage: str, default: str) -> str:
         return self.stage_models.get(stage) or default
@@ -65,6 +70,13 @@ class FactCheckRuntimeConfig(InferenceConfig):
     knowledge_store_dir: str | None = None
     tool_call_budget: int = 8
     search_cache_dir: str | None = None
+
+    @property
+    def effective_research_timeout_seconds(self) -> float:
+        """Flex requests queue on the provider side, so one research check gets more wall time."""
+        if self.service_tier == "flex":
+            return max(self.research_timeout_seconds, FLEX_RESEARCH_TIMEOUT_SECONDS)
+        return self.research_timeout_seconds
 
 
 @dataclass(frozen=True)

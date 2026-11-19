@@ -219,3 +219,70 @@ class KnowledgeStoreJournalTests(unittest.IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+import facticli.exa_search as exa  # noqa: E402
+from facticli.exa_search import run_exa_web_search  # noqa: E402
+
+EXA_PAYLOAD = {
+    "results": [
+        {"title": "Eiffel Tower", "url": WIKI, "publishedDate": "2019-05-01T00:00:00.000Z",
+         "highlights": ["The tower is 330 metres tall. " + "y" * 3000, "It opened in 1889."]},
+        {"title": "Undated fact check", "url": "https://example.org/undated", "highlights": ["Rated false in 2021."]},
+        {"title": "Path-blocked", "url": "https://news.example.com/fact-check/eiffel", "publishedDate": "2019-01-01",
+         "highlights": ["rated"]},
+    ],
+    "costDollars": {"total": 0.007},
+}
+
+
+class ExaSearchTests(unittest.IsolatedAsyncioTestCase):
+    def setUp(self) -> None:
+        env = patch.dict("os.environ", {"EXA_API_KEY": "test-key"}, clear=False)
+        env.start()
+        self.addCleanup(env.stop)
+
+    async def _search(self, handler, query: str = "eiffel tower height", **kwargs):
+        real_client = httpx.AsyncClient
+        factory = lambda *args, **client_kwargs: real_client(transport=httpx.MockTransport(handler))  # noqa: E731
+        with patch.object(exa.httpx, "AsyncClient", factory):
+            return await run_exa_web_search(query, **kwargs)
+
+    async def test_engine_applies_the_controls_and_undated_results_are_dropped_under_a_cutoff(self):
+        bodies: list[dict] = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            bodies.append(json.loads(request.content))
+            return httpx.Response(200, json=EXA_PAYLOAD)
+
+        blocked = ["snopes.com", "news.example.com/fact-check"]
+        with _Scope(_complete_journal(), claim_date="2020-10-31", blocked_domains=blocked) as journal:
+            result = await self._search(handler, max_chars_per_field=200, default_count=7)
+
+        body = bodies[0]
+        self.assertEqual((body["numResults"], body["type"]), (7, "fast"))
+        self.assertEqual(body["endPublishedDate"], "2020-10-31T23:59:59.999Z")
+        self.assertEqual(body["excludeDomains"], ["snopes.com"])  # path entries are filtered locally
+        self.assertEqual(result["result_count"], 1)
+        self.assertEqual((result["blocked_result_count"], result["undated_result_count_removed"]), (1, 1))
+        self.assertIn("chars omitted", result["results"][0]["snippet"])
+        self.assertEqual([record.urls for record in journal.records], [[WIKI]])
+        cited = SourceEvidence(title="t", url=WIKI, snippet="y" * 40)
+        self.assertEqual(ground_source(cited, journal), SourceGrounding.QUOTE_MATCHED)
+
+    async def test_without_a_cutoff_undated_results_are_kept(self):
+        with _Scope(_complete_journal()):
+            result = await self._search(lambda request: httpx.Response(200, json=EXA_PAYLOAD))
+        self.assertEqual(result["result_count"], 3)
+        self.assertNotIn("undated_result_count_removed", result)
+
+    async def test_rejected_key_or_exhausted_credit_fails_the_run(self):
+        for status in (401, 402):
+            with _Scope(_complete_journal()), self.assertRaises(SearchAuthError):
+                await self._search(lambda request, status=status: httpx.Response(status, json={}))
+
+    async def test_other_failures_become_tool_results(self):
+        with _Scope(_complete_journal()) as journal:
+            result = await self._search(lambda request: httpx.Response(500, json={}))
+        self.assertEqual(result["error"], "search request failed (HTTP 500)")
+        self.assertEqual(journal.records[0].error, "search request failed (HTTP 500)")

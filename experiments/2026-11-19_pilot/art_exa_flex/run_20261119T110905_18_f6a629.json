@@ -1,0 +1,674 @@
+{
+  "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "normalized_claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "claim_id": "18",
+  "constraints": {
+    "claim_id": "18",
+    "claim_date": "2020-10-28",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-28"
+  },
+  "plan_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "rationale": "The claim depends on whether late-arriving ballots are categorically rejected or whether applicable rules allow some to be counted.",
+        "search_queries": [
+          "state mail ballot receipt deadlines postmarked before election day arrives after election",
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day",
+          "state election official mail ballot postmark deadline received after election day"
+        ],
+        "acceptance_criteria": [
+          "Done when official election sources establish applicable postmark and receipt deadlines, including any conditions for counting ballots received after Election Day.",
+          "Done when findings identify the jurisdictions and election dates covered and account for any current court orders or statutory changes.",
+          "Done when any conclusion of universal rejection is supported across all relevant jurisdictions, or an official source establishes a jurisdiction and circumstances in which such a ballot can be counted."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim concerns ordinary domestic mail-in ballots in U.S. elections, rather than overseas or military ballots.",
+      "No specific election year or jurisdiction is provided, so the check concerns rules current at the time of research."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "rationale": "The claim depends on whether late-arriving ballots are categorically rejected or whether applicable rules allow some to be counted.",
+        "search_queries": [
+          "state mail ballot receipt deadlines postmarked before election day arrives after election",
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day",
+          "state election official mail ballot postmark deadline received after election day",
+          "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?"
+        ],
+        "acceptance_criteria": [
+          "Done when official election sources establish applicable postmark and receipt deadlines, including any conditions for counting ballots received after Election Day.",
+          "Done when findings identify the jurisdictions and election dates covered and account for any current court orders or statutory changes.",
+          "Done when any conclusion of universal rejection is supported across all relevant jurisdictions, or an official source establishes a jurisdiction and circumstances in which such a ballot can be counted."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim concerns ordinary domestic mail-in ballots in U.S. elections, rather than overseas or military ballots.",
+      "No specific election year or jurisdiction is provided, so the check concerns rules current at the time of research."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "rationale": "The claim depends on whether late-arriving ballots are categorically rejected or whether applicable rules allow some to be counted.",
+        "search_queries": [
+          "state mail ballot receipt deadlines postmarked before election day arrives after election",
+          "site:eac.gov mail ballot postmark received after election day state deadlines",
+          "site:ncsl.org absentee mail ballot receipt deadlines postmarked election day",
+          "state election official mail ballot postmark deadline received after election day",
+          "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?"
+        ],
+        "acceptance_criteria": [
+          "Done when official election sources establish applicable postmark and receipt deadlines, including any conditions for counting ballots received after Election Day.",
+          "Done when findings identify the jurisdictions and election dates covered and account for any current court orders or statutory changes.",
+          "Done when any conclusion of universal rejection is supported across all relevant jurisdictions, or an official source establishes a jurisdiction and circumstances in which such a ballot can be counted."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "signal": "supports",
+        "summary": "Yes. For the November 3, 2020 general election, California required ballots postmarked by Election Day to be counted if received no later than 17 days afterward, November 20. Oregon, by contrast, required ballots to be received by 8 p.m. on November 3; a postmark did not extend that deadline. North Carolina allowed ballots postmarked by Election Day to arrive by 5 p.m. November 12; on October 28, the U.S. Supreme Court left that extension in place.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Gov Newsom Signs Legislation to Fortify CA's 11/3/2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "2020 General Election – Key Dates and Information",
+            "url": "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626",
+            "snippet": "Remember, your ballot must be received by election officials by 8:00 p.m. on November 3rd to be counted! Postmarks do not count.",
+            "publisher": "Oregon Secretary of State",
+            "published_at": "2020-10-07",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "State Board Updates Cure Process to Ensure More Lawful Votes Count",
+            "url": "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+            "snippet": "The joint motion, if approved by the court, would also extend the date that county boards will accept ballots by mail to 5 p.m. Thursday, November 12, if they are postmarked on or before Election Day.",
+            "publisher": "North Carolina State Board of Elections",
+            "published_at": "2020-09-22",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court Allows Longer Deadlines for Absentee Ballots in Pennsylvania and North Carolina",
+            "url": "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "snippet": "In the North Carolina case, the court let stand lower court rulings that allowed the state’s board of elections to extend the deadline to nine days after Election Day, up from the three days called for by the state legislature.",
+            "publisher": "The New York Times",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These are examples, not an exhaustive list of every jurisdiction’s rules.",
+          "The deadlines and court status are those applicable as of October 28, 2020, not necessarily those for later elections.",
+          "The North Carolina official source describes the extension as a proposal; the October 28 news report establishes that the Supreme Court left the extension in place."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:sos.ca.gov 2020 November 3 vote by mail postmarked 17 days November 20 election ballots",
+          "urls": [
+            "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20093",
+            "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 election states mail ballot postmarked election day received after deadline November California Washington 17 days 2020",
+          "urls": [
+            "https://en.m.wikipedia.org/wiki/Postal_voting_in_the_2020_United_States_elections",
+            "https://www.nwpb.org/national/2020-10-28/why-washington-accepts-ballots-postmarked-by-election-day-well-into-november-unlike-oregon",
+            "https://www.usatoday.com/story/news/factcheck/2020/10/30/fact-check-some-mail-ballots-arriving-post-election-day-count/6075311002/",
+            "https://www.nytimes.com/interactive/2019/us/elections/2020-presidential-election-calendar.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 October 28 Supreme Court North Carolina Pennsylvania ballot deadline November 12 6 election mail",
+          "urls": [
+            "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "https://www.wsj.com/politics/policy/supreme-court-won-t-hear-pennsylvania-ballot-case-before-election-11603920921",
+            "https://www.newsobserver.com/news/politics-government/article246660368.html",
+            "https://thehill.com/regulation/court-battles/523288-supreme-court-rejects-trump-effort-to-shorten-north-carolina-mail/",
+            "https://www.cnbc.com/2020/10/28/supreme-court-wont-fast-track-gop-challenge-to-pennsylvania-ballot-deadline.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:sos.oregon.gov 2020 general election ballots received 8 p.m. November 3 postmark does not count",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:ncsbe.gov 2020 October 28 supreme court absentee ballot November 12 postmark 2020",
+          "urls": [
+            "https://www.ncsbe.gov/news/press-releases/2020/10/19/county-boards-elections-now-contacting-voters-absentee-ballot",
+            "https://www.ncsbe.gov/news/press-releases/2020/09/25/state-board-releases-closed-session-minutes-briefings",
+            "https://www.ncsbe.gov/blog/2020/10/04/numbered-memo-2020-28-court-orders-regarding-numbered-memos"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:ncsbe.gov \"November 12\" \"postmarked\" 2020 ballot",
+          "urls": [
+            "https://www.ncsbe.gov/news/press-releases/2020/10/19/county-boards-elections-now-contacting-voters-absentee-ballot",
+            "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+            "https://www.ncsbe.gov/news/press-releases/2020/09/25/state-board-releases-closed-session-minutes-briefings"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Oregon ballots 2020 must arrive 8 p.m. November 3 postmark 2020 election state officials",
+          "urls": [
+            "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:elections.wi.gov 2020 October ballot received 8 p.m. election day November 3 mail",
+          "urls": [
+            "https://elections.wi.gov/memo/updated-guidance-end-night-procedures-and-election-night-results-reporting",
+            "https://elections.wi.gov/memo/updated-uniform-instructions-absentee-voters"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.88,
+    "justification": "For the November 3, 2020 general election, California required officials to count otherwise valid ballots postmarked on or before Election Day and received within 17 days afterward. [S1] North Carolina also allowed post-Election receipt: its election board proposed a November 12 deadline for ballots postmarked by Election Day, and the Supreme Court left the extension in place. [S3][S4] Rules varied by state: Oregon required ballots to be received by 8 p.m. on Election Day, regardless of postmark. [S2] Inference: A ballot postmarked before Election Day and arriving afterward would not necessarily be thrown out, contrary to the claim.",
+    "key_points": [
+      "California accepted qualifying ballots received up to 17 days after Election Day. [S1]",
+      "North Carolina's extended deadline was left in place as of October 28, 2020. [S3][S4]",
+      "Oregon required receipt by Election Day and did not count postmarks as meeting its deadline. [S2]"
+    ],
+    "counter_argument": "The claim accurately describes Oregon's 2020 deadline: a postmark did not extend the time for receipt. [S2] But it does not identify a jurisdiction, and California's rule provides a direct counterexample to a general assertion that all such ballots would be thrown out. [S1]",
+    "evidence_gaps": [
+      "The evidence gives examples rather than an exhaustive inventory of every jurisdiction's 2020 rules.",
+      "No jurisdiction or election year was specified in the claim; the cited rules concern the November 2020 general election as of October 28, 2020."
+    ],
+    "findings": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "signal": "supports",
+        "summary": "Yes. For the November 3, 2020 general election, California required ballots postmarked by Election Day to be counted if received no later than 17 days afterward, November 20. Oregon, by contrast, required ballots to be received by 8 p.m. on November 3; a postmark did not extend that deadline. North Carolina allowed ballots postmarked by Election Day to arrive by 5 p.m. November 12; on October 28, the U.S. Supreme Court left that extension in place.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Gov Newsom Signs Legislation to Fortify CA's 11/3/2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "2020 General Election – Key Dates and Information",
+            "url": "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626",
+            "snippet": "Remember, your ballot must be received by election officials by 8:00 p.m. on November 3rd to be counted! Postmarks do not count.",
+            "publisher": "Oregon Secretary of State",
+            "published_at": "2020-10-07",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "State Board Updates Cure Process to Ensure More Lawful Votes Count",
+            "url": "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+            "snippet": "The joint motion, if approved by the court, would also extend the date that county boards will accept ballots by mail to 5 p.m. Thursday, November 12, if they are postmarked on or before Election Day.",
+            "publisher": "North Carolina State Board of Elections",
+            "published_at": "2020-09-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Supreme Court Allows Longer Deadlines for Absentee Ballots in Pennsylvania and North Carolina",
+            "url": "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "snippet": "In the North Carolina case, the court let stand lower court rulings that allowed the state’s board of elections to extend the deadline to nine days after Election Day, up from the three days called for by the state legislature.",
+            "publisher": "The New York Times",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "These are examples, not an exhaustive list of every jurisdiction’s rules.",
+          "The deadlines and court status are those applicable as of October 28, 2020, not necessarily those for later elections.",
+          "The North Carolina official source describes the extension as a proposal; the October 28 news report establishes that the Supreme Court left the extension in place."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Gov Newsom Signs Legislation to Fortify CA's 11/3/2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "2020 General Election – Key Dates and Information",
+        "url": "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626",
+        "snippet": "Remember, your ballot must be received by election officials by 8:00 p.m. on November 3rd to be counted! Postmarks do not count.",
+        "publisher": "Oregon Secretary of State",
+        "published_at": "2020-10-07",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "State Board Updates Cure Process to Ensure More Lawful Votes Count",
+        "url": "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+        "snippet": "The joint motion, if approved by the court, would also extend the date that county boards will accept ballots by mail to 5 p.m. Thursday, November 12, if they are postmarked on or before Election Day.",
+        "publisher": "North Carolina State Board of Elections",
+        "published_at": "2020-09-22",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Supreme Court Allows Longer Deadlines for Absentee Ballots in Pennsylvania and North Carolina",
+        "url": "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+        "snippet": "In the North Carolina case, the court let stand lower court rulings that allowed the state’s board of elections to extend the deadline to nine days after Election Day, up from the three days called for by the state legislature.",
+        "publisher": "The New York Times",
+        "published_at": "2020-10-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.88,
+    "justification": "For the November 3, 2020 general election, California required officials to count otherwise valid ballots postmarked on or before Election Day and received within 17 days afterward. [S1] North Carolina also allowed post-Election receipt: its election board proposed a November 12 deadline for ballots postmarked by Election Day, and the Supreme Court left the extension in place. [S3][S4] Rules varied by state: Oregon required ballots to be received by 8 p.m. on Election Day, regardless of postmark. [S2] Inference: A ballot postmarked before Election Day and arriving afterward would not necessarily be thrown out, contrary to the claim.",
+    "key_points": [
+      "California accepted qualifying ballots received up to 17 days after Election Day. [S1]",
+      "North Carolina's extended deadline was left in place as of October 28, 2020. [S3][S4]",
+      "Oregon required receipt by Election Day and did not count postmarks as meeting its deadline. [S2]"
+    ],
+    "counter_argument": "The claim accurately describes Oregon's 2020 deadline: a postmark did not extend the time for receipt. [S2] But it does not identify a jurisdiction, and California's rule provides a direct counterexample to a general assertion that all such ballots would be thrown out. [S1]",
+    "evidence_gaps": [
+      "The evidence gives examples rather than an exhaustive inventory of every jurisdiction's 2020 rules.",
+      "No jurisdiction or election year was specified in the claim; the cited rules concern the November 2020 general election as of October 28, 2020."
+    ],
+    "findings": [
+      {
+        "aspect_id": "mail_ballot_deadlines",
+        "question": "Under current U.S. election rules, can a valid domestic mail-in ballot postmarked before Election Day be counted if it arrives afterward, and how does this vary by jurisdiction and arrival date?",
+        "signal": "supports",
+        "summary": "Yes. For the November 3, 2020 general election, California required ballots postmarked by Election Day to be counted if received no later than 17 days afterward, November 20. Oregon, by contrast, required ballots to be received by 8 p.m. on November 3; a postmark did not extend that deadline. North Carolina allowed ballots postmarked by Election Day to arrive by 5 p.m. November 12; on October 28, the U.S. Supreme Court left that extension in place.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Gov Newsom Signs Legislation to Fortify CA's 11/3/2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "2020 General Election – Key Dates and Information",
+            "url": "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626",
+            "snippet": "Remember, your ballot must be received by election officials by 8:00 p.m. on November 3rd to be counted! Postmarks do not count.",
+            "publisher": "Oregon Secretary of State",
+            "published_at": "2020-10-07",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "State Board Updates Cure Process to Ensure More Lawful Votes Count",
+            "url": "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+            "snippet": "The joint motion, if approved by the court, would also extend the date that county boards will accept ballots by mail to 5 p.m. Thursday, November 12, if they are postmarked on or before Election Day.",
+            "publisher": "North Carolina State Board of Elections",
+            "published_at": "2020-09-22",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court Allows Longer Deadlines for Absentee Ballots in Pennsylvania and North Carolina",
+            "url": "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "snippet": "In the North Carolina case, the court let stand lower court rulings that allowed the state’s board of elections to extend the deadline to nine days after Election Day, up from the three days called for by the state legislature.",
+            "publisher": "The New York Times",
+            "published_at": "2020-10-28",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These are examples, not an exhaustive list of every jurisdiction’s rules.",
+          "The deadlines and court status are those applicable as of October 28, 2020, not necessarily those for later elections.",
+          "The North Carolina official source describes the extension as a proposal; the October 28 news report establishes that the Supreme Court left the extension in place."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Gov Newsom Signs Legislation to Fortify CA's 11/3/2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "2020 General Election – Key Dates and Information",
+        "url": "https://apps.oregon.gov/oregon-newsroom/OR/SOS/Posts/Post/2020-general-election--key-dates-and-information-40626",
+        "snippet": "Remember, your ballot must be received by election officials by 8:00 p.m. on November 3rd to be counted! Postmarks do not count.",
+        "publisher": "Oregon Secretary of State",
+        "published_at": "2020-10-07",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "State Board Updates Cure Process to Ensure More Lawful Votes Count",
+        "url": "https://www.ncsbe.gov/news/press-releases/2020/09/22/state-board-updates-cure-process-ensure-more-lawful-votes-count",
+        "snippet": "The joint motion, if approved by the court, would also extend the date that county boards will accept ballots by mail to 5 p.m. Thursday, November 12, if they are postmarked on or before Election Day.",
+        "publisher": "North Carolina State Board of Elections",
+        "published_at": "2020-09-22",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Supreme Court Allows Longer Deadlines for Absentee Ballots in Pennsylvania and North Carolina",
+        "url": "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+        "snippet": "In the North Carolina case, the court let stand lower court rulings that allowed the state’s board of elections to extend the deadline to nine days after Election Day, up from the three days called for by the state legislature.",
+        "publisher": "The New York Times",
+        "published_at": "2020-10-28",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:08:19.499088+00:00",
+  "duration_seconds": 46.06385521218181,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 983,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 689,
+      "reasoning_tokens": 330,
+      "total_tokens": 1672,
+      "duration_seconds": 10.70506508788094,
+      "started_at": "2026-11-19T11:08:19.499359+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 27132,
+      "cached_input_tokens": 15798,
+      "cache_write_tokens": 11322,
+      "output_tokens": 1397,
+      "reasoning_tokens": 138,
+      "total_tokens": 28529,
+      "duration_seconds": 20.461504739243537,
+      "started_at": "2026-11-19T11:08:30.205642+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3220,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3217,
+      "output_tokens": 1957,
+      "reasoning_tokens": 96,
+      "total_tokens": 5177,
+      "duration_seconds": 14.883793438784778,
+      "started_at": "2026-11-19T11:08:50.678369+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 31335,
+    "cached_input_tokens": 15798,
+    "cache_write_tokens": 14539,
+    "output_tokens": 4043,
+    "reasoning_tokens": 564,
+    "total_tokens": 35378,
+    "llm_seconds": 46.050363265909255,
+    "cache_hit_rate": 0.5042,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 983.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 689.0,
+        "reasoning_tokens": 330.0,
+        "total_tokens": 1672.0,
+        "llm_seconds": 10.70506508788094,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 27132.0,
+        "cached_input_tokens": 15798.0,
+        "cache_write_tokens": 11322.0,
+        "output_tokens": 1397.0,
+        "reasoning_tokens": 138.0,
+        "total_tokens": 28529.0,
+        "llm_seconds": 20.461504739243537,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3220.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3217.0,
+        "output_tokens": 1957.0,
+        "reasoning_tokens": 96.0,
+        "total_tokens": 5177.0,
+        "llm_seconds": 14.883793438784778,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 35378,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 18
+  },
+  "unresolved_citations": []
+}

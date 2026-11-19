@@ -1,0 +1,5 @@
+veritas_exa_flex exit=0
+exa_flex2 exit=0
+exa_flex exit=0
+brave_flex2 exit=0
+exa_default exit=0

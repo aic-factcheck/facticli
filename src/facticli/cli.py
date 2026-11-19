@@ -151,7 +151,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     check_parser = subparsers.add_parser("check", help="Fact-check a claim.")
     check_parser.add_argument("claim", help="Claim text to verify.")
-    add_fact_check_args(check_parser, search_providers=("openai", "brave"))
+    add_fact_check_args(check_parser, search_providers=("openai", "brave", "exa"))
     check_parser.add_argument(
         "--show-plan",
         action="store_true",
@@ -296,6 +296,7 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
             stage_efforts=stage_efforts,
             model_retry_attempts=args.model_retries,
             retry_budget=args.retry_budget,
+            service_tier=getattr(args, "service_tier", None),
             max_claims=args.max_claims,
         )
     )

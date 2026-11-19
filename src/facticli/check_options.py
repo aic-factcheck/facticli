@@ -8,6 +8,7 @@ from typing import Any
 
 from .application.config import (
     REASONING_EFFORTS,
+    SERVICE_TIERS,
     STAGE_NAMES,
     STRATEGIES,
     FactCheckRuntimeConfig,
@@ -50,6 +51,15 @@ def add_inference_args(parser: argparse.ArgumentParser) -> None:
         type=non_negative_int,
         default=3,
         help="Max SDK-managed retries per model call for transient errors (default: 3).",
+    )
+    parser.add_argument(
+        "--service-tier",
+        choices=list(SERVICE_TIERS),
+        default=os.getenv("FACTICLI_SERVICE_TIER") or None,
+        help=(
+            "OpenAI processing tier for every model call (default: FACTICLI_SERVICE_TIER or the provider's). "
+            "flex is half price and slower; research checks then get a longer timeout."
+        ),
     )
     parser.add_argument(
         "--retry-budget",
@@ -113,7 +123,7 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         dest="search_results_per_query",
         help=(
             "Results per query when the model does not ask for a number (1-20, default 5); "
-            "used by the brave and knowledge_store tools."
+            "used by the brave, exa, and knowledge_store tools."
         ),
     )
     parser.add_argument(
@@ -121,7 +131,7 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         type=positive_int,
         default=8,
         help=(
-            "Searches a researcher is told to plan for per check (default: 8). The brave and knowledge_store "
+            "Searches a researcher is told to plan for per check (default: 8). The brave, exa, and knowledge_store "
             "tools refuse calls beyond twice this number."
         ),
     )
@@ -129,8 +139,8 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         "--search-cache-dir",
         default=None,
         help=(
-            "Directory that records Brave responses and replays them on identical requests, so repeated or "
-            "paired runs see the same retrieval (needs --search-provider brave)."
+            "Directory that records Brave or Exa responses and replays them on identical requests, so repeated or "
+            "paired runs see the same retrieval (needs --search-provider brave or exa)."
         ),
     )
     parser.add_argument(
@@ -169,6 +179,8 @@ def missing_environment(args: argparse.Namespace) -> str | None:
     provider = getattr(args, "search_provider", None)
     if provider == "brave" and not os.getenv("BRAVE_SEARCH_API_KEY"):
         return "BRAVE_SEARCH_API_KEY is not set. Export it or switch to --search-provider openai."
+    if provider == "exa" and not os.getenv("EXA_API_KEY"):
+        return "EXA_API_KEY is not set. Export it or add it to .env."
     if provider == "knowledge_store" and not getattr(args, "knowledge_store_dir", None):
         # A choices list does not cover a FACTICLI_SEARCH_PROVIDER default, so `check` gets here too.
         return (
@@ -197,6 +209,7 @@ def fact_check_config(args: argparse.Namespace, **extra: Any) -> FactCheckRuntim
         stage_efforts=stage_efforts,
         model_retry_attempts=args.model_retries,
         retry_budget=args.retry_budget,
+        service_tier=getattr(args, "service_tier", None),
         strategy=args.strategy,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,

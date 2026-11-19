@@ -1,0 +1,1281 @@
+{
+  "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+  "normalized_claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+  "claim_id": "126410",
+  "constraints": {
+    "claim_id": "126410",
+    "claim_date": "2026-07-01",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2026-07-01"
+  },
+  "plan_raw": {
+    "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+    "checks": [
+      {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "rationale": "L’attribution du reportage à Deutsche Welle est au cœur de l’affirmation et doit être distinguée d’une éventuelle imitation ou publication détournée.",
+        "search_queries": [
+          "site:dw.com Germany 2026 World Cup petition African Muslim players supporters",
+          "site:dw.com Deutschland WM 2026 Petition afrikanische muslimische Spieler Nationalmannschaft",
+          "Deutsche Welle fake report petition African Muslim players Germany World Cup 2026",
+          "Deutsche Welle pétition joueurs africains musulmans Coupe du monde 2026"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la publication ou diffusion originale dans les archives ou sur un compte officiel de Deutsche Welle, et vérifier sa date et son contenu exact.",
+          "Si une capture ou une vidéo circule sans original vérifiable, rechercher une déclaration de Deutsche Welle ou une analyse indépendante de son authenticité."
+        ]
+      },
+      {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "rationale": "Le récit situe la prétendue pétition après une élimination précise ; le calendrier et les résultats officiels permettent de vérifier cette chronologie.",
+        "search_queries": [
+          "site:fifa.com Germany 2026 World Cup results eliminated",
+          "site:dfb.de Deutschland WM 2026 ausgeschieden Ergebnisse",
+          "Germany World Cup 2026 tournament dates elimination results"
+        ],
+        "acceptance_criteria": [
+          "Établir l’état de la compétition à la date de la vérification et les résultats de l’Allemagne à partir de la FIFA ou de la fédération allemande.",
+          "Si l’Allemagne a été éliminée, préciser la date et le stade de l’élimination ; sinon, préciser si la compétition ou le parcours de l’équipe est encore en cours ou n’a pas commencé."
+        ]
+      },
+      {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "rationale": "La pétition alléguée peut être examinée indépendamment de son attribution à Deutsche Welle, notamment quant à ses auteurs, son contenu et sa date.",
+        "search_queries": [
+          "Deutschland WM 2026 Fans Petition afrikanische muslimische Spieler Nationalmannschaft verbieten",
+          "Germany fans petition ban African Muslim players national team 2026 World Cup",
+          "site:change.org Deutschland Nationalmannschaft Petition muslimische afrikanische Spieler",
+          "fact check petition Germany African Muslim players football supporters"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la pétition originale ou une archive fiable et vérifier ses auteurs, sa date et les catégories de joueurs visées.",
+          "À défaut d’original, rechercher des sources indépendantes ou des vérifications documentées ; distinguer l’absence de preuve d’une démonstration que la pétition n’existe pas."
+        ]
+      }
+    ],
+    "assumptions": [
+      "La Coupe du monde désigne le tournoi masculin de football de 2026.",
+      "« Après l’élimination » désigne une élimination de l’Allemagne de la compétition de 2026, et non un résultat d’une édition antérieure.",
+      "La temporalité est évaluée à la date à laquelle les recherches sont effectuées."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+    "checks": [
+      {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "rationale": "L’attribution du reportage à Deutsche Welle est au cœur de l’affirmation et doit être distinguée d’une éventuelle imitation ou publication détournée.",
+        "search_queries": [
+          "site:dw.com Germany 2026 World Cup petition African Muslim players supporters",
+          "site:dw.com Deutschland WM 2026 Petition afrikanische muslimische Spieler Nationalmannschaft",
+          "Deutsche Welle fake report petition African Muslim players Germany World Cup 2026",
+          "Deutsche Welle pétition joueurs africains musulmans Coupe du monde 2026",
+          "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la publication ou diffusion originale dans les archives ou sur un compte officiel de Deutsche Welle, et vérifier sa date et son contenu exact.",
+          "Si une capture ou une vidéo circule sans original vérifiable, rechercher une déclaration de Deutsche Welle ou une analyse indépendante de son authenticité."
+        ]
+      },
+      {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "rationale": "Le récit situe la prétendue pétition après une élimination précise ; le calendrier et les résultats officiels permettent de vérifier cette chronologie.",
+        "search_queries": [
+          "site:fifa.com Germany 2026 World Cup results eliminated",
+          "site:dfb.de Deutschland WM 2026 ausgeschieden Ergebnisse",
+          "Germany World Cup 2026 tournament dates elimination results",
+          "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+          "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football."
+        ],
+        "acceptance_criteria": [
+          "Établir l’état de la compétition à la date de la vérification et les résultats de l’Allemagne à partir de la FIFA ou de la fédération allemande.",
+          "Si l’Allemagne a été éliminée, préciser la date et le stade de l’élimination ; sinon, préciser si la compétition ou le parcours de l’équipe est encore en cours ou n’a pas commencé."
+        ]
+      },
+      {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "rationale": "La pétition alléguée peut être examinée indépendamment de son attribution à Deutsche Welle, notamment quant à ses auteurs, son contenu et sa date.",
+        "search_queries": [
+          "Deutschland WM 2026 Fans Petition afrikanische muslimische Spieler Nationalmannschaft verbieten",
+          "Germany fans petition ban African Muslim players national team 2026 World Cup",
+          "site:change.org Deutschland Nationalmannschaft Petition muslimische afrikanische Spieler",
+          "fact check petition Germany African Muslim players football supporters",
+          "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la pétition originale ou une archive fiable et vérifier ses auteurs, sa date et les catégories de joueurs visées.",
+          "À défaut d’original, rechercher des sources indépendantes ou des vérifications documentées ; distinguer l’absence de preuve d’une démonstration que la pétition n’existe pas."
+        ]
+      }
+    ],
+    "assumptions": [
+      "La Coupe du monde désigne le tournoi masculin de football de 2026.",
+      "« Après l’élimination » désigne une élimination de l’Allemagne de la compétition de 2026, et non un résultat d’une édition antérieure.",
+      "La temporalité est évaluée à la date à laquelle les recherches sont effectuées."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "rationale": "L’attribution du reportage à Deutsche Welle est au cœur de l’affirmation et doit être distinguée d’une éventuelle imitation ou publication détournée.",
+        "search_queries": [
+          "site:dw.com Germany 2026 World Cup petition African Muslim players supporters",
+          "site:dw.com Deutschland WM 2026 Petition afrikanische muslimische Spieler Nationalmannschaft",
+          "Deutsche Welle fake report petition African Muslim players Germany World Cup 2026",
+          "Deutsche Welle pétition joueurs africains musulmans Coupe du monde 2026",
+          "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la publication ou diffusion originale dans les archives ou sur un compte officiel de Deutsche Welle, et vérifier sa date et son contenu exact.",
+          "Si une capture ou une vidéo circule sans original vérifiable, rechercher une déclaration de Deutsche Welle ou une analyse indépendante de son authenticité."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "signal": "refutes",
+        "summary": "Le 1er juillet 2026, Deutsche Welle a démenti avoir rapporté l’existence d’une telle pétition. Contactée par le média chilien Mala Espina, DW a confirmé que son nom avait été utilisé dans une désinformation virale. Une recherche indépendante de Fast Check dans les publications de DW n’a pas non plus retrouvé le reportage allégué.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "DW verifica: No hubo petición contra futbolistas migrantes",
+            "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+            "snippet": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Es falso que Deutsche Welle informara una campaña para prohibir que africanos y musulmanes jueguen en la selección alemana",
+            "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+            "snippet": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+            "publisher": "Mala Espina",
+            "published_at": "2026-07-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Aucun reportage original de DW correspondant à l’attribution virale n’a été retrouvé. Les résultats de recherche fournissent des extraits plutôt que le texte intégral des sources."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Deutsche Welle fake report petition African Muslim players Germany World Cup 2026",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://factuel.afp.com/doc.afp.com.C29H4CQ",
+            "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+            "https://babelpos.co/cek-fakta-tidak-ada-petisi-terhadap-pemain-dfb-migran/23854/",
+            "https://www.dw.com/en/germanys-2026-world-cup-squad-built-on-african-roots/a-77298357"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:dw.com Germany 2026 World Cup petition African Muslim players supporters",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://www.dw.com/en/germanys-2026-world-cup-squad-built-on-african-roots/a-77298357",
+            "https://www.dw.com/en/baerbock-germany-team-is-an-example-to-germanys-kids/a-77617935",
+            "https://www.dw.com/de/kommentar-die-mannschaft-ein-spiegelbild-deutschlands/a-44387525",
+            "https://www.dw.com/en/fifa-world-cup-2026-trumps-politics-put-off-german-fans/a-76611029",
+            "https://www.dw.com/de/fussball-weltmeisterschaft-2026-usa-einreiseverbot-afrika-fans-protest-senegal-omar-sy-afcon/a-75580713",
+            "https://www.dw.com/en/african-fans-fume-at-disgraceful-world-cup-travel-ban/a-75572110",
+            "https://www.dw.com/en/football-abuse-of-black-german-players-shows-endemic-racism/a-66036713"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062 \"DW\" \"Petition\" Behauptung",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Deutsche Welle\" \"petición\" \"africanos\" \"musulmanes\" 2026 Tah falso",
+          "urls": [
+            "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+            "https://factual.afp.com/doc.afp.com.C2RY3NQ",
+            "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+            "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "https://concecheck.cl/nota/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion",
+            "https://valpocheck.cl/nota/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "rationale": "Le récit situe la prétendue pétition après une élimination précise ; le calendrier et les résultats officiels permettent de vérifier cette chronologie.",
+        "search_queries": [
+          "site:fifa.com Germany 2026 World Cup results eliminated",
+          "site:dfb.de Deutschland WM 2026 ausgeschieden Ergebnisse",
+          "Germany World Cup 2026 tournament dates elimination results",
+          "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+          "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football."
+        ],
+        "acceptance_criteria": [
+          "Établir l’état de la compétition à la date de la vérification et les résultats de l’Allemagne à partir de la FIFA ou de la fédération allemande.",
+          "Si l’Allemagne a été éliminée, préciser la date et le stade de l’élimination ; sinon, préciser si la compétition ou le parcours de l’équipe est encore en cours ou n’a pas commencé."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "signal": "supports",
+        "summary": "Oui. L’Allemagne a été éliminée le 29 juin 2026 en seizièmes de finale par le Paraguay : 1-1 après prolongation, puis 4-3 aux tirs au but. Elle avait auparavant terminé première de son groupe, avec deux victoires contre Curaçao et la Côte d’Ivoire, puis une défaite contre l’Équateur.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Allemagne 1-1 a.p. (3 tab à 4) Paraguay | 16es de finale | Temps forts, résumé",
+            "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+            "snippet": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+            "publisher": "FIFA",
+            "published_at": "2026-06-29",
+            "tier": "reference",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Germany knocked out on penalties by Paraguay",
+            "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+            "snippet": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+            "publisher": "Deutscher Fußball-Bund",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Germany's FIFA World Cup 2026: overview",
+            "url": "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+            "snippet": "Germany started their World Cup journey with a resounding 7-1 win over Curaçao in their tournament opener in Houston on 14 June, and followed it up with a come-from-behind 2-1 win against Côte d'Ivoire on Matchday 2.\n\nHowever, momentum was brought to a shuddering halt on Matchday 3 as they let a 1-0 lead slip in a 2-1 defeat against Ecuador in their final Group E game.",
+            "publisher": "Bundesliga",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:dfb.de Deutschland WM 2026 ausgeschieden Ergebnisse Juni 2026 gruppenphase",
+          "urls": [
+            "https://www.dfb.de/news/nagelsmann-wir-muessen-das-mit-viel-mehr-ueberzeugung-zuende-spielen"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:fifa.com Germany 2026 World Cup results eliminated June 2026 group stage",
+          "urls": [
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/qualified-eliminated-teams",
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/soul-searching-germany-exit-paraguay-reaction",
+            "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/ecuador-germany-highlights-match-report",
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/orlando-gill-paraguay-germany",
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/group-stage-permutations-qualify",
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/germany-cote-divoire-match-report-highlights"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Germany World Cup 2026 results June 2026 round 32 eliminated schedule",
+          "urls": [
+            "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+            "https://www.uefa.com/european-qualifiers/news/02a6-20d1594eb137-0095e9baf9f5-1000--germany-at-the-world-cup-2026-squad-fixtures-group-and-hi/",
+            "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+            "https://www.foxsports.com.au/en-AU/news/football/day-of-wc-chaos-as-two-giants-out-in-shootouts-insane-bounce-var-drama-rock-comp-wrap/933qd7ufs4tf9t0fman70dw91"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:fifa.com world cup 2026 19 july 2026 final July 1 round of 32 matches tournament",
+          "urls": [
+            "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/knockout-stage-match-schedule-bracket"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:dfb.de 29 juni 2026 paraguay deutschland 1:1 elfmeterschießen aus wm se­chzehntelfinale",
+          "urls": [
+            "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "rationale": "La pétition alléguée peut être examinée indépendamment de son attribution à Deutsche Welle, notamment quant à ses auteurs, son contenu et sa date.",
+        "search_queries": [
+          "Deutschland WM 2026 Fans Petition afrikanische muslimische Spieler Nationalmannschaft verbieten",
+          "Germany fans petition ban African Muslim players national team 2026 World Cup",
+          "site:change.org Deutschland Nationalmannschaft Petition muslimische afrikanische Spieler",
+          "fact check petition Germany African Muslim players football supporters",
+          "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?"
+        ],
+        "acceptance_criteria": [
+          "Retrouver la pétition originale ou une archive fiable et vérifier ses auteurs, sa date et les catégories de joueurs visées.",
+          "À défaut d’original, rechercher des sources indépendantes ou des vérifications documentées ; distinguer l’absence de preuve d’une démonstration que la pétition n’existe pas."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "signal": "insufficient",
+        "summary": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026. Mais aucune pétition originale ni archive fiable établissant ses auteurs, sa date et son contenu n’a été retrouvée. Deutsche Welle et le média chilien Fast Check ont tous deux contesté l’allégation ; le second indique avoir recherché une telle pétition dans les médias. Cela constitue une absence de preuve, non une démonstration que toute pétition de ce type est impossible.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Faktencheck: Keine Petition gegen migrantische DFB-Spieler",
+            "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "snippet": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Tras revisar las noticias de Deutsche Welle y otros medios de comunicación, se constató que no existe una petición o colecta de firmas de parte de los alemanes, para prohibir la participación en la selección de fútbol de jugadores africanos y musulmanes.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "¡Proeza de Paraguay!: elimina a Alemania del Mundial 2026 en la tanda de penales y se clasifica para octavos de final",
+            "url": "https://www.bbc.com/mundo/articles/c6210my2ed0o",
+            "snippet": "Paraguay avanzó a los octavos de final del Mundial 2026 tras imponerse 3-4 en la tanda de penales a Alemania tras el empate 1-1 en el tiempo regular y la prórroga.",
+            "publisher": "BBC News Mundo",
+            "published_at": "2026-06-29",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Les extraits disponibles des vérifications sont partiellement tronqués ; ils ne permettent pas d’établir l’étendue complète des recherches effectuées.",
+          "L’absence de pétition retrouvée ne prouve pas qu’aucune pétition non indexée ou supprimée n’a existé."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Germany fans petition ban African Muslim players national team 2026 World Cup",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://factuel.afp.com/doc.afp.com.C29H4CQ",
+            "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "https://novi.ba/clanak/496731/nijemci-pokrenuli-sokantnu-peticiju-nakon-ispadanja-s-mundijala-muslimani",
+            "https://www.dw.com/en/germanys-2026-world-cup-squad-built-on-african-roots/a-77298357",
+            "https://www.dw.com/en/baerbock-germany-team-is-an-example-to-germanys-kids/a-77617935"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Deutschland WM 2026 Fans Petition afrikanische muslimische Spieler Nationalmannschaft verbieten",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://factuel.afp.com/doc.afp.com.C29H4CQ",
+            "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "https://www.dw.com/en/baerbock-germany-team-is-an-example-to-germanys-kids/a-77617935",
+            "https://doi.org/10.1080/21565503.2026.2658801",
+            "https://www.dw.com/de/tv-doku-21-prozent-der-deutschen-wollen-mehr-wei%C3%9Fe-nationalspieler/a-69252668",
+            "https://www.change.org/p/stoppt-die-wm-teilnahme-solange-trump-und-ice-menschenrechte-verletzen"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler \"Petition\" Change.org",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Germany\" \"petition\" \"African\" \"Muslim\" \"Paraguay\" 2026 supporters fake",
+          "urls": [
+            "https://www.ghanawebbers.com/videos/germans-attack-jonathan-tah-world-cup-round-32-penalty-miss-413366"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Deutschland\" \"Petition\" \"muslimische\" \"afrikanische\" Fußball 2026 Faktencheck",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://doi.org/10.1515/9783839465073-009",
+            "https://intellinews.org/2026/07/01/faktencheck-keine-petition-gegen-migrantische-nationalspieler/",
+            "https://bkramer.noblogs.org/doku-ueber-die-aktuelle-petition-politischen-islam-stoppen/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:fastcheck.cl/2026/06/30/alemanes \"petición\" plataformas Jonathan Tah",
+          "urls": [
+            "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://apnews.com/article/mundial-alemania-tah-paraguay-fifa-d3805de07ca970b46e340d5c3bfbcc67",
+            "https://www.lanacion.com.ar/deportes/futbol/polemica-en-alemania-por-un-video-que-muestra-a-un-futbolista-negandose-a-ir-a-patear-un-penal-nid30062026/",
+            "https://www.bbc.com/mundo/articles/c6210my2ed0o"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"77791062\" \"Petition\" \"Recherche\" DW",
+          "urls": [
+            "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "https://www.dw.com/de/kolonialgeschichte-kein-platz-im-unterricht/a-55200764",
+            "https://www.dw.com/en/nefertiti-bust-egypt-germany-berlin-restitution-grand-egyptian-museum/a-74630030"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"fastcheck.cl\" \"petición\" \"africanos\" \"musulmanes\" \"plataforma\"",
+          "urls": [
+            "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026, en seizièmes de finale [S4][S5]. Mais Deutsche Welle affirme n’avoir jamais annoncé l’existence de la pétition décrite [S1]. Contactée par Mala Espina, la rédaction a également démenti cette attribution et indiqué ne pas avoir connaissance d’une telle pétition [S2]. Fast Check a lui aussi qualifié de fausse la publication virale attribuée à DW [S3]. L’absence de pétition retrouvée ne démontre toutefois pas à elle seule qu’aucune pétition de ce type n’a existé [S3].",
+    "key_points": [
+      "L’élimination de l’Allemagne est confirmée : 1-1 après prolongation, puis 4-3 aux tirs au but pour le Paraguay [S4][S5].",
+      "DW dément avoir rapporté la pétition alléguée ; Mala Espina rapporte avoir obtenu confirmation directement auprès du média [S1][S2].",
+      "Fast Check juge la publication virale fausse, mais l’extrait disponible ne détaille pas toute l’étendue de ses recherches [S3]."
+    ],
+    "counter_argument": "Un verdict « Not Enough Evidence » serait défendable parce qu’aucune pétition originale n’a été retrouvée et que les extraits ne permettent pas d’exclure une pétition supprimée ou non indexée [S3]. Il n’a pas été retenu : l’affirmation centrale attribue une annonce à DW, qui la dément explicitement, y compris en réponse à un média indépendant [S1][S2].",
+    "evidence_gaps": [
+      "Une copie originale ou une archive fiable de la pétition alléguée permettrait de vérifier son existence, ses auteurs, sa date et son contenu.",
+      "Le texte intégral des vérifications et le détail des recherches dans les archives et comptes officiels de DW permettraient de mieux apprécier leur exhaustivité.",
+      "L’extrait fourni pour le parcours de groupe ne confirme pas explicitement que l’Allemagne a terminé première de son groupe."
+    ],
+    "findings": [
+      {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "signal": "supports",
+        "summary": "Oui. L’Allemagne a été éliminée le 29 juin 2026 en seizièmes de finale par le Paraguay : 1-1 après prolongation, puis 4-3 aux tirs au but. Elle avait auparavant terminé première de son groupe, avec deux victoires contre Curaçao et la Côte d’Ivoire, puis une défaite contre l’Équateur.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Allemagne 1-1 a.p. (3 tab à 4) Paraguay | 16es de finale | Temps forts, résumé",
+            "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+            "snippet": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+            "publisher": "FIFA",
+            "published_at": "2026-06-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Germany knocked out on penalties by Paraguay",
+            "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+            "snippet": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+            "publisher": "Deutscher Fußball-Bund",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Germany's FIFA World Cup 2026: overview",
+            "url": "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+            "snippet": "Germany started their World Cup journey with a resounding 7-1 win over Curaçao in their tournament opener in Houston on 14 June, and followed it up with a come-from-behind 2-1 win against Côte d'Ivoire on Matchday 2.\n\nHowever, momentum was brought to a shuddering halt on Matchday 3 as they let a 1-0 lead slip in a 2-1 defeat against Ecuador in their final Group E game.",
+            "publisher": "Bundesliga",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "signal": "refutes",
+        "summary": "Le 1er juillet 2026, Deutsche Welle a démenti avoir rapporté l’existence d’une telle pétition. Contactée par le média chilien Mala Espina, DW a confirmé que son nom avait été utilisé dans une désinformation virale. Une recherche indépendante de Fast Check dans les publications de DW n’a pas non plus retrouvé le reportage allégué.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "DW verifica: No hubo petición contra futbolistas migrantes",
+            "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+            "snippet": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Es falso que Deutsche Welle informara una campaña para prohibir que africanos y musulmanes jueguen en la selección alemana",
+            "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+            "snippet": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+            "publisher": "Mala Espina",
+            "published_at": "2026-07-01",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "Aucun reportage original de DW correspondant à l’attribution virale n’a été retrouvé. Les résultats de recherche fournissent des extraits plutôt que le texte intégral des sources."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "signal": "insufficient",
+        "summary": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026. Mais aucune pétition originale ni archive fiable établissant ses auteurs, sa date et son contenu n’a été retrouvée. Deutsche Welle et le média chilien Fast Check ont tous deux contesté l’allégation ; le second indique avoir recherché une telle pétition dans les médias. Cela constitue une absence de preuve, non une démonstration que toute pétition de ce type est impossible.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Faktencheck: Keine Petition gegen migrantische DFB-Spieler",
+            "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "snippet": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "¡Proeza de Paraguay!: elimina a Alemania del Mundial 2026 en la tanda de penales y se clasifica para octavos de final",
+            "url": "https://www.bbc.com/mundo/articles/c6210my2ed0o",
+            "snippet": "Paraguay avanzó a los octavos de final del Mundial 2026 tras imponerse 3-4 en la tanda de penales a Alemania tras el empate 1-1 en el tiempo regular y la prórroga.",
+            "publisher": "BBC News Mundo",
+            "published_at": "2026-06-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "Les extraits disponibles des vérifications sont partiellement tronqués ; ils ne permettent pas d’établir l’étendue complète des recherches effectuées.",
+          "L’absence de pétition retrouvée ne prouve pas qu’aucune pétition non indexée ou supprimée n’a existé."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "DW verifica: No hubo petición contra futbolistas migrantes",
+        "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+        "snippet": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+        "publisher": "Deutsche Welle",
+        "published_at": "2026-07-01",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Es falso que Deutsche Welle informara una campaña para prohibir que africanos y musulmanes jueguen en la selección alemana",
+        "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+        "snippet": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+        "publisher": "Mala Espina",
+        "published_at": "2026-07-01",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+        "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+        "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+        "publisher": "Fast Check",
+        "published_at": "2026-06-30",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Allemagne 1-1 a.p. (3 tab à 4) Paraguay | 16es de finale | Temps forts, résumé",
+        "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+        "snippet": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+        "publisher": "FIFA",
+        "published_at": "2026-06-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Germany knocked out on penalties by Paraguay",
+        "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+        "snippet": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+        "publisher": "Deutscher Fußball-Bund",
+        "published_at": "2026-06-30",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Germany's FIFA World Cup 2026: overview",
+        "url": "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+        "snippet": "Germany started their World Cup journey with a resounding 7-1 win over Curaçao in their tournament opener in Houston on 14 June, and followed it up with a come-from-behind 2-1 win against Côte d'Ivoire on Matchday 2.\n\nHowever, momentum was brought to a shuddering halt on Matchday 3 as they let a 1-0 lead slip in a 2-1 defeat against Ecuador in their final Group E game.",
+        "publisher": "Bundesliga",
+        "published_at": "2026-06-30",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Faktencheck: Keine Petition gegen migrantische DFB-Spieler",
+        "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+        "snippet": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+        "publisher": "Deutsche Welle",
+        "published_at": "2026-07-01",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "¡Proeza de Paraguay!: elimina a Alemania del Mundial 2026 en la tanda de penales y se clasifica para octavos de final",
+        "url": "https://www.bbc.com/mundo/articles/c6210my2ed0o",
+        "snippet": "Paraguay avanzó a los octavos de final del Mundial 2026 tras imponerse 3-4 en la tanda de penales a Alemania tras el empate 1-1 en el tiempo regular y la prórroga.",
+        "publisher": "BBC News Mundo",
+        "published_at": "2026-06-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Deutsche Welle a annoncé qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, un groupe de supporters avait lancé une pétition pour interdire aux joueurs africains et musulmans de représenter l’équipe nationale allemande de football.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026, en seizièmes de finale [S4][S5]. Mais Deutsche Welle affirme n’avoir jamais annoncé l’existence de la pétition décrite [S1]. Contactée par Mala Espina, la rédaction a également démenti cette attribution et indiqué ne pas avoir connaissance d’une telle pétition [S2]. Fast Check a lui aussi qualifié de fausse la publication virale attribuée à DW [S3]. L’absence de pétition retrouvée ne démontre toutefois pas à elle seule qu’aucune pétition de ce type n’a existé [S3].",
+    "key_points": [
+      "L’élimination de l’Allemagne est confirmée : 1-1 après prolongation, puis 4-3 aux tirs au but pour le Paraguay [S4][S5].",
+      "DW dément avoir rapporté la pétition alléguée ; Mala Espina rapporte avoir obtenu confirmation directement auprès du média [S1][S2].",
+      "Fast Check juge la publication virale fausse, mais l’extrait disponible ne détaille pas toute l’étendue de ses recherches [S3]."
+    ],
+    "counter_argument": "Un verdict « Not Enough Evidence » serait défendable parce qu’aucune pétition originale n’a été retrouvée et que les extraits ne permettent pas d’exclure une pétition supprimée ou non indexée [S3]. Il n’a pas été retenu : l’affirmation centrale attribue une annonce à DW, qui la dément explicitement, y compris en réponse à un média indépendant [S1][S2].",
+    "evidence_gaps": [
+      "Une copie originale ou une archive fiable de la pétition alléguée permettrait de vérifier son existence, ses auteurs, sa date et son contenu.",
+      "Le texte intégral des vérifications et le détail des recherches dans les archives et comptes officiels de DW permettraient de mieux apprécier leur exhaustivité.",
+      "L’extrait fourni pour le parcours de groupe ne confirme pas explicitement que l’Allemagne a terminé première de son groupe."
+    ],
+    "findings": [
+      {
+        "aspect_id": "attribution_dw",
+        "question": "Deutsche Welle a-t-elle publié ou diffusé un reportage affirmant qu’après l’élimination de l’Allemagne de la Coupe du monde 2026, des supporters avaient lancé une pétition visant à exclure les joueurs africains et musulmans de l’équipe nationale allemande ?",
+        "signal": "refutes",
+        "summary": "Le 1er juillet 2026, Deutsche Welle a démenti avoir rapporté l’existence d’une telle pétition. Contactée par le média chilien Mala Espina, DW a confirmé que son nom avait été utilisé dans une désinformation virale. Une recherche indépendante de Fast Check dans les publications de DW n’a pas non plus retrouvé le reportage allégué.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "DW verifica: No hubo petición contra futbolistas migrantes",
+            "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+            "snippet": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Es falso que Deutsche Welle informara una campaña para prohibir que africanos y musulmanes jueguen en la selección alemana",
+            "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+            "snippet": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+            "publisher": "Mala Espina",
+            "published_at": "2026-07-01",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Aucun reportage original de DW correspondant à l’attribution virale n’a été retrouvé. Les résultats de recherche fournissent des extraits plutôt que le texte intégral des sources."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "elimination_2026",
+        "question": "À la date de la vérification, l’Allemagne a-t-elle été éliminée de la Coupe du monde masculine de football 2026 et, si oui, quand et à quel stade ?",
+        "signal": "supports",
+        "summary": "Oui. L’Allemagne a été éliminée le 29 juin 2026 en seizièmes de finale par le Paraguay : 1-1 après prolongation, puis 4-3 aux tirs au but. Elle avait auparavant terminé première de son groupe, avec deux victoires contre Curaçao et la Côte d’Ivoire, puis une défaite contre l’Équateur.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Allemagne 1-1 a.p. (3 tab à 4) Paraguay | 16es de finale | Temps forts, résumé",
+            "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+            "snippet": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+            "publisher": "FIFA",
+            "published_at": "2026-06-29",
+            "tier": "reference",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Germany knocked out on penalties by Paraguay",
+            "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+            "snippet": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+            "publisher": "Deutscher Fußball-Bund",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Germany's FIFA World Cup 2026: overview",
+            "url": "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+            "snippet": "Germany started their World Cup journey with a resounding 7-1 win over Curaçao in their tournament opener in Houston on 14 June, and followed it up with a come-from-behind 2-1 win against Côte d'Ivoire on Matchday 2.\n\nHowever, momentum was brought to a shuddering halt on Matchday 3 as they let a 1-0 lead slip in a 2-1 defeat against Ecuador in their final Group E game.",
+            "publisher": "Bundesliga",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "petition",
+        "question": "Existe-t-il des preuves qu’après une élimination de l’Allemagne à la Coupe du monde 2026, un groupe de supporters a lancé une pétition pour empêcher les joueurs africains et musulmans de représenter l’équipe nationale allemande ?",
+        "signal": "insufficient",
+        "summary": "L’Allemagne a bien été éliminée par le Paraguay le 29 juin 2026. Mais aucune pétition originale ni archive fiable établissant ses auteurs, sa date et son contenu n’a été retrouvée. Deutsche Welle et le média chilien Fast Check ont tous deux contesté l’allégation ; le second indique avoir recherché une telle pétition dans les médias. Cela constitue une absence de preuve, non une démonstration que toute pétition de ce type est impossible.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Faktencheck: Keine Petition gegen migrantische DFB-Spieler",
+            "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+            "snippet": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+            "publisher": "Deutsche Welle",
+            "published_at": "2026-07-01",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+            "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+            "snippet": "Tras revisar las noticias de Deutsche Welle y otros medios de comunicación, se constató que no existe una petición o colecta de firmas de parte de los alemanes, para prohibir la participación en la selección de fútbol de jugadores africanos y musulmanes.",
+            "publisher": "Fast Check",
+            "published_at": "2026-06-30",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "¡Proeza de Paraguay!: elimina a Alemania del Mundial 2026 en la tanda de penales y se clasifica para octavos de final",
+            "url": "https://www.bbc.com/mundo/articles/c6210my2ed0o",
+            "snippet": "Paraguay avanzó a los octavos de final del Mundial 2026 tras imponerse 3-4 en la tanda de penales a Alemania tras el empate 1-1 en el tiempo regular y la prórroga.",
+            "publisher": "BBC News Mundo",
+            "published_at": "2026-06-29",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "Les extraits disponibles des vérifications sont partiellement tronqués ; ils ne permettent pas d’établir l’étendue complète des recherches effectuées.",
+          "L’absence de pétition retrouvée ne prouve pas qu’aucune pétition non indexée ou supprimée n’a existé."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "DW verifica: No hubo petición contra futbolistas migrantes",
+        "url": "https://www.dw.com/es/dw-verifica-no-hubo-petici%C3%B3n-contra-futbolistas-migrantes/a-77792152",
+        "snippet": "Tras la eliminación de Alemania del Mundial, circula la falsa afirmación de que aficionados lanzaron una petición para excluir a jugadores \"africanos\" y \"musulmanes\" de la selección. DW nunca informó tal cosa.",
+        "publisher": "Deutsche Welle",
+        "published_at": "2026-07-01",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Es falso que Deutsche Welle informara una campaña para prohibir que africanos y musulmanes jueguen en la selección alemana",
+        "url": "https://www.malaespinacheck.cl/mundo/2026/07/01/es-falso-que-deutsche-welle-informara-una-campana-para-prohibir-que-africanos-y-musulmanes-jueguen-en-la-seleccion-alemana/",
+        "snippet": "Mala Espina contactó a Deutsche Welle para consultar por la afirmación viral. El medio confirmó que no informó sobre esa materia ni tiene conocimiento de una supuesta petición de aficionados relacionada con el origen étnico o religioso de los jugadores de la selección alemana.\n\nDW agregó que se trata de una pieza de desinformación viral difundida utilizando el nombre del medio.",
+        "publisher": "Mala Espina",
+        "published_at": "2026-07-01",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Alemanes no han iniciado una petición para prohibir que africanos y musulmanes jueguen por la selección",
+        "url": "https://www.fastcheck.cl/2026/06/30/alemanes-no-han-iniciado-una-peticion-para-prohibir-que-africanos-y-musulmanes-jueguen-por-la-seleccion/",
+        "snippet": "Circula en redes sociales información que afirma que los ciudadanos alemanes iniciaron una petición para prohibir la participación de africanos y musulmanes en la selección de fútbol, información que supuestamente provendría del medio alemán, Deutsche Welle. Fast Check califica este contenido como #Falso. Tras revisar el sitio citado en la publicación, se constató que no existe tal petición ni noticias al respecto.",
+        "publisher": "Fast Check",
+        "published_at": "2026-06-30",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Allemagne 1-1 a.p. (3 tab à 4) Paraguay | 16es de finale | Temps forts, résumé",
+        "url": "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/resume-temps-forts-allemagne-paraguay-seiziemes",
+        "snippet": "Publié\n\n29 juin 2026\n\nAu terme d’un long duel acharné, le Paraguay a signé le premier exploit des seizièmes de finale en éliminant l’Allemagne, quadruple championne du monde, aux tirs au but.\n\n## Allemagne 1-1 a.p. (3 tab à 4) Paraguay | Seizièmes de finale",
+        "publisher": "FIFA",
+        "published_at": "2026-06-29",
+        "tier": "reference",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Germany knocked out on penalties by Paraguay",
+        "url": "https://www.dfb.de/news/germany-knocked-out-on-penalties-by-paraguay",
+        "snippet": "Germany are out of the FIFA World Cup in the USA, Canada and Mexico. Julian Nagelsmann’s side were beaten by Paraguay on penalties in the round of 32 in Foxborough after a 1-1 draw following extra time. Paraguay won the shootout 4-3, with José Canale converting the decisive spot-kick.",
+        "publisher": "Deutscher Fußball-Bund",
+        "published_at": "2026-06-30",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Germany's FIFA World Cup 2026: overview",
+        "url": "https://www.bundesliga.com/en/bundesliga/news/germany-2026-fifa-world-cup-schedule-friendlies-training-camp-fixtures-34832",
+        "snippet": "Germany started their World Cup journey with a resounding 7-1 win over Curaçao in their tournament opener in Houston on 14 June, and followed it up with a come-from-behind 2-1 win against Côte d'Ivoire on Matchday 2.\n\nHowever, momentum was brought to a shuddering halt on Matchday 3 as they let a 1-0 lead slip in a 2-1 defeat against Ecuador in their final Group E game.",
+        "publisher": "Bundesliga",
+        "published_at": "2026-06-30",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Faktencheck: Keine Petition gegen migrantische DFB-Spieler",
+        "url": "https://www.dw.com/de/faktencheck-keine-petition-gegen-migrantische-nationalspieler/a-77791062",
+        "snippet": "Angeblich sollen Fans nach dem WM-Aus Deutschlands eine rassistische Petition gestartet haben, die \"afrikanische\" und \"muslimische\" Spieler aus der DFB-Elf verbannen soll. Die DW habe darüber berichtet. Das stimmt nicht.",
+        "publisher": "Deutsche Welle",
+        "published_at": "2026-07-01",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "¡Proeza de Paraguay!: elimina a Alemania del Mundial 2026 en la tanda de penales y se clasifica para octavos de final",
+        "url": "https://www.bbc.com/mundo/articles/c6210my2ed0o",
+        "snippet": "Paraguay avanzó a los octavos de final del Mundial 2026 tras imponerse 3-4 en la tanda de penales a Alemania tras el empate 1-1 en el tiempo regular y la prórroga.",
+        "publisher": "BBC News Mundo",
+        "published_at": "2026-06-29",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:50.294340+00:00",
+  "duration_seconds": 63.1790196467191,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 1011,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 1178,
+      "reasoning_tokens": 242,
+      "total_tokens": 2189,
+      "duration_seconds": 14.00163466623053,
+      "started_at": "2026-11-19T11:07:50.294798+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 21437,
+      "cached_input_tokens": 9988,
+      "cache_write_tokens": 11440,
+      "output_tokens": 1100,
+      "reasoning_tokens": 107,
+      "total_tokens": 22537,
+      "duration_seconds": 15.69020831072703,
+      "started_at": "2026-11-19T11:08:04.298136+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 3,
+      "input_tokens": 18927,
+      "cached_input_tokens": 10030,
+      "cache_write_tokens": 8888,
+      "output_tokens": 1112,
+      "reasoning_tokens": 162,
+      "total_tokens": 20039,
+      "duration_seconds": 18.789062805008143,
+      "started_at": "2026-11-19T11:08:04.306063+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 39084,
+      "cached_input_tokens": 23653,
+      "cache_write_tokens": 15419,
+      "output_tokens": 1173,
+      "reasoning_tokens": 83,
+      "total_tokens": 40257,
+      "duration_seconds": 20.33987487386912,
+      "started_at": "2026-11-19T11:08:04.314303+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 4717,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4714,
+      "output_tokens": 4229,
+      "reasoning_tokens": 127,
+      "total_tokens": 8946,
+      "duration_seconds": 28.782371938228607,
+      "started_at": "2026-11-19T11:08:24.690421+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 12,
+    "input_tokens": 85176,
+    "cached_input_tokens": 43671,
+    "cache_write_tokens": 40461,
+    "output_tokens": 8792,
+    "reasoning_tokens": 721,
+    "total_tokens": 93968,
+    "llm_seconds": 97.60315259406343,
+    "cache_hit_rate": 0.5127,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 1011.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 1178.0,
+        "reasoning_tokens": 242.0,
+        "total_tokens": 2189.0,
+        "llm_seconds": 14.00163466623053,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 3.0,
+        "requests": 10.0,
+        "input_tokens": 79448.0,
+        "cached_input_tokens": 43671.0,
+        "cache_write_tokens": 35747.0,
+        "output_tokens": 3385.0,
+        "reasoning_tokens": 352.0,
+        "total_tokens": 82833.0,
+        "llm_seconds": 54.819145989604294,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 4717.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 4714.0,
+        "output_tokens": 4229.0,
+        "reasoning_tokens": 127.0,
+        "total_tokens": 8946.0,
+        "llm_seconds": 28.782371938228607,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 93968,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 17,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 42
+  },
+  "unresolved_citations": []
+}

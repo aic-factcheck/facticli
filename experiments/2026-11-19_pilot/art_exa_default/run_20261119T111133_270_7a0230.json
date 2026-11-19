@@ -1,0 +1,1166 @@
+{
+  "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "normalized_claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "claim_id": "270",
+  "constraints": {
+    "claim_id": "270",
+    "claim_date": "2020-09-24",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-09-24"
+  },
+  "plan_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "rationale": "The claim attributes specific words and a position on employers cutting hours to Pelosi; the original wording and context can establish whether that attribution is accurate.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" employers cutting hours pursue dreams passions remarks transcript",
+          "site:congress.gov Pelosi work hours dreams passions employers",
+          "site:pelosi.house.gov transcript hours dreams passions employers"
+        ],
+        "acceptance_criteria": [
+          "The earliest traceable source for the quotation or a relevant underlying remark is identified, preferably an official transcript, recording, or contemporary firsthand report.",
+          "The source’s exact wording and surrounding context are compared with the claimed quotation, including whether it concerns employers cutting hours."
+        ]
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "rationale": "The claim identifies Pelosi as House Speaker; her office at the time of the remarks is a separately verifiable part of their context.",
+        "search_queries": [
+          "\"Pelosi\" \"cutting hours\" \"dreams\" date remarks",
+          "Nancy Pelosi Speaker House terms dates official history",
+          "site:history.house.gov Nancy Pelosi Speaker dates"
+        ],
+        "acceptance_criteria": [
+          "A primary or contemporary source establishes the date of the relevant remarks, if traceable.",
+          "An official congressional source establishes Pelosi’s Speaker tenure dates for comparison with the remarks."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The quotation marks are interpreted as attributing those exact words to Pelosi, rather than merely paraphrasing her.",
+      "The claim provides no publication date, so Pelosi’s office is checked at the time of any identifiable underlying remarks."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "rationale": "The claim attributes specific words and a position on employers cutting hours to Pelosi; the original wording and context can establish whether that attribution is accurate.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" employers cutting hours pursue dreams passions remarks transcript",
+          "site:congress.gov Pelosi work hours dreams passions employers",
+          "site:pelosi.house.gov transcript hours dreams passions employers",
+          "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?"
+        ],
+        "acceptance_criteria": [
+          "The earliest traceable source for the quotation or a relevant underlying remark is identified, preferably an official transcript, recording, or contemporary firsthand report.",
+          "The source’s exact wording and surrounding context are compared with the claimed quotation, including whether it concerns employers cutting hours."
+        ]
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "rationale": "The claim identifies Pelosi as House Speaker; her office at the time of the remarks is a separately verifiable part of their context.",
+        "search_queries": [
+          "\"Pelosi\" \"cutting hours\" \"dreams\" date remarks",
+          "Nancy Pelosi Speaker House terms dates official history",
+          "site:history.house.gov Nancy Pelosi Speaker dates",
+          "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+          "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”"
+        ],
+        "acceptance_criteria": [
+          "A primary or contemporary source establishes the date of the relevant remarks, if traceable.",
+          "An official congressional source establishes Pelosi’s Speaker tenure dates for comparison with the remarks."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The quotation marks are interpreted as attributing those exact words to Pelosi, rather than merely paraphrasing her.",
+      "The claim provides no publication date, so Pelosi’s office is checked at the time of any identifiable underlying remarks."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "rationale": "The claim attributes specific words and a position on employers cutting hours to Pelosi; the original wording and context can establish whether that attribution is accurate.",
+        "search_queries": [
+          "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "\"Nancy Pelosi\" employers cutting hours pursue dreams passions remarks transcript",
+          "site:congress.gov Pelosi work hours dreams passions employers",
+          "site:pelosi.house.gov transcript hours dreams passions employers",
+          "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?"
+        ],
+        "acceptance_criteria": [
+          "The earliest traceable source for the quotation or a relevant underlying remark is identified, preferably an official transcript, recording, or contemporary firsthand report.",
+          "The source’s exact wording and surrounding context are compared with the claimed quotation, including whether it concerns employers cutting hours."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "signal": "refutes",
+        "summary": "No firsthand source for the claimed wording was found. The earliest located repetition is a December 2013 blog post that attributes it to Pelosi without identifying an original interview or transcript. In a September 2013 CNN interview, Pelosi was asked about union concerns that the Affordable Care Act could undermine the 40-hour workweek; her recorded response described the law as a liberation allowing people to follow their passions, not the claimed statement that employers cutting hours is good. In an earlier 2012 remark, she described people choosing to change jobs or become self-employed without losing access to health care.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi Calls Republicans 'Anti-Government Ideologues,' 'Legislative Arsonists'",
+            "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "snippet": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+            "publisher": "CNSNews",
+            "published_at": "2013-09-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi: Obamacare Allows You to Quit Your Job and Become 'Whatever'",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "snippet": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+            "publisher": "CNSNews",
+            "published_at": "2012-03-22",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The December 2013 blog post is the earliest repetition located in these searches, not necessarily the first appearance of the quotation.",
+          "The CNN search result exposes the question and the beginning of Pelosi’s response; the contemporaneous CNSNews report supplies the passion-related wording from the same interview."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "urls": [
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://mediabiasfactcheck.com/turning-point-usa/?amp=1"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Nancy Pelosi\" employers cutting hours pursue dreams passions remarks transcript",
+          "urls": [
+            "https://www.forbes.com/2010/05/24/mills-college-commencement-nancy-pelosi-leadership-education-speech.html",
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-statement-womens-history-month-3",
+            "https://www.dailykos.com/stories/2012/9/5/1128164/news/Transcript-of-Nancy-Pelosi-remarks-as-prepared-for-delivery-Democratic-National-Convention/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"pelosi\" \"employers cutting hours\" \"dreams\" 2013 false satirical",
+          "urls": [
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://www.city-data.com/forum/politics-other-controversies/1961232-pelosi-death-40-hour-work-week-18.html",
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://www.advicegoddess.com/archives/2013/07/the-unions-that.html",
+            "https://mediabiasfactcheck.com/turning-point-usa/?amp=1",
+            "https://noisyroom.net/2013/12/30/forum-what-are-your-predictions-for-2014/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi \"pursue their passion\" health care jobs hours cbo February 2014",
+          "urls": [
+            "https://www.nationalreview.com/articles/obamacares-war-jobs-charles-krauthammer",
+            "http://illinoishealthmatters.blogspot.com/2014/02/cbo-on-aca-devil-is-in-details.html",
+            "https://clearysviewpoint.blogspot.com/2014/02/a-modest-proposal.html",
+            "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "https://www.spokesman.com/stories/2014/feb/15/charles-krauthammer-obamacares-job-toll-was/",
+            "https://www.washingtonexaminer.com/opinion/beltway-confidential/905472/pelosi-can-always-look-to-her-music-career/",
+            "https://www.politico.com/story/2012/09/pelosi-medicare-womens-rights-at-stake-080795",
+            "https://www.politico.com/story/2012/09/nancy-pelosi-dnc-speech-text-080771"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi obamacare \"hours\" \"passions\" dreams jobs 2013 2014",
+          "urls": [
+            "https://www.govinfo.gov/content/pkg/CREC-2013-09-27/html/CREC-2013-09-27-pt1-PgH5899-7.htm",
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://winteryknight.com/2013/09/27/nancy-pelosi-forcing-workers-to-work-fewer-hours-gives-them-freedom/",
+            "https://www.americanthinker.com/blog/2013/09/a_bright_future_of_quilting_with_nancy_pelosi.html",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi interview \"liberation\" \"passion\" \"Crowley\" \"2013\"",
+          "urls": [
+            "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://www.americanthinker.com/blog/2013/09/a_bright_future_of_quilting_with_nancy_pelosi.html",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi September 22 2013 Candy Crowley \"follow\" \"passion\" \"40\" transcript",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html",
+            "https://www.americanthinker.com/blog/2013/09/a_bright_future_of_quilting_with_nancy_pelosi.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley \"passion\" \"40\" \"freedom\"",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://cnnpressroom.blogs.cnn.com/page/351/",
+            "https://cnnpressroom.blogs.cnn.com/author/mgrantcnn/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "rationale": "The claim identifies Pelosi as House Speaker; her office at the time of the remarks is a separately verifiable part of their context.",
+        "search_queries": [
+          "\"Pelosi\" \"cutting hours\" \"dreams\" date remarks",
+          "Nancy Pelosi Speaker House terms dates official history",
+          "site:history.house.gov Nancy Pelosi Speaker dates",
+          "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+          "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”"
+        ],
+        "acceptance_criteria": [
+          "A primary or contemporary source establishes the date of the relevant remarks, if traceable.",
+          "An official congressional source establishes Pelosi’s Speaker tenure dates for comparison with the remarks."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "signal": "refutes",
+        "summary": "A contemporary account connects similar remarks about following one’s passion to a CNN interview in September 2013. Pelosi was House Democratic leader, not Speaker, at that time: an official congressional press release identifies her as Democratic Leader that month, and NBC reports that her first Speakership lasted from 2007 to 2011. She regained the Speakership in January 2019, so the title was accurate as of the claim’s 2020 reference date.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "Today on CNN’s State of the Union with Candy Crowley, Rep. Nancy Pelosi (D-CA) spoke about a potential Hillary Clinton presidential run, the stituation in Syria, ... House again, the Pope’s stance on homosexuality, and the House’s short term spending plan",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi elected House speaker for the second time",
+            "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+            "snippet": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+            "publisher": "NBC News",
+            "published_at": "2019-01-03",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi Remarks Upon Accepting the Gavel as Speaker of the House",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/1319",
+            "snippet": "January 3, 2019 Press Release\n\nWashington, D.C. – Speaker Nancy Pelosi delivered remarks during the opening session of the 116th Congress immediately following her election as Speaker of the House of Representatives.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2019-01-03",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The exact quotation in the claim was not traced to a primary transcript. The September 2013 interview is a plausible source of the underlying remarks, but the available CNN snippet does not itself show the relevant passage.",
+          "The official congressional sources establish Pelosi’s role in September 2013 and her return to the Speakership in 2019; the broader 2007–2011 tenure dates are corroborated here by NBC rather than an official tenure list."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:history.house.gov Nancy Pelosi Speaker dates 2007 2011 2019",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Pelosi\" \"cutting hours\" \"dreams\" date remarks",
+          "urls": [
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://www.city-data.com/forum/politics-other-controversies/1961232-pelosi-death-40-hour-work-week-18.html",
+            "https://streetwiseprofessor.com/would-be-puppeteers-rejoice-obamacare-will-make-your-dreams-come-true/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi \"follow your passion\" \"40-hour\" September 2013 press conference",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi \"follow your passion\" part time hours Obamacare September 2013 minority leader",
+          "urls": [
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://winteryknight.com/2013/09/27/nancy-pelosi-forcing-workers-to-work-fewer-hours-gives-them-freedom/",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2019 Nancy Pelosi elected speaker again 2007 2011 house official January 3",
+          "urls": [
+            "https://rollcall.com/2019/01/03/pelosi-elected-speaker-with-15-democratic-defections/",
+            "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+            "https://www.npr.org/2019/01/03/682021495/nancy-pelosi-elected-speaker-of-the-house-reclaims-gavel-she-last-held-in-2011",
+            "https://speakeremeritapelosi.house.gov/newsroom/1319",
+            "https://apnews.com/article/14bc4bc1d7bb4e87a76e42c9c73770dd"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:speakeremeritapelosi.house.gov \"Crowley\" \"follow your passion\" September 2013",
+          "urls": [
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-remarks-campus-progress-national-conference",
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-51",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-remarks-feminist-majority-luncheon-honoring-congresswoman-rosa-delauros-leadership",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-names-michael-long-senior-advisor-announces-departure-liz-pardue",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-statement-passing-former-congressman-charlie-wilson",
+            "https://speakeremeritapelosi.house.gov/newsroom/pelosi-remarks-congressional-gold-medal-ceremony"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:govinfo.gov 2013 John Boehner Speaker Pelosi minority leader January 2013 Congress",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "September 22 2013 Pelosi CNN Crowley \"passion\" \"40-hour\" transcript",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "http://alternativeconservative.blogspot.com/2013/09/maybe-pelosi-just-never-had-brain-to.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.8,
+    "justification": "A December 2013 blog attributes the exact words to Pelosi but provides no original interview or transcript in the supplied excerpt. [S4] A contemporary account quotes her using similar language about following a passion, but not the claimed words about employers cutting hours. [S2] CNN’s available excerpt shows that she was asked about concerns over the 40-hour workweek, but it does not include the full relevant response. [S1] Inference: The evidence does not establish that Pelosi used the exact words, but the partial transcript and related remarks do not conclusively show that she never said them. Pelosi was Democratic leader in September 2013 and became Speaker again in January 2019. [S6][S8]",
+    "key_points": [
+      "The exact quotation appears in a 2013 blog post without an identified original source. [S4]",
+      "A contemporary report quotes Pelosi on following one’s passion, but not on employers cutting hours being good. [S2]",
+      "Pelosi was Democratic leader during the September 2013 interview and was Speaker again by the 2020 reference date. [S1][S6][S8]"
+    ],
+    "counter_argument": "A case for Refuted is that the earliest located exact quotation is unsourced and Pelosi’s documented remarks use different wording about health care and pursuing a passion. [S2][S3][S4] That case does not prevail because the supplied interview excerpt is incomplete, and no source definitively rules out a separate occasion on which she used the claimed words. [S1]",
+    "evidence_gaps": [
+      "A complete recording or transcript of the September 2013 interview would allow the relevant passage to be checked directly.",
+      "The original source, if any, behind the December 2013 blog’s exact quotation was not identified.",
+      "No independent firsthand source was provided establishing that Pelosi used the exact words on another occasion."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "signal": "refutes",
+        "summary": "No firsthand source for the claimed wording was found. The earliest located repetition is a December 2013 blog post that attributes it to Pelosi without identifying an original interview or transcript. In a September 2013 CNN interview, Pelosi was asked about union concerns that the Affordable Care Act could undermine the 40-hour workweek; her recorded response described the law as a liberation allowing people to follow their passions, not the claimed statement that employers cutting hours is good. In an earlier 2012 remark, she described people choosing to change jobs or become self-employed without losing access to health care.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi Calls Republicans 'Anti-Government Ideologues,' 'Legislative Arsonists'",
+            "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "snippet": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+            "publisher": "CNSNews",
+            "published_at": "2013-09-23",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi: Obamacare Allows You to Quit Your Job and Become 'Whatever'",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "snippet": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+            "publisher": "CNSNews",
+            "published_at": "2012-03-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The December 2013 blog post is the earliest repetition located in these searches, not necessarily the first appearance of the quotation.",
+          "The CNN search result exposes the question and the beginning of Pelosi’s response; the contemporaneous CNSNews report supplies the passion-related wording from the same interview."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "signal": "refutes",
+        "summary": "A contemporary account connects similar remarks about following one’s passion to a CNN interview in September 2013. Pelosi was House Democratic leader, not Speaker, at that time: an official congressional press release identifies her as Democratic Leader that month, and NBC reports that her first Speakership lasted from 2007 to 2011. She regained the Speakership in January 2019, so the title was accurate as of the claim’s 2020 reference date.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi elected House speaker for the second time",
+            "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+            "snippet": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+            "publisher": "NBC News",
+            "published_at": "2019-01-03",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Pelosi Remarks Upon Accepting the Gavel as Speaker of the House",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/1319",
+            "snippet": "January 3, 2019 Press Release\n\nWashington, D.C. – Speaker Nancy Pelosi delivered remarks during the opening session of the 116th Congress immediately following her election as Speaker of the House of Representatives.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2019-01-03",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The exact quotation in the claim was not traced to a primary transcript. The September 2013 interview is a plausible source of the underlying remarks, but the available CNN snippet does not itself show the relevant passage.",
+          "The official congressional sources establish Pelosi’s role in September 2013 and her return to the Speakership in 2019; the broader 2007–2011 tenure dates are corroborated here by NBC rather than an official tenure list."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+        "publisher": "CNN",
+        "published_at": "2013-09-22",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi Calls Republicans 'Anti-Government Ideologues,' 'Legislative Arsonists'",
+        "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+        "snippet": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+        "publisher": "CNSNews",
+        "published_at": "2013-09-23",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi: Obamacare Allows You to Quit Your Job and Become 'Whatever'",
+        "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+        "snippet": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+        "publisher": "CNSNews",
+        "published_at": "2012-03-22",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Religion & Liberty Online",
+        "published_at": "2013-09-24",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+        "snippet": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2013-09-27",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi elected House speaker for the second time",
+        "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+        "snippet": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+        "publisher": "NBC News",
+        "published_at": "2019-01-03",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Pelosi Remarks Upon Accepting the Gavel as Speaker of the House",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/1319",
+        "snippet": "January 3, 2019 Press Release\n\nWashington, D.C. – Speaker Nancy Pelosi delivered remarks during the opening session of the 116th Congress immediately following her election as Speaker of the House of Representatives.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2019-01-03",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.8,
+    "justification": "A December 2013 blog attributes the exact words to Pelosi but provides no original interview or transcript in the supplied excerpt. [S4] A contemporary account quotes her using similar language about following a passion, but not the claimed words about employers cutting hours. [S2] CNN’s available excerpt shows that she was asked about concerns over the 40-hour workweek, but it does not include the full relevant response. [S1] Inference: The evidence does not establish that Pelosi used the exact words, but the partial transcript and related remarks do not conclusively show that she never said them. Pelosi was Democratic leader in September 2013 and became Speaker again in January 2019. [S6][S8]",
+    "key_points": [
+      "The exact quotation appears in a 2013 blog post without an identified original source. [S4]",
+      "A contemporary report quotes Pelosi on following one’s passion, but not on employers cutting hours being good. [S2]",
+      "Pelosi was Democratic leader during the September 2013 interview and was Speaker again by the 2020 reference date. [S1][S6][S8]"
+    ],
+    "counter_argument": "A case for Refuted is that the earliest located exact quotation is unsourced and Pelosi’s documented remarks use different wording about health care and pursuing a passion. [S2][S3][S4] That case does not prevail because the supplied interview excerpt is incomplete, and no source definitively rules out a separate occasion on which she used the claimed words. [S1]",
+    "evidence_gaps": [
+      "A complete recording or transcript of the September 2013 interview would allow the relevant passage to be checked directly.",
+      "The original source, if any, behind the December 2013 blog’s exact quotation was not identified.",
+      "No independent firsthand source was provided establishing that Pelosi used the exact words on another occasion."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quotation_context",
+        "question": "Did Nancy Pelosi say the quoted words about US employers cutting employees’ hours, and what was the context of her remarks?",
+        "signal": "refutes",
+        "summary": "No firsthand source for the claimed wording was found. The earliest located repetition is a December 2013 blog post that attributes it to Pelosi without identifying an original interview or transcript. In a September 2013 CNN interview, Pelosi was asked about union concerns that the Affordable Care Act could undermine the 40-hour workweek; her recorded response described the law as a liberation allowing people to follow their passions, not the claimed statement that employers cutting hours is good. In an earlier 2012 remark, she described people choosing to change jobs or become self-employed without losing access to health care.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi Calls Republicans 'Anti-Government Ideologues,' 'Legislative Arsonists'",
+            "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "snippet": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+            "publisher": "CNSNews",
+            "published_at": "2013-09-23",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi: Obamacare Allows You to Quit Your Job and Become 'Whatever'",
+            "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+            "snippet": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+            "publisher": "CNSNews",
+            "published_at": "2012-03-22",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The December 2013 blog post is the earliest repetition located in these searches, not necessarily the first appearance of the quotation.",
+          "The CNN search result exposes the question and the beginning of Pelosi’s response; the contemporaneous CNSNews report supplies the passion-related wording from the same interview."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "speaker_timing",
+        "question": "If the quoted statement or its underlying remarks can be dated, was Nancy Pelosi serving as Speaker of the US House when she made them?",
+        "signal": "refutes",
+        "summary": "A contemporary account connects similar remarks about following one’s passion to a CNN interview in September 2013. Pelosi was House Democratic leader, not Speaker, at that time: an official congressional press release identifies her as Democratic Leader that month, and NBC reports that her first Speakership lasted from 2007 to 2011. She regained the Speakership in January 2019, so the title was accurate as of the claim’s 2020 reference date.",
+        "confidence": 0.88,
+        "sources": [
+          {
+            "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+            "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+            "publisher": "Religion & Liberty Online",
+            "published_at": "2013-09-24",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+            "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "snippet": "Today on CNN’s State of the Union with Candy Crowley, Rep. Nancy Pelosi (D-CA) spoke about a potential Hillary Clinton presidential run, the stituation in Syria, ... House again, the Pope’s stance on homosexuality, and the House’s short term spending plan",
+            "publisher": "CNN",
+            "published_at": "2013-09-22",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi elected House speaker for the second time",
+            "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+            "snippet": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+            "publisher": "NBC News",
+            "published_at": "2019-01-03",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Pelosi Remarks Upon Accepting the Gavel as Speaker of the House",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/1319",
+            "snippet": "January 3, 2019 Press Release\n\nWashington, D.C. – Speaker Nancy Pelosi delivered remarks during the opening session of the 116th Congress immediately following her election as Speaker of the House of Representatives.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2019-01-03",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The exact quotation in the claim was not traced to a primary transcript. The September 2013 interview is a plausible source of the underlying remarks, but the available CNN snippet does not itself show the relevant passage.",
+          "The official congressional sources establish Pelosi’s role in September 2013 and her return to the Speakership in 2019; the broader 2007–2011 tenure dates are corroborated here by NBC rather than an official tenure list."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Pelosi to Crowley: Hillary more prepared to be President than Obama was",
+        "url": "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+        "snippet": "CROWLEY: Let me ask you then about Obamacare, itself. Coming up for a big date on Obamacare October 1st when people can begin to sign up through the — marketplaces. Do you have any reservations at all? Are you worried at all? And I ask you this because you know union leaders, I mean, James Hoffa is one of those who wrote a letter to you and said Obamacare is now stands would, quote, “destroy the foundation of the 40-hour work week.” That’s pretty tough from a loyal Democratic constituency. PELOSI: Well, we’re working on the issue that relates to all of these multiemployer plans which unions are one and some are charities.",
+        "publisher": "CNN",
+        "published_at": "2013-09-22",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi Calls Republicans 'Anti-Government Ideologues,' 'Legislative Arsonists'",
+        "url": "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+        "snippet": "Pelosi called Obamacare a \"liberation\" for the American people. \"This is life, healthy life, liberty, the freedom to pursue your happiness which could be follow your passion for good rather than follow your palate and be constrained by your policy. It's about wellness. It's about prevention, it's about a healthier America.\"",
+        "publisher": "CNSNews",
+        "published_at": "2013-09-23",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi: Obamacare Allows You to Quit Your Job and Become 'Whatever'",
+        "url": "https://archive.cnsnews.com/news/article/pelosi-obamacare-allows-you-quit-your-job-and-become-whatever",
+        "snippet": "“You want to be a photographer or a writer or a musician, whatever -- an artist, you want to be self-employed, if you want to start a business, you want to change jobs, you no longer are prohibited from doing that because you can’t have access to health care",
+        "publisher": "CNSNews",
+        "published_at": "2012-03-22",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": "user_generated",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Hours Cut Due To Obamacare? Follow Your Passion, Says Pelosi",
+        "url": "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+        "snippet": "Nancy Pelosi, (D-CA) and House Minority Leader, remains optimistic, however. In a CNN interview, she says these changes will allow Americans to follow their passions as they are liberated from the 40 hour work week.",
+        "publisher": "Religion & Liberty Online",
+        "published_at": "2013-09-24",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+        "snippet": "September 27, 2013\n\nPress Release\n\nWashington, D.C. – Democratic Leader Nancy Pelosi held her weekly press conference today in the Capitol Visitor Center.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2013-09-27",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi elected House speaker for the second time",
+        "url": "https://www.nbcnews.com/politics/congress/pelosi-hours-away-speaker-vote-n954176",
+        "snippet": "The California Democrat — who previously served as House speaker from 2007 until 2011, spanning the administrations of Presidents George W. Bush and Barack Obama, and led Democrats under the eight-year Republican majority in the House that followed",
+        "publisher": "NBC News",
+        "published_at": "2019-01-03",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Pelosi Remarks Upon Accepting the Gavel as Speaker of the House",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/1319",
+        "snippet": "January 3, 2019 Press Release\n\nWashington, D.C. – Speaker Nancy Pelosi delivered remarks during the opening session of the 116th Congress immediately following her election as Speaker of the House of Representatives.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2019-01-03",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:10:02.152388+00:00",
+  "duration_seconds": 91.84136311663315,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 990,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 918,
+      "reasoning_tokens": 418,
+      "total_tokens": 1908,
+      "duration_seconds": 18.62870745314285,
+      "started_at": "2026-11-19T11:10:02.152471+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 37889,
+      "cached_input_tokens": 20882,
+      "cache_write_tokens": 16995,
+      "output_tokens": 1393,
+      "reasoning_tokens": 171,
+      "total_tokens": 39282,
+      "duration_seconds": 29.747680049855262,
+      "started_at": "2026-11-19T11:10:20.781749+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 28378,
+      "cached_input_tokens": 16241,
+      "cache_write_tokens": 12125,
+      "output_tokens": 1469,
+      "reasoning_tokens": 196,
+      "total_tokens": 29847,
+      "duration_seconds": 25.956666642334312,
+      "started_at": "2026-11-19T11:10:20.785402+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 4217,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4214,
+      "output_tokens": 3704,
+      "reasoning_tokens": 149,
+      "total_tokens": 7921,
+      "duration_seconds": 43.446952318772674,
+      "started_at": "2026-11-19T11:10:50.544976+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 10,
+    "input_tokens": 71474,
+    "cached_input_tokens": 37123,
+    "cache_write_tokens": 33334,
+    "output_tokens": 7484,
+    "reasoning_tokens": 934,
+    "total_tokens": 78958,
+    "llm_seconds": 117.7800064641051,
+    "cache_hit_rate": 0.5194,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 990.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 918.0,
+        "reasoning_tokens": 418.0,
+        "total_tokens": 1908.0,
+        "llm_seconds": 18.62870745314285,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 2.0,
+        "requests": 8.0,
+        "input_tokens": 66267.0,
+        "cached_input_tokens": 37123.0,
+        "cache_write_tokens": 29120.0,
+        "output_tokens": 2862.0,
+        "reasoning_tokens": 367.0,
+        "total_tokens": 69129.0,
+        "llm_seconds": 55.704346692189574,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 4217.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 4214.0,
+        "output_tokens": 3704.0,
+        "reasoning_tokens": 149.0,
+        "total_tokens": 7921.0,
+        "llm_seconds": 43.446952318772674,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 78958,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 16,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 41
+  },
+  "unresolved_citations": []
+}

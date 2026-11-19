@@ -62,6 +62,21 @@ class FactoryTests(unittest.TestCase):
             service = build_fact_check_service(config)
         return service, adapter_class.call_args.kwargs
 
+    def test_flex_tier_reaches_every_model_call_and_lengthens_the_research_timeout(self):
+        from facticli.adapters import build_model_settings
+
+        service, researcher = self._build(
+            FactCheckRuntimeConfig(search_provider="exa", service_tier="flex"), "CompatibleResearchAdapter"
+        )
+        self.assertEqual(researcher["service_tier"], "flex")
+        self.assertEqual([tool.name for tool in researcher["tools"]], ["exa_web_search"])
+        self.assertEqual(service.research_stage.research_timeout_seconds, 600.0)
+        settings = build_model_settings(parallel_tool_calls=None, service_tier="flex")
+        self.assertEqual(settings.extra_args, {"service_tier": "flex"})
+        self.assertIsNone(build_model_settings(parallel_tool_calls=None).extra_args)
+        standard, _ = self._build(FactCheckRuntimeConfig(search_provider="exa"), "CompatibleResearchAdapter")
+        self.assertEqual(standard.research_stage.research_timeout_seconds, 120.0)
+
     def test_researcher_plans_for_the_budget_and_the_tools_stop_at_twice_that(self):
         with tempfile.TemporaryDirectory() as tmp:
             config = FactCheckRuntimeConfig(

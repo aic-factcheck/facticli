@@ -1,0 +1,631 @@
+{
+  "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "normalized_claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+  "claim_id": "270",
+  "constraints": {
+    "claim_id": "270",
+    "claim_date": "2020-09-24",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-09-24"
+  },
+  "plan_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "rationale": "The claim depends on both the accuracy of the attributed words and whether they referred to employers reducing hours.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "Pelosi employers cutting hours good thing time pursue dreams passions original remarks",
+          "site:gov Pelosi transcript \"hours\" \"dreams\" \"passions\"",
+          "Pelosi reduced work hours dreams passions video transcript context"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary record of the purported remarks and compare the exact wording with the quotation.",
+          "Establish from the surrounding remarks what Pelosi was discussing and whether she described employers cutting hours as a good thing; if a primary record cannot be found, seek contemporaneous independent reporting and clearly identify the evidentiary limit."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“House Speaker” is treated as an identifier for Nancy Pelosi, not necessarily as an assertion that she held that office when the remarks were made."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "checks": [
+      {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "rationale": "The claim depends on both the accuracy of the attributed words and whether they referred to employers reducing hours.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "Pelosi employers cutting hours good thing time pursue dreams passions original remarks",
+          "site:gov Pelosi transcript \"hours\" \"dreams\" \"passions\"",
+          "Pelosi reduced work hours dreams passions video transcript context",
+          "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary record of the purported remarks and compare the exact wording with the quotation.",
+          "Establish from the surrounding remarks what Pelosi was discussing and whether she described employers cutting hours as a good thing; if a primary record cannot be found, seek contemporaneous independent reporting and clearly identify the evidentiary limit."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“House Speaker” is treated as an identifier for Nancy Pelosi, not necessarily as an assertion that she held that office when the remarks were made."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "rationale": "The claim depends on both the accuracy of the attributed words and whether they referred to employers reducing hours.",
+        "search_queries": [
+          "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "Pelosi employers cutting hours good thing time pursue dreams passions original remarks",
+          "site:gov Pelosi transcript \"hours\" \"dreams\" \"passions\"",
+          "Pelosi reduced work hours dreams passions video transcript context",
+          "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?"
+        ],
+        "acceptance_criteria": [
+          "Locate a recording, contemporaneous transcript, or other primary record of the purported remarks and compare the exact wording with the quotation.",
+          "Establish from the surrounding remarks what Pelosi was discussing and whether she described employers cutting hours as a good thing; if a primary record cannot be found, seek contemporaneous independent reporting and clearly identify the evidentiary limit."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "signal": "insufficient",
+        "summary": "The exact quotation appeared in a December 2013 blog post, but the post did not identify a recording or transcript of Pelosi saying it. In a September 2013 press conference, Pelosi did use similar language about following a passion rather than a health insurance policy: she argued that the Affordable Care Act would let people change jobs or start businesses without losing coverage. Fortune also reported in 2010 that Pelosi said the law would let people leave jobs they kept for insurance. Those documented remarks concerned workers’ choices, not employers cutting their hours.",
+        "confidence": 0.84,
+        "sources": [
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "That's transformational. [It's] about life, a healthier life, liberty, freedom, the liberty to pursue your happiness, whether you want to be a photographer, a writer, start your business, be self-employed, [and] change jobs. You're not job locked. You can follow your passion, not your policy, be job locked by your policy. It's entrepreneurial.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Nancy Pelosi: Health care reform equals entrepreneurship",
+            "url": "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+            "snippet": "“The entrepreneurial spirit of America is unleashed,” she said, because the bill allows people to leave unsatisfying jobs they keep only for the medical insurance. “I can take risks, I can be entrepreneurial, I can follow my passion,” she told the small audience gathered at the Paley Center for Media in New York. “I can change jobs without fearing that I’m hurting my family.”",
+            "publisher": "Fortune",
+            "published_at": "2010-05-04",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "No recording or contemporaneous transcript was found for the exact quotation. The documented similar remarks establish their own context but do not prove where the circulating quotation originated."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi employers cutting hours good thing time pursue dreams passions original remarks 2014 Obamacare CBO",
+          "urls": [
+            "https://nypost.com/2014/02/07/obamacare-freeing-the-job-locked-poets/",
+            "https://obamawhitehouse.archives.gov/the-press-office/2014/02/04/statement-press-secretary-today-s-cbo-report-and-affordable-care-act",
+            "https://hotair.com/kevin-glass/2014/02/05/pelosi-fighting-job-lock-lets-americans-follow-their-passion-like-leaving-the-workforce-n187482",
+            "https://dailycallernewsfoundation.org/2014/02/06/pelosi-obamacare-allows-workers-to-escape-their-jobs/",
+            "https://www.politico.com/magazine/story/2014/02/obamacare-jobs-party-of-less-work-103184",
+            "https://www.politico.com/story/2014/02/obamacare-first-year-enrollment-numbers-103098",
+            "https://www.forbes.com/sites/theapothecary/2014/02/05/white-house-its-a-good-thing-that-obamacare-will-drive-2-5-million-americans-out-of-the-workforce/",
+            "https://www.americamagazine.org/other-things/2014/02/25/when-projections-attack/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Nancy Pelosi\" \"Employers cutting hours is a good thing\" \"dreams and passions\"",
+          "urls": [
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://mediabiasfactcheck.com/turning-point-usa/?amp=1"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi \"employers cutting hours\" \"passions\" 2013 original quotation false",
+          "urls": [
+            "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "https://donboys.cstnews.com/stupid-statements-by-senseless-statesmen",
+            "https://bitterrootstar.com/2017/08/to-fellow-deplorable-cultists-and-others/",
+            "https://www.city-data.com/forum/politics-other-controversies/1961232-pelosi-death-40-hour-work-week-18.html",
+            "http://teapartyatperrysburg.blogspot.com/2014/02/obamacare-entrepreneurial-bill-conquers.html",
+            "https://madisonvagop.blogspot.com/2013/09/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:pelosi.house.gov 2014 \"follow their passion\" \"job\" CBO",
+          "urls": [
+            "https://pelosi.house.gov/news/press-releases/pelosi-floor-speech-in-opposition-to-house-gops-38th-vote-to-repeal-the",
+            "http://pelosi.house.gov/news/press-releases/transcript-of-pelosi-house-democratic-leaders-press-availability-on-ryan",
+            "https://pelosi.house.gov/news/press-releases/pelosi-remarks-at-the-campus-progress-national-conference",
+            "https://pelosi.house.gov/news/press-releases/pelosi-cbo-report-confirms-economic-recovery-act-provides-immediate-stimulus-to",
+            "https://pelosi.house.gov/news/press-releases/transcript-of-pelosi-weekly-press-conference-today",
+            "http://pelosi.house.gov/news/pelosi-updates/san-francisco-leading-the-way",
+            "https://pelosi.house.gov/news/press-releases/pelosi-statement-on-june-jobs-report-1",
+            "http://pelosi.house.gov/news/pelosi-updates/out-on-a-limb"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Pelosi 2010 \"hours\" \"passion\" \"health\" dreams employers job lock",
+          "urls": [
+            "https://www.prnewswire.com/news-releases/pelosi-graduation-address-at-cornell-university-convocation-95183734.html",
+            "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+            "https://blaknsam.com/2010/05/18/pelosi-follow-your-bliss-well-pick-up-the-tab/",
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "http://allthingscnn.blogspot.com/2010/05/donna-brazile-interviews-nancy-pelosi.html",
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://www.city-data.com/forum/politics-other-controversies/978493-pelosi-telling-ppl-quit-there-jobs-8.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi health care bill \"passion\" \"hours\" job lock 2013 employers",
+          "urls": [
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "https://rlo.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://www.news-graphic.com/opinion/columnists/pelosi-comments-prove-ignorance-surrounds-health-care-reform/article_2d362542-2639-11e3-ad3f-0019bb2963f4.html",
+            "https://blog.acton.org/archives/60370-hours-cut-due-obamacare-follow-passion-says-pelosi.html",
+            "https://winteryknight.com/2013/09/27/nancy-pelosi-forcing-workers-to-work-fewer-hours-gives-them-freedom/",
+            "https://www.aei.org/commentary/freedom-for-the-job-locked/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Nancy Pelosi CNN \"follow your passion\" \"policy\" September 2013 transcript 40 hour work",
+          "urls": [
+            "https://cnnpressroom.blogs.cnn.com/2013/09/22/pelosi-to-crowley-hillary-more-prepared-to-be-president-than-obama-was/?iref=allsearch",
+            "https://archive.cnsnews.com/news/article/susan-jones/pelosi-calls-republicans-anti-government-ideologues-legislative-arsonists",
+            "https://www.news-graphic.com/opinion/columnists/pelosi-comments-prove-ignorance-surrounds-health-care-reform/article_2d362542-2639-11e3-ad3f-0019bb2963f4.html",
+            "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:transcripts.cnn.com \"Pelosi\" \"passion\" \"policy\" 2013 health",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.88,
+    "justification": "A December 2013 blog post attributed the quoted words to Pelosi but did not identify a recording or transcript supporting the attribution [S3]. A September 2013 transcript shows Pelosi using similar language about following a passion, but she was discussing the freedom to change jobs or pursue other work without being locked into a job by health insurance [S1]. Fortune reported similar remarks in 2010 about leaving jobs kept for insurance, not employers cutting hours [S2]. Inference: Those documented remarks do not establish that Pelosi made the separate statement about employers cutting hours.",
+    "key_points": [
+      "The exact quotation appears in a blog post that gives no primary source for it [S3].",
+      "Documented similar remarks concerned workers’ freedom to change jobs or pursue other work, not employers cutting hours [S1][S2].",
+      "No recording or contemporaneous transcript was found for the exact quotation."
+    ],
+    "counter_argument": "The blog’s attribution could support the claim, and Pelosi did use similar language about pursuing a passion [S3][S1]. But the blog provides no recording or transcript, and the documented remarks do not establish that she made the statement about employers cutting hours [S3][S1][S2].",
+    "evidence_gaps": [
+      "A recording, contemporaneous transcript, or reliable independent report of the alleged remarks would help establish whether Pelosi said the exact words and in what context.",
+      "The origin of the quotation in the blog post remains unidentified."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "signal": "insufficient",
+        "summary": "The exact quotation appeared in a December 2013 blog post, but the post did not identify a recording or transcript of Pelosi saying it. In a September 2013 press conference, Pelosi did use similar language about following a passion rather than a health insurance policy: she argued that the Affordable Care Act would let people change jobs or start businesses without losing coverage. Fortune also reported in 2010 that Pelosi said the law would let people leave jobs they kept for insurance. Those documented remarks concerned workers’ choices, not employers cutting their hours.",
+        "confidence": 0.84,
+        "sources": [
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "That's transformational. [It's] about life, a healthier life, liberty, freedom, the liberty to pursue your happiness, whether you want to be a photographer, a writer, start your business, be self-employed, [and] change jobs. You're not job locked. You can follow your passion, not your policy, be job locked by your policy. It's entrepreneurial.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Nancy Pelosi: Health care reform equals entrepreneurship",
+            "url": "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+            "snippet": "“The entrepreneurial spirit of America is unleashed,” she said, because the bill allows people to leave unsatisfying jobs they keep only for the medical insurance. “I can take risks, I can be entrepreneurial, I can follow my passion,” she told the small audience gathered at the Paley Center for Media in New York. “I can change jobs without fearing that I’m hurting my family.”",
+            "publisher": "Fortune",
+            "published_at": "2010-05-04",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "No recording or contemporaneous transcript was found for the exact quotation. The documented similar remarks establish their own context but do not prove where the circulating quotation originated."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+        "snippet": "That's transformational. [It's] about life, a healthier life, liberty, freedom, the liberty to pursue your happiness, whether you want to be a photographer, a writer, start your business, be self-employed, [and] change jobs. You're not job locked. You can follow your passion, not your policy, be job locked by your policy. It's entrepreneurial.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2013-09-27",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Nancy Pelosi: Health care reform equals entrepreneurship",
+        "url": "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+        "snippet": "“The entrepreneurial spirit of America is unleashed,” she said, because the bill allows people to leave unsatisfying jobs they keep only for the medical insurance. “I can take risks, I can be entrepreneurial, I can follow my passion,” she told the small audience gathered at the Paley Center for Media in New York. “I can change jobs without fearing that I’m hurting my family.”",
+        "publisher": "Fortune",
+        "published_at": "2010-05-04",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "House Speaker Nancy Pelosi said of US employers, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions.”",
+    "verdict": "Not Enough Evidence",
+    "verdict_confidence": 0.88,
+    "justification": "A December 2013 blog post attributed the quoted words to Pelosi but did not identify a recording or transcript supporting the attribution [S3]. A September 2013 transcript shows Pelosi using similar language about following a passion, but she was discussing the freedom to change jobs or pursue other work without being locked into a job by health insurance [S1]. Fortune reported similar remarks in 2010 about leaving jobs kept for insurance, not employers cutting hours [S2]. Inference: Those documented remarks do not establish that Pelosi made the separate statement about employers cutting hours.",
+    "key_points": [
+      "The exact quotation appears in a blog post that gives no primary source for it [S3].",
+      "Documented similar remarks concerned workers’ freedom to change jobs or pursue other work, not employers cutting hours [S1][S2].",
+      "No recording or contemporaneous transcript was found for the exact quotation."
+    ],
+    "counter_argument": "The blog’s attribution could support the claim, and Pelosi did use similar language about pursuing a passion [S3][S1]. But the blog provides no recording or transcript, and the documented remarks do not establish that she made the statement about employers cutting hours [S3][S1][S2].",
+    "evidence_gaps": [
+      "A recording, contemporaneous transcript, or reliable independent report of the alleged remarks would help establish whether Pelosi said the exact words and in what context.",
+      "The origin of the quotation in the blog post remains unidentified."
+    ],
+    "findings": [
+      {
+        "aspect_id": "quote_attribution_context",
+        "question": "Did Nancy Pelosi say, in reference to US employers cutting workers’ hours, “Employers cutting hours is a good thing. It then gives that person time to pursue their dreams and passions,” and what was the context of her remarks?",
+        "signal": "insufficient",
+        "summary": "The exact quotation appeared in a December 2013 blog post, but the post did not identify a recording or transcript of Pelosi saying it. In a September 2013 press conference, Pelosi did use similar language about following a passion rather than a health insurance policy: she argued that the Affordable Care Act would let people change jobs or start businesses without losing coverage. Fortune also reported in 2010 that Pelosi said the law would let people leave jobs they kept for insurance. Those documented remarks concerned workers’ choices, not employers cutting their hours.",
+        "confidence": 0.84,
+        "sources": [
+          {
+            "title": "Transcript of Pelosi Press Conference Today",
+            "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+            "snippet": "That's transformational. [It's] about life, a healthier life, liberty, freedom, the liberty to pursue your happiness, whether you want to be a photographer, a writer, start your business, be self-employed, [and] change jobs. You're not job locked. You can follow your passion, not your policy, be job locked by your policy. It's entrepreneurial.",
+            "publisher": "Office of Nancy Pelosi",
+            "published_at": "2013-09-27",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Nancy Pelosi: Health care reform equals entrepreneurship",
+            "url": "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+            "snippet": "“The entrepreneurial spirit of America is unleashed,” she said, because the bill allows people to leave unsatisfying jobs they keep only for the medical insurance. “I can take risks, I can be entrepreneurial, I can follow my passion,” she told the small audience gathered at the Paley Center for Media in New York. “I can change jobs without fearing that I’m hurting my family.”",
+            "publisher": "Fortune",
+            "published_at": "2010-05-04",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+            "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+            "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+            "publisher": "According to Glen",
+            "published_at": "2013-12-09",
+            "tier": "user_generated",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "No recording or contemporaneous transcript was found for the exact quotation. The documented similar remarks establish their own context but do not prove where the circulating quotation originated."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Transcript of Pelosi Press Conference Today",
+        "url": "https://speakeremeritapelosi.house.gov/newsroom/transcript-pelosi-press-conference-today-17",
+        "snippet": "That's transformational. [It's] about life, a healthier life, liberty, freedom, the liberty to pursue your happiness, whether you want to be a photographer, a writer, start your business, be self-employed, [and] change jobs. You're not job locked. You can follow your passion, not your policy, be job locked by your policy. It's entrepreneurial.",
+        "publisher": "Office of Nancy Pelosi",
+        "published_at": "2013-09-27",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Nancy Pelosi: Health care reform equals entrepreneurship",
+        "url": "https://fortune.com/2010/05/04/nancy-pelosi-health-care-reform-equals-entrepreneurship/",
+        "snippet": "“The entrepreneurial spirit of America is unleashed,” she said, because the bill allows people to leave unsatisfying jobs they keep only for the medical insurance. “I can take risks, I can be entrepreneurial, I can follow my passion,” she told the small audience gathered at the Paley Center for Media in New York. “I can change jobs without fearing that I’m hurting my family.”",
+        "publisher": "Fortune",
+        "published_at": "2010-05-04",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "According to Glen: Obamacare Shopping... You Can't Buy It Here!",
+        "url": "http://accordingtoglen.blogspot.com/2013/12/obamacare-shopping-you-cant-buy-it-here.html",
+        "snippet": "In other Obamacare news - Nancy Pelosi recently made a comment about people losing hours at work because of Obamacare. \"Employers cutting hours is a good thing,\" Pelosi said. \"It then gives that person time to pursue their dreams and passions.\"",
+        "publisher": "According to Glen",
+        "published_at": "2013-12-09",
+        "tier": "user_generated",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:07:09.916881+00:00",
+  "duration_seconds": 49.17061965027824,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 990,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 494,
+      "reasoning_tokens": 143,
+      "total_tokens": 1484,
+      "duration_seconds": 11.602705277968198,
+      "started_at": "2026-11-19T11:07:09.916990+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 45633,
+      "cached_input_tokens": 26478,
+      "cache_write_tokens": 19143,
+      "output_tokens": 1329,
+      "reasoning_tokens": 270,
+      "total_tokens": 46962,
+      "duration_seconds": 25.9756157877855,
+      "started_at": "2026-11-19T11:07:21.520411+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 2996,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2993,
+      "output_tokens": 1556,
+      "reasoning_tokens": 40,
+      "total_tokens": 4552,
+      "duration_seconds": 11.573124343063682,
+      "started_at": "2026-11-19T11:07:47.513368+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 49619,
+    "cached_input_tokens": 26478,
+    "cache_write_tokens": 22136,
+    "output_tokens": 3379,
+    "reasoning_tokens": 453,
+    "total_tokens": 52998,
+    "llm_seconds": 49.15144540881738,
+    "cache_hit_rate": 0.5336,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 990.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 494.0,
+        "reasoning_tokens": 143.0,
+        "total_tokens": 1484.0,
+        "llm_seconds": 11.602705277968198,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 45633.0,
+        "cached_input_tokens": 26478.0,
+        "cache_write_tokens": 19143.0,
+        "output_tokens": 1329.0,
+        "reasoning_tokens": 270.0,
+        "total_tokens": 46962.0,
+        "llm_seconds": 25.9756157877855,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 2996.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 2993.0,
+        "output_tokens": 1556.0,
+        "reasoning_tokens": 40.0,
+        "total_tokens": 4552.0,
+        "llm_seconds": 11.573124343063682,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 52998,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 36
+  },
+  "unresolved_citations": []
+}

@@ -1,0 +1,1387 @@
+{
+  "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+  "normalized_claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+  "claim_id": "425",
+  "constraints": {
+    "claim_id": "425",
+    "claim_date": "2020-09-02",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-09-02"
+  },
+  "plan_raw": {
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "checks": [
+      {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "rationale": "The claim depends on the channel being unavailable in Canada.",
+        "search_queries": [
+          "Fox News channel availability Canada television providers",
+          "site:crtc.gc.ca Fox News authorized non-Canadian services",
+          "chaîne Fox News disponible fournisseurs télévision Canada"
+        ],
+        "acceptance_criteria": [
+          "Current Canadian provider channel listings or official regulatory records establish whether the U.S. Fox News channel can be carried and received in Canada.",
+          "The evidence distinguishes the U.S. channel from unrelated Fox-branded channels and websites."
+        ]
+      },
+      {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "rationale": "The asserted criminal prohibition is the legal basis given for the channel's alleged unavailability.",
+        "search_queries": [
+          "site:laws-lois.justice.gc.ca Radio Act false news broadcasting offence",
+          "Canada broadcasting false or misleading news criminal offence Radio Act",
+          "Canada loi radio radiodiffusion fausses nouvelles infraction criminelle"
+        ],
+        "acceptance_criteria": [
+          "The relevant Canadian statutory or regulatory provisions and their current status are identified using official legal sources.",
+          "The evidence establishes the scope of any false-news prohibition and whether violations are criminal offences, regulatory breaches, or neither."
+        ]
+      },
+      {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "rationale": "Even if a relevant legal restriction exists, the claim requires it to explain the channel's alleged unavailability.",
+        "search_queries": [
+          "site:crtc.gc.ca Fox News Canada carriage decision false news",
+          "Canada Fox News channel ban Radio Act false news regulatory decision",
+          "CRTC Fox News distribution Canada décision fausses nouvelles"
+        ],
+        "acceptance_criteria": [
+          "Official regulatory or court records establish the channel's Canadian distribution status and any applicable decision or restriction.",
+          "The stated reasons and legal authority for any relevant restriction are identified, or official records establish that no such restriction applies."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“Fox News” refers to the U.S. Fox News television channel, rather than its website or a different Fox-branded service.",
+      "The present-tense claim is assessed against current Canadian availability and law."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "checks": [
+      {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "rationale": "The claim depends on the channel being unavailable in Canada.",
+        "search_queries": [
+          "Fox News channel availability Canada television providers",
+          "site:crtc.gc.ca Fox News authorized non-Canadian services",
+          "chaîne Fox News disponible fournisseurs télévision Canada",
+          "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "Current Canadian provider channel listings or official regulatory records establish whether the U.S. Fox News channel can be carried and received in Canada.",
+          "The evidence distinguishes the U.S. channel from unrelated Fox-branded channels and websites."
+        ]
+      },
+      {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "rationale": "The asserted criminal prohibition is the legal basis given for the channel's alleged unavailability.",
+        "search_queries": [
+          "site:laws-lois.justice.gc.ca Radio Act false news broadcasting offence",
+          "Canada broadcasting false or misleading news criminal offence Radio Act",
+          "Canada loi radio radiodiffusion fausses nouvelles infraction criminelle",
+          "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "The relevant Canadian statutory or regulatory provisions and their current status are identified using official legal sources.",
+          "The evidence establishes the scope of any false-news prohibition and whether violations are criminal offences, regulatory breaches, or neither."
+        ]
+      },
+      {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "rationale": "Even if a relevant legal restriction exists, the claim requires it to explain the channel's alleged unavailability.",
+        "search_queries": [
+          "site:crtc.gc.ca Fox News Canada carriage decision false news",
+          "Canada Fox News channel ban Radio Act false news regulatory decision",
+          "CRTC Fox News distribution Canada décision fausses nouvelles",
+          "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "Official regulatory or court records establish the channel's Canadian distribution status and any applicable decision or restriction.",
+          "The stated reasons and legal authority for any relevant restriction are identified, or official records establish that no such restriction applies."
+        ]
+      }
+    ],
+    "assumptions": [
+      "“Fox News” refers to the U.S. Fox News television channel, rather than its website or a different Fox-branded service.",
+      "The present-tense claim is assessed against current Canadian availability and law."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "rationale": "The claim depends on the channel being unavailable in Canada.",
+        "search_queries": [
+          "Fox News channel availability Canada television providers",
+          "site:crtc.gc.ca Fox News authorized non-Canadian services",
+          "chaîne Fox News disponible fournisseurs télévision Canada",
+          "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "Current Canadian provider channel listings or official regulatory records establish whether the U.S. Fox News channel can be carried and received in Canada.",
+          "The evidence distinguishes the U.S. channel from unrelated Fox-branded channels and websites."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "signal": "supports",
+        "summary": "The CRTC authorized the non-Canadian Fox News service for digital distribution in 2004, describing it as a 24-hour U.S. cable news network. Rogers subsequently added Fox News Channel to its Canadian digital lineup. In 2018, The Globe and Mail reported that Bell Fibe and Rogers viewers could add Fox News to certain television packages.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-45",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "snippet": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-07-09",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "ROGERS CABLE ADDS FOX NEWS TO CHANNEL LINEUP",
+            "url": "http://www.adnews.com/19975",
+            "snippet": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+            "publisher": "Adnews",
+            "published_at": "2004-12-17",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "More clarity needed on deals involving Russian news network, Tory MP says",
+            "url": "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+            "snippet": "Some of these same packages leave out CNN, BBC, Fox News and other news channels unless viewers order them individually, or buy a theme pack that includes them. Rogers' cable packages do not all carry RT automatically, although its most expensive option, the \"Premier\" package, lists RT as part of the channels automatically included, while Al Jazeera English, BBC World News, MSNBC and Fox News are not included unless viewers decide to add them to the package.",
+            "publisher": "The Globe and Mail",
+            "published_at": "2018-01-16",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The newest provider-package evidence located is from 2018, not the September 2020 reference date.",
+          "The Globe and Mail finding relies on the search-result excerpt."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca Fox News authorized non-Canadian services 2004 2019 Canada",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "https://crtc.gc.ca/eng/archive/2011/2011-399.htm",
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Fox News channel availability Canada television providers Rogers Bell 2019 2020",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News Channel\" \"Canada\" \"Bell\" \"Rogers\" site:foxnews.com/story/where-in-the-world-is-fox",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News\" \"Canada\" channel carried available television cable 2018 2019",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox",
+            "https://proudtobecanadian.ca/canada_fox_news_available_on_rogers_cable_now/",
+            "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+            "http://markets.bostonherald.com/bostonherald/news/read/42191136/how_to_watch_fox_news_channel_in_canada",
+            "http://www.adnews.com/19975",
+            "https://variety.com/2004/scene/markets-festivals/canucks-get-a-taste-of-fox-news-1117913770/",
+            "https://www.digitalhome.ca/threads/rogers-digital-cable-channel-discussion-thread.227306/page-10"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News\" channel guide Bell Fibe TV Canada channel pdf 2019",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News\" \"Canada\" \"Bell\" \"Rogers\" channel 2020 television cable",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox",
+            "https://www.digitalhome.ca/threads/fox-news-channel-signal-quality-lately-from-source.77927/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"foxnews.com/story/where-in-the-world-is-fox\" \"Canada\" \"Bell\" \"Shaw\" cable",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News\" \"Canada\" \"Rogers\" \"Bell\" \"Shaw\" 2019 cable channel",
+          "urls": [
+            "https://www.foxnews.com/story/where-in-the-world-is-fox",
+            "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+            "http://www.techdirt.com/2016/03/16/canadian-cable-companies-make-mockery-governments-push-cheaper-tv/",
+            "https://www.newswire.ca/fr/news-releases/accessible-media-inc-unveils-new-television-campaign-510249221.html",
+            "https://www.digitalhome.ca/threads/classic-channel-guides.188329/page-9",
+            "https://rabroad.com/threads/any-news-on-any-new-channels.916625/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "rationale": "The asserted criminal prohibition is the legal basis given for the channel's alleged unavailability.",
+        "search_queries": [
+          "site:laws-lois.justice.gc.ca Radio Act false news broadcasting offence",
+          "Canada broadcasting false or misleading news criminal offence Radio Act",
+          "Canada loi radio radiodiffusion fausses nouvelles infraction criminelle",
+          "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "The relevant Canadian statutory or regulatory provisions and their current status are identified using official legal sources.",
+          "The evidence establishes the scope of any false-news prohibition and whether violations are criminal offences, regulatory breaches, or neither."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "signal": "refutes",
+        "summary": "Canadian broadcasting regulations prohibit licensees from broadcasting false or misleading news, but that is narrower than a general criminal prohibition on lying over the airwaves. The CRTC says a breach must be flagrant before it takes action on a complaint; it retained the relevant radio and television provisions in 2011. A separate Criminal Code offence of spreading false news was struck down by the Supreme Court in 1992.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2011-455",
+            "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+            "snippet": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2011-07-29",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Broadcasting Decision CRTC 2018-39",
+            "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+            "snippet": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2018-01-31",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Question of the Week (Class 3): What should we do about “fake news”?",
+            "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+            "snippet": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+            "publisher": "Communications Law at Allard Hall, University of British Columbia",
+            "published_at": "2018-01-17",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The sources identify regulatory restrictions and describe CRTC enforcement, but do not establish every potential sanction for a breach of broadcasting regulations. Other criminal offences may apply to particular kinds of false statements."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Canada broadcasting false or misleading news criminal offence Radio Act CRTC regulations",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2011/2011-14.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:laws-lois.justice.gc.ca Radio Act false news broadcasting offence false misleading news",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca \"false or misleading news\" regulation \"licensee\"",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+            "https://crtc.gc.ca/eng/archive/2011/2011-14.htm",
+            "https://crtc.gc.ca/eng/archive/2015/2015-355.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca \"false or misleading news\" \"2011\" regulations repeal",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2011/2011-14.htm",
+            "https://crtc.gc.ca/eng/archive/2012/2012-273.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "CRTC 2011 withdrawn proposal false misleading news regulation 2011 308",
+          "urls": [
+            "https://www.cbc.ca/news/politics/false-news-proposal-killed-by-crtc-1.1117504",
+            "https://live.thewirereport.ca/2011/05/11/crtc-publishes-false-and-misleading-news-decision/",
+            "https://cartt.ca/crtc-to-withdraw-public-notice-on-false-and-misleading-news/",
+            "https://www.theatlantic.com/international/archive/2011/03/should-lying-be-illegal-canadas-broadcasters-debate/72866/",
+            "https://www.thewirereport.ca/2011/02/17/regulations-committee-drops-advice-to-crtc-on-false-and-misleading-news/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Canada supreme court Zundel false news section 181 unconstitutional 1992 Radio broadcasting regulations false misleading news offence",
+          "urls": [
+            "https://www.theglobeandmail.com/news/politics/ottawa-notebook/crtc-ditches-bid-to-allow-fake-news/article612041/",
+            "https://drdawgsblawg.ca/2011/02/truth-lies-and-the-crtc.shtml",
+            "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Canada Broadcasting Act section 32 \"contravenes\" regulations \"offence\" summary conviction licensee",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca \"false or misleading news\" \"2011\" \"not\" \"amend\"",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2011/2011-14.htm",
+            "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+            "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+            "https://crtc.gc.ca/eng/archive/2017/2017-292.htm",
+            "https://crtc.gc.ca/eng/archive/2011/2011-804.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    },
+    {
+      "check": {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "rationale": "Even if a relevant legal restriction exists, the claim requires it to explain the channel's alleged unavailability.",
+        "search_queries": [
+          "site:crtc.gc.ca Fox News Canada carriage decision false news",
+          "Canada Fox News channel ban Radio Act false news regulatory decision",
+          "CRTC Fox News distribution Canada décision fausses nouvelles",
+          "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+          "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves."
+        ],
+        "acceptance_criteria": [
+          "Official regulatory or court records establish the channel's Canadian distribution status and any applicable decision or restriction.",
+          "The stated reasons and legal authority for any relevant restriction are identified, or official records establish that no such restriction applies."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "signal": "refutes",
+        "summary": "The CRTC approved the U.S. Fox News service for digital distribution in Canada in 2004, and its 2017 compilation still listed Fox News among authorized non-Canadian services. CBC independently reported the 2004 approval. These records contradict the assertion that the channel was barred because of a false-statements law.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2017-12",
+            "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+            "snippet": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2017-01-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "CRTC approves Fox News for Canada",
+            "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+            "snippet": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+            "publisher": "CBC News",
+            "published_at": "2004-11-18",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The latest dated CRTC list found in these searches is from 2017; authorization does not mean every Canadian distributor carries the channel."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "Canada Fox News channel ban Radio Act false news CRTC 2004 authorized",
+          "urls": [
+            "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "https://ici.radio-canada.ca/nouvelle/212942/fox-news-crtc",
+            "https://www.cbc.ca/news/politics/false-news-proposal-killed-by-crtc-1.1117504"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca Fox News Canada carriage decision false news 2004 eligible satellite",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "https://web.crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-45-1.htm",
+            "https://crtc.gc.ca/eng/archive/2008/pb2008-104.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca \"Fox News\" \"2018\" \"eligible\" distribution",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Fox News\" Canada cable tv packages 2019 2020 Bell Rogers channel",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca 2019 \"Fox News\" \"non-Canadian\" programming services authorized distribution",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2017/2017-12.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:crtc.gc.ca 2004-88 Fox News abusive comment false misleading news approval",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "https://crtc.gc.ca/eng/archive/2004/pb2004-45-1.htm",
+            "https://web.crtc.gc.ca/fra/archive/2004/pb2004-88.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "\"Broadcasting Regulatory Policy CRTC 2017-12\" \"Fox News\" \"list\" non Canadian distribution",
+          "urls": [
+            "https://crtc.gc.ca/eng/archive/2017/2017-12.htm"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "The CRTC approved the U.S. Fox News service for distribution in Canada in 2004 and included it on its 2017 list of authorized non-Canadian services [S1][S2][S8]. In 2018, The Globe and Mail reported that Rogers viewers could add Fox News to television packages [S4]. Canadian television regulations prohibit licensees from broadcasting false or misleading news, but the CRTC describes this as a regulatory provision and says a breach must be flagrant before it acts on a complaint [S6]. Inference: The evidence contradicts both the claimed unavailability and the proposed reason for it, though the most recent provider evidence predates the September 2020 reference date.",
+    "key_points": [
+      "Fox News was authorized for Canadian distribution and remained on the CRTC’s 2017 authorized-services list [S1][S8].",
+      "A 2018 report said Rogers viewers could add Fox News to packages, although it was not included in every package [S4].",
+      "The false-news rule cited by the CRTC applies to licensees and is narrower than a general crime of lying over the airwaves [S6].",
+      "The excerpt from the UBC source does not identify the provision it says was struck down, so it cannot independently establish the scope of that ruling [S7]."
+    ],
+    "counter_argument": "The strongest case for a different verdict is that Canadian broadcasting regulations do restrict false or misleading news, and the latest provider evidence is from 2018 rather than the September 2020 reference date [S4][S6]. But the regulatory restriction is not the general criminal ban asserted, and the authorization and provider evidence contradict the claim that Fox News was barred for that reason [S1][S4][S8].",
+    "evidence_gaps": [
+      "A Canadian provider channel listing or updated CRTC authorization list from September 2020 would firm up the channel’s availability at the reference date.",
+      "The supplied Supreme Court excerpt does not identify the false-news provision struck down or describe its scope; the judgment or a fuller excerpt would clarify that point.",
+      "The supplied sources do not establish every potential sanction for breaching broadcasting regulations."
+    ],
+    "findings": [
+      {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "signal": "supports",
+        "summary": "The CRTC authorized the non-Canadian Fox News service for digital distribution in 2004, describing it as a 24-hour U.S. cable news network. Rogers subsequently added Fox News Channel to its Canadian digital lineup. In 2018, The Globe and Mail reported that Bell Fibe and Rogers viewers could add Fox News to certain television packages.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-45",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "snippet": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-07-09",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "ROGERS CABLE ADDS FOX NEWS TO CHANNEL LINEUP",
+            "url": "http://www.adnews.com/19975",
+            "snippet": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+            "publisher": "Adnews",
+            "published_at": "2004-12-17",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "More clarity needed on deals involving Russian news network, Tory MP says",
+            "url": "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+            "snippet": "Some of these same packages leave out CNN, BBC, Fox News and other news channels unless viewers order them individually, or buy a theme pack that includes them. Rogers' cable packages do not all carry RT automatically, although its most expensive option, the \"Premier\" package, lists RT as part of the channels automatically included, while Al Jazeera English, BBC World News, MSNBC and Fox News are not included unless viewers decide to add them to the package.",
+            "publisher": "The Globe and Mail",
+            "published_at": "2018-01-16",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The newest provider-package evidence located is from 2018, not the September 2020 reference date.",
+          "The Globe and Mail finding relies on the search-result excerpt."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "signal": "refutes",
+        "summary": "Canadian broadcasting regulations prohibit licensees from broadcasting false or misleading news, but that is narrower than a general criminal prohibition on lying over the airwaves. The CRTC says a breach must be flagrant before it takes action on a complaint; it retained the relevant radio and television provisions in 2011. A separate Criminal Code offence of spreading false news was struck down by the Supreme Court in 1992.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2011-455",
+            "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+            "snippet": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2011-07-29",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Broadcasting Decision CRTC 2018-39",
+            "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+            "snippet": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2018-01-31",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Question of the Week (Class 3): What should we do about “fake news”?",
+            "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+            "snippet": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+            "publisher": "Communications Law at Allard Hall, University of British Columbia",
+            "published_at": "2018-01-17",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The sources identify regulatory restrictions and describe CRTC enforcement, but do not establish every potential sanction for a breach of broadcasting regulations. Other criminal offences may apply to particular kinds of false statements."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "signal": "refutes",
+        "summary": "The CRTC approved the U.S. Fox News service for digital distribution in Canada in 2004, and its 2017 compilation still listed Fox News among authorized non-Canadian services. CBC independently reported the 2004 approval. These records contradict the assertion that the channel was barred because of a false-statements law.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2017-12",
+            "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+            "snippet": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2017-01-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "CRTC approves Fox News for Canada",
+            "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+            "snippet": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+            "publisher": "CBC News",
+            "published_at": "2004-11-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "The latest dated CRTC list found in these searches is from 2017; authorization does not mean every Canadian distributor carries the channel."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+        "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2004-11-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-45",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+        "snippet": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2004-07-09",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "ROGERS CABLE ADDS FOX NEWS TO CHANNEL LINEUP",
+        "url": "http://www.adnews.com/19975",
+        "snippet": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+        "publisher": "Adnews",
+        "published_at": "2004-12-17",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "More clarity needed on deals involving Russian news network, Tory MP says",
+        "url": "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+        "snippet": "Some of these same packages leave out CNN, BBC, Fox News and other news channels unless viewers order them individually, or buy a theme pack that includes them. Rogers' cable packages do not all carry RT automatically, although its most expensive option, the \"Premier\" package, lists RT as part of the channels automatically included, while Al Jazeera English, BBC World News, MSNBC and Fox News are not included unless viewers decide to add them to the package.",
+        "publisher": "The Globe and Mail",
+        "published_at": "2018-01-16",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Broadcasting Regulatory Policy CRTC 2011-455",
+        "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+        "snippet": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2011-07-29",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Broadcasting Decision CRTC 2018-39",
+        "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+        "snippet": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2018-01-31",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Question of the Week (Class 3): What should we do about “fake news”?",
+        "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+        "snippet": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+        "publisher": "Communications Law at Allard Hall, University of British Columbia",
+        "published_at": "2018-01-17",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Broadcasting Regulatory Policy CRTC 2017-12",
+        "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+        "snippet": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2017-01-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "CRTC approves Fox News for Canada",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "snippet": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+        "publisher": "CBC News",
+        "published_at": "2004-11-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.89,
+    "justification": "The CRTC approved the U.S. Fox News service for distribution in Canada in 2004 and included it on its 2017 list of authorized non-Canadian services [S1][S2][S8]. In 2018, The Globe and Mail reported that Rogers viewers could add Fox News to television packages [S4]. Canadian television regulations prohibit licensees from broadcasting false or misleading news, but the CRTC describes this as a regulatory provision and says a breach must be flagrant before it acts on a complaint [S6]. Inference: The evidence contradicts both the claimed unavailability and the proposed reason for it, though the most recent provider evidence predates the September 2020 reference date.",
+    "key_points": [
+      "Fox News was authorized for Canadian distribution and remained on the CRTC’s 2017 authorized-services list [S1][S8].",
+      "A 2018 report said Rogers viewers could add Fox News to packages, although it was not included in every package [S4].",
+      "The false-news rule cited by the CRTC applies to licensees and is narrower than a general crime of lying over the airwaves [S6].",
+      "The excerpt from the UBC source does not identify the provision it says was struck down, so it cannot independently establish the scope of that ruling [S7]."
+    ],
+    "counter_argument": "The strongest case for a different verdict is that Canadian broadcasting regulations do restrict false or misleading news, and the latest provider evidence is from 2018 rather than the September 2020 reference date [S4][S6]. But the regulatory restriction is not the general criminal ban asserted, and the authorization and provider evidence contradict the claim that Fox News was barred for that reason [S1][S4][S8].",
+    "evidence_gaps": [
+      "A Canadian provider channel listing or updated CRTC authorization list from September 2020 would firm up the channel’s availability at the reference date.",
+      "The supplied Supreme Court excerpt does not identify the false-news provision struck down or describe its scope; the judgment or a fuller excerpt would clarify that point.",
+      "The supplied sources do not establish every potential sanction for breaching broadcasting regulations."
+    ],
+    "findings": [
+      {
+        "aspect_id": "availability",
+        "question": "Is the U.S. Fox News television channel currently available to viewers in Canada through authorized television providers?",
+        "signal": "supports",
+        "summary": "The CRTC authorized the non-Canadian Fox News service for digital distribution in 2004, describing it as a 24-hour U.S. cable news network. Rogers subsequently added Fox News Channel to its Canadian digital lineup. In 2018, The Globe and Mail reported that Bell Fibe and Rogers viewers could add Fox News to certain television packages.",
+        "confidence": 0.91,
+        "sources": [
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-45",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+            "snippet": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-07-09",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "ROGERS CABLE ADDS FOX NEWS TO CHANNEL LINEUP",
+            "url": "http://www.adnews.com/19975",
+            "snippet": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+            "publisher": "Adnews",
+            "published_at": "2004-12-17",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "More clarity needed on deals involving Russian news network, Tory MP says",
+            "url": "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+            "snippet": "Some of these same packages leave out CNN, BBC, Fox News and other news channels unless viewers order them individually, or buy a theme pack that includes them. Rogers' cable packages do not all carry RT automatically, although its most expensive option, the \"Premier\" package, lists RT as part of the channels automatically included, while Al Jazeera English, BBC World News, MSNBC and Fox News are not included unless viewers decide to add them to the package.",
+            "publisher": "The Globe and Mail",
+            "published_at": "2018-01-16",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The newest provider-package evidence located is from 2018, not the September 2020 reference date.",
+          "The Globe and Mail finding relies on the search-result excerpt."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "legal_rule",
+        "question": "Does Canadian law, including any Radio Act or successor broadcasting legislation and regulations, make it a crime to lie to the public via the airwaves?",
+        "signal": "refutes",
+        "summary": "Canadian broadcasting regulations prohibit licensees from broadcasting false or misleading news, but that is narrower than a general criminal prohibition on lying over the airwaves. The CRTC says a breach must be flagrant before it takes action on a complaint; it retained the relevant radio and television provisions in 2011. A separate Criminal Code offence of spreading false news was struck down by the Supreme Court in 1992.",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2011-455",
+            "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+            "snippet": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2011-07-29",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Broadcasting Decision CRTC 2018-39",
+            "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+            "snippet": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2018-01-31",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Question of the Week (Class 3): What should we do about “fake news”?",
+            "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+            "snippet": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+            "publisher": "Communications Law at Allard Hall, University of British Columbia",
+            "published_at": "2018-01-17",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The sources identify regulatory restrictions and describe CRTC enforcement, but do not establish every potential sanction for a breach of broadcasting regulations. Other criminal offences may apply to particular kinds of false statements."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      {
+        "aspect_id": "regulatory_cause",
+        "question": "Have Canadian regulators or courts barred the U.S. Fox News channel from distribution in Canada because of a law prohibiting false statements over the airwaves?",
+        "signal": "refutes",
+        "summary": "The CRTC approved the U.S. Fox News service for digital distribution in Canada in 2004, and its 2017 compilation still listed Fox News among authorized non-Canadian services. CBC independently reported the 2004 approval. These records contradict the assertion that the channel was barred because of a false-statements law.",
+        "confidence": 0.98,
+        "sources": [
+          {
+            "title": "Broadcasting Public Notice CRTC 2004-88",
+            "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+            "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2004-11-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Broadcasting Regulatory Policy CRTC 2017-12",
+            "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+            "snippet": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing",
+            "publisher": "Canadian Radio-television and Telecommunications Commission",
+            "published_at": "2017-01-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "CRTC approves Fox News for Canada",
+            "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+            "snippet": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+            "publisher": "CBC News",
+            "published_at": "2004-11-18",
+            "tier": "news",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "The latest dated CRTC list found in these searches is from 2017; authorization does not mean every Canadian distributor carries the channel."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-88",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm",
+        "snippet": "The Commission approves the addition of the non-Canadian services, Fox News and NFL Network, to its lists of eligible satellite services for distribution on a digital basis.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2004-11-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "ARCHIVED - Broadcasting Public Notice CRTC 2004-45",
+        "url": "https://crtc.gc.ca/eng/archive/2004/pb2004-45.htm",
+        "snippet": "Fox News: A 24 hour seven day per week national U.S. cable news network devoted to delivering objective coverage of the day's events.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2004-07-09",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "ROGERS CABLE ADDS FOX NEWS TO CHANNEL LINEUP",
+        "url": "http://www.adnews.com/19975",
+        "snippet": "Rogers Cable has added US cable network Fox News Channel to its lineup of digital channels. According to Rogers, it is the first cable company to carry this channel in Canada.",
+        "publisher": "Adnews",
+        "published_at": "2004-12-17",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "More clarity needed on deals involving Russian news network, Tory MP says",
+        "url": "https://www.theglobeandmail.com/report-on-business/more-clarity-needed-on-deals-involving-russian-news-network-tory-mp-says/article37625716/",
+        "snippet": "Some of these same packages leave out CNN, BBC, Fox News and other news channels unless viewers order them individually, or buy a theme pack that includes them. Rogers' cable packages do not all carry RT automatically, although its most expensive option, the \"Premier\" package, lists RT as part of the channels automatically included, while Al Jazeera English, BBC World News, MSNBC and Fox News are not included unless viewers decide to add them to the package.",
+        "publisher": "The Globe and Mail",
+        "published_at": "2018-01-16",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Broadcasting Regulatory Policy CRTC 2011-455",
+        "url": "https://crtc.gc.ca/eng/archive/2011/2011-455.htm",
+        "snippet": "39. As noted above, the Commission announced in Broadcasting Regulatory Policy 2011-308 that it would not amend the false or misleading news provisions set out in various Commission regulations. As a result, section 3(d) of the Radio Regulations; section 5(1)(d) of the Television Broadcasting Regulations; section 3(2)(c) of the Pay Television Regulations; and section 3(d) of the Specialty Services Regulations, remain unchanged.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2011-07-29",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Broadcasting Decision CRTC 2018-39",
+        "url": "https://crtc.gc.ca/eng/archive/2018/2018-39.htm",
+        "snippet": "Section 5(1)(d) of the Television Broadcasting Regulations, 1987 prohibits licensees from broadcasting false or misleading news. In Proposed amendments to the Commission’s false or misleading news provisions, Broadcasting Regulatory Policy CRTC 2011-308, 11 May 2011, the Commission stated that given the protections afforded by section 2(b) of the Canadian Charter of Rights and Freedoms and the objectives set out in the Broadcasting Act, the breach of these provisions must be flagrant for the Commission to take action on a complaint.",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2018-01-31",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Question of the Week (Class 3): What should we do about “fake news”?",
+        "url": "https://communicationslaw.sites.olt.ubc.ca/2018/01/17/question-of-the-week-what-should-we-do-about-fake-news/",
+        "snippet": "This provision was struck down for vagueness in 1992 by a 4-3 Supreme Court of Canada decision in R.v. Zundel:",
+        "publisher": "Communications Law at Allard Hall, University of British Columbia",
+        "published_at": "2018-01-17",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Broadcasting Regulatory Policy CRTC 2017-12",
+        "url": "https://crtc.gc.ca/eng/archive/2017/2017-12.htm",
+        "snippet": "Revised list of non-Canadian programming services and stations authorized for distribution – Annual compilation of amendments...Fox Business Network\n\nFox News\n\nFOX Sports Racing",
+        "publisher": "Canadian Radio-television and Telecommunications Commission",
+        "published_at": "2017-01-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "CRTC approves Fox News for Canada",
+        "url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+        "snippet": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+        "publisher": "CBC News",
+        "published_at": "2004-11-18",
+        "tier": "news",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:10:02.148640+00:00",
+  "duration_seconds": 83.64612945402041,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 980,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 759,
+      "reasoning_tokens": 137,
+      "total_tokens": 1739,
+      "duration_seconds": 12.844222611747682,
+      "started_at": "2026-11-19T11:10:02.150737+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 27054,
+      "cached_input_tokens": 15200,
+      "cache_write_tokens": 11842,
+      "output_tokens": 1153,
+      "reasoning_tokens": 72,
+      "total_tokens": 28207,
+      "duration_seconds": 26.255081612151116,
+      "started_at": "2026-11-19T11:10:14.995801+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 23801,
+      "cached_input_tokens": 13189,
+      "cache_write_tokens": 10600,
+      "output_tokens": 1108,
+      "reasoning_tokens": 120,
+      "total_tokens": 24909,
+      "duration_seconds": 23.61997401760891,
+      "started_at": "2026-11-19T11:10:15.000781+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 23150,
+      "cached_input_tokens": 14974,
+      "cache_write_tokens": 8164,
+      "output_tokens": 963,
+      "reasoning_tokens": 123,
+      "total_tokens": 24113,
+      "duration_seconds": 20.047362436074764,
+      "started_at": "2026-11-19T11:10:15.004849+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 4395,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4392,
+      "output_tokens": 3789,
+      "reasoning_tokens": 120,
+      "total_tokens": 8184,
+      "duration_seconds": 44.521778075024486,
+      "started_at": "2026-11-19T11:10:41.272097+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 14,
+    "input_tokens": 79380,
+    "cached_input_tokens": 43363,
+    "cache_write_tokens": 34998,
+    "output_tokens": 7772,
+    "reasoning_tokens": 572,
+    "total_tokens": 87152,
+    "llm_seconds": 127.28841875260696,
+    "cache_hit_rate": 0.5463,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 980.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 759.0,
+        "reasoning_tokens": 137.0,
+        "total_tokens": 1739.0,
+        "llm_seconds": 12.844222611747682,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 3.0,
+        "requests": 12.0,
+        "input_tokens": 74005.0,
+        "cached_input_tokens": 43363.0,
+        "cache_write_tokens": 30606.0,
+        "output_tokens": 3224.0,
+        "reasoning_tokens": 315.0,
+        "total_tokens": 77229.0,
+        "llm_seconds": 69.92241806583479,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 4395.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 4392.0,
+        "output_tokens": 3789.0,
+        "reasoning_tokens": 120.0,
+        "total_tokens": 8184.0,
+        "llm_seconds": 44.521778075024486,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 87152,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 23,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 37
+  },
+  "unresolved_citations": []
+}

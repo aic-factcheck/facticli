@@ -1,0 +1,677 @@
+{
+  "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "normalized_claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+  "claim_id": "18",
+  "constraints": {
+    "claim_id": "18",
+    "claim_date": "2020-10-28",
+    "blocked_domains": [
+      "politifact.com",
+      "snopes.com",
+      "factcheck.org",
+      "fullfact.org",
+      "leadstories.com",
+      "factcheck.afp.com",
+      "checkyourfact.com",
+      "truthorfiction.com",
+      "factly.in",
+      "boomlive.in",
+      "altnews.in",
+      "verafiles.org",
+      "africacheck.org",
+      "poynter.org",
+      "misbar.com",
+      "logicallyfacts.com",
+      "logically.ai",
+      "factcheckni.org",
+      "demagog.cz",
+      "demagog.org.pl",
+      "faktabaari.fi",
+      "correctiv.org",
+      "maldita.es",
+      "newtral.es",
+      "pagellapolitica.it",
+      "facta.news",
+      "teyit.org",
+      "rappler.com/newsbreak/fact-check",
+      "factcrescendo.com",
+      "vishvasnews.com",
+      "newschecker.in",
+      "thequint.com/news/webqoof",
+      "healthfeedback.org",
+      "sciencefeedback.co",
+      "climatefeedback.org",
+      "washingtonpost.com/news/fact-checker",
+      "apnews.com/hub/ap-fact-check",
+      "reuters.com/fact-check",
+      "factcheck.kz",
+      "istinomer.rs",
+      "faktograf.hr"
+    ],
+    "knowledge_store_dir": null,
+    "reference_date": "2020-10-28"
+  },
+  "plan_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "rationale": "The claim asserts that a postmarked ballot arriving after Election Day will be rejected; applicable deadlines and exceptions determine whether that is generally true.",
+        "search_queries": [
+          "site:eac.gov vote by mail ballot receipt deadlines postmarked election day states",
+          "state election officials mail ballot postmarked before election day received after deadline counted",
+          "current state mail ballot postmark and receipt deadlines election day",
+          "federal court rulings state mail ballot receipt deadlines after election day current"
+        ],
+        "acceptance_criteria": [
+          "A current authoritative compilation or applicable election laws establish whether post-Election Day receipt rules vary across jurisdictions.",
+          "Official election sources document the applicable postmark and arrival deadlines for relevant examples, including any material legal changes or exceptions."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers to mail-in voting in U.S. elections and is interpreted as a general assertion rather than a statement about one specified jurisdiction.",
+      "Because no election or date is specified, the check concerns current rules and otherwise valid ballots."
+    ]
+  },
+  "plan_normalized": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "checks": [
+      {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "rationale": "The claim asserts that a postmarked ballot arriving after Election Day will be rejected; applicable deadlines and exceptions determine whether that is generally true.",
+        "search_queries": [
+          "site:eac.gov vote by mail ballot receipt deadlines postmarked election day states",
+          "state election officials mail ballot postmarked before election day received after deadline counted",
+          "current state mail ballot postmark and receipt deadlines election day",
+          "federal court rulings state mail ballot receipt deadlines after election day current",
+          "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?"
+        ],
+        "acceptance_criteria": [
+          "A current authoritative compilation or applicable election laws establish whether post-Election Day receipt rules vary across jurisdictions.",
+          "Official election sources document the applicable postmark and arrival deadlines for relevant examples, including any material legal changes or exceptions."
+        ]
+      }
+    ],
+    "assumptions": [
+      "The claim refers to mail-in voting in U.S. elections and is interpreted as a general assertion rather than a statement about one specified jurisdiction.",
+      "Because no election or date is specified, the check concerns current rules and otherwise valid ballots."
+    ]
+  },
+  "research_checks": [
+    {
+      "check": {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "rationale": "The claim asserts that a postmarked ballot arriving after Election Day will be rejected; applicable deadlines and exceptions determine whether that is generally true.",
+        "search_queries": [
+          "site:eac.gov vote by mail ballot receipt deadlines postmarked election day states",
+          "state election officials mail ballot postmarked before election day received after deadline counted",
+          "current state mail ballot postmark and receipt deadlines election day",
+          "federal court rulings state mail ballot receipt deadlines after election day current",
+          "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?"
+        ],
+        "acceptance_criteria": [
+          "A current authoritative compilation or applicable election laws establish whether post-Election Day receipt rules vary across jurisdictions.",
+          "Official election sources document the applicable postmark and arrival deadlines for relevant examples, including any material legal changes or exceptions."
+        ]
+      },
+      "attempts": 1,
+      "errors": [],
+      "error_kinds": [],
+      "finding": {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, an otherwise valid ballot postmarked before Election Day could be counted after Election Day in some jurisdictions, provided it arrived by the applicable deadline. For the November 3 election, California allowed receipt through November 20 and Kansas through November 6 for ballots postmarked by Election Day. Michigan generally required receipt by 8 p.m. on November 3. In North Carolina, a court-approved extension allowed qualifying ballots to arrive by 5 p.m. on November 12.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Voters should hand-deliver absentee ballots to avoid postal delays",
+            "url": "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+            "snippet": "“Only the absentee ballots received by 8 p.m. on November 3 can be counted, and voters should not risk possible postal delays this close to the deadline,” said Benson.",
+            "publisher": "Michigan Secretary of State",
+            "published_at": "2020-10-20",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court Leaves NC Absentee Ballot Deadline at Nov. 12",
+            "url": "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+            "snippet": "The justices, by a 5-3 vote Wednesday, refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days because of the coronavirus pandemic, pushing back the deadline to Nov. 12. The board’s decision was part of a legal settlement with a union-affiliated group....Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "Associated Press via Chapelboro",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These examples describe rules for the November 2020 election, not present-day deadlines or every jurisdiction.",
+          "Some voters, including military and overseas voters, may be subject to separate rules."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      },
+      "removed_sources": [],
+      "retrieval": [
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:eac.gov vote by mail ballot receipt deadlines postmarked election day states 2020",
+          "urls": [],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 election state mail ballot receipt deadlines postmarked November 3 accepted after Election Day states NCSL October",
+          "urls": [
+            "https://www.usatoday.com/story/news/factcheck/2020/10/30/fact-check-some-mail-ballots-arriving-post-election-day-count/6075311002/",
+            "https://www.npr.org/2020/10/28/928737201/election-officials-say-window-to-mail-back-ballots-may-be-closed-suggest-other-p"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "October 28 2020 Supreme Court North Carolina absentee ballot November 12 Pennsylvania November 6 election deadline",
+          "urls": [
+            "https://www.nytimes.com/2020/10/28/us/supreme-court-pennsylvania-north-carolina-absentee-ballots.html",
+            "https://www.newsobserver.com/news/politics-government/article246660368.html",
+            "https://www.cnbc.com/2020/10/28/supreme-court-wont-fast-track-gop-challenge-to-pennsylvania-ballot-deadline.html",
+            "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+            "https://www.cbsnews.com/news/amy-coney-barrett-joins-supreme-court-political-legal-fights-looming/"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 election absentee mail ballots received election day Michigan secretary of state November 3 deadline court October",
+          "urls": [
+            "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+            "https://apnews.com/article/election-2020-michigan-elections-detroit-presidential-elections-09e75525c90053528b2090e7b87aa9ca",
+            "https://www.mlive.com/public-interest/2020/09/absentee-ballots-delayed-in-mail-must-be-counted-judge-rules.html",
+            "https://wwmt.com/news/state/michigan-appeals-court-agrees-to-address-absentee-ballot-dispute-next-week",
+            "https://wwmt.com/news/state/republicans-want-to-appeal-major-michigan-ballot-decision"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 secretary of state California November 3 postmarked ballot received November 20 17 days election ballot",
+          "urls": [
+            "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "https://americanjournalnews.com/voting-by-mail-2020-election-states-ballots-deadlines-november-3/",
+            "https://calvoter.org/content/deadline-return-california-ballots-nov-3-waiting-until-then-risky",
+            "https://www.democracydocket.com/analysis/mailing-in-your-vote-important-dates/",
+            "https://patch.com/california/healdsburg/healdsburg-sonoma-county-voters-urged-return-ballots-early"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 election state postmarked election day 2020 ballot received November 6 Kansas secretary of state",
+          "urls": [
+            "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "https://www.kansas.com/news/politics-government/election/voter-guide/article246353785.html",
+            "https://www.usatoday.com/story/news/factcheck/2020/10/30/fact-check-some-mail-ballots-arriving-post-election-day-count/6075311002/",
+            "https://www.kansascity.com/news/politics-government/election/article246732911.html"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "site:michigan.gov 2020 overseas military ballot November 9 postmarked election day 8 pm",
+          "urls": [
+            "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+            "https://www.michigan.gov/sos/resources/news/2020/09/21/first-military-and-overseas-voter-ballots-mailed-saturday-federal-write-in-option-available-in-even"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        },
+        {
+          "provider": "exa",
+          "kind": "search",
+          "query": "2020 nc state board elections Oct 28 2020 absentee ballot Nov 12 supreme court postmarked",
+          "urls": [
+            "https://www.ncsbe.gov/news/press-releases/2020/10/19/county-boards-elections-now-contacting-voters-absentee-ballot",
+            "https://www.newsobserver.com/news/politics-government/article246660368.html",
+            "https://ncnewsline.com/2020/10/28/breaking-u-s-supreme-court-rejects-gop-appeal-of-absentee-ballot-extension/",
+            "https://www.wral.com/archive/19359473/",
+            "https://apnews.com/article/election-2020-north-carolina-elections-us-supreme-court-voting-2020-255daff7793a3f6e49935eb3619ae776",
+            "https://www.wfae.org/politics/2020-10-28/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12"
+          ],
+          "cached": false,
+          "refused": false,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "review_rounds": [],
+  "report_raw": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.98,
+    "justification": "For the November 2020 election, California required officials to count otherwise valid ballots postmarked by Election Day and received within 17 days afterward. [S1] Kansas likewise accepted ballots postmarked by Election Day if received by November 6. [S2] Rules varied: Michigan generally required absentee ballots to arrive by 8 p.m. on Election Day. [S3] Thus, as a general assertion about U.S. elections, the claim is false; whether a late-arriving ballot could be counted depended on the jurisdiction and its deadline. [S1][S2][S3]",
+    "key_points": [
+      "California allowed qualifying ballots to arrive up to 17 days after Election Day. [S1]",
+      "Kansas allowed qualifying ballots to arrive by November 6, three days after Election Day. [S2]",
+      "Michigan generally required receipt by 8 p.m. on Election Day. [S3]",
+      "North Carolina allowed qualifying ballots to arrive by 5 p.m. on November 12. [S4]"
+    ],
+    "counter_argument": "The claim describes the general rule in Michigan, where absentee ballots had to be received by 8 p.m. on Election Day. [S3] It does not prevail as a general assertion because California and Kansas expressly allowed qualifying ballots received after Election Day to be counted. [S1][S2]",
+    "evidence_gaps": [
+      "The evidence does not provide a comprehensive inventory of deadlines in every jurisdiction or separate rules for military and overseas voters."
+    ],
+    "findings": [
+      {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, an otherwise valid ballot postmarked before Election Day could be counted after Election Day in some jurisdictions, provided it arrived by the applicable deadline. For the November 3 election, California allowed receipt through November 20 and Kansas through November 6 for ballots postmarked by Election Day. Michigan generally required receipt by 8 p.m. on November 3. In North Carolina, a court-approved extension allowed qualifying ballots to arrive by 5 p.m. on November 12.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Voters should hand-deliver absentee ballots to avoid postal delays",
+            "url": "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+            "snippet": "“Only the absentee ballots received by 8 p.m. on November 3 can be counted, and voters should not risk possible postal delays this close to the deadline,” said Benson.",
+            "publisher": "Michigan Secretary of State",
+            "published_at": "2020-10-20",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          },
+          {
+            "title": "Supreme Court Leaves NC Absentee Ballot Deadline at Nov. 12",
+            "url": "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+            "snippet": "The justices, by a 5-3 vote Wednesday, refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days because of the coronavirus pandemic, pushing back the deadline to Nov. 12. The board’s decision was part of a legal settlement with a union-affiliated group....Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "Associated Press via Chapelboro",
+            "published_at": "2020-10-28",
+            "tier": null,
+            "url_status": null,
+            "archived_url": null,
+            "grounding": null
+          }
+        ],
+        "caveats": [
+          "These examples describe rules for the November 2020 election, not present-day deadlines or every jurisdiction.",
+          "Some voters, including military and overseas voters, may be subject to separate rules."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+        "url": "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+        "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+        "publisher": "Kansas Secretary of State",
+        "published_at": "2020-08-26",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Voters should hand-deliver absentee ballots to avoid postal delays",
+        "url": "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+        "snippet": "“Only the absentee ballots received by 8 p.m. on November 3 can be counted, and voters should not risk possible postal delays this close to the deadline,” said Benson.",
+        "publisher": "Michigan Secretary of State",
+        "published_at": "2020-10-20",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      },
+      {
+        "title": "Supreme Court Leaves NC Absentee Ballot Deadline at Nov. 12",
+        "url": "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+        "snippet": "The justices, by a 5-3 vote Wednesday, refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days because of the coronavirus pandemic, pushing back the deadline to Nov. 12. The board’s decision was part of a legal settlement with a union-affiliated group....Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+        "publisher": "Associated Press via Chapelboro",
+        "published_at": "2020-10-28",
+        "tier": null,
+        "url_status": null,
+        "archived_url": null,
+        "grounding": null
+      }
+    ]
+  },
+  "report_final": {
+    "claim": "Even if your mail-in ballot is postmarked prior to the Election day but arrives after the Election day it will be thrown out.",
+    "verdict": "Refuted",
+    "verdict_confidence": 0.98,
+    "justification": "For the November 2020 election, California required officials to count otherwise valid ballots postmarked by Election Day and received within 17 days afterward. [S1] Kansas likewise accepted ballots postmarked by Election Day if received by November 6. [S2] Rules varied: Michigan generally required absentee ballots to arrive by 8 p.m. on Election Day. [S3] Thus, as a general assertion about U.S. elections, the claim is false; whether a late-arriving ballot could be counted depended on the jurisdiction and its deadline. [S1][S2][S3]",
+    "key_points": [
+      "California allowed qualifying ballots to arrive up to 17 days after Election Day. [S1]",
+      "Kansas allowed qualifying ballots to arrive by November 6, three days after Election Day. [S2]",
+      "Michigan generally required receipt by 8 p.m. on Election Day. [S3]",
+      "North Carolina allowed qualifying ballots to arrive by 5 p.m. on November 12. [S4]"
+    ],
+    "counter_argument": "The claim describes the general rule in Michigan, where absentee ballots had to be received by 8 p.m. on Election Day. [S3] It does not prevail as a general assertion because California and Kansas expressly allowed qualifying ballots received after Election Day to be counted. [S1][S2]",
+    "evidence_gaps": [
+      "The evidence does not provide a comprehensive inventory of deadlines in every jurisdiction or separate rules for military and overseas voters."
+    ],
+    "findings": [
+      {
+        "aspect_id": "ballot_arrival_deadlines",
+        "question": "Under current U.S. election rules, can an otherwise valid mail-in ballot postmarked before Election Day be counted if it arrives after Election Day, and how does this depend on the jurisdiction and arrival date?",
+        "signal": "refutes",
+        "summary": "As of October 28, 2020, an otherwise valid ballot postmarked before Election Day could be counted after Election Day in some jurisdictions, provided it arrived by the applicable deadline. For the November 3 election, California allowed receipt through November 20 and Kansas through November 6 for ballots postmarked by Election Day. Michigan generally required receipt by 8 p.m. on November 3. In North Carolina, a court-approved extension allowed qualifying ballots to arrive by 5 p.m. on November 12.",
+        "confidence": 0.99,
+        "sources": [
+          {
+            "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+            "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+            "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+            "publisher": "California Secretary of State",
+            "published_at": "2020-06-18",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+            "url": "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+            "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+            "publisher": "Kansas Secretary of State",
+            "published_at": "2020-08-26",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Voters should hand-deliver absentee ballots to avoid postal delays",
+            "url": "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+            "snippet": "“Only the absentee ballots received by 8 p.m. on November 3 can be counted, and voters should not risk possible postal delays this close to the deadline,” said Benson.",
+            "publisher": "Michigan Secretary of State",
+            "published_at": "2020-10-20",
+            "tier": "primary",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          },
+          {
+            "title": "Supreme Court Leaves NC Absentee Ballot Deadline at Nov. 12",
+            "url": "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+            "snippet": "The justices, by a 5-3 vote Wednesday, refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days because of the coronavirus pandemic, pushing back the deadline to Nov. 12. The board’s decision was part of a legal settlement with a union-affiliated group....Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+            "publisher": "Associated Press via Chapelboro",
+            "published_at": "2020-10-28",
+            "tier": "other",
+            "url_status": null,
+            "archived_url": null,
+            "grounding": "quote_matched"
+          }
+        ],
+        "caveats": [
+          "These examples describe rules for the November 2020 election, not present-day deadlines or every jurisdiction.",
+          "Some voters, including military and overseas voters, may be subject to separate rules."
+        ],
+        "status": "completed",
+        "failure_reason": null,
+        "stop_reason": null
+      }
+    ],
+    "sources": [
+      {
+        "title": "Governor Newsom Signs Legislation to Fortify California's November 3, 2020 General Election for the COVID-19 Pandemic",
+        "url": "https://www.sos.ca.gov/administration/news-releases-and-advisories/2020-news-releases-and-advisories/ap20055-gov-newsom-signs-legislation-fortify-cas-1132020-general-election-covid-19-pandemic",
+        "snippet": "Requires that county elections officials process and count ballots that were postmarked on or before Election Day and arrive to elections officials no later than 17 days after Election Day. Under current law, vote-by-mail ballots that arrive more than three days after the election are not counted.",
+        "publisher": "California Secretary of State",
+        "published_at": "2020-06-18",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Schwab Urges Caution with Third Party Voter Outreach Efforts",
+        "url": "https://www.sos.ks.gov/media/press-releases/2020/08-26-20-schwab-urges-caution-with-third-party-voter-outreach-efforts.html",
+        "snippet": "November 3 – GENERAL ELECTION\n- November 6 – Deadline for receipt of advance ballots postmarked on or before election day",
+        "publisher": "Kansas Secretary of State",
+        "published_at": "2020-08-26",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Voters should hand-deliver absentee ballots to avoid postal delays",
+        "url": "https://www.michigan.gov/sos/Resources/News/2020/10/20/voters-should-hand-deliver-absentee-ballots-to-avoid-postal-delays",
+        "snippet": "“Only the absentee ballots received by 8 p.m. on November 3 can be counted, and voters should not risk possible postal delays this close to the deadline,” said Benson.",
+        "publisher": "Michigan Secretary of State",
+        "published_at": "2020-10-20",
+        "tier": "primary",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      },
+      {
+        "title": "Supreme Court Leaves NC Absentee Ballot Deadline at Nov. 12",
+        "url": "https://chapelboro.com/2020-election/supreme-court-leaves-nc-absentee-ballot-deadline-at-nov-12",
+        "snippet": "The justices, by a 5-3 vote Wednesday, refused to disturb a decision by the State Board of Elections to lengthen the period from three to nine days because of the coronavirus pandemic, pushing back the deadline to Nov. 12. The board’s decision was part of a legal settlement with a union-affiliated group....Under the Supreme Court’s order, mailed ballots postmarked on or before Election Day must be received by 5 p.m. on Nov. 12 in order to be counted.",
+        "publisher": "Associated Press via Chapelboro",
+        "published_at": "2020-10-28",
+        "tier": "other",
+        "url_status": null,
+        "archived_url": null,
+        "grounding": "quote_matched"
+      }
+    ]
+  },
+  "started_at": "2026-11-19T11:08:21.282146+00:00",
+  "duration_seconds": 45.926965102087706,
+  "usage_events": [
+    {
+      "stage": "plan",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 983,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 566,
+      "reasoning_tokens": 230,
+      "total_tokens": 1549,
+      "duration_seconds": 9.494842553976923,
+      "started_at": "2026-11-19T11:08:21.282445+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "research",
+      "model": "gpt-6.1-terra",
+      "requests": 4,
+      "input_tokens": 30287,
+      "cached_input_tokens": 16059,
+      "cache_write_tokens": 14216,
+      "output_tokens": 1417,
+      "reasoning_tokens": 155,
+      "total_tokens": 31704,
+      "duration_seconds": 22.379785479977727,
+      "started_at": "2026-11-19T11:08:30.778149+00:00",
+      "completed": true,
+      "wrap_up": false
+    },
+    {
+      "stage": "judge",
+      "model": "gpt-6.1-terra",
+      "requests": 1,
+      "input_tokens": 3213,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3210,
+      "output_tokens": 1994,
+      "reasoning_tokens": 86,
+      "total_tokens": 5207,
+      "duration_seconds": 14.03559469198808,
+      "started_at": "2026-11-19T11:08:53.172753+00:00",
+      "completed": true,
+      "wrap_up": false
+    }
+  ],
+  "usage_summary": {
+    "requests": 6,
+    "input_tokens": 34483,
+    "cached_input_tokens": 16059,
+    "cache_write_tokens": 17426,
+    "output_tokens": 3977,
+    "reasoning_tokens": 471,
+    "total_tokens": 38460,
+    "llm_seconds": 45.91022272594273,
+    "cache_hit_rate": 0.4657,
+    "failed_attempts": 0,
+    "failed_attempt_tokens": 0,
+    "wrap_up_calls": 0,
+    "per_stage": {
+      "plan": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 983.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 0.0,
+        "output_tokens": 566.0,
+        "reasoning_tokens": 230.0,
+        "total_tokens": 1549.0,
+        "llm_seconds": 9.494842553976923,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "research": {
+        "calls": 1.0,
+        "requests": 4.0,
+        "input_tokens": 30287.0,
+        "cached_input_tokens": 16059.0,
+        "cache_write_tokens": 14216.0,
+        "output_tokens": 1417.0,
+        "reasoning_tokens": 155.0,
+        "total_tokens": 31704.0,
+        "llm_seconds": 22.379785479977727,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      },
+      "judge": {
+        "calls": 1.0,
+        "requests": 1.0,
+        "input_tokens": 3213.0,
+        "cached_input_tokens": 0.0,
+        "cache_write_tokens": 3210.0,
+        "output_tokens": 1994.0,
+        "reasoning_tokens": 86.0,
+        "total_tokens": 5207.0,
+        "llm_seconds": 14.03559469198808,
+        "failed_attempts": 0.0,
+        "failed_attempt_tokens": 0.0
+      }
+    }
+  },
+  "budget": {
+    "token_budget": null,
+    "tokens_used": 38460,
+    "token_budget_exhausted": false,
+    "retry_budget": 12,
+    "retries_used": 0,
+    "retry_budget_exhausted": false,
+    "skipped_stages": []
+  },
+  "strategy": "pipeline",
+  "stage_models": {
+    "plan": "gpt-6.1-terra",
+    "research": "gpt-6.1-terra",
+    "review": "gpt-6.1-terra",
+    "judge": "gpt-6.1-terra"
+  },
+  "stage_efforts": {},
+  "citation_check": null,
+  "retrieval_summary": {
+    "searches": 8,
+    "pages_opened": 0,
+    "cache_hits": 0,
+    "refused": 0,
+    "errors": 0,
+    "distinct_urls": 26
+  },
+  "unresolved_citations": []
+}
