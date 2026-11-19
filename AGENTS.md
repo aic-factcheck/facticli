@@ -122,7 +122,8 @@ The runtime uses layered architecture:
    - Shared OpenAI-compatible strategy implementations
    - OpenAI-compatible client configuration (key/base URL/model/API mode)
 
-Fact-check pipeline stages:
+Fact-check pipeline stages (diagrams, simplified and full: README "How the pipeline works"; update
+them when a stage, a limit, or a failure path changes):
 
 1. Planner stage (`plan` skill)
    - Input: claim text + max checks

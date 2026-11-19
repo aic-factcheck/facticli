@@ -1,7 +1,7 @@
 # facticli
 [![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
-Claim extractor now live at https://aic-factcheck.github.io/facticli/.
+Claim extractor live at https://facticli.dyn.cloud.e-infra.cz/extract. How the fact-check pipeline works, with diagrams: [How the pipeline works](#-how-the-pipeline-works).
 
 `facticli` is a pip-installable Python CLI for agentic claim verification with OpenAI-compatible inference APIs.
 
@@ -381,115 +381,119 @@ Validation notes:
 - `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
-## 🧠 Current architecture
+## 🧠 How the pipeline works
 
-Layered runtime:
-- `core`: typed contracts, normalization helpers, and run artifacts.
-- `application`: provider-agnostic interfaces, explicit stages (`PlanStage`, `ResearchStage`, `ReviewStage`, `JudgeStage`, `ClaimExtractionStage`), and services.
-- `adapters`: a shared OpenAI-compatible strategy implementation plus client bootstrap.
-
-Pipeline behavior:
-- `plan` decomposes the claim into independent checks, each with search queries and `acceptance_criteria` ("done when ..."); it avoids splitting parts that cannot be evidenced separately.
-- `research` runs per check concurrently with bounded parallelism, timeout, and a retry loop driven by an error taxonomy (transient errors retry, bad-request/context-overflow/refusal errors fail the check, auth/quota/unknown-model errors abort the run). Every attempt runs under a retrieval journal: the search tools record what they returned and refuse calls past the hard cap, and each cited source gets a provenance label (`grounding`) and a deterministic authority `tier`. Retrieval constraints (fact-checker blocklist, claim-date cutoff) are applied post hoc and recorded in artifacts.
-- Checks the harness could not run are explicit non-observations: `status = failed | budget_exhausted` with a `failure_reason`, never silently "insufficient evidence".
-- `review` (opt-in, bounded) grades each finding against its acceptance criteria, lists concrete `gaps`, and requests retries or narrow follow-up checks that trace back to a gap.
-- `judge` receives findings grouped by signal with counts, a shared source table with stable ids (`S1..Sn`), verbatim snippets and tiers, and a failed-check notice; it must write the strongest `counter_argument` before committing, cite source ids in the justification, and list `evidence_gaps`. Cited ids that point at no row of the source table are reported under the source list.
-- An optional citation health pass marks each cited URL `live`, `archived` (with Wayback URL), or `broken`.
-- A run-level ledger tracks tokens (including cached, cache-write, and reasoning tokens) for every attempt, retries, and skipped stages; `--token-budget` bounds the whole run.
-- Research, review, and judging are told the date the claim is evaluated as of (the claim date when set, else today), so "current" and "latest" are not resolved against the model's training cutoff.
-- `--strategy single_agent` runs the no-harness baseline through the same constraints, tiering, budget, and citation controls.
-- Claim extraction runs through a dedicated extraction stage/backend.
-
-Prompt skills are markdown files with SKILL.md-style frontmatter (`name`, `description`) written as lane contracts: Purpose, Non-goals, Inputs, Procedure, Failure handling, Output contract. Search-tool payloads are bounded (middle-truncated with a header) and carry an explicit untrusted-content notice.
-
-Inference backend:
-- one OpenAI Agents SDK path (`Runner`, tools, structured output) for all OpenAI-compatible APIs.
-- endpoint configuration comes from `OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_API_MODEL`; `--stage-model` / `--stage-effort` route individual stages.
-- retries use the SDK's runner-managed retry with a facticli policy: exponential backoff with jitter, Retry-After honoured, drawn from a per-run retry budget.
-
-### Fact-check pipeline flow
+### At a glance
 
 ```mermaid
 flowchart TD
-  A["CLI: facticli check <claim>"] --> A1["apply facticli.toml profile<br/>(flag > profile > defaults)"]
-  A1 --> B["run_check_command<br/>validate inference/search env<br/>build FactCheckRuntimeConfig"]
-  B --> C{"--strategy"}
-  C -->|single_agent| SA["SingleAgentFactCheckService<br/>one agent + search tool<br/>same constraints / tiers / budget"]
-  SA --> T
-  C -->|pipeline| D
-
-  subgraph S["Service construction"]
-    D["build_fact_check_service"] --> E["load_inference_config<br/>configure_inference_client"]
-    E --> F["Create planner / researcher / review / judge adapters<br/>per-stage model + effort, SDK retry policy"]
-    F --> G["Create PlanStage / ResearchStage / ReviewStage / JudgeStage<br/>(+ CitationCheckStage if --verify-sources)"]
-    G --> H["FactCheckService"]
+  claim(["Claim<br/>+ optional claim date"])
+  plan["<b>1. Plan</b><br/>split the claim into up to 4 independent checks,<br/>each with search queries and 'done when' criteria"]
+  subgraph research["<b>2. Research</b>: one agent per check, run in parallel"]
+    direction LR
+    r1["check A<br/>web search -> finding"]
+    r2["check B<br/>web search -> finding"]
+    r3["check ...<br/>web search -> finding"]
   end
+  review{"<b>3. Review</b> (optional)<br/>do the findings meet<br/>their criteria?"}
+  judge["<b>4. Judge</b><br/>weighs every finding and source,<br/>argues the other side, picks a verdict"]
+  verify["<b>5. Citation check</b> (optional)<br/>are the cited URLs still live?"]
+  report(["<b>Report</b><br/>verdict, confidence, justification citing S1..Sn,<br/>findings, sources with tier and provenance"])
 
-  H --> I["check_claim<br/>normalize claim<br/>create RunArtifacts<br/>activate constraints + usage/budget ledger<br/>emit run_started"]
-
-  subgraph P["Plan stage"]
-    I --> J["PlanStage.execute"]
-    J --> K["CompatiblePlannerAdapter.plan"]
-    K --> L["Runner.run(claim_planner)"]
-    L --> M["InvestigationPlan (raw)"]
-    M --> N["Normalize checks + acceptance criteria<br/>limit queries<br/>fallback direct check if empty"]
-    N --> O["Store plan artifacts<br/>emit planning_completed"]
-  end
-
-  subgraph R["Research stage"]
-    O --> P1["ResearchStage.execute<br/>emit research_started"]
-    P1 --> P2["Create one asyncio task per check"]
-    P2 --> P3["Bound concurrency with semaphore"]
-    P3 --> P3b{"token budget left?"}
-    P3b -->|no| P13b["status = budget_exhausted"]
-    P3b -->|yes| P4["For each check: retry with timeout, fresh retrieval journal per attempt<br/>error taxonomy decides retry vs fail-fast vs abort the run"]
-    P4 --> P5["CompatibleResearchAdapter.research<br/>payload: reference date + check + criteria + constraints + budget reminder"]
-    P5 --> P6["Runner.run(check_researcher)<br/>at the turn limit: one tools-off wrap-up call"]
-    P6 --> P7{"Search provider"}
-    P7 -->|openai| P8["WebSearchTool<br/>(consulted URLs journaled)"]
-    P7 -->|brave| P9["brave_web_search tool<br/>(bounded output, untrusted-content notice,<br/>journaled, hard cap, optional record/replay cache)"]
-    P7 -->|knowledge_store| P9b["knowledge_store_search tool<br/>(journaled, hard cap)"]
-    P8 --> P10["AspectFinding"]
-    P9 --> P10
-    P9b --> P10
-    P10 --> P11{"Succeeded?"}
-    P11 -->|yes| P12["Ground sources against the journal, assign tiers,<br/>apply constraints, keep receipts<br/>emit research_check_completed"]
-    P11 -->|no after retries| P13["status = failed + failure_reason<br/>record error kinds<br/>emit research_check_failed"]
-    P12 --> P14["Ordered findings list"]
-    P13 --> P14
-    P13b --> P14
-    P14 --> P15["emit research_completed"]
-  end
-
-  subgraph JG["Judge stage"]
-    P15 --> Q{"feedback rounds enabled<br/>and budget left?"}
-    Q -->|yes| Q1["ReviewStage.execute<br/>emit review_started"]
-    Q1 --> Q2["CompatibleReviewAdapter.review<br/>payload: checks paired with findings + acceptance criteria"]
-    Q2 --> Q3["Runner.run(evidence_review)"]
-    Q3 --> Q4{"follow-up requested?<br/>(gaps -> retries / new checks)"}
-    Q4 -->|yes| Q5["Build follow-up plan<br/>retry selected checks<br/>add new targeted checks"]
-    Q5 --> Q6["ResearchStage.execute for follow-up round"]
-    Q6 --> Q1
-    Q4 -->|no| R1["JudgeStage.execute<br/>emit judging_started"]
-    Q -->|no| R1
-    R1 --> R2["CompatibleJudgeAdapter.judge<br/>payload: findings grouped by signal, source table S1..Sn,<br/>verbatim snippets + tiers, failed-check notice"]
-    R2 --> R3["Runner.run(veracity_judge)<br/>counter_argument before verdict, [S#] citations"]
-    R3 --> R4["FactCheckReport (raw)<br/>harness findings authoritative<br/>merge + deduplicate + tier sources<br/>resolve cited [S#] ids<br/>emit judging_completed"]
-    R4 --> R5{"--verify-sources?"}
-    R5 -->|yes| R6["CitationCheckStage<br/>HEAD/GET + Wayback -> live/archived/broken"]
-    R5 -->|no| T
-    R6 --> T
-  end
-
-  T["Finalize usage summary + budget status<br/>save artifacts repository (if configured)<br/>emit run_completed"]
-  T --> U{"Output mode"}
-  U -->|text| V["format_run_text -> stdout<br/>(tiers, provenance labels, failed and cut-short markers,<br/>counter-argument, optional usage/budget footer)"]
-  U -->|json| W["report JSON -> stdout<br/>optionally add plan / findings / artifacts"]
+  claim --> plan --> research --> review
+  review -->|"gaps found: retry checks<br/>or add new ones"| research
+  review -->|"good enough, or review off"| judge
+  judge --> verify --> report
 ```
 
-When `--stream-progress` is enabled, progress events are formatted in the CLI and written to `stderr` during the run. Validation failures and uncaught command errors also go to `stderr`.
+Four model roles (planner, researcher, reviewer, judge), each a separate prompt in `src/facticli/prompts/`. Only the researcher can search. Everything between the model calls is deterministic code: it never asks a model to check another model's work when a comparison can do it.
 
-`facticli extract-claims` uses a separate path: CLI -> `ClaimExtractor` -> `ClaimExtractionService` -> `ClaimExtractionStage` -> `CompatibleClaimExtractionAdapter` -> `Runner.run(...)` -> `ClaimExtractionResult`.
+| Stage | What the model does | What the code does around it (no model) |
+| --- | --- | --- |
+| 1. Plan | Splits the claim into checks, each a question with search queries and acceptance criteria. | Caps checks (4) and queries (5); falls back to one direct check if the plan is empty. |
+| 2. Research | Searches the web for one check and writes a finding: `supports` / `refutes` / `mixed` / `insufficient`, with quoted sources. | Runs checks in parallel with a timeout and one retry. Records every search result in a journal, refuses searches past the cap, labels each cited source by provenance and authority tier, and removes sources from blocked domains or published after the claim date. |
+| 3. Review (`--feedback-rounds`) | Grades each finding against its criteria and asks for retries or new narrow checks. | Bounds rounds and follow-up checks; skips rounds when the token budget is spent. |
+| 4. Judge | Reads findings grouped by signal and a numbered source table, writes the strongest counter-argument, then the verdict. | Keeps the researchers' findings as the record, labels sources the judge added itself, flags cited ids that do not exist. |
+| 5. Citation check (`--verify-sources`) | none | Marks each cited URL `live`, `archived` (Wayback), or `broken`. |
+
+Verdicts: `Supported`, `Refuted`, `Not Enough Evidence`, `Conflicting Evidence/Cherrypicking`.
+
+`--strategy single_agent` replaces stages 1 to 4 with one agent that searches and writes the whole report; the code around it is the same. It is a baseline for measuring what the decomposition buys.
+
+### Full pipeline
+
+Defaults are shown in brackets; each has a flag and a `facticli.toml` key.
+
+```mermaid
+flowchart TD
+  entry["<b>facticli check</b> or the AVeriTeC batch runner"] --> cfg["Settings: CLI flag > facticli.toml profile > defaults<br/>check API keys, build the service"]
+  cfg --> ctx["<b>Open the run</b><br/>constraints: blocked domains, evidence cutoff = claim date,<br/>reference date = claim date or today<br/>ledger: token budget [none], retry budget [12];<br/>rate limits and 5xx are retried inside a model call"]
+  ctx --> strat{"--strategy"}
+  strat -->|"single_agent"| sa["One agent with the search tool writes the whole report<br/>budget 8 x checks, cap 16 x checks<br/>same provenance labels, tiers, and source filters"]
+  sa --> post
+  strat -->|"pipeline [default]"| planner
+
+  subgraph PLAN["1. Plan"]
+    planner["Planner model<br/>claim, max checks [4]"] --> pnorm["Normalize: at most 4 checks, 5 queries each<br/>empty plan: one direct check"]
+  end
+
+  pnorm --> fan["One task per check<br/>at most 4 at once [--parallel]"]
+
+  subgraph RES["2. Research, for each check"]
+    fan --> bud{"token budget left?"}
+    bud -->|"no"| skipped["finding: budget_exhausted<br/>(a missing observation, not evidence)"]
+    bud -->|"yes"| attempt["Attempt [up to 2, 120 s each]<br/>with a fresh retrieval journal"]
+    attempt --> rmodel["Researcher model<br/>payload: reference date, claim, check, criteria,<br/>search budget [8], cutoff and blocklist"]
+    rmodel <-->|"tool calls"| tool["Search tool<br/>brave: date cutoff sent, blocked domains dropped,<br/>results and text recorded in the journal,<br/>refused past the cap [16], optional record/replay cache<br/>openai hosted [default]: consulted URLs recorded"]
+    rmodel -->|"turn limit [10]"| wrap["Wrap-up: one call with tools off,<br/>answer from what was found"]
+    rmodel --> outcome{"outcome"}
+    wrap --> outcome
+    outcome -->|"finding"| ground["Reset fields the model may not set<br/>label sources: quote_matched / url_matched / unmatched<br/>tier sources: primary ... user_generated<br/>drop blocked or too-recent sources"]
+    outcome -->|"error"| kind{"error kind"}
+    kind -->|"timeout, invalid output, network:<br/>next attempt"| attempt
+    kind -->|"bad request, refusal,<br/>or attempts used up"| failed["finding: failed<br/>(a missing observation, not evidence)"]
+    kind -->|"fatal: rejected key, no quota, unknown model"| abort(["Abort the whole run<br/>batch runner: exit 3"])
+  end
+
+  ground --> findings["Findings, in plan order<br/>cut-short ones carry stop_reason"]
+  skipped --> findings
+  failed --> findings
+
+  findings --> rv{"review rounds left [0]<br/>and token budget left?"}
+
+  subgraph REV["3. Review (optional)"]
+    rv -->|"yes"| reviewer["Reviewer model<br/>findings vs criteria, unmatched sources,<br/>cut-short research"]
+    reviewer --> act{"decision"}
+  end
+
+  act -->|"follow up: retry checks,<br/>add up to 2 new ones"| fan
+  act -->|"finalize"| judge
+  rv -->|"no"| judge
+
+  subgraph JUDGE["4. Judge"]
+    judge["Judge model<br/>payload: reference date, findings grouped by signal,<br/>source table S1..Sn with snippets and tiers,<br/>failed checks listed as missing"] --> jpost["Researchers' findings stay the record<br/>sources the judge added: unmatched<br/>merge, deduplicate, tier sources<br/>cited ids with no source: reported"]
+  end
+
+  jpost --> cite{"--verify-sources"}
+  cite -->|"yes"| urls["5. Citation check<br/>live / archived / broken"]
+  cite -->|"no"| post
+  urls --> post
+
+  post["<b>Close the run</b><br/>usage of every attempt, including failed ones<br/>retrieval summary, artifacts saved [--artifacts-dir]"] --> out{"output"}
+  out -->|"text"| txt["Report with tiers, provenance labels,<br/>cut-short and failed markers<br/>[--show-usage: tokens, cache, retrieval]"]
+  out -->|"--json"| js["Report JSON<br/>[--include-artifacts: plan, findings, artifacts]"]
+```
+
+How to read the labels in the report:
+
+- **Provenance** (`grounding`) says where a source came from, not whether it is right. `quote found in retrieved text`: the search returned the URL and the quoted snippet. `url retrieved, quote not matched`: the URL was returned but the quote was not found (hosted OpenAI search never returns text, so its sources stop here). `NOT in search results`: the URL never came back from a search of that check; usually a mis-copied URL. See [Source provenance](#source-provenance).
+- **Tier** is the kind of publisher, from a domain table: `primary`, `reference`, `news`, `fact_checker`, `user_generated`, `other`.
+- **Cut short**: the check reached its turn limit or search cap and answered from what it had.
+- **Failed / skipped**: the check could not run; the judge is told it is missing, not evidence of absence.
+
+`facticli extract-claims` (and the web GUI) is a separate single-step path: one model call turns text into check-worthy claims, with no search, journal, or run ledger.
+
+Inference: one OpenAI Agents SDK path for every OpenAI-compatible endpoint (`OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_API_MODEL`); `--stage-model` and `--stage-effort` route single stages to another model or reasoning effort. Transient errors retry with backoff, drawn from the per-run retry budget. Prompts are markdown lane contracts (Purpose, Non-goals, Inputs, Procedure, Failure handling, Output contract); `facticli skills --show NAME` prints one.
 
 ## 🗂️ Repository layout
 
