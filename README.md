@@ -580,13 +580,12 @@ Notes:
 
 This repo includes two GitHub Actions workflows:
 - `.github/workflows/ci.yml`: runs on every push and pull request (compile + CLI checks + unit tests).
-- `.github/workflows/live-smoke.yml`: runs live smoke tests manually (`workflow_dispatch`) and on a daily schedule.
+- `.github/workflows/live-smoke.yml`: one real `facticli check` against the OpenAI API, started by hand from the Actions tab (`Run workflow`). It has no schedule, so it spends nothing unless someone runs it.
 
-To enable live smoke in GitHub:
-1. Go to repository `Settings` -> `Secrets and variables` -> `Actions`.
-2. Add secret `OPENAI_API_KEY`.
-3. Set `OPENAI_API_MODEL` if you want a model other than the workflow default.
-4. Optionally edit `.github/workflows/live-smoke.yml` to remove or change the schedule.
+To use live smoke in GitHub:
+1. Go to repository `Settings` -> `Secrets and variables` -> `Actions` and add the secret `OPENAI_API_KEY` (without it the test skips).
+2. Change `OPENAI_API_MODEL` in `.github/workflows/live-smoke.yml` to test another model.
+3. To run it on a schedule, add a `schedule:` trigger to the workflow; its failure emails go to whoever last edited the cron line.
 
 ## 🤝 Contributor guide
 

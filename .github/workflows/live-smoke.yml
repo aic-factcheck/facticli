@@ -1,17 +1,17 @@
 name: Live Smoke
 
+# Manual only: one real `facticli check` against the OpenAI API, paid from the
+# OPENAI_API_KEY repository secret. Start it from the Actions tab
+# ("Run workflow"). Without the secret the test skips instead of failing.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 8 * * *"
 
 jobs:
   live-smoke:
     runs-on: ubuntu-latest
-    if: ${{ secrets.OPENAI_API_KEY != '' }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_API_MODEL: gpt-5.4
+      OPENAI_API_MODEL: gpt-5.6-terra
       FACTICLI_RUN_LIVE_SMOKE: "1"
 
     steps:

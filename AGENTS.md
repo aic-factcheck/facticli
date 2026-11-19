@@ -395,7 +395,9 @@ If API key is available, also run at least one live smoke test:
 `FACTICLI_RUN_LIVE_SMOKE=1 python3 -m unittest tests.test_live_smoke -v`
 
 GitHub live smoke automation:
-- `.github/workflows/live-smoke.yml` runs smoke tests on manual dispatch and schedule when `OPENAI_API_KEY` secret is configured.
+- `.github/workflows/live-smoke.yml` runs the smoke test on manual dispatch only (no schedule; it spends
+  the `OPENAI_API_KEY` repository secret). Do not read `secrets` in a job-level `if`: GitHub rejects
+  the file and records a failed run, with an email to the pusher, on every push.
 
 ## 12) Extension Roadmap
 
