@@ -10,7 +10,6 @@ from agents import AgentOutputSchema, MaxTurnsExceeded, ModelBehaviorError
 
 from facticli.core.contracts import (
     AspectFinding,
-    EvidenceSignal,
     FactCheckReport,
     FindingStatus,
     InvestigationPlan,
@@ -20,7 +19,6 @@ from facticli.core.contracts import (
 )
 from facticli.core.errors import (
     FATAL_KINDS,
-    BudgetExhaustedError,
     ErrorKind,
     SearchAuthError,
     classify_exception,
@@ -131,7 +129,6 @@ class ErrorTaxonomyTests(unittest.TestCase):
         self.assertEqual(classify_exception(asyncio.TimeoutError()), ErrorKind.TIMEOUT)
         self.assertEqual(classify_exception(ModelBehaviorError("bad json")), ErrorKind.SCHEMA)
         self.assertEqual(classify_exception(MaxTurnsExceeded("x")), ErrorKind.MAX_TURNS)
-        self.assertEqual(classify_exception(BudgetExhaustedError("x")), ErrorKind.BUDGET)
         self.assertEqual(classify_exception(RuntimeError("weird")), ErrorKind.UNKNOWN)
         self.assertEqual(classify_exception(SimpleNamespace), ErrorKind.UNKNOWN)
 

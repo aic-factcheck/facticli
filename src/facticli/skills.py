@@ -19,57 +19,21 @@ class SkillSpec:
     binds the file to its typed output model and tool needs.
     """
     name: str
-    prompt_file: str
     output_model: type[BaseModel]
     uses_web_search: bool = False
-    public: bool = True
-    fallback_description: str = ""
 
     @property
     def description(self) -> str:
-        meta = load_skill_metadata(self.name)
-        return meta.get("description") or self.fallback_description
+        return load_skill_metadata(self.name).get("description", "")
 
 
 SKILLS: dict[str, SkillSpec] = {
-    "plan": SkillSpec(
-        name="plan",
-        prompt_file="plan.md",
-        output_model=InvestigationPlan,
-        fallback_description="Decompose claim into independent, parallelizable verification checks.",
-    ),
-    "research": SkillSpec(
-        name="research",
-        prompt_file="research.md",
-        output_model=AspectFinding,
-        uses_web_search=True,
-        fallback_description="Investigate one check with web search and evidence extraction.",
-    ),
-    "review": SkillSpec(
-        name="review",
-        prompt_file="review.md",
-        output_model=ReviewDecision,
-        fallback_description="Grade findings against acceptance criteria and request bounded follow-up.",
-    ),
-    "judge": SkillSpec(
-        name="judge",
-        prompt_file="judge.md",
-        output_model=FactCheckReport,
-        fallback_description="Synthesize findings into a final veracity verdict with justification.",
-    ),
-    "single_agent": SkillSpec(
-        name="single_agent",
-        prompt_file="single_agent.md",
-        output_model=FactCheckReport,
-        uses_web_search=True,
-        fallback_description="No-harness baseline: one agent researches and judges the claim in one run.",
-    ),
-    "extract_claims": SkillSpec(
-        name="extract_claims",
-        prompt_file="extract_claims.md",
-        output_model=ClaimExtractionResult,
-        fallback_description="Extract decontextualized atomic check-worthy claims from arbitrary text.",
-    ),
+    "plan": SkillSpec(name="plan", output_model=InvestigationPlan),
+    "research": SkillSpec(name="research", output_model=AspectFinding, uses_web_search=True),
+    "review": SkillSpec(name="review", output_model=ReviewDecision),
+    "judge": SkillSpec(name="judge", output_model=FactCheckReport),
+    "single_agent": SkillSpec(name="single_agent", output_model=FactCheckReport, uses_web_search=True),
+    "extract_claims": SkillSpec(name="extract_claims", output_model=ClaimExtractionResult),
 }
 
 
@@ -103,8 +67,7 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
 def _read_skill_file(skill_name: str) -> tuple[dict[str, str], str]:
     if skill_name not in SKILLS:
         raise KeyError(f"Unknown skill: {skill_name}")
-    prompt_file = SKILLS[skill_name].prompt_file
-    prompt_path = files("facticli.prompts").joinpath(prompt_file)
+    prompt_path = files("facticli.prompts").joinpath(f"{skill_name}.md")
     return parse_frontmatter(prompt_path.read_text(encoding="utf-8"))
 
 
@@ -119,7 +82,7 @@ def load_skill_metadata(skill_name: str) -> dict[str, str]:
 
 
 def list_skills() -> list[SkillSpec]:
-    return [skill for skill in SKILLS.values() if skill.public]
+    return list(SKILLS.values())
 
 
 def get_skill(skill_name: str) -> SkillSpec:

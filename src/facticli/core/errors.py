@@ -4,46 +4,17 @@ import asyncio
 from enum import Enum
 
 
-class FacticliError(Exception):
-    """Base class for all facticli errors."""
-
-
-class ConfigError(FacticliError):
-    """Invalid or missing configuration (API keys, provider names, etc.)."""
-
-
-class SchemaError(FacticliError):
-    """Model output did not match the expected Pydantic schema."""
-
-
-class TransientError(FacticliError):
-    """Retriable failure: network timeout, rate limit, temporary API error."""
-
-
-class BudgetExhaustedError(FacticliError):
-    """The run-level token or retry budget was used up before the stage could run."""
-
-
-class SearchAuthError(FacticliError):
+class SearchAuthError(Exception):
     """The search provider rejected its API key; no query can succeed until the key is fixed."""
-
-
-class ResearchError(FacticliError):
-    """A research check failed after all retry attempts."""
-
-    def __init__(self, aspect_id: str, message: str) -> None:
-        self.aspect_id = aspect_id
-        super().__init__(f"[{aspect_id}] {message}")
 
 
 class ErrorKind(str, Enum):
     """Provider-agnostic failure taxonomy used for retry policy and artifacts.
 
     Retryable kinds are transient transport or capacity problems. Everything
-    else either needs a different request (schema, context overflow, bad
-    request, refusal, forbidden), a human (auth, quota, config), or is a
-    deliberate stop (budget). ``quota`` is split from ``rate_limit`` because
-    both arrive as HTTP 429: a throttled request succeeds after backoff, an
+    else needs either a different request (schema, context overflow, bad
+    request, refusal, forbidden) or a human (auth, quota). ``quota`` is split
+    from ``rate_limit`` because both arrive as HTTP 429: a throttled request succeeds after backoff, an
     exhausted account never does. ``forbidden`` (HTTP 403) is split from
     ``auth`` (HTTP 401) because a 403 can be about one request (a moderation
     block, a model the key may not use) while a 401 is about the key itself.
@@ -62,8 +33,6 @@ class ErrorKind(str, Enum):
     SCHEMA = "schema"
     MAX_TURNS = "max_turns"
     REFUSAL = "refusal"
-    TOOL = "tool"
-    BUDGET = "budget"
     UNKNOWN = "unknown"
 
 
@@ -140,14 +109,8 @@ def classify_exception(exc: BaseException) -> ErrorKind:
     and Agents SDK classes are matched by name and by ``status_code`` so the
     taxonomy also applies to OpenAI-compatible third-party endpoints.
     """
-    if isinstance(exc, BudgetExhaustedError):
-        return ErrorKind.BUDGET
-    if isinstance(exc, SchemaError):
-        return ErrorKind.SCHEMA
     if isinstance(exc, SearchAuthError):
         return ErrorKind.AUTH
-    if isinstance(exc, TransientError):
-        return ErrorKind.NETWORK
     if isinstance(exc, (asyncio.TimeoutError, TimeoutError)):
         return ErrorKind.TIMEOUT
 
