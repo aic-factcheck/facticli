@@ -157,8 +157,12 @@ was read by research agents and the individual harness citations were not re-ver
 ### Measured (gpt-5.6-terra, first 10 claims of `dev_20.json`, Brave, fact-checkers blocked, claim-date cutoff)
 Single runs per arm unless stated, so a difference of one or two claims is noise.
 - Old code 9/10 correct at 90.5k tokens per claim. This code 8/10 at 98.3k, agreeing with old on 9 of
-  10 claims. The one difference (claim 18) is not a regression: rerun three times each, old and new
-  both answer `Refuted` every time.
+  10 claims. The one difference (claim 18, gold `Conflicting Evidence/Cherrypicking`, a deadline
+  rule that holds in some states stated as universal) is judge sampling, not a regression. Research
+  finds the same split in old and new runs; the old 9/10 rests on one `Conflicting` call. End to end,
+  old code then answered `Refuted` 3 of 3 times. On fixed findings judged 30 times each, the old and
+  the current judge both answer `Conflicting` 3/30; the current judge without the reference date
+  3/30, with the old `judge.md` 6/30 (noise at this n). Nothing in the old judge to bring back.
 - Provenance: 57 of 57 cited sources `quote_matched` in the final run. An earlier run had 62 of 64, one
   `url_matched` (table text re-typed with separators) and one `unmatched` (the researcher wrote
   `..._JUDICIARY.pdf` where the search had returned `...-JUDICIARY.pdf`). With hosted OpenAI search,
