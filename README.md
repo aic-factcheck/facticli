@@ -1,4 +1,4 @@
-# facticli
+# <img src="assets/facticli_logo.svg" width="44" alt="facticli logo" align="top"> facticli
 [![CI](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml/badge.svg)](https://github.com/aic-factcheck/facticli/actions/workflows/ci.yml)
 
 Claim extractor live at https://facticli.dyn.cloud.e-infra.cz/extract. How the fact-check pipeline works, with diagrams: [How the pipeline works](#-how-the-pipeline-works).

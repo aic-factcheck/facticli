@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128" role="img" aria-label="facticli">
+  <path d="M14 6H50A10 10 0 0 1 60 16V36A10 10 0 0 1 50 46H28L14 58L17 46H14A10 10 0 0 1 4 36V16A10 10 0 0 1 14 6Z" fill="#1a1a3a" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M16 18L25 26L16 34" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M31 34H45" fill="none" stroke="#ffcd05" stroke-width="4.5" stroke-linecap="round"/>
+</svg>
