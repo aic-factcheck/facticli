@@ -23,8 +23,6 @@
 - [x] Add an opt-in bounded review loop that can request targeted follow-up research rounds.
 
 - [x] Add provider-agnostic retry/backoff taxonomy (timeouts, rate limits, transient network, schema mismatch) — `core/errors.py` + SDK `ModelRetrySettings` policy (2026-09).
-- [ ] Add heuristic source-quality triggers to seed review decisions before model review (tried in 2026-11 as
-      deterministic reviewer flags; not adopted without a measured review run, see below).
 - [x] Persist per-round metrics/artifacts for evaluation of follow-up loop effectiveness (FileRunArtifactRepository + per-stage usage/latency events).
 - [ ] Add contradiction-specific follow-up planning so mixed findings trigger resolution checks automatically.
 - [x] Add source quality scoring and ranking (authority, recency, primary-source preference, duplication) — deterministic tiers in `core/source_quality.py`; judge weighs tiers (2026-09). Recency/duplication ranking beyond tiers still open.
@@ -208,10 +206,59 @@ Single runs per arm unless stated, so a difference of one or two claims is noise
 - [ ] Brave monthly-quota exhaustion is not told apart from throttling (response shape unverified);
       it shows up as failed searches in the receipts, not as a fatal error.
 - [ ] Near-duplicate clustering of syndicated sources before the judge.
-- [ ] Evaluate the review loop with and without `unmatched` / `stop_reason` in its payload.
 - [ ] Hosted OpenAI search: blocklist is applied post hoc; the API's `filters` only allow-list.
 - [x] `facticli check` offered `--search-provider knowledge_store` with no way to point at a store, so
       every check came back insufficient; it now refuses it (2026-11-19).
+
+## Simplification (2026-11-19)
+
+Goal: keep the measured pipeline, drop what no measurement or bug supports. Ideas came from three
+independent read-only reviews (Codex gpt-6.2-sol, Gemini 4 Argon, Claude Opus 5.5) that agreed on
+the ranking below. Code before the change: git tag `pre-simplify`.
+
+### Removed
+- Review loop (`--feedback-rounds`, `--follow-up-checks`, `review.md`): off by default, never in a
+  measured run, no scored comparison with and without it.
+- Single-agent baseline (`--strategy single_agent`, `single_agent.md`): no result was ever recorded.
+  Restore from the tag if the paper needs the decomposition ablation.
+- Token budget, retry budget, `budget_exhausted`, and the SDK retry policy: no measured run set a
+  budget. Transient errors are now retried by the OpenAI client (`--model-retries`, honours
+  `Retry-After`); fatal kinds still abort, failed-attempt tokens are still counted.
+- Citation URL health pass (`--verify-sources`, `url_status`, `archived_url`): ran after the judge,
+  so it never affected a verdict or a submission.
+- TOML config profiles (`facticli.toml`, `--config`, `--profile`): experiments are scripts with
+  explicit flags, and the batch runner records the resolved settings.
+- The core/application/adapters layering: six Protocols with one implementation each, five stage
+  classes, three services, a factory, an artifact repository, and six adapter classes became
+  `pipeline.py` + `llm.py` + `payloads.py` + `config.py`. Typed progress events became text lines.
+
+### Kept, and why
+- Plan -> parallel research -> judge, the prompts, and every stage payload: they produce the measured
+  results. `tests/test_model_inputs.py` pins all model-facing inputs to what the pre-simplification
+  code sent (recorded from it), so the refactor cannot move a verdict except by sampling.
+- Leakage controls, source tiers (the judge prompt uses them), grounding (cheap; feeds `unmatched` to
+  the judge), the 2x search cap and wrap-up call (measured), the usage ledger (cost tables), the
+  search cache, Brave/Exa/hosted/knowledge-store providers, the AVeriTeC runner, scorer, and audit.
+
+### Not done (considered)
+- Leaving the Agents SDK for a hand-written loop: about 200-450 lines for Responses + Chat
+  Completions with tools, structured output, reasoning items, usage, and the wrap-up call, and it
+  loses `ScriptedModel` tests; the SDK is now confined to `llm.py`, so the switch stays cheap if the
+  SDK keeps changing. litellm: a large dependency for what OpenAI-compatible endpoints already give.
+  pi (pi-ai / pi-agent-core) is TypeScript: a full rewrite of the runner, scorer, tests, and the
+  deployed extractor for no verdict gain.
+- A judge that returns only its synthesis (no echoed findings/sources): fewer output tokens, but it
+  changes the judge's schema, so it needs a measurement first.
+
+### Pilot set
+`data/averitec/pilot_20.json`: 20 dev claims (10 Refuted, 4 Supported, 3 Conflicting, 3 NEE; seed
+2026), `claim_id` = dev row index. Baseline, unchanged code, gpt-6.1-terra, Exa, flex, max 4 checks,
+search budget 8, fact-checkers blocked, claim-date cutoff: 15/20 and 11/20 on two runs; the runs
+disagree on 4 claims (pass^2 0.55). Conflicting recall 0/3 in both runs. About 58k tokens and 55 s
+per claim.
+After the simplification (same settings, one run): 12/20, inside the baseline's 11-15; agreement
+over the three runs 0.7, no failed attempts or checks, 68k tokens (14.8 searches vs 12-13) and 47 s
+per claim. With byte-identical model inputs these differences are sampling.
 
 ## Testing operations
 

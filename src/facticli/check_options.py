@@ -6,14 +6,7 @@ import argparse
 import os
 from typing import Any
 
-from .application.config import (
-    REASONING_EFFORTS,
-    SERVICE_TIERS,
-    STAGE_NAMES,
-    STRATEGIES,
-    FactCheckRuntimeConfig,
-    parse_stage_assignments,
-)
+from .config import REASONING_EFFORTS, SERVICE_TIERS, STAGE_NAMES, FactCheckRuntimeConfig, parse_stage_assignments
 from .cli_validators import non_negative_int, positive_int, search_results_int
 
 
@@ -50,7 +43,7 @@ def add_inference_args(parser: argparse.ArgumentParser) -> None:
         "--model-retries",
         type=non_negative_int,
         default=3,
-        help="Max SDK-managed retries per model call for transient errors (default: 3).",
+        help="Retries of one model request on a transient error: 429, 5xx, timeout, connection (default: 3).",
     )
     parser.add_argument(
         "--service-tier",
@@ -61,49 +54,13 @@ def add_inference_args(parser: argparse.ArgumentParser) -> None:
             "flex is half price and slower; research checks then get a longer timeout."
         ),
     )
-    parser.add_argument(
-        "--retry-budget",
-        type=non_negative_int,
-        default=12,
-        help="Max model-call retries across the whole run; 0 disables retries (default: 12).",
-    )
 
 
 def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tuple[str, ...]) -> None:
     """Flags that configure one fact-check run (one claim)."""
     add_inference_args(parser)
-    parser.add_argument(
-        "--strategy",
-        choices=list(STRATEGIES),
-        default="pipeline",
-        help=(
-            "pipeline: plan -> parallel research -> optional review -> judge (default). "
-            "single_agent: no-harness baseline, one agent with the search tool."
-        ),
-    )
     parser.add_argument("--max-checks", type=positive_int, default=4, help="Maximum number of verification sub-checks.")
     parser.add_argument("--parallel", type=positive_int, default=4, help="Maximum parallel research workers.")
-    parser.add_argument(
-        "--feedback-rounds",
-        type=non_negative_int,
-        default=0,
-        help="Maximum bounded follow-up research rounds after the initial pass (default: 0).",
-    )
-    parser.add_argument(
-        "--follow-up-checks",
-        type=positive_int,
-        default=2,
-        help="Maximum new follow-up checks allowed per feedback round (default: 2).",
-    )
-    parser.add_argument(
-        "--token-budget",
-        type=positive_int,
-        default=None,
-        help=(
-            "Shared token budget for the whole run (all stages). When exhausted, remaining checks are "
-            "marked budget_exhausted and follow-up rounds are skipped (default: unlimited)."
-        ),
-    )
     parser.add_argument(
         "--search-provider",
         choices=list(search_providers),
@@ -158,15 +115,9 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         help="Additional domain (or domain/path prefix) to exclude from evidence (repeatable).",
     )
     parser.add_argument(
-        "--verify-sources",
-        action="store_true",
-        default=False,
-        help="After judging, check each cited URL (HEAD/GET, Wayback fallback) and mark it live/archived/broken.",
-    )
-    parser.add_argument(
         "--artifacts-dir",
         default=None,
-        help="Directory to persist the full run artifacts JSON (plan, findings, usage, budget) for audits.",
+        help="Directory to persist the full run artifacts JSON (plan, findings, usage, receipts) for audits.",
     )
 
 
@@ -208,18 +159,12 @@ def fact_check_config(args: argparse.Namespace, **extra: Any) -> FactCheckRuntim
         stage_models=stage_models,
         stage_efforts=stage_efforts,
         model_retry_attempts=args.model_retries,
-        retry_budget=args.retry_budget,
         service_tier=getattr(args, "service_tier", None),
-        strategy=args.strategy,
         max_checks=args.max_checks,
         max_parallel_research=args.parallel,
-        max_feedback_rounds=args.feedback_rounds,
-        max_follow_up_checks=args.follow_up_checks,
         search_context_size=args.search_context_size,
         search_provider=args.search_provider,
         search_results_per_query=args.search_results_per_query,
-        token_budget=args.token_budget,
-        verify_sources=args.verify_sources,
         block_fact_checkers=args.block_fact_checkers,
         blocked_domains=tuple(args.blocked_domains or ()),
         tool_call_budget=args.tool_call_budget,

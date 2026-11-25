@@ -9,10 +9,9 @@ from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
-from facticli.application.progress import ProgressEvent
-from facticli.application.services import FactCheckRun
 from facticli.cli import _load_extract_input_text, build_parser, run_check_command, run_extract_claims_command
 from facticli.core.artifacts import RunArtifacts
+from facticli.pipeline import FactCheckRun
 from facticli.core.contracts import (
     CheckworthyClaim,
     ClaimExtractionResult,
@@ -45,7 +44,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
-            patch("facticli.cli.build_claim_extraction_service", return_value=fake_service),
+            patch("facticli.cli.build_claim_extractor", return_value=fake_service),
         ):
             output = io.StringIO()
             with redirect_stdout(output):
@@ -121,13 +120,13 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         args = build_parser().parse_args(
             [
                 "check", "The first iPhone was released in 2007.", "--model", "gpt-5.4", "--parallel", "2",
-                "--feedback-rounds", "1", "--search-provider", "openai", "--json", "--include-artifacts",
+                "--search-provider", "openai", "--json", "--include-artifacts",
             ]
         )
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
-            patch("facticli.cli.build_fact_check_service", return_value=fake_service),
+            patch("facticli.cli.build_fact_checker", return_value=fake_service),
         ):
             output = io.StringIO()
             with redirect_stdout(output):
@@ -149,13 +148,13 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
         captured: dict[str, object] = {}
 
-        def fake_build(config, artifact_repository=None):
+        def fake_build(config, artifacts_dir=None):
             captured["config"] = config
             raise ValueError("stop here")
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "m", "BRAVE_SEARCH_API_KEY": "k"}, clear=False),
-            patch("facticli.cli.build_fact_check_service", side_effect=fake_build),
+            patch("facticli.cli.build_fact_checker", side_effect=fake_build),
             redirect_stderr(io.StringIO()),
         ):
             code = await run_check_command(args)
@@ -166,6 +165,13 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(config.stage_efforts, {"judge": "xhigh"})
         defaults = build_parser().parse_args(["check", "claim"])
         self.assertEqual((defaults.tool_call_budget, defaults.search_cache_dir), (8, None))
+
+    def test_removed_flags_are_gone(self):
+        for flag in ("--strategy", "--feedback-rounds", "--token-budget", "--retry-budget", "--verify-sources"):
+            with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                build_parser().parse_args(["check", "claim", flag, "1"])
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            build_parser().parse_args(["--profile", "x", "check", "claim"])
 
     async def test_check_command_streams_progress_to_stderr(self):
         fake_run = FactCheckRun(
@@ -188,34 +194,22 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
 
         class _FakeService:
-            async def check_claim(self, _claim: str, progress_callback=None):
-                if progress_callback is not None:
-                    progress_callback(
-                        ProgressEvent(
-                            kind="planning_completed",
-                            payload={
-                                "check_count": 1,
-                                "checks": [
-                                    {
-                                        "aspect_id": "timeline_1",
-                                        "question": "Was it completed in 1889?",
-                                    }
-                                ],
-                            },
-                        )
-                    )
+            async def check_claim(self, _claim: str, progress=None):
+                if progress is not None:
+                    progress("[progress] Plan ready with 1 check(s):")
+                    progress("  - [timeline_1] Was it completed in 1889?")
                 return fake_run
 
         args = build_parser().parse_args(
             [
                 "check", "The Eiffel Tower was built in 1889.", "--model", "gpt-5.4", "--parallel", "2",
-                "--feedback-rounds", "1", "--search-provider", "openai", "--stream-progress",
+                "--search-provider", "openai", "--stream-progress",
             ]
         )
 
         with (
             patch.dict("os.environ", {"OPENAI_API_KEY": "dummy", "OPENAI_API_MODEL": "gpt-5.4"}, clear=False),
-            patch("facticli.cli.build_fact_check_service", return_value=_FakeService()),
+            patch("facticli.cli.build_fact_checker", return_value=_FakeService()),
         ):
             stdout = io.StringIO()
             stderr = io.StringIO()

@@ -8,7 +8,7 @@ from facticli.skills import get_skill, list_skills, load_skill_metadata, load_sk
 class SkillRegistryTests(unittest.TestCase):
     def test_list_skills_includes_core_and_extraction_skills(self):
         names = [skill.name for skill in list_skills()]
-        self.assertEqual(names, ["plan", "research", "review", "judge", "single_agent", "extract_claims"])
+        self.assertEqual(names, ["plan", "research", "judge", "extract_claims"])
 
     def test_descriptions_come_from_prompt_frontmatter(self):
         for skill in list_skills():
@@ -27,7 +27,7 @@ class SkillRegistryTests(unittest.TestCase):
         self.assertEqual(parse_frontmatter(malformed), ({}, malformed))
 
     def test_prompts_are_lane_contracts(self):
-        for name in ("plan", "research", "review", "judge", "single_agent"):
+        for name in ("plan", "research", "judge"):
             prompt = load_skill_prompt(name)
             for section in ("# Purpose", "# Non-goals", "# Procedure", "# Failure handling", "# Output contract"):
                 self.assertIn(section, prompt, f"{name} lacks {section}")
@@ -40,11 +40,6 @@ class SkillRegistryTests(unittest.TestCase):
         prompt = load_skill_prompt("extract_claims")
         self.assertIn("decontextualized", prompt.lower())
         self.assertIn("atomic", prompt.lower())
-
-    def test_review_prompt_is_loadable(self):
-        prompt = load_skill_prompt("review")
-        self.assertIn("follow-up", prompt.lower())
-        self.assertIn("finalize", prompt.lower())
 
 
 if __name__ == "__main__":

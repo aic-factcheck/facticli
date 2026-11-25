@@ -11,7 +11,7 @@ It restructures key ideas from `~/PhD/aic_averitec` (claim decomposition, eviden
 - final veracity verdict + justification,
 - explicit source output.
 
-The architecture is intentionally inspired by Codex-style modular prompting: local skill prompts (`plan`, `research`, `review`, `judge`) written as lane contracts, explicit pipeline stages, and one OpenAI-compatible inference adapter path. The 2026-09 harness pass added ideas from Codex, pi, OpenClaw, and recent fact-checking research: run-level token budgets, an error taxonomy with SDK-managed retries, deterministic source tiering, acceptance-criteria-driven review, a judge that must argue the opposing verdict, per-stage model routing, a no-harness baseline, citation health checks, artifact audits, and TOML config profiles. The 2026-11 pass added deterministic bookkeeping around the model: a retrieval journal with a provenance label on every cited source, a hard search cap, a wrap-up call at the turn limit, usage accounting for failed attempts, and a record/replay search cache. See `TODO.md` for the annotated list.
+The pipeline is three model stages (`plan`, `research`, `judge`), each a markdown prompt written as a lane contract, with deterministic code between them: source authority tiers, a fact-checker blocklist and claim-date cutoff, a provenance label on every cited source, a hard search cap, a wrap-up call at the turn limit, and usage accounting that counts failed attempts. The code is deliberately small (a 2026-11 simplification removed the review loop, the single-agent baseline, token/retry budgets, citation health checks, and config profiles; see `TODO.md`).
 
 ## 📦 Install
 
@@ -109,23 +109,10 @@ Stream plan and per-check progress while the run executes:
 facticli check --stream-progress "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
-Enable one bounded follow-up review round before the final verdict:
-
-```bash
-facticli check --feedback-rounds 1 --follow-up-checks 2 \
-  "The Eiffel Tower was built in 1889 for the World's Fair."
-```
-
-Show token usage, cache hit rate, budget, and per-stage stats:
+Show token usage, cache hit rate, and per-stage stats:
 
 ```bash
 facticli check --show-usage "The Eiffel Tower was built in 1889 for the World's Fair."
-```
-
-Cap the whole run with a shared token budget (remaining checks are marked `budget_exhausted`, follow-up rounds are skipped). The budget is checked before each research check, review round, and follow-up round starts; a stage already running is never cut mid-call, so the final total can overshoot by one stage:
-
-```bash
-facticli check --token-budget 40000 --feedback-rounds 1 "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
 Route stages to different models or reasoning efforts (cheap research, frontier judge):
@@ -135,18 +122,6 @@ facticli check \
   --stage-model research=gpt-5-mini --stage-model judge=gpt-5.4 \
   --stage-effort research=low --stage-effort judge=high \
   "The Eiffel Tower was built in 1889 for the World's Fair."
-```
-
-Verify cited URLs after judging (HEAD/GET with a Wayback fallback; sources are marked `live`, `archived`, or `broken`):
-
-```bash
-facticli check --verify-sources "The Eiffel Tower was built in 1889 for the World's Fair."
-```
-
-Run the no-harness single-agent baseline (same model, tool, budget, and output contract; only the orchestration differs):
-
-```bash
-facticli check --strategy single_agent "The Eiffel Tower was built in 1889 for the World's Fair."
 ```
 
 Exclude fact-checking sites from evidence (label-leakage control) and persist run artifacts for audits:
@@ -186,19 +161,10 @@ The label says where a source came from, not whether it is right. A source witho
 ### Limits and failures
 
 - **Turn limit.** A research run that reaches its turn limit gets one more model call with tools disabled and answers from what it has. The finding is kept and marked `cut short at the turn limit`.
-- **Search cap.** `--tool-call-budget` (default 8) is the number of searches a researcher is told to plan for per check. The brave and knowledge_store tools refuse calls beyond twice that number with a notice to answer, and the finding is marked `cut short at the search cap` (the single-agent baseline notes it under evidence gaps). Hosted OpenAI search runs inside the provider and cannot be capped.
+- **Search cap.** `--tool-call-budget` (default 8) is the number of searches a researcher is told to plan for per check. The brave, exa, and knowledge_store tools refuse calls beyond twice that number with a notice to answer, and the finding is marked `cut short at the search cap`. Hosted OpenAI search runs inside the provider and cannot be capped.
 - **Fatal errors.** A rejected API key (the model's or Brave's), an exhausted quota, or an unknown model fails every later request the same way. The run stops with the error instead of judging the claim on no evidence.
+- **Retries.** The OpenAI client retries a request that hit a transient error (429, 5xx, timeout, dropped connection) up to `--model-retries` times (default 3), honouring `Retry-After`. A research check that still fails is run once more; if that fails too it becomes a `failed` finding, which the judge treats as a missing observation.
 - **Usage.** `--show-usage` counts every model attempt, including runs that failed, timed out, or were wrapped up, and shows cache-write tokens.
-
-### Config file and profiles
-
-Put stable settings in `facticli.toml` (or `.facticli.toml`, `FACTICLI_CONFIG`, or `~/.config/facticli/config.toml`) with a `[defaults]` table and named `[profiles.<name>]` tables. Keys mirror the long flag names with underscores; `stage_models`, `stage_efforts`, and `blocked_domains` may be written as tables/lists. Values are validated like the flags they stand for. Precedence: explicit CLI flag > profile > defaults > built-in default.
-
-```bash
-cp facticli.example.toml facticli.toml
-facticli --profile thorough check "The Eiffel Tower was built in 1889 for the World's Fair."
-FACTICLI_PROFILE=benchmark facticli check "..."
-```
 
 List built-in agent skills:
 
@@ -219,7 +185,7 @@ Notes:
 - If input rows have no claim id field, fallback `claim_id` is the zero-based row index.
 - Output rows follow Averitec format: `claim_id`, `claim`, `pred_label`, `evidence`.
 - `evidence` entries include `question`, `answer`, `url`, `scraped_text`. Each entry states a different fact: every finding gets one row (question + summary) before any gets a second, and the remaining rows carry the sources' own snippets.
-- The runner accepts the harness controls of `facticli check` (among them `--strategy`, `--stage-model`, `--stage-effort`, `--token-budget`, `--tool-call-budget`, `--search-cache-dir`, `--feedback-rounds`, `--verify-sources`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim budget status, failed and cut-short check counts, source provenance counts, and strategy land in the `.runinfo.json` manifest.
+- The runner accepts the harness controls of `facticli check` (among them `--stage-model`, `--stage-effort`, `--service-tier`, `--tool-call-budget`, `--search-cache-dir`, `--block-fact-checkers`, `--artifacts-dir`) plus its own batch options; see `python3 -m facticli.averitec_submission --help`. `--claim-date-field` names the input field used as the evidence cutoff. Per-claim usage, failed and cut-short check counts, and source provenance counts land in the `.runinfo.json` manifest.
 - A claim that fails gets a fallback `Not Enough Evidence` row. A fatal error (rejected key, exhausted quota, unknown model) stops the batch instead: completed rows are written, the exit code is 3, and `--resume` continues once the cause is fixed. `--fail-fast` stops the same way at any failure, with exit code 1. A claim date that cannot be parsed stops the batch before the first claim (exit code 2), because the evidence cutoff could not be applied.
 
 Score a submission (label metrics, optional Ev2R), and measure verdict consistency across repeated runs (pass^k, pass@k, agreement, majority vote):
@@ -346,19 +312,17 @@ request would be handing it this server's credential.
 ## 🧰 CLI options
 
 ```text
-facticli [--config PATH] [--profile NAME] [--debug] <command>
+facticli [--debug] <command>
 
 facticli check [--model MODEL] [--base-url BASE_URL]
                [--stage-model STAGE=MODEL ...] [--stage-effort STAGE=EFFORT ...]
-               [--strategy {pipeline,single_agent}]
+               [--model-retries N] [--service-tier {auto,default,flex,priority}]
                [--max-checks N] [--parallel N]
-               [--feedback-rounds N] [--follow-up-checks N]
-               [--token-budget N] [--model-retries N] [--retry-budget N]
                [--search-provider {openai,brave,exa}]
                [--search-results N] [--search-context-size {low,medium,high}]
                [--tool-call-budget N] [--search-cache-dir DIR]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
-               [--verify-sources] [--artifacts-dir DIR]
+               [--artifacts-dir DIR]
                [--show-plan] [--show-usage] [--stream-progress]
                [--json] [--include-artifacts]
                "<claim>"
@@ -373,12 +337,11 @@ facticli skills [--show NAME]
 ```
 
 Validation notes:
-- `--max-checks`, `--parallel`, `--max-claims`, `--follow-up-checks`, `--token-budget`, and `--tool-call-budget` must be integers `>= 1`.
-- `--feedback-rounds`, `--model-retries`, and `--retry-budget` must be integers `>= 0`.
-- `--search-results` must be an integer in `1..20`; it is the result count the brave and knowledge_store tools use when the model does not ask for one.
-- `--search-cache-dir` needs `--search-provider brave`.
+- `--max-checks`, `--parallel`, `--max-claims`, and `--tool-call-budget` must be integers `>= 1`; `--model-retries` must be `>= 0`.
+- `--search-results` must be an integer in `1..20`; it is the result count the brave, exa, and knowledge_store tools use when the model does not ask for one.
+- `--search-cache-dir` needs `--search-provider brave` or `exa`.
 - The `knowledge_store` provider needs a store directory and claim ids, so only the AVeriTeC runner offers it (`--knowledge-store-dir`); `check` refuses it, also when it comes from `FACTICLI_SEARCH_PROVIDER`.
-- `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `review`, `judge`, `single_agent`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
+- `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `judge`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
 
 ## 🧠 How the pipeline works
@@ -395,43 +358,31 @@ flowchart TD
     r2["check B<br/>web search -> finding"]
     r3["check ...<br/>web search -> finding"]
   end
-  review{"<b>3. Review</b> (optional)<br/>do the findings meet<br/>their criteria?"}
-  judge["<b>4. Judge</b><br/>weighs every finding and source,<br/>argues the other side, picks a verdict"]
-  verify["<b>5. Citation check</b> (optional)<br/>are the cited URLs still live?"]
+  judge["<b>3. Judge</b><br/>weighs every finding and source,<br/>argues the other side, picks a verdict"]
   report(["<b>Report</b><br/>verdict, confidence, justification citing S1..Sn,<br/>findings, sources with tier and provenance"])
 
-  claim --> plan --> research --> review
-  review -->|"gaps found: retry checks<br/>or add new ones"| research
-  review -->|"good enough, or review off"| judge
-  judge --> verify --> report
+  claim --> plan --> research --> judge --> report
 ```
 
-Four model roles (planner, researcher, reviewer, judge), each a separate prompt in `src/facticli/prompts/`. Only the researcher can search. Everything between the model calls is deterministic code: it never asks a model to check another model's work when a comparison can do it.
+Three model roles (planner, researcher, judge), each a separate prompt in `src/facticli/prompts/`. Only the researcher can search. Everything between the model calls is deterministic code: it never asks a model to check another model's work when a comparison can do it.
 
 | Stage | What the model does | What the code does around it (no model) |
 | --- | --- | --- |
 | 1. Plan | Splits the claim into checks, each a question with search queries and acceptance criteria. | Caps checks (4) and queries (5); falls back to one direct check if the plan is empty. |
 | 2. Research | Searches the web for one check and writes a finding: `supports` / `refutes` / `mixed` / `insufficient`, with quoted sources. | Runs checks in parallel with a timeout and one retry. Records every search result in a journal, refuses searches past the cap, labels each cited source by provenance and authority tier, and removes sources from blocked domains or published after the claim date. |
-| 3. Review (`--feedback-rounds`) | Grades each finding against its criteria and asks for retries or new narrow checks. | Bounds rounds and follow-up checks; skips rounds when the token budget is spent. |
-| 4. Judge | Reads findings grouped by signal and a numbered source table, writes the strongest counter-argument, then the verdict. | Keeps the researchers' findings as the record, labels sources the judge added itself, flags cited ids that do not exist. |
-| 5. Citation check (`--verify-sources`) | none | Marks each cited URL `live`, `archived` (Wayback), or `broken`. |
+| 3. Judge | Reads findings grouped by signal and a numbered source table, writes the strongest counter-argument, then the verdict. | Keeps the researchers' findings as the record, labels sources the judge added itself, flags cited ids that do not exist. |
 
 Verdicts: `Supported`, `Refuted`, `Not Enough Evidence`, `Conflicting Evidence/Cherrypicking`.
 
-`--strategy single_agent` replaces stages 1 to 4 with one agent that searches and writes the whole report; the code around it is the same. It is a baseline for measuring what the decomposition buys.
-
 ### Full pipeline
 
-Defaults are shown in brackets; each has a flag and a `facticli.toml` key.
+Defaults are shown in brackets.
 
 ```mermaid
 flowchart TD
-  entry["<b>facticli check</b> or the AVeriTeC batch runner"] --> cfg["Settings: CLI flag > facticli.toml profile > defaults<br/>check API keys, build the service"]
-  cfg --> ctx["<b>Open the run</b><br/>constraints: blocked domains, evidence cutoff = claim date,<br/>reference date = claim date or today<br/>ledger: token budget [none], retry budget [12];<br/>rate limits and 5xx are retried inside a model call"]
-  ctx --> strat{"--strategy"}
-  strat -->|"single_agent"| sa["One agent with the search tool writes the whole report<br/>budget 8 x checks, cap 16 x checks<br/>same provenance labels, tiers, and source filters"]
-  sa --> post
-  strat -->|"pipeline [default]"| planner
+  entry["<b>facticli check</b> or the AVeriTeC batch runner"] --> cfg["Flags + environment<br/>check API keys, build the three stages"]
+  cfg --> ctx["<b>Open the run</b><br/>constraints: blocked domains, evidence cutoff = claim date,<br/>reference date = claim date or today<br/>usage ledger; 429/5xx/timeouts retried by the client [3]"]
+  ctx --> planner
 
   subgraph PLAN["1. Plan"]
     planner["Planner model<br/>claim, max checks [4]"] --> pnorm["Normalize: at most 4 checks, 5 queries each<br/>empty plan: one direct check"]
@@ -440,11 +391,9 @@ flowchart TD
   pnorm --> fan["One task per check<br/>at most 4 at once [--parallel]"]
 
   subgraph RES["2. Research, for each check"]
-    fan --> bud{"token budget left?"}
-    bud -->|"no"| skipped["finding: budget_exhausted<br/>(a missing observation, not evidence)"]
-    bud -->|"yes"| attempt["Attempt [up to 2, 120 s each]<br/>with a fresh retrieval journal"]
+    fan --> attempt["Attempt [up to 2, 120 s each; 600 s on flex]<br/>with a fresh retrieval journal"]
     attempt --> rmodel["Researcher model<br/>payload: reference date, claim, check, criteria,<br/>search budget [8], cutoff and blocklist"]
-    rmodel <-->|"tool calls"| tool["Search tool<br/>brave: date cutoff sent, blocked domains dropped,<br/>results and text recorded in the journal,<br/>refused past the cap [16], optional record/replay cache<br/>openai hosted [default]: consulted URLs recorded"]
+    rmodel <-->|"tool calls"| tool["Search tool<br/>brave / exa: date cutoff sent, blocked domains dropped,<br/>results and text recorded in the journal,<br/>refused past the cap [16], optional record/replay cache<br/>openai hosted [default]: consulted URLs recorded"]
     rmodel -->|"turn limit [10]"| wrap["Wrap-up: one call with tools off,<br/>answer from what was found"]
     rmodel --> outcome{"outcome"}
     wrap --> outcome
@@ -456,30 +405,13 @@ flowchart TD
   end
 
   ground --> findings["Findings, in plan order<br/>cut-short ones carry stop_reason"]
-  skipped --> findings
   failed --> findings
 
-  findings --> rv{"review rounds left [0]<br/>and token budget left?"}
-
-  subgraph REV["3. Review (optional)"]
-    rv -->|"yes"| reviewer["Reviewer model<br/>findings vs criteria, unmatched sources,<br/>cut-short research"]
-    reviewer --> act{"decision"}
+  subgraph JUDGE["3. Judge"]
+    findings --> judge["Judge model<br/>payload: reference date, findings grouped by signal,<br/>source table S1..Sn with snippets and tiers,<br/>failed checks listed as missing"] --> jpost["Researchers' findings stay the record<br/>sources the judge added: unmatched<br/>merge, deduplicate, tier sources<br/>cited ids with no source: reported"]
   end
 
-  act -->|"follow up: retry checks,<br/>add up to 2 new ones"| fan
-  act -->|"finalize"| judge
-  rv -->|"no"| judge
-
-  subgraph JUDGE["4. Judge"]
-    judge["Judge model<br/>payload: reference date, findings grouped by signal,<br/>source table S1..Sn with snippets and tiers,<br/>failed checks listed as missing"] --> jpost["Researchers' findings stay the record<br/>sources the judge added: unmatched<br/>merge, deduplicate, tier sources<br/>cited ids with no source: reported"]
-  end
-
-  jpost --> cite{"--verify-sources"}
-  cite -->|"yes"| urls["5. Citation check<br/>live / archived / broken"]
-  cite -->|"no"| post
-  urls --> post
-
-  post["<b>Close the run</b><br/>usage of every attempt, including failed ones<br/>retrieval summary, artifacts saved [--artifacts-dir]"] --> out{"output"}
+  jpost --> post["<b>Close the run</b><br/>usage of every attempt, including failed ones<br/>retrieval summary, artifacts saved [--artifacts-dir]"] --> out{"output"}
   out -->|"text"| txt["Report with tiers, provenance labels,<br/>cut-short and failed markers<br/>[--show-usage: tokens, cache, retrieval]"]
   out -->|"--json"| js["Report JSON<br/>[--include-artifacts: plan, findings, artifacts]"]
 ```
@@ -489,51 +421,41 @@ How to read the labels in the report:
 - **Provenance** (`grounding`) says where a source came from, not whether it is right. `quote found in retrieved text`: the search returned the URL and the quoted snippet. `url retrieved, quote not matched`: the URL was returned but the quote was not found (hosted OpenAI search never returns text, so its sources stop here). `NOT in search results`: the URL never came back from a search of that check; usually a mis-copied URL. See [Source provenance](#source-provenance).
 - **Tier** is the kind of publisher, from a domain table: `primary`, `reference`, `news`, `fact_checker`, `user_generated`, `other`.
 - **Cut short**: the check reached its turn limit or search cap and answered from what it had.
-- **Failed / skipped**: the check could not run; the judge is told it is missing, not evidence of absence.
+- **Failed**: the check could not run; the judge is told it is missing, not evidence of absence.
 
 `facticli extract-claims` (and the web GUI) is a separate single-step path: one model call turns text into check-worthy claims, with no search, journal, or run ledger.
 
-Inference: one OpenAI Agents SDK path for every OpenAI-compatible endpoint (`OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_API_MODEL`); `--stage-model` and `--stage-effort` route single stages to another model or reasoning effort. Transient errors retry with backoff, drawn from the per-run retry budget. Prompts are markdown lane contracts (Purpose, Non-goals, Inputs, Procedure, Failure handling, Output contract); `facticli skills --show NAME` prints one.
+Inference: one OpenAI Agents SDK path for every OpenAI-compatible endpoint (`OPENAI_API_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_API_MODEL`); `--stage-model` and `--stage-effort` route single stages to another model or reasoning effort. Prompts are markdown lane contracts (Purpose, Non-goals, Inputs, Procedure, Failure handling, Output contract); `facticli skills --show NAME` prints one.
 
 ## 🗂️ Repository layout
 
 ```text
 src/facticli/
+  pipeline.py          # plan -> parallel research -> judge; claim extraction; artifacts
+  llm.py               # the only Agents SDK code: client setup, search tools, StageRunner (usage hooks, wrap-up call)
+  payloads.py          # stage inputs as pure functions (grouped judge payload, source table)
+  config.py            # runtime config dataclasses and stage routing
   core/
     contracts.py       # typed plan/finding/report/extraction contracts (status, tiers, grounding, criteria, counter-argument)
     normalize.py       # deterministic normalization helpers
-    artifacts.py       # run artifact schemas (budget, error kinds, stage models, retrieval receipts, citation counts)
-    errors.py          # error taxonomy (ErrorKind, classify_exception, is_retryable, is_fatal)
-    usage.py           # usage events for every attempt + run-level token/retry budget ledger
+    artifacts.py       # run artifact schemas (error kinds, stage models, retrieval receipts)
+    errors.py          # error taxonomy (ErrorKind, classify_exception, is_fatal)
+    usage.py           # usage events for every attempt
     retrieval.py       # retrieval journal: tool-call receipts, hard search cap
     grounding.py       # deterministic provenance label for cited sources
     search_cache.py    # record/replay directory for search responses
     source_quality.py  # deterministic source authority tiers
     truncation.py      # tool-output cleaning and truncation + untrusted-content notice
     constraints.py     # retrieval constraints (blocklist, claim-date cutoff)
-  application/
-    interfaces.py      # planner/research/review/judge/single-agent strategy contracts
-    stages.py          # explicit pipeline stages (+ CitationCheckStage)
-    services.py        # pipeline and single-agent services with the shared run context
-    factory.py         # provider wiring composition root (per-stage routing, strategy)
-    citations.py       # URL health checker with Wayback fallback
-    settings_file.py   # facticli.toml profiles (flag > profile > defaults)
-    config.py          # runtime config dataclasses
-  adapters/
-    openai_provider.py # shared OpenAI-compatible stage adapters (+ single-agent adapter), usage hooks, wrap-up call
-    payloads.py        # stage input builders (grouped judge payload, review grading payload)
-    retry_policy.py    # SDK retry policy bound to the run ledger
-    provider_profile.py# OpenAI-compatible env resolution + client bootstrap
   cli.py               # command-line interface
   check_options.py     # flags, env checks, and runtime config shared by `check` and the AVeriTeC runner
-  brave_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)
+  brave_search.py, exa_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)
   skills.py            # skill registry + frontmatter-aware prompt loading
   artifacts_audit.py   # leakage / robustness / evidence-ablation audit over persisted runs
   averitec_submission.py, averitec_eval.py, eval/  # AVeriTeC batch runner, scorer, Ev2R, consistency
   web/                 # optional FastAPI GUI for claim extraction
   prompts/             # skill prompts as lane contracts with frontmatter
-    plan.md  research.md  review.md  judge.md  single_agent.md  extract_claims.md
-facticli.example.toml  # config profiles template
+    plan.md  research.md  judge.md  extract_claims.md
 ```
 
 ## 📓 Demo notebooks

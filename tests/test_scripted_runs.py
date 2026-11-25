@@ -13,26 +13,27 @@ from openai.types.responses import ResponseFunctionWebSearch
 from openai.types.responses.response_function_web_search import ActionOpenPage, ActionSearch, ActionSearchSource
 
 import facticli.brave_search as brave
-from facticli.adapters.openai_provider import (
-    CUT_SHORT_GAP,
-    HOSTED_SEARCH_INCLUDE,
-    CompatibleClaimExtractionAdapter,
-    CompatibleJudgeAdapter,
-    CompatiblePlannerAdapter,
-    CompatibleResearchAdapter,
-    CompatibleSingleAgentAdapter,
-    build_search_tools,
-    record_hosted_search_calls,
-)
-from facticli.application.stages import ResearchStage
+from facticli.config import FactCheckRuntimeConfig
 from facticli.core.artifacts import RunArtifacts
 from facticli.core.constraints import ResearchConstraints, activate_constraints, deactivate_constraints
-from facticli.core.contracts import FindingStatus, InvestigationPlan, SourceGrounding, StopReason, VerificationCheck
+from facticli.core.contracts import (
+    AspectFinding,
+    ClaimExtractionResult,
+    FactCheckReport,
+    FindingStatus,
+    InvestigationPlan,
+    SourceGrounding,
+    StopReason,
+    VerificationCheck,
+)
 from facticli.core.errors import ErrorKind, SearchAuthError, classify_exception
 from facticli.core.retrieval import RetrievalJournal, activate_journal, deactivate_journal, summarize_retrieval
 from facticli.core.usage import activate_usage_log, deactivate_usage_log, summarize_usage
+from facticli.llm import HOSTED_SEARCH_INCLUDE, StageRunner, build_search_tools, record_hosted_search_calls
+from facticli.payloads import judge_payload
+from facticli.pipeline import ClaimExtractor, FactChecker
 
-# The real adapters driven through ``Runner.run`` by a scripted model: what the
+# The real stage runners driven through ``Runner.run`` by a scripted model: what the
 # harness does around a model call, without a network.
 
 set_tracing_disabled(True)
@@ -109,22 +110,38 @@ def _stage_payload(model: ScriptedModel) -> dict:
     return json.loads(model.calls[0].input[0]["content"])
 
 
-def _researcher(steps, *, max_turns: int = 5, provider: str = "brave"):
-    model = ScriptedModel(steps, default_usage=PER_CALL)
-    adapter = CompatibleResearchAdapter(
-        model=model,
-        max_turns=max_turns,
-        tools=build_search_tools(search_provider=provider, **SEARCH_TOOLING),
+def _runner(stage: str, output_type: type, model, *, max_turns: int = 2, tools=()) -> StageRunner:
+    return StageRunner(name=stage, stage=stage, output_type=output_type, model=model, max_turns=max_turns, tools=tools)
+
+
+def _checker(*, provider: str = "brave", researcher=None, planner=None, judge=None, retries: int = 0, search_cap: int | None = 4):
+    config = FactCheckRuntimeConfig(
         search_provider=provider,
         tool_call_budget=8,
+        research_timeout_seconds=0,
+        research_retry_attempts=retries,
+        max_parallel_research=2,
     )
-    return model, adapter
+    checker = FactChecker(config, planner=planner, researcher=researcher, judge=judge)
+    checker.search_cap = search_cap
+    return checker
 
 
-def _stage(adapter, *, retries: int = 0, search_cap: int | None = 4) -> ResearchStage:
-    return ResearchStage(
-        researcher=adapter, max_parallel_research=2, research_timeout_seconds=0, research_retry_attempts=retries, search_cap=search_cap
+def _researcher(steps, *, max_turns: int = 5, provider: str = "brave"):
+    model = ScriptedModel(steps, default_usage=PER_CALL)
+    runner = _runner("research", AspectFinding, model, max_turns=max_turns, tools=build_search_tools(search_provider=provider, **SEARCH_TOOLING))
+    return model, _checker(provider=provider, researcher=runner)
+
+
+def _stage(checker: FactChecker, *, retries: int = 0, search_cap: int | None = 4) -> FactChecker:
+    checker.config = FactCheckRuntimeConfig(
+        search_provider=checker.config.search_provider,
+        tool_call_budget=8,
+        research_timeout_seconds=0,
+        research_retry_attempts=retries,
     )
+    checker.search_cap = search_cap
+    return checker
 
 
 class _Harness(unittest.IsolatedAsyncioTestCase):
@@ -142,7 +159,7 @@ class _Harness(unittest.IsolatedAsyncioTestCase):
         journal = RetrievalJournal(search_cap=search_cap)
         journal_token = activate_journal(journal)
         try:
-            return await adapter.research("claim", CHECK), log, journal, None
+            return await adapter._research_once("claim", CHECK), log, journal, None
         except Exception as exc:
             return None, log, journal, exc
         finally:
@@ -171,7 +188,7 @@ class UsageAccountingTests(_Harness):
         log, usage_token = activate_usage_log()
         try:
             with self.assertRaises(asyncio.TimeoutError):
-                await asyncio.wait_for(adapter.research("claim", CHECK), timeout=0.2)
+                await asyncio.wait_for(adapter._research_once("claim", CHECK), timeout=0.2)
         finally:
             deactivate_usage_log(usage_token)
         (event,) = log.events
@@ -186,10 +203,10 @@ class UsageAccountingTests(_Harness):
             total_tokens=1020,
             input_tokens_details={"cached_tokens": 300, "cache_write_tokens": 600},
         )
-        judge = CompatibleJudgeAdapter(model=ScriptedModel([_final(REPORT)], default_usage=usage), max_turns=3)
+        judge = _runner("judge", FactCheckReport, ScriptedModel([_final(REPORT)], default_usage=usage), max_turns=3)
         log, usage_token = activate_usage_log()
         try:
-            await judge.judge("c", InvestigationPlan(claim="c"), [])
+            await judge.run(judge_payload(claim="c", plan=InvestigationPlan(claim="c"), findings=[]))
         finally:
             deactivate_usage_log(usage_token)
         summary = summarize_usage(log.events)
@@ -217,7 +234,6 @@ class WrapUpTests(_Harness):
         self.assertEqual((summary.wrap_up_calls, summary.total_tokens), (1, 330))
         # The wrap-up ran inside the primary run; its time is not counted twice.
         self.assertAlmostEqual(summary.llm_seconds, log.events[0].duration_seconds)
-        self.assertEqual(log.retries_used, 0)  # a wrap-up is not a retry
         self.assertEqual(len(journal.records), 2)
 
     async def test_a_failed_wrap_up_surfaces_the_turn_limit_error(self):
@@ -234,35 +250,6 @@ class WrapUpTests(_Harness):
         self.assertEqual(finding.stop_reason, StopReason.SEARCH_CAP)
         self.assertEqual([record.refused for record in journal.records], [False, False, True])
         self.assertEqual(json.loads(model.calls[-1].input[-1]["output"])["error"], "search_limit_reached")
-
-    async def test_single_agent_wrap_up_is_reported_as_a_gap(self):
-        model = ScriptedModel([_search(1), _final(REPORT)], default_usage=PER_CALL)
-        adapter = CompatibleSingleAgentAdapter(
-            model=model,
-            max_turns=1,
-            tools=build_search_tools(search_provider="brave", **SEARCH_TOOLING),
-            search_provider="brave",
-            tool_call_budget=16,
-        )
-        report = await adapter.check("c", max_checks=2)
-        self.assertEqual(report.evidence_gaps, [CUT_SHORT_GAP.format(limit="its turn limit")])
-        self.assertEqual(_stage_payload(model)["requirements"]["tool_call_budget"], 16)
-
-    async def test_single_agent_at_the_search_cap_is_reported_as_a_gap(self):
-        model = ScriptedModel([_search(1), _search(2), _final(REPORT)], default_usage=PER_CALL)
-        adapter = CompatibleSingleAgentAdapter(
-            model=model,
-            max_turns=5,
-            tools=build_search_tools(search_provider="brave", **SEARCH_TOOLING),
-            search_provider="brave",
-            tool_call_budget=16,
-        )
-        journal_token = activate_journal(RetrievalJournal(search_cap=1))
-        try:
-            report = await adapter.check("c", max_checks=2)
-        finally:
-            deactivate_journal(journal_token)
-        self.assertEqual(report.evidence_gaps, [CUT_SHORT_GAP.format(limit="the search cap")])
 
     async def test_a_malformed_tool_call_is_answered_not_fatal(self):
         # Providers that do not enforce tool schemas can send arguments the tool cannot parse.
@@ -282,9 +269,11 @@ class StageInputTests(_Harness):
         judge_model = ScriptedModel([_final(REPORT)])
         constraints_token = activate_constraints(ResearchConstraints(reference_date="2020-10-31"))
         try:
-            await CompatiblePlannerAdapter(model=planner_model, max_turns=2).plan("c", 3)
+            checker = _checker(planner=_runner("plan", InvestigationPlan, planner_model), judge=_runner("judge", FactCheckReport, judge_model))
+            artifacts = RunArtifacts(claim="c", normalized_claim="c")
+            await checker._plan("c", artifacts, lambda _line: None)
             await self._research(researcher)
-            await CompatibleJudgeAdapter(model=judge_model, max_turns=2).judge("c", InvestigationPlan(claim="c"), [])
+            await checker._judge("c", InvestigationPlan(claim="c"), [], artifacts, lambda _line: None)
         finally:
             deactivate_constraints(constraints_token)
         for model in (research_model, judge_model):
@@ -296,16 +285,21 @@ class StageInputTests(_Harness):
         claimed = json.loads(json.dumps(REPORT))
         claimed["sources"] = [{"title": "t", "url": "https://a.org/1", "snippet": "s", "grounding": "quote_matched", "tier": "primary"}]
         claimed["findings"] = [{**FINDING, "status": "failed", "stop_reason": "turn_limit"}]
-        judge = CompatibleJudgeAdapter(model=ScriptedModel([_final(claimed)]), max_turns=2)
-        report = await judge.judge("c", InvestigationPlan(claim="c"), [])
-        self.assertEqual((report.sources[0].grounding, report.sources[0].tier), (None, None))
+        checker = _checker(judge=_runner("judge", FactCheckReport, ScriptedModel([_final(claimed)])))
+        artifacts = RunArtifacts(claim="c", normalized_claim="c")
+        report = await checker._judge("c", InvestigationPlan(claim="c"), [], artifacts, lambda _line: None)
+        raw = artifacts.report_raw
+        self.assertEqual((raw.sources[0].grounding, raw.sources[0].tier), (None, None))
         self.assertEqual((report.findings[0].status, report.findings[0].stop_reason), (FindingStatus.COMPLETED, None))
+        # No researcher cited it, so the harness labels the judge-only source itself.
+        self.assertEqual(report.sources[0].grounding, SourceGrounding.UNMATCHED)
 
     async def test_claim_extraction_sends_what_it_always_sent(self):
         # The hosted extraction API runs outside a fact-check run: no ledger, no journal, no constraints.
         result = {"input_text": "t", "detected_language": "en", "claims": [], "coverage_notes": [], "excluded_nonfactual": []}
         model = ScriptedModel([_final(result)])
-        extracted = await CompatibleClaimExtractionAdapter(model=model, max_turns=4).extract("Some text.", max_claims=7)
+        extractor = ClaimExtractor(_runner("extract_claims", ClaimExtractionResult, model, max_turns=4), max_claims=7)
+        extracted = await extractor.extract_claims("Some text.")
         self.assertEqual(extracted.detected_language, "en")
         (call,) = model.calls
         payload = _stage_payload(model)
@@ -388,10 +382,10 @@ class HostedSearchJournalTests(unittest.TestCase):
 
 
 class ResearchStageTests(_Harness):
-    async def _execute(self, stage: ResearchStage):
+    async def _execute(self, checker: FactChecker):
         artifacts = RunArtifacts(claim="c", normalized_claim="c")
-        findings = await stage.execute("c", InvestigationPlan(claim="c", checks=[CHECK]), artifacts)
-        return findings[0], artifacts.research_checks[0]
+        finding = await checker.research_check("c", CHECK, artifacts)
+        return finding, artifacts.research_checks[0]
 
     async def test_sources_are_grounded_and_receipts_kept(self):
         _, adapter = _researcher([_search(1), _final()])
@@ -428,7 +422,7 @@ class ResearchStageTests(_Harness):
         artifacts = RunArtifacts(claim="c", normalized_claim="c")
         with patch.object(brave, "_request_brave", rejected):
             with self.assertRaises(Exception) as raised:
-                await _stage(adapter, retries=2).execute("c", InvestigationPlan(claim="c", checks=[CHECK]), artifacts)
+                await _stage(adapter, retries=2).research_check("c", CHECK, artifacts)
         self.assertEqual(classify_exception(raised.exception), ErrorKind.AUTH)
         self.assertEqual(artifacts.research_checks[0].attempts, 1)  # every retry would fail the same way
 

@@ -54,82 +54,28 @@ class UsageSummary(BaseModel):
     per_stage: dict[str, dict[str, float]] = Field(default_factory=dict)
 
 
-class BudgetStatus(BaseModel):
-    """Run-level budget configuration and how much of it was consumed."""
-    token_budget: int | None = None
-    tokens_used: int = 0
-    token_budget_exhausted: bool = False
-    retry_budget: int | None = None
-    retries_used: int = 0
-    retry_budget_exhausted: bool = False
-    skipped_stages: list[str] = Field(default_factory=list)
-
-
 class UsageLog:
-    """Mutable per-run collector shared across stage adapters via ContextVar.
+    """Per-run collector of usage events, shared across stages via ContextVar.
 
-    Besides collecting usage events, the log acts as the run's budget ledger
-    (Codex-style rollout budget): every stage consults it before spending, and
-    model retries are drawn from a shared retry allowance instead of being
-    unbounded per call. Events are appended when a run starts and updated in
-    place after every model response, so the ledger also sees spend from runs
-    that are still in flight or that end in an error.
+    Events are appended when a model run starts and updated in place after
+    every response, so runs that are still in flight or that end in an error
+    are counted too.
     """
 
-    def __init__(self, *, token_budget: int | None = None, retry_budget: int | None = None) -> None:
+    def __init__(self) -> None:
         self.events: list[StageUsageEvent] = []
-        self.token_budget = token_budget
-        self.retry_budget = retry_budget
-        self.retries_used = 0
-        self.skipped_stages: list[str] = []
 
     @property
     def tokens_used(self) -> int:
         return sum(event.total_tokens for event in self.events)
 
-    def tokens_remaining(self) -> int | None:
-        if self.token_budget is None:
-            return None
-        return max(0, self.token_budget - self.tokens_used)
-
-    def token_budget_exhausted(self) -> bool:
-        return self.token_budget is not None and self.tokens_used >= self.token_budget
-
-    def try_consume_retry(self) -> bool:
-        """Reserve one retry from the shared allowance; False when none is left."""
-        if self.retry_budget is not None and self.retries_used >= self.retry_budget:
-            return False
-        self.retries_used += 1
-        return True
-
-    def retry_budget_exhausted(self) -> bool:
-        return self.retry_budget is not None and self.retries_used >= self.retry_budget
-
-    def record_skipped_stage(self, stage: str) -> None:
-        self.skipped_stages.append(stage)
-
-    def budget_status(self) -> BudgetStatus:
-        return BudgetStatus(
-            token_budget=self.token_budget,
-            tokens_used=self.tokens_used,
-            token_budget_exhausted=self.token_budget_exhausted(),
-            retry_budget=self.retry_budget,
-            retries_used=self.retries_used,
-            retry_budget_exhausted=self.retry_budget_exhausted(),
-            skipped_stages=list(self.skipped_stages),
-        )
-
 
 _active_usage_log: ContextVar[UsageLog | None] = ContextVar("facticli_usage_log", default=None)
 
 
-def activate_usage_log(
-    *,
-    token_budget: int | None = None,
-    retry_budget: int | None = None,
-) -> tuple[UsageLog, Token]:
-    """Install a fresh usage log (and budget ledger) for the current async context."""
-    log = UsageLog(token_budget=token_budget, retry_budget=retry_budget)
+def activate_usage_log() -> tuple[UsageLog, Token]:
+    """Install a fresh usage log for the current async context."""
+    log = UsageLog()
     token = _active_usage_log.set(log)
     return log, token
 

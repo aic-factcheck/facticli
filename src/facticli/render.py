@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .application.services import FactCheckRun
+from .pipeline import FactCheckRun
 from .core.contracts import FindingStatus, SourceEvidence, SourceGrounding, StopReason
 
 # What the harness could trace back to search-tool output. The labels say
@@ -22,8 +22,6 @@ def _source_tag(source: SourceEvidence) -> str:
         tags.append(source.tier.value)
     if source.published_at:
         tags.append(source.published_at)
-    if source.url_status is not None:
-        tags.append(source.url_status.value)
     if source.grounding is not None:
         tags.append(_GROUNDING_LABELS[source.grounding])
     return f" ({', '.join(tags)})" if tags else ""
@@ -76,8 +74,7 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
         lines.append("  - no findings returned")
     for finding in report.findings:
         if finding.status != FindingStatus.COMPLETED:
-            label = "skipped (budget)" if finding.status == FindingStatus.BUDGET_EXHAUSTED else "failed"
-            lines.append(f"  - [{finding.aspect_id}] {label} | not an observation")
+            lines.append(f"  - [{finding.aspect_id}] failed | not an observation")
             lines.append(f"    question: {finding.question}")
             if finding.failure_reason:
                 lines.append(f"    reason: {finding.failure_reason}")
@@ -98,8 +95,6 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
     for idx, source in enumerate(report.sources, start=1):
         lines.append(f"  [S{idx}] {source.title}{_source_tag(source)}")
         lines.append(f"      {source.url}")
-        if source.url_status is not None and source.url_status.value == "archived" and source.archived_url:
-            lines.append(f"      archived: {source.archived_url}")
         lines.append(f"      {source.snippet}")
     if run.artifacts.unresolved_citations:
         cited = ", ".join(f"S{number}" for number in run.artifacts.unresolved_citations)
@@ -114,7 +109,6 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
 def _format_usage(run: FactCheckRun) -> list[str]:
     artifacts = run.artifacts
     lines = ["", "Run Stats"]
-    lines.append(f"  strategy: {artifacts.strategy}")
     if artifacts.stage_models:
         distinct = sorted(set(artifacts.stage_models.values()))
         if len(distinct) == 1:
@@ -145,19 +139,6 @@ def _format_usage(run: FactCheckRun) -> list[str]:
             )
         if summary.wrap_up_calls:
             lines.append(f"  wrap-up calls at the turn limit: {summary.wrap_up_calls}")
-    budget = artifacts.budget
-    if budget is not None and (budget.token_budget is not None or budget.retries_used):
-        parts = []
-        if budget.token_budget is not None:
-            parts.append(f"token budget {budget.tokens_used}/{budget.token_budget}" + (" (exhausted)" if budget.token_budget_exhausted else ""))
-        if budget.retry_budget is not None or budget.retries_used:
-            cap = budget.retry_budget if budget.retry_budget is not None else "unlimited"
-            parts.append(f"retries {budget.retries_used}/{cap}")
-        lines.append("  budget: " + "; ".join(parts))
-        if budget.skipped_stages:
-            lines.append(f"  skipped: {', '.join(budget.skipped_stages)}")
-    if artifacts.citation_check:
-        lines.append("  citations: " + ", ".join(f"{k}={v}" for k, v in sorted(artifacts.citation_check.items())))
     retrieval = artifacts.retrieval_summary
     if retrieval is not None:
         counts = {

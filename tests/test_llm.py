@@ -1,22 +1,9 @@
 from __future__ import annotations
 
 import unittest
+from unittest.mock import patch
 
-from agents import ModelRetryNormalizedError, RetryPolicyContext
-
-from facticli.adapters.openai_provider import build_model_settings
-from facticli.adapters.payloads import (
-    FAILED_CHECK_NOTICE,
-    budget_payload,
-    dated,
-    index_sources,
-    judge_payload,
-    research_payload,
-    review_payload,
-    single_agent_payload,
-)
-from facticli.adapters.retry_policy import build_retry_settings, classify_retry_context, facticli_retry_policy
-from facticli.application.config import REASONING_EFFORTS, parse_stage_assignments
+from facticli.config import REASONING_EFFORTS, parse_stage_assignments
 from facticli.core.constraints import ResearchConstraints
 from facticli.core.contracts import (
     AspectFinding,
@@ -29,8 +16,16 @@ from facticli.core.contracts import (
     StopReason,
     VerificationCheck,
 )
-from facticli.core.errors import ErrorKind
-from facticli.core.usage import UsageLog, activate_usage_log, deactivate_usage_log
+from facticli.llm import Endpoint, build_model_settings, configure_client, infer_api_mode, resolve_endpoint
+from facticli.payloads import (
+    FAILED_CHECK_NOTICE,
+    dated,
+    extraction_payload,
+    index_sources,
+    judge_payload,
+    plan_payload,
+    research_payload,
+)
 
 
 def _check(aspect_id: str, criteria: list[str] | None = None) -> VerificationCheck:
@@ -90,44 +85,22 @@ class PayloadTests(unittest.TestCase):
         self.assertNotIn("failed_checks", payload)
         self.assertEqual(index_sources(findings), ([], {}))
 
-    def test_review_payload_pairs_checks_with_findings(self):
-        plan = InvestigationPlan(claim="c", checks=[_check("a", ["crit"]), _check("missing")])
-        findings = [
-            AspectFinding(
-                aspect_id="a", question="Q", signal=EvidenceSignal.SUPPORTS, summary="s", confidence=0.8,
-                sources=[_source("https://x.org", SourceTier.OTHER)],
-            )
-        ]
-        payload = review_payload(claim="c", plan=plan, findings=findings, max_follow_up_checks=3, round_index=2)
-        self.assertEqual(payload["limits"], {"max_follow_up_checks": 3})
-        self.assertEqual(payload["round_index"], 2)
-        self.assertEqual(payload["checks"][0]["status"], "completed")
-        self.assertEqual(payload["checks"][0]["acceptance_criteria"], ["crit"])
-        self.assertEqual(payload["checks"][0]["finding"]["sources"][0]["tier"], "other")
-        self.assertEqual(payload["checks"][1]["status"], "missing")
-        self.assertIsNone(payload["checks"][1]["finding"])
-
-    def test_research_and_single_agent_payloads_carry_constraints_and_budget(self):
+    def test_research_payload_carries_constraints_and_the_search_budget(self):
         constraints = ResearchConstraints(claim_date="2020-10-31", blocked_domains=["politifact.com"])
-        log = UsageLog(token_budget=5000)
-        payload = research_payload(
-            claim="c", check=_check("a"), search_provider="brave", constraints=constraints, usage_log=log, tool_call_budget=6
-        )
+        payload = research_payload(claim="c", check=_check("a"), search_provider="brave", constraints=constraints, tool_call_budget=6)
+        self.assertEqual(list(payload), ["claim", "check", "requirements", "constraints"])
         self.assertEqual(payload["constraints"]["evidence_cutoff_date"], "2020-10-31")
-        self.assertEqual(payload["budget"]["tokens_remaining"], 5000)
         self.assertEqual(payload["requirements"]["tool_call_budget"], 6)
         self.assertIn("acceptance_criteria", payload["check"])
 
-        bare = research_payload(claim="c", check=_check("a"), search_provider="openai", constraints=None, usage_log=None, tool_call_budget=8)
+        bare = research_payload(claim="c", check=_check("a"), search_provider="openai", constraints=None, tool_call_budget=8)
         self.assertNotIn("constraints", bare)
-        self.assertNotIn("budget", bare)
-        self.assertIsNone(budget_payload(UsageLog()))
 
-        single = single_agent_payload(
-            claim="c", max_checks=3, search_provider="openai", constraints=constraints, usage_log=None, tool_call_budget=24
-        )
-        self.assertEqual((single["requirements"]["max_aspects"], single["requirements"]["tool_call_budget"]), (3, 24))
-        self.assertIn("constraints", single)
+    def test_plan_and_extraction_payloads(self):
+        self.assertEqual(plan_payload(claim="c", max_checks=3)["requirements"]["max_checks"], 3)
+        extraction = extraction_payload(input_text="t", max_claims=7)
+        self.assertEqual(list(extraction), ["input_text", "requirements"])
+        self.assertTrue(extraction["requirements"]["preserve_original_diacritics"])
 
     def test_models_are_told_only_about_untraceable_sources_and_cut_short_research(self):
         traced = SourceEvidence(title="a", url="https://data.gov/a", snippet="q", grounding=SourceGrounding.QUOTE_MATCHED)
@@ -147,12 +120,6 @@ class PayloadTests(unittest.TestCase):
         self.assertEqual(judge["findings_by_signal"]["refutes"][0]["stop_reason"], "turn_limit")
         self.assertNotIn("stop_reason", judge["findings_by_signal"]["supports"][0])
 
-        review = review_payload(claim="c", plan=plan, findings=findings, max_follow_up_checks=2, round_index=1)
-        first, second = (entry["finding"] for entry in review["checks"])
-        self.assertEqual([source.get("grounding") for source in first["sources"]], [None, None])
-        self.assertEqual((second["sources"][0]["grounding"], second["stop_reason"]), ("unmatched", "turn_limit"))
-        self.assertNotIn("stop_reason", first)
-
     def test_reference_date_leads_the_payload_when_the_run_has_one(self):
         payload = {"claim": "c"}
         self.assertIs(dated(payload, None), payload)
@@ -171,62 +138,111 @@ class ModelSettingsTests(unittest.TestCase):
             parse_stage_assignments(["judge=ultra"], allowed_values=REASONING_EFFORTS, option_name="--stage-effort")
 
     def test_build_model_settings(self):
-        settings = build_model_settings(parallel_tool_calls=True, reasoning_effort="low", retry_attempts=3)
+        settings = build_model_settings(parallel_tool_calls=True, reasoning_effort="low", service_tier="flex")
         self.assertTrue(settings.parallel_tool_calls)
         self.assertEqual(settings.reasoning.effort, "low")
-        self.assertEqual(settings.retry.max_retries, 3)
-        self.assertIs(settings.retry.policy, facticli_retry_policy)
+        self.assertEqual(settings.extra_args, {"service_tier": "flex"})
         self.assertIsNone(settings.temperature)
+        # No SDK retry policy: the OpenAI client retries transient errors itself.
+        self.assertIsNone(settings.retry)
 
         plain = build_model_settings(parallel_tool_calls=False)
         self.assertIsNone(plain.reasoning)
-        self.assertIsNone(plain.retry)
-        self.assertIsNone(build_retry_settings(0))
+        self.assertIsNone(plain.extra_args)
 
 
-class RetryPolicyTests(unittest.TestCase):
-    def _context(self, error: Exception, **normalized) -> RetryPolicyContext:
-        return RetryPolicyContext(
-            error=error,
-            attempt=1,
-            max_retries=3,
-            stream=False,
-            normalized=ModelRetryNormalizedError(**normalized),
+class EndpointTests(unittest.TestCase):
+    def test_resolve_endpoint_uses_openai_compatible_env(self):
+        with patch.dict(
+            "os.environ",
+            {
+                "OPENAI_API_KEY": "test-key",
+                "OPENAI_API_MODEL": "gpt-5.4",
+                "OPENAI_API_BASE_URL": "https://api.openai.com/v1",
+            },
+            clear=True,
+        ):
+            config = resolve_endpoint(
+                requested_model=None,
+                base_url=None,
+            )
+        self.assertEqual(config.api_key, "test-key")
+        self.assertEqual(config.model, "gpt-5.4")
+        self.assertEqual(config.base_url, "https://api.openai.com/v1")
+        self.assertEqual(config.api_mode, "responses")
+
+    def test_requested_model_overrides_env_model(self):
+        with patch.dict(
+            "os.environ",
+            {"OPENAI_API_KEY": "key", "OPENAI_API_MODEL": "env-model"},
+            clear=True,
+        ):
+            config = resolve_endpoint(
+                requested_model="custom-model",
+                base_url=None,
+            )
+        self.assertEqual(config.model, "custom-model")
+
+    def test_base_url_override_via_cli_arg(self):
+        with patch.dict(
+            "os.environ",
+            {
+                "OPENAI_API_KEY": "key",
+                "OPENAI_API_MODEL": "model",
+                "OPENAI_API_BASE_URL": "https://env.url/v1",
+            },
+            clear=True,
+        ):
+            config = resolve_endpoint(
+                requested_model=None,
+                base_url="https://cli.override/v1",
+            )
+        self.assertEqual(config.base_url, "https://cli.override/v1")
+
+    def test_missing_api_key_raises_runtime_error(self):
+        with (
+            patch.dict("os.environ", {"OPENAI_API_MODEL": "model"}, clear=True),
+            self.assertRaises(RuntimeError),
+        ):
+            resolve_endpoint(
+                requested_model=None,
+                base_url=None,
+            )
+
+    def test_missing_model_raises_runtime_error(self):
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "key"}, clear=True):
+            with self.assertRaises(RuntimeError):
+                resolve_endpoint(
+                    requested_model=None,
+                    base_url=None,
+                )
+
+    def test_infer_api_mode_prefers_responses_for_openai_endpoint(self):
+        self.assertEqual(infer_api_mode(None), "responses")
+        self.assertEqual(infer_api_mode("https://api.openai.com/v1"), "responses")
+
+    def test_infer_api_mode_uses_chat_completions_for_compatible_endpoints(self):
+        self.assertEqual(
+            infer_api_mode("https://generativelanguage.googleapis.com/v1beta/openai/"),
+            "chat_completions",
         )
+        self.assertEqual(infer_api_mode("https://llm.ai.e-infra.cz/v1"), "chat_completions")
 
-    def test_retries_transient_and_refuses_permanent_errors(self):
-        rate_limited = self._context(RuntimeError("429"), status_code=429, retry_after=2.5)
-        decision = facticli_retry_policy(rate_limited)
-        self.assertTrue(decision.retry)
-        self.assertEqual(decision.delay, 2.5)
-        self.assertEqual(classify_retry_context(rate_limited), ErrorKind.RATE_LIMIT)
+    def test_configure_client_creates_async_openai_client(self):
+        endpoint = Endpoint(api_key="test-key", model="test-model", base_url=None, api_mode="responses")
+        with (
+            patch("facticli.llm.AsyncOpenAI") as async_openai,
+            patch("facticli.llm.set_default_openai_client") as set_client,
+            patch("facticli.llm.set_default_openai_api") as set_api_mode,
+            patch("facticli.llm.set_tracing_disabled"),
+        ):
+            configure_client(endpoint, max_retries=5)
 
-        self.assertTrue(facticli_retry_policy(self._context(RuntimeError("net"), is_network_error=True)).retry)
-        self.assertTrue(facticli_retry_policy(self._context(RuntimeError("t"), is_timeout=True)).retry)
-        self.assertTrue(facticli_retry_policy(self._context(RuntimeError("503"), status_code=503)).retry)
+        # Transient errors are retried by the client itself.
+        async_openai.assert_called_once_with(api_key="test-key", base_url=None, max_retries=5)
+        set_client.assert_called_once()
+        set_api_mode.assert_called_once_with("responses")
 
-        self.assertFalse(facticli_retry_policy(self._context(RuntimeError("401"), status_code=401)).retry)
-        self.assertFalse(facticli_retry_policy(self._context(RuntimeError("400"), status_code=400)).retry)
-        quota = self._context(RuntimeError("429"), status_code=429, message="You exceeded your current quota (insufficient_quota)")
-        decision = facticli_retry_policy(quota)
-        self.assertFalse(decision.retry)
-        self.assertIn("quota", decision.reason)
-        overflow = self._context(RuntimeError("x"), status_code=400, message="maximum context length exceeded")
-        decision = facticli_retry_policy(overflow)
-        self.assertFalse(decision.retry)
-        self.assertIn("context_overflow", decision.reason)
-
-    def test_retries_draw_from_run_budget(self):
-        log, token = activate_usage_log(retry_budget=1)
-        try:
-            context = self._context(RuntimeError("503"), status_code=503)
-            self.assertTrue(facticli_retry_policy(context).retry)
-            second = facticli_retry_policy(context)
-            self.assertFalse(second.retry)
-            self.assertIn("budget", second.reason)
-            self.assertEqual(log.retries_used, 1)
-        finally:
-            deactivate_usage_log(token)
 
 
 if __name__ == "__main__":

@@ -13,7 +13,6 @@ from facticli.core.contracts import (
     FactCheckReport,
     FindingStatus,
     InvestigationPlan,
-    ReviewDecision,
     SourceEvidence,
     SourceTier,
 )
@@ -25,7 +24,6 @@ from facticli.core.errors import (
     classify_status_code,
     describe_exception,
     is_fatal,
-    is_retryable,
 )
 from facticli.core.source_quality import assign_source_tiers, classify_source_tier
 from facticli.core.truncation import UNTRUSTED_CONTENT_NOTICE, truncate_middle, truncate_search_results
@@ -46,13 +44,12 @@ class ContractSchemaTests(unittest.TestCase):
         self.assertNotIn("failure_reason", finding_props)
         self.assertNotIn("stop_reason", finding_props)
         source_props = AgentOutputSchema(AspectFinding).json_schema()["$defs"]["SourceEvidence"]["properties"]
-        for hidden in ("tier", "url_status", "archived_url", "grounding"):
+        for hidden in ("tier", "grounding"):
             self.assertNotIn(hidden, source_props)
         self.assertIn("acceptance_criteria", AgentOutputSchema(InvestigationPlan).json_schema()["$defs"]["VerificationCheck"]["properties"])
         report_props = AgentOutputSchema(FactCheckReport).json_schema()["properties"]
         self.assertIn("counter_argument", report_props)
         self.assertIn("evidence_gaps", report_props)
-        self.assertIn("gaps", AgentOutputSchema(ReviewDecision).json_schema()["properties"])
 
     def test_defaults_keep_old_payloads_valid(self):
         finding = AspectFinding.model_validate(
@@ -152,8 +149,6 @@ class ErrorTaxonomyTests(unittest.TestCase):
         self.assertEqual(classify_exception(ModelRefusalError("I can't help with that")), ErrorKind.REFUSAL)
 
         self.assertEqual(FATAL_KINDS, {ErrorKind.AUTH, ErrorKind.QUOTA, ErrorKind.NOT_FOUND})
-        for kind in (ErrorKind.QUOTA, ErrorKind.FORBIDDEN, ErrorKind.REFUSAL, ErrorKind.NOT_FOUND):
-            self.assertFalse(is_retryable(kind), kind)
         for kind in (ErrorKind.RATE_LIMIT, ErrorKind.FORBIDDEN, ErrorKind.REFUSAL, ErrorKind.BAD_REQUEST):
             self.assertFalse(is_fatal(kind), kind)
 
@@ -163,22 +158,17 @@ class ErrorTaxonomyTests(unittest.TestCase):
         self.assertEqual(classify_exception(wrapped), ErrorKind.AUTH)
         self.assertEqual(classify_exception(UserError("misconfigured agent")), ErrorKind.UNKNOWN)
 
-    def test_status_codes_and_retryability(self):
+    def test_status_codes(self):
         self.assertEqual(classify_status_code(408), ErrorKind.TIMEOUT)
         self.assertEqual(classify_status_code(502), ErrorKind.SERVER)
         self.assertEqual(classify_status_code(404), ErrorKind.NOT_FOUND)
         self.assertEqual(classify_status_code(413, "request too large"), ErrorKind.CONTEXT_OVERFLOW)
-        self.assertTrue(is_retryable(ErrorKind.RATE_LIMIT))
-        self.assertTrue(is_retryable(ErrorKind.SERVER))
-        self.assertFalse(is_retryable(ErrorKind.AUTH))
-        self.assertFalse(is_retryable(ErrorKind.CONTEXT_OVERFLOW))
-        self.assertFalse(is_retryable(ErrorKind.SCHEMA))
         self.assertTrue(describe_exception(RuntimeError("x")).startswith("unknown: RuntimeError: x"))
 
 
 class UsageLedgerTests(unittest.TestCase):
-    def test_budget_ledger_and_cached_tokens(self):
-        log, token = activate_usage_log(token_budget=1000, retry_budget=2)
+    def test_ledger_counts_failed_runs_and_cached_tokens(self):
+        log, token = activate_usage_log()
         try:
             self.assertIs(get_usage_log(), log)
             with track_usage(stage="plan", model="m") as event:
@@ -193,18 +183,12 @@ class UsageLedgerTests(unittest.TestCase):
                         output_tokens_details=SimpleNamespace(reasoning_tokens=40),
                     ),
                 )
-            self.assertEqual(log.tokens_remaining(), 300)
-            self.assertFalse(log.token_budget_exhausted())
+            self.assertEqual(log.tokens_used, 700)
             with self.assertRaises(RuntimeError), track_usage(stage="research", model="m") as event:
                 apply_usage(event, SimpleNamespace(requests=1, input_tokens=300, output_tokens=100, total_tokens=400))
                 raise RuntimeError("the run failed after its first response")
-            # Tokens spent by a failed run count against the budget like any others.
-            self.assertTrue(log.token_budget_exhausted())
-            self.assertEqual(log.tokens_remaining(), 0)
-            self.assertTrue(log.try_consume_retry())
-            self.assertTrue(log.try_consume_retry())
-            self.assertFalse(log.try_consume_retry())
-            log.record_skipped_stage("review_round_1")
+            # Tokens spent by a failed run count like any others.
+            self.assertEqual(log.tokens_used, 1100)
         finally:
             deactivate_usage_log(token)
         self.assertIsNone(get_usage_log())
@@ -217,21 +201,6 @@ class UsageLedgerTests(unittest.TestCase):
         self.assertEqual(summary.per_stage["research"]["failed_attempts"], 1)
         self.assertEqual(summary.per_stage["plan"]["failed_attempts"], 0)
         self.assertAlmostEqual(summary.cache_hit_rate, 300 / 900, places=4)
-        status = log.budget_status()
-        self.assertTrue(status.token_budget_exhausted)
-        self.assertTrue(status.retry_budget_exhausted)
-        self.assertEqual(status.retries_used, 2)
-        self.assertEqual(status.skipped_stages, ["review_round_1"])
-
-    def test_unbudgeted_log_never_exhausts(self):
-        log, token = activate_usage_log()
-        try:
-            self.assertIsNone(log.tokens_remaining())
-            self.assertFalse(log.token_budget_exhausted())
-            for _ in range(50):
-                self.assertTrue(log.try_consume_retry())
-        finally:
-            deactivate_usage_log(token)
 
 
 class TruncationTests(unittest.TestCase):

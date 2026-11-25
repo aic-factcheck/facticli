@@ -13,7 +13,6 @@ from facticli.core.contracts import (
     VerificationCheck,
 )
 from facticli.core.normalize import normalize_source_url
-from facticli.core.usage import UsageLog
 
 # Stage inputs are built here as plain dicts so they can be unit-tested and
 # diffed without a model call. The shape follows two 2026 findings: LLM
@@ -25,7 +24,7 @@ from facticli.core.usage import UsageLog
 
 FAILED_CHECK_NOTICE = (
     "The checks listed under failed_checks did not run to completion (tool or model failure, "
-    "timeout, or budget exhaustion). They are missing observations, not evidence of absence. "
+    "or timeout). They are missing observations, not evidence of absence. "
     "Do not infer anything about the claim from them; mention them in evidence_gaps."
 )
 
@@ -45,22 +44,6 @@ def constraints_payload(constraints: ResearchConstraints | None) -> dict[str, An
     }
 
 
-def budget_payload(log: UsageLog | None) -> dict[str, Any] | None:
-    """Codex-style budget reminder for a stage prompt; None when unbudgeted."""
-    if log is None or log.token_budget is None:
-        return None
-    remaining = log.tokens_remaining() or 0
-    return {
-        "shared_token_budget": log.token_budget,
-        "tokens_remaining": remaining,
-        "instruction": (
-            "This run shares one token budget across all stages. Be economical: prefer few, "
-            "well-targeted searches and stop as soon as the acceptance criteria are met or "
-            "clearly unreachable."
-        ),
-    }
-
-
 def dated(payload: dict[str, Any], constraints: ResearchConstraints | None) -> dict[str, Any]:
     """Put the date the claim is evaluated as of in front of a stage payload.
 
@@ -72,19 +55,6 @@ def dated(payload: dict[str, Any], constraints: ResearchConstraints | None) -> d
     if constraints is None or not constraints.reference_date:
         return payload
     return {"reference_date": constraints.reference_date, **payload}
-
-
-def _with_run_limits(
-    payload: dict[str, Any], constraints: ResearchConstraints | None, usage_log: UsageLog | None
-) -> dict[str, Any]:
-    """Append the retrieval constraints and budget reminder blocks a searching stage needs."""
-    constraints_block = constraints_payload(constraints)
-    if constraints_block:
-        payload["constraints"] = constraints_block
-    budget_block = budget_payload(usage_log)
-    if budget_block:
-        payload["budget"] = budget_block
-    return payload
 
 
 def _unmatched_marker(source: SourceEvidence) -> dict[str, str]:
@@ -103,7 +73,6 @@ def research_payload(
     check: VerificationCheck,
     search_provider: str,
     constraints: ResearchConstraints | None,
-    usage_log: UsageLog | None,
     tool_call_budget: int,
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
@@ -118,59 +87,10 @@ def research_payload(
             "do_not_adjudicate_whole_claim": True,
         },
     }
-    return _with_run_limits(payload, constraints, usage_log)
-
-
-def review_payload(
-    *,
-    claim: str,
-    plan: InvestigationPlan,
-    findings: list[AspectFinding],
-    max_follow_up_checks: int,
-    round_index: int,
-) -> dict[str, Any]:
-    """Pair each check with its finding so the reviewer grades against criteria."""
-    findings_by_aspect = {finding.aspect_id: finding for finding in findings}
-    graded: list[dict[str, Any]] = []
-    for check in plan.checks:
-        finding = findings_by_aspect.get(check.aspect_id)
-        entry: dict[str, Any] = {
-            "aspect_id": check.aspect_id,
-            "question": check.question,
-            "acceptance_criteria": check.acceptance_criteria,
-        }
-        if finding is None:
-            entry["finding"] = None
-            entry["status"] = "missing"
-        else:
-            entry["status"] = finding.status.value
-            entry["finding"] = {
-                "signal": finding.signal.value,
-                "confidence": finding.confidence,
-                "summary": finding.summary,
-                "caveats": finding.caveats,
-                "failure_reason": finding.failure_reason,
-                "sources": [
-                    {
-                        "url": source.url,
-                        "tier": source.tier.value if source.tier else None,
-                        "published_at": source.published_at,
-                        "snippet": source.snippet,
-                        **_unmatched_marker(source),
-                    }
-                    for source in finding.sources
-                ],
-            }
-            if finding.stop_reason is not None:
-                entry["finding"]["stop_reason"] = finding.stop_reason.value
-        graded.append(entry)
-    return {
-        "claim": claim,
-        "assumptions": plan.assumptions,
-        "round_index": round_index,
-        "limits": {"max_follow_up_checks": max_follow_up_checks},
-        "checks": graded,
-    }
+    constraints_block = constraints_payload(constraints)
+    if constraints_block:
+        payload["constraints"] = constraints_block
+    return payload
 
 
 def index_sources(findings: list[AspectFinding]) -> tuple[list[dict[str, Any]], dict[str, str]]:
@@ -282,25 +202,30 @@ def _tier_counts(source_table: list[dict[str, Any]]) -> dict[str, int]:
     return counts
 
 
-def single_agent_payload(
-    *,
-    claim: str,
-    max_checks: int,
-    search_provider: str,
-    constraints: ResearchConstraints | None,
-    usage_log: UsageLog | None,
-    tool_call_budget: int,
-) -> dict[str, Any]:
-    payload: dict[str, Any] = {
+
+def plan_payload(*, claim: str, max_checks: int) -> dict[str, Any]:
+    """Planner input. It carries no reference date (see ``dated``)."""
+    return {
         "claim": claim,
         "requirements": {
-            "max_aspects": max_checks,
-            "min_sources": 2,
-            "must_use_search_tool": True,
-            "tool_call_budget": tool_call_budget,
-            "preferred_provider": search_provider,
-            "snippets_verbatim": True,
+            "max_checks": max_checks,
+            "acceptance_criteria_per_check": True,
+            "checks_must_be_independent": True,
         },
     }
-    return _with_run_limits(payload, constraints, usage_log)
 
+
+def extraction_payload(*, input_text: str, max_claims: int) -> dict[str, Any]:
+    return {
+        "input_text": input_text,
+        "requirements": {
+            "max_claims": max_claims,
+            "decontextualized": True,
+            "atomic_claims": True,
+            "maximize_checkworthy_coverage": True,
+            "only_directly_mentioned_facts": True,
+            "detect_and_report_language": True,
+            "write_output_in_input_language": True,
+            "preserve_original_diacritics": True,
+        },
+    }

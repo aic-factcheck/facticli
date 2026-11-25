@@ -1,0 +1,875 @@
+[
+ {
+  "agent": "check_researcher",
+  "instructions_sha256": "2608b7bf6f9a97f2bd2b50d5be0de77b74f46df6aef349378c3311f322fe82c4",
+  "max_turns": 10,
+  "model": "gold-model",
+  "output_schema": {
+   "$defs": {
+    "EvidenceSignal": {
+     "enum": [
+      "supports",
+      "refutes",
+      "mixed",
+      "insufficient"
+     ],
+     "title": "EvidenceSignal",
+     "type": "string"
+    },
+    "SourceEvidence": {
+     "additionalProperties": false,
+     "description": "Source snippet attached to findings and final verdict justification.",
+     "properties": {
+      "published_at": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Published At"
+      },
+      "publisher": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Publisher"
+      },
+      "snippet": {
+       "description": "Short text span from the source backing the claim.",
+       "title": "Snippet",
+       "type": "string"
+      },
+      "title": {
+       "description": "Human-readable title of the source.",
+       "title": "Title",
+       "type": "string"
+      },
+      "url": {
+       "description": "URL used during fact-checking.",
+       "title": "Url",
+       "type": "string"
+      }
+     },
+     "required": [
+      "title",
+      "url",
+      "snippet",
+      "publisher",
+      "published_at"
+     ],
+     "title": "SourceEvidence",
+     "type": "object"
+    }
+   },
+   "additionalProperties": false,
+   "description": "Research outcome for one planned aspect of the claim.",
+   "properties": {
+    "aspect_id": {
+     "title": "Aspect Id",
+     "type": "string"
+    },
+    "caveats": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Caveats",
+     "type": "array"
+    },
+    "confidence": {
+     "description": "0 to 1 confidence score for this aspect.",
+     "maximum": 1.0,
+     "minimum": 0.0,
+     "title": "Confidence",
+     "type": "number"
+    },
+    "question": {
+     "title": "Question",
+     "type": "string"
+    },
+    "signal": {
+     "$ref": "#/$defs/EvidenceSignal"
+    },
+    "sources": {
+     "items": {
+      "$ref": "#/$defs/SourceEvidence"
+     },
+     "title": "Sources",
+     "type": "array"
+    },
+    "summary": {
+     "description": "What the collected evidence says for this aspect.",
+     "title": "Summary",
+     "type": "string"
+    }
+   },
+   "required": [
+    "aspect_id",
+    "question",
+    "signal",
+    "summary",
+    "confidence",
+    "sources",
+    "caveats"
+   ],
+   "title": "AspectFinding",
+   "type": "object"
+  },
+  "raw": "{\n  \"reference_date\": \"2020-10-30\",\n  \"claim\": \"The claim text.\",\n  \"check\": {\n    \"aspect_id\": \"a1\",\n    \"question\": \"Q1?\",\n    \"rationale\": \"r1\",\n    \"search_queries\": [\n      \"s1\",\n      \"s2\",\n      \"Q1?\",\n      \"The claim text.\"\n    ],\n    \"acceptance_criteria\": [\n      \"c1\"\n    ]\n  },\n  \"requirements\": {\n    \"min_sources\": 2,\n    \"must_use_search_tool\": true,\n    \"tool_call_budget\": 8,\n    \"preferred_provider\": \"brave\",\n    \"snippets_verbatim\": true,\n    \"do_not_adjudicate_whole_claim\": true\n  },\n  \"constraints\": {\n    \"evidence_cutoff_date\": \"2020-10-30\",\n    \"blocked_domains\": [\n      \"politifact.com\",\n      \"snopes.com\",\n      \"factcheck.org\",\n      \"fullfact.org\",\n      \"leadstories.com\",\n      \"factcheck.afp.com\",\n      \"checkyourfact.com\",\n      \"truthorfiction.com\",\n      \"factly.in\",\n      \"boomlive.in\",\n      \"altnews.in\",\n      \"verafiles.org\",\n      \"africacheck.org\",\n      \"poynter.org\",\n      \"misbar.com\",\n      \"logicallyfacts.com\",\n      \"logically.ai\",\n      \"factcheckni.org\",\n      \"demagog.cz\",\n      \"demagog.org.pl\",\n      \"faktabaari.fi\",\n      \"correctiv.org\",\n      \"maldita.es\",\n      \"newtral.es\",\n      \"pagellapolitica.it\",\n      \"facta.news\",\n      \"teyit.org\",\n      \"rappler.com/newsbreak/fact-check\",\n      \"factcrescendo.com\",\n      \"vishvasnews.com\",\n      \"newschecker.in\",\n      \"thequint.com/news/webqoof\",\n      \"healthfeedback.org\",\n      \"sciencefeedback.co\",\n      \"climatefeedback.org\",\n      \"washingtonpost.com/news/fact-checker\",\n      \"apnews.com/hub/ap-fact-check\",\n      \"reuters.com/fact-check\",\n      \"factcheck.kz\",\n      \"istinomer.rs\",\n      \"faktograf.hr\"\n    ],\n    \"instruction\": \"Only use evidence published on or before the cutoff date (if set). Never cite or rely on sources from the blocked domains; these are fact-checking sites excluded to keep the verdict independent.\"\n  }\n}",
+  "settings": {
+   "context_management": null,
+   "extra_args": {
+    "service_tier": "flex"
+   },
+   "extra_body": null,
+   "extra_headers": null,
+   "extra_query": null,
+   "frequency_penalty": null,
+   "include_usage": null,
+   "max_tokens": null,
+   "metadata": null,
+   "parallel_tool_calls": true,
+   "presence_penalty": null,
+   "preserve_raw_usage": null,
+   "prompt_cache_options": null,
+   "prompt_cache_retention": null,
+   "reasoning": null,
+   "response_include": null,
+   "store": null,
+   "temperature": null,
+   "timeout": null,
+   "tool_choice": null,
+   "top_logprobs": null,
+   "top_p": null,
+   "truncation": null,
+   "verbosity": null
+  },
+  "tools": [
+   {
+    "desc": "Search the public web using Brave Search API and return concise JSON results.",
+    "name": "brave_web_search",
+    "schema": {
+     "additionalProperties": false,
+     "properties": {
+      "count": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Number of web results to return (1-20). Omit to use the configured default.",
+       "title": "Count"
+      },
+      "country": {
+       "default": "us",
+       "description": "Two-letter country code for search localization.",
+       "title": "Country",
+       "type": "string"
+      },
+      "query": {
+       "description": "Search query string.",
+       "title": "Query",
+       "type": "string"
+      },
+      "search_lang": {
+       "default": "en",
+       "description": "Language code for search filtering.",
+       "title": "Search Lang",
+       "type": "string"
+      }
+     },
+     "required": [
+      "query",
+      "count",
+      "country",
+      "search_lang"
+     ],
+     "title": "brave_web_search_args",
+     "type": "object"
+    }
+   }
+  ]
+ },
+ {
+  "agent": "check_researcher",
+  "instructions_sha256": "2608b7bf6f9a97f2bd2b50d5be0de77b74f46df6aef349378c3311f322fe82c4",
+  "max_turns": 10,
+  "model": "gold-model",
+  "output_schema": {
+   "$defs": {
+    "EvidenceSignal": {
+     "enum": [
+      "supports",
+      "refutes",
+      "mixed",
+      "insufficient"
+     ],
+     "title": "EvidenceSignal",
+     "type": "string"
+    },
+    "SourceEvidence": {
+     "additionalProperties": false,
+     "description": "Source snippet attached to findings and final verdict justification.",
+     "properties": {
+      "published_at": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Published At"
+      },
+      "publisher": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Publisher"
+      },
+      "snippet": {
+       "description": "Short text span from the source backing the claim.",
+       "title": "Snippet",
+       "type": "string"
+      },
+      "title": {
+       "description": "Human-readable title of the source.",
+       "title": "Title",
+       "type": "string"
+      },
+      "url": {
+       "description": "URL used during fact-checking.",
+       "title": "Url",
+       "type": "string"
+      }
+     },
+     "required": [
+      "title",
+      "url",
+      "snippet",
+      "publisher",
+      "published_at"
+     ],
+     "title": "SourceEvidence",
+     "type": "object"
+    }
+   },
+   "additionalProperties": false,
+   "description": "Research outcome for one planned aspect of the claim.",
+   "properties": {
+    "aspect_id": {
+     "title": "Aspect Id",
+     "type": "string"
+    },
+    "caveats": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Caveats",
+     "type": "array"
+    },
+    "confidence": {
+     "description": "0 to 1 confidence score for this aspect.",
+     "maximum": 1.0,
+     "minimum": 0.0,
+     "title": "Confidence",
+     "type": "number"
+    },
+    "question": {
+     "title": "Question",
+     "type": "string"
+    },
+    "signal": {
+     "$ref": "#/$defs/EvidenceSignal"
+    },
+    "sources": {
+     "items": {
+      "$ref": "#/$defs/SourceEvidence"
+     },
+     "title": "Sources",
+     "type": "array"
+    },
+    "summary": {
+     "description": "What the collected evidence says for this aspect.",
+     "title": "Summary",
+     "type": "string"
+    }
+   },
+   "required": [
+    "aspect_id",
+    "question",
+    "signal",
+    "summary",
+    "confidence",
+    "sources",
+    "caveats"
+   ],
+   "title": "AspectFinding",
+   "type": "object"
+  },
+  "raw": "{\n  \"reference_date\": \"2020-10-30\",\n  \"claim\": \"The claim text.\",\n  \"check\": {\n    \"aspect_id\": \"a2\",\n    \"question\": \"Q2?\",\n    \"rationale\": \"r2\",\n    \"search_queries\": [\n      \"s3\",\n      \"Q2?\",\n      \"The claim text.\"\n    ],\n    \"acceptance_criteria\": [\n      \"c2\"\n    ]\n  },\n  \"requirements\": {\n    \"min_sources\": 2,\n    \"must_use_search_tool\": true,\n    \"tool_call_budget\": 8,\n    \"preferred_provider\": \"brave\",\n    \"snippets_verbatim\": true,\n    \"do_not_adjudicate_whole_claim\": true\n  },\n  \"constraints\": {\n    \"evidence_cutoff_date\": \"2020-10-30\",\n    \"blocked_domains\": [\n      \"politifact.com\",\n      \"snopes.com\",\n      \"factcheck.org\",\n      \"fullfact.org\",\n      \"leadstories.com\",\n      \"factcheck.afp.com\",\n      \"checkyourfact.com\",\n      \"truthorfiction.com\",\n      \"factly.in\",\n      \"boomlive.in\",\n      \"altnews.in\",\n      \"verafiles.org\",\n      \"africacheck.org\",\n      \"poynter.org\",\n      \"misbar.com\",\n      \"logicallyfacts.com\",\n      \"logically.ai\",\n      \"factcheckni.org\",\n      \"demagog.cz\",\n      \"demagog.org.pl\",\n      \"faktabaari.fi\",\n      \"correctiv.org\",\n      \"maldita.es\",\n      \"newtral.es\",\n      \"pagellapolitica.it\",\n      \"facta.news\",\n      \"teyit.org\",\n      \"rappler.com/newsbreak/fact-check\",\n      \"factcrescendo.com\",\n      \"vishvasnews.com\",\n      \"newschecker.in\",\n      \"thequint.com/news/webqoof\",\n      \"healthfeedback.org\",\n      \"sciencefeedback.co\",\n      \"climatefeedback.org\",\n      \"washingtonpost.com/news/fact-checker\",\n      \"apnews.com/hub/ap-fact-check\",\n      \"reuters.com/fact-check\",\n      \"factcheck.kz\",\n      \"istinomer.rs\",\n      \"faktograf.hr\"\n    ],\n    \"instruction\": \"Only use evidence published on or before the cutoff date (if set). Never cite or rely on sources from the blocked domains; these are fact-checking sites excluded to keep the verdict independent.\"\n  }\n}",
+  "settings": {
+   "context_management": null,
+   "extra_args": {
+    "service_tier": "flex"
+   },
+   "extra_body": null,
+   "extra_headers": null,
+   "extra_query": null,
+   "frequency_penalty": null,
+   "include_usage": null,
+   "max_tokens": null,
+   "metadata": null,
+   "parallel_tool_calls": true,
+   "presence_penalty": null,
+   "preserve_raw_usage": null,
+   "prompt_cache_options": null,
+   "prompt_cache_retention": null,
+   "reasoning": null,
+   "response_include": null,
+   "store": null,
+   "temperature": null,
+   "timeout": null,
+   "tool_choice": null,
+   "top_logprobs": null,
+   "top_p": null,
+   "truncation": null,
+   "verbosity": null
+  },
+  "tools": [
+   {
+    "desc": "Search the public web using Brave Search API and return concise JSON results.",
+    "name": "brave_web_search",
+    "schema": {
+     "additionalProperties": false,
+     "properties": {
+      "count": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Number of web results to return (1-20). Omit to use the configured default.",
+       "title": "Count"
+      },
+      "country": {
+       "default": "us",
+       "description": "Two-letter country code for search localization.",
+       "title": "Country",
+       "type": "string"
+      },
+      "query": {
+       "description": "Search query string.",
+       "title": "Query",
+       "type": "string"
+      },
+      "search_lang": {
+       "default": "en",
+       "description": "Language code for search filtering.",
+       "title": "Search Lang",
+       "type": "string"
+      }
+     },
+     "required": [
+      "query",
+      "count",
+      "country",
+      "search_lang"
+     ],
+     "title": "brave_web_search_args",
+     "type": "object"
+    }
+   }
+  ]
+ },
+ {
+  "agent": "checkworthy_claim_extractor",
+  "instructions_sha256": "cfa22a487ed0de10d050fe54798723d0a6e8855a03d61b61700318970fe2b725",
+  "max_turns": 10,
+  "model": "gold-model",
+  "output_schema": {
+   "$defs": {
+    "CheckworthyClaim": {
+     "additionalProperties": false,
+     "properties": {
+      "checkworthy_reason": {
+       "description": "Why this claim is check-worthy (impact, specificity, verifiability).",
+       "title": "Checkworthy Reason",
+       "type": "string"
+      },
+      "claim_id": {
+       "description": "Stable identifier for the extracted claim.",
+       "title": "Claim Id",
+       "type": "string"
+      },
+      "claim_text": {
+       "description": "Standalone, decontextualized, atomic factual claim suitable for independent checking.",
+       "title": "Claim Text",
+       "type": "string"
+      },
+      "source_fragment": {
+       "description": "Short fragment from the input text that directly grounds this claim.",
+       "title": "Source Fragment",
+       "type": "string"
+      }
+     },
+     "required": [
+      "claim_id",
+      "claim_text",
+      "source_fragment",
+      "checkworthy_reason"
+     ],
+     "title": "CheckworthyClaim",
+     "type": "object"
+    }
+   },
+   "additionalProperties": false,
+   "description": "Structured output from claim extraction with coverage metadata.",
+   "properties": {
+    "claims": {
+     "items": {
+      "$ref": "#/$defs/CheckworthyClaim"
+     },
+     "title": "Claims",
+     "type": "array"
+    },
+    "coverage_notes": {
+     "description": "How extraction covers the factual content from the input.",
+     "items": {
+      "type": "string"
+     },
+     "title": "Coverage Notes",
+     "type": "array"
+    },
+    "detected_language": {
+     "default": "",
+     "description": "ISO 639-1 code of the input's dominant language (e.g. 'cs', 'sk', 'pl', 'en'). All generated claim text is written in this language.",
+     "title": "Detected Language",
+     "type": "string"
+    },
+    "excluded_nonfactual": {
+     "description": "Statements intentionally excluded as non-factual/opinion/rhetoric.",
+     "items": {
+      "type": "string"
+     },
+     "title": "Excluded Nonfactual",
+     "type": "array"
+    },
+    "input_text": {
+     "description": "Original input text that was processed.",
+     "title": "Input Text",
+     "type": "string"
+    }
+   },
+   "required": [
+    "input_text",
+    "detected_language",
+    "claims",
+    "coverage_notes",
+    "excluded_nonfactual"
+   ],
+   "title": "ClaimExtractionResult",
+   "type": "object"
+  },
+  "raw": "{\n  \"input_text\": \"some text\",\n  \"requirements\": {\n    \"max_claims\": 5,\n    \"decontextualized\": true,\n    \"atomic_claims\": true,\n    \"maximize_checkworthy_coverage\": true,\n    \"only_directly_mentioned_facts\": true,\n    \"detect_and_report_language\": true,\n    \"write_output_in_input_language\": true,\n    \"preserve_original_diacritics\": true\n  }\n}",
+  "settings": {
+   "context_management": null,
+   "extra_args": null,
+   "extra_body": null,
+   "extra_headers": null,
+   "extra_query": null,
+   "frequency_penalty": null,
+   "include_usage": null,
+   "max_tokens": null,
+   "metadata": null,
+   "parallel_tool_calls": false,
+   "presence_penalty": null,
+   "preserve_raw_usage": null,
+   "prompt_cache_options": null,
+   "prompt_cache_retention": null,
+   "reasoning": null,
+   "response_include": null,
+   "store": null,
+   "temperature": null,
+   "timeout": null,
+   "tool_choice": null,
+   "top_logprobs": null,
+   "top_p": null,
+   "truncation": null,
+   "verbosity": null
+  },
+  "tools": []
+ },
+ {
+  "agent": "claim_planner",
+  "instructions_sha256": "539c00e2fed00c472483d321ce48e65aac791044a7e5602958ecf56981781593",
+  "max_turns": 10,
+  "model": "gold-model",
+  "output_schema": {
+   "$defs": {
+    "VerificationCheck": {
+     "additionalProperties": false,
+     "description": "Single independent verification question generated by planning.",
+     "properties": {
+      "acceptance_criteria": {
+       "description": "Concrete 'done when ...' conditions that settle this check, e.g. 'the figure is confirmed by an official statistics release'. Used by the reviewer.",
+       "items": {
+        "type": "string"
+       },
+       "title": "Acceptance Criteria",
+       "type": "array"
+      },
+      "aspect_id": {
+       "description": "Stable check identifier, e.g. 'timeline_1'.",
+       "title": "Aspect Id",
+       "type": "string"
+      },
+      "question": {
+       "description": "Precise verification question for one claim aspect.",
+       "title": "Question",
+       "type": "string"
+      },
+      "rationale": {
+       "description": "Why this question matters for claim validation.",
+       "title": "Rationale",
+       "type": "string"
+      },
+      "search_queries": {
+       "description": "Targeted web queries to be used by the investigator.",
+       "items": {
+        "type": "string"
+       },
+       "title": "Search Queries",
+       "type": "array"
+      }
+     },
+     "required": [
+      "aspect_id",
+      "question",
+      "rationale",
+      "search_queries",
+      "acceptance_criteria"
+     ],
+     "title": "VerificationCheck",
+     "type": "object"
+    }
+   },
+   "additionalProperties": false,
+   "description": "Planner output that enumerates checks and explicit assumptions.",
+   "properties": {
+    "assumptions": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Assumptions",
+     "type": "array"
+    },
+    "checks": {
+     "items": {
+      "$ref": "#/$defs/VerificationCheck"
+     },
+     "title": "Checks",
+     "type": "array"
+    },
+    "claim": {
+     "description": "Exact claim text being investigated.",
+     "title": "Claim",
+     "type": "string"
+    }
+   },
+   "required": [
+    "claim",
+    "checks",
+    "assumptions"
+   ],
+   "title": "InvestigationPlan",
+   "type": "object"
+  },
+  "raw": "{\n  \"claim\": \"The claim text.\",\n  \"requirements\": {\n    \"max_checks\": 4,\n    \"acceptance_criteria_per_check\": true,\n    \"checks_must_be_independent\": true\n  }\n}",
+  "settings": {
+   "context_management": null,
+   "extra_args": {
+    "service_tier": "flex"
+   },
+   "extra_body": null,
+   "extra_headers": null,
+   "extra_query": null,
+   "frequency_penalty": null,
+   "include_usage": null,
+   "max_tokens": null,
+   "metadata": null,
+   "parallel_tool_calls": false,
+   "presence_penalty": null,
+   "preserve_raw_usage": null,
+   "prompt_cache_options": null,
+   "prompt_cache_retention": null,
+   "reasoning": null,
+   "response_include": null,
+   "store": null,
+   "temperature": null,
+   "timeout": null,
+   "tool_choice": null,
+   "top_logprobs": null,
+   "top_p": null,
+   "truncation": null,
+   "verbosity": null
+  },
+  "tools": []
+ },
+ {
+  "agent": "veracity_judge",
+  "instructions_sha256": "2eb295dde1dce5c8eaeb63284bb49c151ab835cf71d1c1626a24ba686be196db",
+  "max_turns": 10,
+  "model": "gold-model",
+  "output_schema": {
+   "$defs": {
+    "AspectFinding": {
+     "additionalProperties": false,
+     "description": "Research outcome for one planned aspect of the claim.",
+     "properties": {
+      "aspect_id": {
+       "title": "Aspect Id",
+       "type": "string"
+      },
+      "caveats": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Caveats",
+       "type": "array"
+      },
+      "confidence": {
+       "description": "0 to 1 confidence score for this aspect.",
+       "maximum": 1.0,
+       "minimum": 0.0,
+       "title": "Confidence",
+       "type": "number"
+      },
+      "question": {
+       "title": "Question",
+       "type": "string"
+      },
+      "signal": {
+       "$ref": "#/$defs/EvidenceSignal"
+      },
+      "sources": {
+       "items": {
+        "$ref": "#/$defs/SourceEvidence"
+       },
+       "title": "Sources",
+       "type": "array"
+      },
+      "summary": {
+       "description": "What the collected evidence says for this aspect.",
+       "title": "Summary",
+       "type": "string"
+      }
+     },
+     "required": [
+      "aspect_id",
+      "question",
+      "signal",
+      "summary",
+      "confidence",
+      "sources",
+      "caveats"
+     ],
+     "title": "AspectFinding",
+     "type": "object"
+    },
+    "EvidenceSignal": {
+     "enum": [
+      "supports",
+      "refutes",
+      "mixed",
+      "insufficient"
+     ],
+     "title": "EvidenceSignal",
+     "type": "string"
+    },
+    "SourceEvidence": {
+     "additionalProperties": false,
+     "description": "Source snippet attached to findings and final verdict justification.",
+     "properties": {
+      "published_at": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Published At"
+      },
+      "publisher": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Publisher"
+      },
+      "snippet": {
+       "description": "Short text span from the source backing the claim.",
+       "title": "Snippet",
+       "type": "string"
+      },
+      "title": {
+       "description": "Human-readable title of the source.",
+       "title": "Title",
+       "type": "string"
+      },
+      "url": {
+       "description": "URL used during fact-checking.",
+       "title": "Url",
+       "type": "string"
+      }
+     },
+     "required": [
+      "title",
+      "url",
+      "snippet",
+      "publisher",
+      "published_at"
+     ],
+     "title": "SourceEvidence",
+     "type": "object"
+    },
+    "VeracityVerdict": {
+     "enum": [
+      "Supported",
+      "Refuted",
+      "Not Enough Evidence",
+      "Conflicting Evidence/Cherrypicking"
+     ],
+     "title": "VeracityVerdict",
+     "type": "string"
+    }
+   },
+   "additionalProperties": false,
+   "description": "Final verdict artifact combining synthesis, findings, and deduped sources.",
+   "properties": {
+    "claim": {
+     "title": "Claim",
+     "type": "string"
+    },
+    "counter_argument": {
+     "default": "",
+     "description": "The strongest honest case for a different verdict, grounded in the same findings, and why it was not adopted.",
+     "title": "Counter Argument",
+     "type": "string"
+    },
+    "evidence_gaps": {
+     "description": "Specific evidence that would have changed or firmed up the verdict but was not found.",
+     "items": {
+      "type": "string"
+     },
+     "title": "Evidence Gaps",
+     "type": "array"
+    },
+    "findings": {
+     "items": {
+      "$ref": "#/$defs/AspectFinding"
+     },
+     "title": "Findings",
+     "type": "array"
+    },
+    "justification": {
+     "description": "Tight synthesis of why the verdict is assigned. Every evidential sentence cites source ids like [S1]; inferences are marked as such.",
+     "title": "Justification",
+     "type": "string"
+    },
+    "key_points": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Key Points",
+     "type": "array"
+    },
+    "sources": {
+     "items": {
+      "$ref": "#/$defs/SourceEvidence"
+     },
+     "title": "Sources",
+     "type": "array"
+    },
+    "verdict": {
+     "$ref": "#/$defs/VeracityVerdict"
+    },
+    "verdict_confidence": {
+     "description": "0 to 1 confidence in final verdict.",
+     "maximum": 1.0,
+     "minimum": 0.0,
+     "title": "Verdict Confidence",
+     "type": "number"
+    }
+   },
+   "required": [
+    "claim",
+    "verdict",
+    "verdict_confidence",
+    "justification",
+    "key_points",
+    "counter_argument",
+    "evidence_gaps",
+    "findings",
+    "sources"
+   ],
+   "title": "FactCheckReport",
+   "type": "object"
+  },
+  "raw": "{\n  \"reference_date\": \"2020-10-30\",\n  \"claim\": \"The claim text.\",\n  \"assumptions\": [\n    \"as1\"\n  ],\n  \"evidence_overview\": {\n    \"checks_planned\": 2,\n    \"checks_completed\": 2,\n    \"checks_failed\": 0,\n    \"signal_counts\": {\n      \"supports\": 1,\n      \"refutes\": 1,\n      \"mixed\": 0,\n      \"insufficient\": 0\n    },\n    \"source_tier_counts\": {\n      \"primary\": 1,\n      \"news\": 2\n    }\n  },\n  \"findings_by_signal\": {\n    \"supports\": [\n      {\n        \"aspect_id\": \"a2\",\n        \"question\": \"Q?\",\n        \"acceptance_criteria\": [\n          \"c2\"\n        ],\n        \"summary\": \"sum a2\",\n        \"confidence\": 0.6,\n        \"caveats\": [\n          \"cv\",\n          \"1 source(s) removed by retrieval constraints (fact-checking domain blocklist or evidence date cutoff).\"\n        ],\n        \"source_ids\": [\n          \"S1\",\n          \"S3\"\n        ]\n      }\n    ],\n    \"refutes\": [\n      {\n        \"aspect_id\": \"a1\",\n        \"question\": \"Q?\",\n        \"acceptance_criteria\": [\n          \"c1\"\n        ],\n        \"summary\": \"sum a1\",\n        \"confidence\": 0.6,\n        \"caveats\": [\n          \"cv\",\n          \"1 source(s) removed by retrieval constraints (fact-checking domain blocklist or evidence date cutoff).\"\n        ],\n        \"source_ids\": [\n          \"S1\",\n          \"S2\"\n        ]\n      }\n    ],\n    \"mixed\": [],\n    \"insufficient\": []\n  },\n  \"sources\": [\n    {\n      \"id\": \"S1\",\n      \"title\": \"Gov\",\n      \"url\": \"https://www.census.gov/x\",\n      \"publisher\": null,\n      \"published_at\": \"2019-01-01\",\n      \"tier\": \"primary\",\n      \"snippet\": \"snip one\",\n      \"cited_by\": [\n        \"a1\",\n        \"a2\"\n      ],\n      \"grounding\": \"unmatched\"\n    },\n    {\n      \"id\": \"S2\",\n      \"title\": \"News\",\n      \"url\": \"https://www.reuters.com/a1\",\n      \"publisher\": \"Reuters\",\n      \"published_at\": \"2019-02-01\",\n      \"tier\": \"news\",\n      \"snippet\": \"snip two\",\n      \"cited_by\": [\n        \"a1\"\n      ],\n      \"grounding\": \"unmatched\"\n    },\n    {\n      \"id\": \"S3\",\n      \"title\": \"News\",\n      \"url\": \"https://www.reuters.com/a2\",\n      \"publisher\": \"Reuters\",\n      \"published_at\": \"2019-02-01\",\n      \"tier\": \"news\",\n      \"snippet\": \"snip two\",\n      \"cited_by\": [\n        \"a2\"\n      ],\n      \"grounding\": \"unmatched\"\n    }\n  ],\n  \"citation_rule\": \"Reference sources in justification and key_points by their id in square brackets, e.g. [S2]. Sentences without a source id must be explicitly marked as inference.\"\n}",
+  "settings": {
+   "context_management": null,
+   "extra_args": {
+    "service_tier": "flex"
+   },
+   "extra_body": null,
+   "extra_headers": null,
+   "extra_query": null,
+   "frequency_penalty": null,
+   "include_usage": null,
+   "max_tokens": null,
+   "metadata": null,
+   "parallel_tool_calls": false,
+   "presence_penalty": null,
+   "preserve_raw_usage": null,
+   "prompt_cache_options": null,
+   "prompt_cache_retention": null,
+   "reasoning": "Reasoning(context=None, effort='high', generate_summary=None, mode=None, summary=None)",
+   "response_include": null,
+   "store": null,
+   "temperature": null,
+   "timeout": null,
+   "tool_choice": null,
+   "top_logprobs": null,
+   "top_p": null,
+   "truncation": null,
+   "verbosity": null
+  },
+  "tools": []
+ }
+]

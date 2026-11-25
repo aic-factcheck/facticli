@@ -1,9 +1,11 @@
+"""Runtime configuration for fact-check runs and claim extraction."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 
 # Stage names accepted by per-stage model / reasoning-effort routing.
-STAGE_NAMES: tuple[str, ...] = ("plan", "research", "review", "judge", "single_agent", "extract_claims")
+STAGE_NAMES: tuple[str, ...] = ("plan", "research", "judge", "extract_claims")
 # Superset of what reasoning models accept. Which values a given model honours
 # is the provider's call; an unsupported one fails the request (bad_request).
 REASONING_EFFORTS: tuple[str, ...] = ("none", "minimal", "low", "medium", "high", "xhigh", "max")
@@ -12,20 +14,18 @@ REASONING_EFFORTS: tuple[str, ...] = ("none", "minimal", "low", "medium", "high"
 # refusing those costs evidence (measurements in TODO.md), so the cap only
 # stops runaway loops.
 SEARCH_CAP_FACTOR = 2
-STRATEGIES: tuple[str, ...] = ("pipeline", "single_agent")
 SERVICE_TIERS: tuple[str, ...] = ("auto", "default", "flex", "priority")
 FLEX_RESEARCH_TIMEOUT_SECONDS = 600.0
 
 
 @dataclass(frozen=True)
 class InferenceConfig:
-    """Shared inference knobs used by runtime service factories.
+    """Model, endpoint, and per-stage routing shared by every run.
 
     ``stage_models`` / ``stage_efforts`` route individual stages to a different
-    model or reasoning effort than the default (e.g. a small local model for
-    research and a frontier model for the judge). Keys are ``STAGE_NAMES``.
-    ``model_retry_attempts`` is the per-call cap for SDK-managed retries of
-    transient provider errors; ``retry_budget`` caps retries across the run.
+    model or reasoning effort than the default; keys are ``STAGE_NAMES``.
+    ``model_retry_attempts`` is how often the OpenAI client retries a
+    transient error (429, 5xx, timeout, connection) of one request.
     """
     model: str | None = None
     base_url: str | None = None
@@ -33,7 +33,6 @@ class InferenceConfig:
     stage_models: dict[str, str] = field(default_factory=dict)
     stage_efforts: dict[str, str] = field(default_factory=dict)
     model_retry_attempts: int = 3
-    retry_budget: int | None = 12
     # OpenAI processing tier sent with every model call ("flex": half price,
     # slower, occasionally HTTP 429 resource-unavailable, which is retried).
     service_tier: str | None = None
@@ -47,22 +46,15 @@ class InferenceConfig:
 
 @dataclass(frozen=True)
 class FactCheckRuntimeConfig(InferenceConfig):
-    """Runtime configuration for full fact-check orchestration."""
-    strategy: str = "pipeline"
+    """Configuration of one plan -> research -> judge run."""
     max_checks: int = 4
     max_parallel_research: int = 4
-    max_feedback_rounds: int = 0
-    max_follow_up_checks: int = 2
     search_context_size: str = "high"
     search_provider: str = "openai"
     search_results_per_query: int = 5
     max_search_queries_per_check: int = 5
-    single_agent_max_turns: int = 24
     research_timeout_seconds: float = 120.0
     research_retry_attempts: int = 1
-    token_budget: int | None = None
-    verify_sources: bool = False
-    citation_check_timeout_seconds: float = 8.0
     max_tool_output_chars: int = 12000
     max_chars_per_result_field: int = 1500
     block_fact_checkers: bool = False
@@ -81,7 +73,7 @@ class FactCheckRuntimeConfig(InferenceConfig):
 
 @dataclass(frozen=True)
 class ClaimExtractionRuntimeConfig(InferenceConfig):
-    """Runtime configuration for standalone claim extraction flows."""
+    """Configuration of standalone claim extraction."""
     max_claims: int = 12
 
 
@@ -91,7 +83,7 @@ def parse_stage_assignments(
     allowed_values: tuple[str, ...] | None = None,
     option_name: str,
 ) -> dict[str, str]:
-    """Parse repeatable ``STAGE=VALUE`` CLI/config entries into a mapping.
+    """Parse repeatable ``STAGE=VALUE`` entries into a mapping.
 
     Raises ``ValueError`` on unknown stages, malformed entries, or (when
     ``allowed_values`` is given) values outside the allowed set.

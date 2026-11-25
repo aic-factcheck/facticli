@@ -193,8 +193,6 @@ class GroundingTests(unittest.TestCase):
                         "snippet": "s",
                         "grounding": "quote_matched",
                         "tier": "primary",
-                        "url_status": "live",
-                        "archived_url": "https://web.archive.org/web/2020/https://example.org/a",
                     }
                 ],
             }
@@ -202,7 +200,7 @@ class GroundingTests(unittest.TestCase):
         clean = finding.without_harness_fields()
         self.assertEqual((clean.status, clean.failure_reason, clean.stop_reason), (FindingStatus.COMPLETED, None, None))
         source = clean.sources[0]
-        self.assertEqual((source.grounding, source.tier, source.url_status, source.archived_url), (None, None, None, None))
+        self.assertEqual((source.grounding, source.tier), (None, None))
         # Grounding overwrites the field even when it cannot assess the source.
         self.assertIsNone(ground_finding(finding, None).sources[0].grounding)
 

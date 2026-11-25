@@ -9,10 +9,10 @@ class SearchAuthError(Exception):
 
 
 class ErrorKind(str, Enum):
-    """Provider-agnostic failure taxonomy used for retry policy and artifacts.
+    """Provider-agnostic failure taxonomy for artifacts and the research retry decision.
 
-    Retryable kinds are transient transport or capacity problems. Everything
-    else needs either a different request (schema, context overflow, bad
+    Transient transport and capacity problems (rate limit, timeout, network,
+    server) are retried by the OpenAI client. Everything else needs either a different request (schema, context overflow, bad
     request, refusal, forbidden) or a human (auth, quota). ``quota`` is split
     from ``rate_limit`` because both arrive as HTTP 429: a throttled request succeeds after backoff, an
     exhausted account never does. ``forbidden`` (HTTP 403) is split from
@@ -35,10 +35,6 @@ class ErrorKind(str, Enum):
     REFUSAL = "refusal"
     UNKNOWN = "unknown"
 
-
-RETRYABLE_KINDS: frozenset[ErrorKind] = frozenset(
-    {ErrorKind.RATE_LIMIT, ErrorKind.TIMEOUT, ErrorKind.NETWORK, ErrorKind.SERVER}
-)
 
 RETRYABLE_STATUS_CODES: frozenset[int] = frozenset({408, 409, 425, 429, 500, 502, 503, 504})
 
@@ -155,11 +151,6 @@ def classify_exception(exc: BaseException) -> ErrorKind:
     if _looks_like_context_overflow(message):
         return ErrorKind.CONTEXT_OVERFLOW
     return ErrorKind.UNKNOWN
-
-
-def is_retryable(kind: ErrorKind) -> bool:
-    """True for transient kinds worth another attempt with backoff."""
-    return kind in RETRYABLE_KINDS
 
 
 def is_fatal(kind: ErrorKind) -> bool:

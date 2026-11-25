@@ -29,7 +29,7 @@ from facticli.core.source_quality import classify_source_tier
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m facticli.artifacts_audit",
-        description="Audit persisted facticli run artifacts for leakage, failures, budget use, and evidence dependence.",
+        description="Audit persisted facticli run artifacts for leakage, failures, provenance, and evidence dependence.",
     )
     parser.add_argument("--artifacts-dir", required=True, help="Directory of run_*.json artifact files.")
     parser.add_argument(
@@ -81,7 +81,6 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
     raw_fact_checker = 0
     removed = 0
     failed_checks = 0
-    budget_skipped = 0
     stop_reasons: dict[str, int] = {}
     for check in artifacts.research_checks:
         removed += len(check.removed_sources)
@@ -90,8 +89,6 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
             continue
         if finding.status == FindingStatus.FAILED:
             failed_checks += 1
-        elif finding.status == FindingStatus.BUDGET_EXHAUSTED:
-            budget_skipped += 1
         elif finding.stop_reason is not None:
             stop_reasons[finding.stop_reason.value] = stop_reasons.get(finding.stop_reason.value, 0) + 1
         raw_fact_checker += sum(
@@ -108,7 +105,6 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
     return {
         "claim_id": artifacts.claim_id,
         "claim": artifacts.normalized_claim,
-        "strategy": artifacts.strategy,
         "verdict": report.verdict.value if report else None,
         "verdict_confidence": report.verdict_confidence if report else None,
         "claim_date": claim_date,
@@ -121,9 +117,7 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
         "tier_counts": tier_counts,
         "checks": len(artifacts.research_checks),
         "failed_checks": failed_checks,
-        "budget_skipped_checks": budget_skipped,
         "stop_reasons": stop_reasons,
-        "review_rounds": len(artifacts.review_rounds),
         "total_tokens": usage.total_tokens if usage else None,
         "failed_attempt_tokens": usage.failed_attempt_tokens if usage else None,
         "cache_hit_rate": usage.cache_hit_rate if usage else None,
@@ -160,7 +154,6 @@ def aggregate(rows: list[dict[str, Any]], gold: list[dict[str, Any]] | None) -> 
         "failed_check_share": _mean(
             [row["failed_checks"] / row["checks"] for row in rows if row["checks"]]
         ),
-        "runs_with_budget_skips": sum(1 for row in rows if row["budget_skipped_checks"]),
         "checks_cut_short": _sum_dicts([row["stop_reasons"] for row in rows]),
         "grounding_counts": _sum_dicts([row["grounding"] for row in rows]),
         "runs_with_unmatched_source": sum(1 for row in rows if row["grounding"].get("unmatched")),
@@ -229,11 +222,13 @@ async def run_evidence_ablation(
     A verdict that survives without evidence was not evidence-driven; a high
     survival rate for Supported/Refuted means the judge answers from memory.
     """
-    from facticli.adapters import CompatibleJudgeAdapter, configure_inference_client, load_inference_config
+    from facticli.core.contracts import FactCheckReport
+    from facticli.llm import StageRunner, configure_client, resolve_endpoint
+    from facticli.payloads import judge_payload
 
-    inference = load_inference_config(requested_model=model, base_url=base_url)
-    configure_inference_client(inference)
-    judge = CompatibleJudgeAdapter(model=inference.model, max_turns=6, retry_attempts=2)
+    inference = resolve_endpoint(requested_model=model, base_url=base_url)
+    configure_client(inference, max_retries=2)
+    judge = StageRunner(name="veracity_judge", stage="judge", output_type=FactCheckReport, model=inference.model, max_turns=6)
     semaphore = asyncio.Semaphore(max(1, workers))
 
     async def ablate(path: Path, artifacts: RunArtifacts) -> dict[str, Any]:
@@ -243,7 +238,7 @@ async def run_evidence_ablation(
             return {"file": path.name, "skipped": True}
         async with semaphore:
             try:
-                ablated = await judge.judge(claim=artifacts.normalized_claim, plan=plan, findings=[])
+                ablated, _ = await judge.run(judge_payload(claim=artifacts.normalized_claim, plan=plan, findings=[]))
             except Exception as exc:
                 return {"file": path.name, "error": f"{type(exc).__name__}: {exc}"}
         return {
@@ -333,7 +328,6 @@ def _print_summary(audit: dict[str, Any]) -> None:
     print(f"tiers: {summary['tier_counts']}")
     print(
         f"robustness: failed-check share {summary['failed_check_share']}, "
-        f"{summary['runs_with_budget_skips']} run(s) hit the token budget, "
         f"checks cut short {summary['checks_cut_short'] or 'none'}"
     )
     print(

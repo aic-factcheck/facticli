@@ -202,7 +202,7 @@ class BatchRunTests(unittest.TestCase):
             stderr = io.StringIO()
             with (
                 patch.dict("os.environ", {"OPENAI_API_KEY": "k", "OPENAI_API_MODEL": "m"}, clear=False),
-                patch("facticli.averitec_submission.build_fact_check_service", side_effect=[service] if service else ValueError("bad config")),
+                patch("facticli.averitec_submission.build_fact_checker", side_effect=[service] if service else ValueError("bad config")),
                 redirect_stderr(stderr),
             ):
                 code = asyncio.run(_run(args))

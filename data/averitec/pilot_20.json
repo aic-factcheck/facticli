@@ -1,0 +1,1152 @@
+[
+ {
+  "claim": "Donald Trump said that $15 an hour is too much for essential workers",
+  "required_reannotation": true,
+  "label": "Conflicting Evidence/Cherrypicking",
+  "justification": "Even though Trump said similar to this, it was taking out of context. The claim was cherrypicking. ",
+  "claim_date": "24-10-2020",
+  "speaker": "Joe Biden",
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210301032120/https://www.politifact.com/factchecks/2020/oct/30/joe-biden/does-donald-trump-think-15-hour-too-much-essential/",
+  "reporting_source": null,
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Quote Verification"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Fact-checker Reference"
+  ],
+  "questions": [
+   {
+    "question": "Did Donald Trump say that $15 an hour is too much for essential workers?",
+    "answers": [
+     {
+      "answer": "Trump Says He’d ‘Consider’ $15 Per Hour Federal Minimum Wage, But Prefers To Leave It To States",
+      "answer_type": "Extractive",
+      "source_url": "https://www.forbes.com/sites/nicholasreimann/2020/10/23/trump-says-hed-consider-15-per-hour-federal-minimum-wage-but-prefers-to-leave-it-to-states/?sh=4abf846e6486",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324155158/https://www.forbes.com/sites/nicholasreimann/2020/10/23/trump-says-hed-consider-15-per-hour-federal-minimum-wage-but-prefers-to-leave-it-to-states/?sh=4abf846e6486"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 43
+ },
+ {
+  "claim": "Hunter Biden (son of US president Joe Biden)  had 25,000 pics of him torturing and raping children under 10 in China on his laptop.",
+  "required_reannotation": false,
+  "label": "Not Enough Evidence",
+  "justification": "Answers do not confirm or deny this.",
+  "claim_date": "18-10-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210616174749/https://www.factcheck.org/2020/10/social-media-posts-dredge-up-baseless-child-trafficking-conspiracy-theory/",
+  "reporting_source": "Facebook User posts",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "What is this claim based on?",
+    "answers": [
+     {
+      "answer": "Hunter Biden's laptop was subpoena'd by an FBI agent who workd on child pornography.",
+      "answer_type": "Abstractive",
+      "source_url": "https://twitter.com/atrupar/status/1317849887438966784?s=21",
+      "source_medium": "Video",
+      "cached_source_url": "https://web.archive.org/web/20230324171501/https://twitter.com/atrupar/status/1317849887438966784?s=21"
+     }
+    ]
+   },
+   {
+    "question": "Was there child pornography on the laptop?",
+    "answers": [
+     {
+      "answer": "“I don’t want to speculate,” said  Sen. Ron Johnson, who nevertheless went on to say, “I’ve heard all kinds of things that I think will probably be revealed over the next few days.”",
+      "answer_type": "Extractive",
+      "source_url": "https://twitter.com/atrupar/status/1317849887438966784?s=21",
+      "source_medium": "Video",
+      "cached_source_url": "https://web.archive.org/web/20230324171501/https://twitter.com/atrupar/status/1317849887438966784?s=21"
+     },
+     {
+      "answer": "Sen. Ron Johnson is calling on FBI Director Christopher Wray to confirm or deny details regarding a laptop said to have belonged to Democratic presidential nominee Joe Biden's son Hunter Biden.\n\nJohnson, R-Wis., said in a letter to Wray obtained by Fox News that a whistleblower contacted his committee on September 24, claiming to possess a laptop that Hunter Biden left at his business, and that he had turned it over to the FBI. Johnson noted that staff immediately asked the FBI to confirm certain details in order to validate the claim, but the bureau said they would not confirm or deny any of the information included in their request.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.foxnews.com/politics/sen-johnson-presses-wray-on-validity-of-hunter-biden-laptop-claim",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324172123/https://www.foxnews.com/politics/sen-johnson-presses-wray-on-validity-of-hunter-biden-laptop-claim"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 76
+ },
+ {
+  "claim": "India's Congress party candidate Maskoor Usmani installed Jinnah's portrait at AMU.",
+  "required_reannotation": true,
+  "label": "Refuted",
+  "justification": "The portrait of Jinnah has been on display at AMU since 1938, so India's Congress party candidate Maskoor Usmani could not have installed it. Hence, the claim is refuted.",
+  "claim_date": "17-10-2020",
+  "speaker": "Pooja Chaudhuri",
+  "original_claim_url": "https://t.co/sf132cXZN6pic.twitter.com/Um6lIYhCI7",
+  "fact_checking_article": "https://web.archive.org/web/20210226192757/https://www.altnews.in/aaj-tak-falselt-claims-congress-candidate-maskoor-usmani-hung-jinnahs-portrait-at-amu/",
+  "reporting_source": "Twitter",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Quote Verification"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "What is Aaj Tak?",
+    "answers": [
+     {
+      "answer": "Aaj Tak is an Entertainment company located in E-1, Videocon Tower jhandewalan Extn, New Delhi, Delhi, India.",
+      "answer_type": "Extractive",
+      "source_url": "https://in.linkedin.com/company/aaj-tak",
+      "source_medium": "Web text"
+     }
+    ]
+   },
+   {
+    "question": "Who was Jinnah?",
+    "answers": [
+     {
+      "answer": "Standing before Jinnah’s tomb, Advani described the founder of Pakistan as “secular” and an “ambassador of Hindu-Muslim unity”.\n\nThat Jinnah believed in keeping statecraft and religion apart is a well-established fact of history...",
+      "answer_type": "Extractive",
+      "source_url": "https://www.telegraphindia.com/india/advani-salutes-secular-jinnah/cid/873488",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324182506/https://www.telegraphindia.com/india/advani-salutes-secular-jinnah/cid/873488"
+     }
+    ]
+   },
+   {
+    "question": "What is AMU?",
+    "answers": [
+     {
+      "answer": "Aligarh Muslim University (AMU) occupies a unique position amongst universities and institutions of higher learning in the country. It was established in 1920 and evolved out of the Mohammedan Anglo-Oriental (MAO ) which was set up on 7 January 1877 by the great visionary and social reformer, Sir Syed Ahmad khan. From its very inception, it has kept its door open to the members of all communities and from all corners of the country and the world. The Aligarh Muslim University s the realization of a vision which was broad, far-reaching and realistic",
+      "answer_type": "Extractive",
+      "source_url": "https://www.amu.ac.in/about-us/facts",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324182723/https://www.amu.ac.in/about-us/facts"
+     }
+    ]
+   },
+   {
+    "question": "How long has the portrait of Jinnah been hanging at AMU?",
+    "answers": [
+     {
+      "answer": "A tweet on May 3, 2018 said:\nFor Jinnah portrait hanging since 1938....",
+      "answer_type": "Extractive",
+      "source_url": "https://twitter.com/thewire_in/status/991882541337600000?ref_src=twsrc%5Etfw",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324182812/https://twitter.com/thewire_in/status/991882541337600000?ref_src=twsrc%5Etfw"
+     }
+    ]
+   },
+   {
+    "question": "When was Maskoor Usmani a Congress candidate?",
+    "answers": [
+     {
+      "answer": "Congress has given Jale constituency ticket to former President of Aligarh Muslim University Student's Union Dr Maskoor Ahmad Usmani (published 16 October, 2020)",
+      "answer_type": "Extractive",
+      "source_url": "https://www.newindianexpress.com/nation/2020/oct/16/ln-mishras-grandson-denied-congress-ticket-calls-party-candidate-masqoor-usmani-anti-national-ji-2211130.html",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324182909/https://www.newindianexpress.com/nation/2020/oct/16/ln-mishras-grandson-denied-congress-ticket-calls-party-candidate-masqoor-usmani-anti-national-ji-2211130.html"
+     }
+    ]
+   },
+   {
+    "question": "Did Maskoor Usmani  hang the portrait of Jinnah inside AMU campus?",
+    "answers": [
+     {
+      "answer": "Like portraits of most leaders inside the union building, Jinnah also found a spot. That portrait has been hanging at the AMU students' union hall for decades, and yet, it did not turn AMU into another Pakistan. The university remains a premier central institution, funded by the government itself.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.dailyo.in/politics/jinnah-portrait-aligarh-muslim-university-controversy-bjp-sangh-parivar-india-pakistan-amu-students-union-23850",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230324183057/https://www.dailyo.in/politics/jinnah-portrait-aligarh-muslim-university-controversy-bjp-sangh-parivar-india-pakistan-amu-students-union-23850"
+     }
+    ]
+   }
+  ],
+  "claim_id": 85
+ },
+ {
+  "claim": "Distance between Gandhi and Green thread can determine if Rs 500 note is genuine or fake",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "There is no evidence of the distance between Gandhi and a Green thread as a determinant of a note being genuine or fake",
+  "claim_date": "26-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20201030040136/https://newsmeter.in/fact-check-distance-between-gandhi-and-green-thread-cannot-determine-rs-500-note-is-genuine-or-fake/",
+  "reporting_source": "WhatsApp",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "what features of the Rs 500 show it's real?",
+    "answers": [
+     {
+      "answer": "There are several features, The RBI explained that the new ₹500 notes in the Mahatma Gandhi (New) Series are different from the present series in color, size, theme, location of security features, and design elements. The size of the new note is 66mm x 150mm. The color of the notes is stone grey and the predominant new theme is Red Fort.",
+      "answer_type": "Abstractive",
+      "source_url": "https://web.archive.org/web/20220529094930/https://www.rbi.org.in/financialeducation/images/Rs%20500%20Note_English.jpg",
+      "source_medium": "Image/graphic",
+      "cached_source_url": "https://web.archive.org/web/20220529094930/https://www.rbi.org.in/financialeducation/images/Rs%20500%20Note_English.jpg"
+     }
+    ]
+   },
+   {
+    "question": "Do any of these features mention a green thread?",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20220529094930/https://www.rbi.org.in/financialeducation/images/Rs%20500%20Note_English.jpg",
+      "source_medium": "Image/graphic",
+      "boolean_explanation": "in all these features, the RBI didn’t mention about the distance between the security strip or green thread to Mahatma Gandhi or signature of the governor. Even the thread shown in the specimen note above is not in the same place mentioned by the people sharing the message on social media.",
+      "cached_source_url": "https://web.archive.org/web/20220529094930/https://www.rbi.org.in/financialeducation/images/Rs%20500%20Note_English.jpg"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 261
+ },
+ {
+  "claim": "False positives and rapid tests put the rate of infection near zero and that there will be no second wave of infections",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "There is no evidence shown with these questions that the false positive rate was high enough to lead to a near zero infection rate and there was a second wave. ",
+  "claim_date": "22-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210424174433/https://leadstories.com/hoax-alert/2020/10/fact-check-former-pfizer-scientist-not-correct-saying-second-wave-faked-on-false-positive-covid-tests-pan.html",
+  "reporting_source": " Hub Pages",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Position Statement"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Consultation"
+  ],
+  "questions": [
+   {
+    "question": "When was the claim made?",
+    "answers": [
+     {
+      "answer": "22nd September 2020",
+      "answer_type": "Extractive",
+      "source_url": "Metadata",
+      "source_medium": "Metadata",
+      "cached_source_url": "Metadata"
+     }
+    ]
+   },
+   {
+    "question": "What virus outbreak does the claim refer to?",
+    "answers": [
+     {
+      "answer": "Coronavirus covid 19.",
+      "answer_type": "Extractive",
+      "source_url": "Metadata",
+      "source_medium": "Metadata",
+      "cached_source_url": "Metadata"
+     }
+    ]
+   },
+   {
+    "question": "which country does the claim refer to?",
+    "answers": [
+     {
+      "answer": "United states.",
+      "answer_type": "Extractive",
+      "source_url": "Metadata",
+      "source_medium": "Metadata",
+      "cached_source_url": "Metadata"
+     }
+    ]
+   },
+   {
+    "question": "Do Covid rapid tests show any false positive results?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://www.cochrane.org/CD013652/INFECTN_what-diagnostic-accuracy-antibody-tests-detection-infection-covid-19-virus",
+      "source_medium": "Web text",
+      "boolean_explanation": "A study found that of 464 people who would test positive for COVID-19. 7 people (2%) would not have COVID-19 (false positive result).",
+      "cached_source_url": "https://web.archive.org/web/20230319110417/https://www.cochrane.org/CD013652/INFECTN_what-diagnostic-accuracy-antibody-tests-detection-infection-covid-19-virus"
+     }
+    ]
+   },
+   {
+    "question": "Are the rate of false positives in rapid covid tests high or low?",
+    "answers": [
+     {
+      "answer": "Tests only gave false positive results in 2% of those without COVID-19.\n\nAntibody tests one week after first symptoms only detected 30% of people who had COVID-19. Accuracy increased in week 2 with 70% detected, and was highest in week 3 (more than 90% detected). Little evidence was available after week 3.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.cochrane.org/CD013652/INFECTN_what-diagnostic-accuracy-antibody-tests-detection-infection-covid-19-virus",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230319110417/https://www.cochrane.org/CD013652/INFECTN_what-diagnostic-accuracy-antibody-tests-detection-infection-covid-19-virus"
+     }
+    ]
+   },
+   {
+    "question": "After the claim date was a second wave of Covid infection expected?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20210228174018/https://www.webmd.com/lung/news/20200925/us-still-in-first-wave-of-covid-19-fauci-says",
+      "source_medium": "Web text",
+      "boolean_explanation": "The idea of a second wave was based on the 1918 flu pandemic, when many cases were seen in the spring,",
+      "cached_source_url": "https://web.archive.org/web/20210228174018/https://www.webmd.com/lung/news/20200925/us-still-in-first-wave-of-covid-19-fauci-says"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 280
+ },
+ {
+  "claim": "The passing of Ruth Bader Ginsburg will have a profound effect on the future of the Supreme Court of America.",
+  "required_reannotation": false,
+  "label": "Supported",
+  "justification": "Correct",
+  "claim_date": "18-9-2020",
+  "speaker": "Senate Majority Mitch McConnell",
+  "original_claim_url": "https://www.republicanleader.senate.gov/newsroom/press-releases/mcconnell-statement-on-the-passing-of-justice-ruth-bader-ginsburg",
+  "fact_checking_article": "https://web.archive.org/web/20210305231038/https://misbar.com/en/factcheck/2020/09/21/rbgs-death-will-have-profound-impact-on-supreme-court",
+  "reporting_source": "Press Release",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "What affect would her death cause on the supreme court of America?",
+    "answers": [
+     {
+      "answer": "After Ginsburg’s death, Senate Majority Mitch McConnell released a statement that paid respect to the deceased justice. The statement then demonstrated that McConnell is determined to replace Ginsburg’s empty seat. The duty of nominating new Justices for the Supreme Court falls on the President and must be ratified by the Senate. In his statement, McConnell said: “President Trump’s nominee will receive a vote on the floor of the United States Senate.”\n\nMcConnell’s words have been controversial for many. Following the death of Justice Antonin Scalia in 2016, President Obama selected a candidate for his replacement. However, Obama’s replacement (Merrick Garland) never became a Justice.\n\nMcConnell and other Republican Senators would not hold any hearings on the potential new Justice. Their reasoning was that the people ought to choose the next Supreme Court Justice by proxy through the upcoming presidential election. That election came and went, with Donald Trump winning and eventually appointing Brett Kavanaugh as the next Justice.",
+      "answer_type": "Abstractive",
+      "source_url": "https://web.archive.org/web/20210316031824mp_/https://www.republicanleader.senate.gov/newsroom/press-releases/mcconnell-statement-on-the-passing-of-justice-ruth-bader-ginsburg",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210316031824mp_/https://www.republicanleader.senate.gov/newsroom/press-releases/mcconnell-statement-on-the-passing-of-justice-ruth-bader-ginsburg"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://web.archive.org/web/20230403155144/https://www.republicanleader.senate.gov/newsroom/press-releases/mcconnell-statement-on-the-passing-of-justice-ruth-bader-ginsburg",
+  "claim_id": 314
+ },
+ {
+  "claim": "Nigeria is the leading producer of cassava in Africa and the world.",
+  "required_reannotation": false,
+  "label": "Supported",
+  "justification": "The 2nd answer and source clearly shows that Nigeria is the leading producer of the crop and is therefore the claim is supported.",
+  "claim_date": "17-9-2020",
+  "speaker": "Prof Clement Kolawole, a professor of language education at the University of Ibadan (UI), Nigeria",
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210411004740/https://dubawa.org/how-true-are-claims-by-ui-professors-vying-to-become-next-vc-of-the-premier-university/",
+  "reporting_source": "transmitted via Facebook and Zoom, University of Ibadan, Nigeria's UI Community Forum's Voice of Next Vice-Chancellor 2020",
+  "location_ISO_code": "NG",
+  "claim_types": [
+   "Numerical Claim",
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Numerical Comparison"
+  ],
+  "questions": [
+   {
+    "question": "What is cassava?",
+    "answers": [
+     {
+      "answer": "A crop of subsistence agriculture which ‘farmers grow to feed themselves and their families’",
+      "answer_type": "Extractive",
+      "source_url": "https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/cassava",
+      "source_medium": "Web text"
+     }
+    ]
+   },
+   {
+    "question": "Which country produces the most cassava",
+    "answers": [
+     {
+      "answer": "Nigeria is the largest cassava producer globally, accounting for about one-fifth (21%) of total production worldwide.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.pwc.com/ng/en/publications/economic-potential-of-cassava-production-in-nigeria.html",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230403155947/https://www.pwc.com/ng/en/publications/economic-potential-of-cassava-production-in-nigeria.html"
+     }
+    ]
+   },
+   {
+    "question": "Where is Nigeria?",
+    "answers": [
+     {
+      "answer": "In the south east of West Africa,",
+      "answer_type": "Extractive",
+      "source_url": "https://www.nationsonline.org/oneworld/nigeria.htm",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230321061007/https://www.nationsonline.org/oneworld/nigeria.htm"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 319
+ },
+ {
+  "claim": "These unlicensed vaccines will be administered by non-medical staff, such as your employer in the UK.",
+  "required_reannotation": true,
+  "label": "Conflicting Evidence/Cherrypicking",
+  "justification": "It looks as though measures are being taken to allow additional healthcare professionals in the occupational health workforce to be able to administer vaccines, and a protocol would provide the definition for the training and competence requirements of vaccinators (non-healthcare professionals). However, Q5 finds that this does not include your employer. Q2 also finds that temporary authorization of the supply of an unlicensed vaccine could be given by the UK’s licensing authority under regulation 174 of the Human Medicines Regulations.",
+  "claim_date": "13-9-2020",
+  "speaker": "Rachel Elnaugh",
+  "original_claim_url": "https://web.archive.org/web/20210202163413/https://www.facebook.com/permalink.php?story_fbid=3227585677277934&id=100000796017623",
+  "fact_checking_article": "https://web.archive.org/web/20210616041309/https://fullfact.org/online/government-consultation-covid-vaccine-unlicensed/",
+  "reporting_source": "Facebook",
+  "location_ISO_code": "GB",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "What vaccines does the claim refer to?",
+    "answers": [
+     {
+      "answer": "COVID-19 vaccines",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     }
+    ]
+   },
+   {
+    "question": "Were Covid vaccines unlicensed in 2020",
+    "answers": [
+     {
+      "answer": "Until the end of December 2020, EU legislation requires biotechnological medicines which include COVID-19 vaccines to be authorised via the European Medicines Agency, and a marketing authorisation granted by them would automatically be valid in the UK.",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     }
+    ]
+   },
+   {
+    "question": "were Covid vaccines allowed to be administered by non-medical staff, such as employers in the UK?",
+    "answers": [
+     {
+      "answer": "someone other than a registered healthcare professional may actually be administering the unlicensed vaccines",
+      "answer_type": "Abstractive",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations"
+     }
+    ]
+   },
+   {
+    "question": "Will anyone other than a registered healthcare professional be trained to administer a vaccine first?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations",
+      "source_medium": "Web text",
+      "boolean_explanation": "A protocol would provide the definition for the training and competence requirements of vaccinators",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations"
+     }
+    ]
+   },
+   {
+    "question": "Will employers be allowed to administer a covid vaccine?",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations",
+      "source_medium": "Web text",
+      "boolean_explanation": "U.K Human Medicine Regulations make no mention of this.",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations"
+     }
+    ]
+   },
+   {
+    "question": "Were Covid vaccines unlicensed in 2020?",
+    "answers": [
+     {
+      "answer": "Until the end of December 2020, EU legislation requires biotechnological medicines which include COVID-19 vaccines to be authorised via the European Medicines Agency, and a marketing authorisation granted by them would automatically be valid in the UK.",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     },
+     {
+      "answer": "A temporary authorisation of the supply of an unlicensed vaccine could be given by the UK’s licensing authority under regulation 174 of the Human Medicines Regulations (see below). A COVID-19 vaccine would only be authorised in this way if the UK’s licensing authority was satisfied that there is sufficient evidence to demonstrate the safety, quality and efficacy of the vaccine.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230306092343/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     }
+    ]
+   },
+   {
+    "question": "Are Covid vaccines allowed to be administered by non-medical staff, such as employers in the UK?",
+    "answers": [
+     {
+      "answer": "Currently, the HMRs require that only ‘appropriate practitioners’ administer vaccines, as they are a parenterally administered (for example by injection) prescription-only medicine. Appropriate practitioners are defined under regulation 214 as doctors and other qualified prescribers.",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210607133928/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines#proposed-expansion-to-the-workforce-eligible-to-administer-vaccinations"
+     },
+     {
+      "answer": "An expanded workforce is required to ensure that the COVID-19 vaccine can be safely deployed widely as soon as it should become available, given the capacity constraints of the current workforce that can administer vaccines.\nWe are consulting on making the following 3 amendments to the HMRs to increase the number of persons able to safely deliver licensed and potentially unlicensed vaccinations for COVID-19, in particular to ensure that the COVID-19 vaccine can be rolled out as soon as it becomes available.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406125832/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     },
+     {
+      "answer": "Expand the scope of patient group directions (PGDs) to allow the administration of any medicine, including COVID-19 vaccines, the supply of which has been temporarily authorised under regulation 174 of the HMRs. PGDs are usually used to expand the professionals able to deliver prescription-only medicines to individuals. They are used, for example, as part of the annual national influenza immunisation programme by pharmacists working in community pharmacies.\nallow those who are registered healthcare professionals who do not normally vaccinate, and people who are not registered healthcare professionals, to safely administer a licensed or temporarily authorised COVID-19 or influenza vaccine\nExpand the workforce legally allowed to administer vaccines under NHS and local authority occupational health schemes, so that additional healthcare professionals in the occupational health workforce will be able to administer vaccines.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406125832/https://www.gov.uk/government/consultations/distributing-vaccines-and-treatments-for-covid-19-and-flu/consultation-document-changes-to-human-medicine-regulations-to-support-the-rollout-of-covid-19-vaccines"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://web.archive.org/web/20210202163413/https://www.facebook.com/permalink.php?story_fbid=3227585677277934&id=100000796017623",
+  "claim_id": 360
+ },
+ {
+  "claim": "Muslim candidates are allowed more attempts at the UPCS (i.e. Union Public Service Commission for recruitment to higher Civil Services of the Government of India) exam than others",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "Every eligible candidate has the same number of attempts. ",
+  "claim_date": "11-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210520181041/https://www.altnews.in/sudarshan-news-show-upsc-jihad-riddled-with-false-claims/",
+  "reporting_source": "Sudarshan News",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Numerical Claim",
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "Is there any difference between how many attempts a Muslim entrant can have in the exam compared to others ?",
+    "answers": [
+     {
+      "answer": "Every candidate appearing for the examination, who is otherwise eligible, shall be permitted six attempts (two more than earlier four),\" said a notification issued by UPSC for the Civil Services Examination, 2014.",
+      "answer_type": "Extractive",
+      "source_url": "https://economictimes.indiatimes.com/industry/services/education/upsc-introduces-2-more-attempts-for-civil-services-aspirants/articleshow/35880029.cms?from=mdr",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406130737/https://economictimes.indiatimes.com/industry/services/education/upsc-introduces-2-more-attempts-for-civil-services-aspirants/articleshow/35880029.cms?from=mdr"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 367
+ },
+ {
+  "claim": "Rhea Chakrabortys father Indrajit Chakraborty said ‘I Should Die, No Father Can Bear Injustice On His Daughter’.",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "claim is not true",
+  "claim_date": "8-9-2020",
+  "speaker": "Indrajit Chakraborty",
+  "original_claim_url": "https://archive.ph/Jmsv8",
+  "fact_checking_article": "https://web.archive.org/web/20201230232551/https://www.boomlive.in/fake-news/toi-ht-abp-news-fall-for-fake-account-impersonating-indrajit-chakraborty-9671",
+  "reporting_source": "ABP News, Times of India, Hindustan Times, Sakaal Times, Amar Ujala, Pinkvilla",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Quote Verification"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "Was the tweet made by Rhea Chakrabortys father Indrajit Chakraborty himself",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://archive.ph/2Cpq5",
+      "source_medium": "Web text",
+      "boolean_explanation": "The tweet waas made by an imposter account which used to be called @WeWantRahuI",
+      "cached_source_url": "https://archive.ph/2Cpq5"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://archive.ph/Jmsv8",
+  "claim_id": 388
+ },
+ {
+  "claim": "The sky has turned orange to blood red in several parts of the United States.",
+  "required_reannotation": true,
+  "label": "Supported",
+  "justification": "Some cities in the US has blood red skies as a result of smoke accumulation",
+  "claim_date": "8-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210120073041/https://newsmeter.in/fact-check-true-sky-has-turned-orange-to-blood-red-in-several-parts-of-us/",
+  "reporting_source": null,
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "Can the sky appear any other colour than blue?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://news.wisc.edu/curiosities-what-determines-the-colors-of-the-sky-at-sunrise-and-sunset/",
+      "source_medium": "Web text",
+      "boolean_explanation": "If the path is long enough, all of the blue and violet light scatters out of your line of sight. The other colors continue on their way to your eyes. This is why sunsets are often yellow, orange, and red.”",
+      "cached_source_url": "https://web.archive.org/web/20230406141038/https://news.wisc.edu/curiosities-what-determines-the-colors-of-the-sky-at-sunrise-and-sunset/"
+     }
+    ]
+   },
+   {
+    "question": "Have there been reports of the sky tuning orange to blood red in parts of the USA?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://www.insider.com/oregon-california-smoke-turns-skies-apocalyptic-orange-photos-2020-9",
+      "source_medium": "Web text",
+      "boolean_explanation": "As hundreds of wildfires tore through Washington, California, and Oregon on Tuesday and Wednesday, their has smoke accumulated in the sky, casting many regions in creepy, apocalyptic shades of orange and red.",
+      "cached_source_url": "https://www.insider.com/oregon-california-smoke-turns-skies-apocalyptic-orange-photos-2020-9"
+     },
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20200920201739/https://youtu.be/jgkMuE54qaY",
+      "source_medium": "Video",
+      "boolean_explanation": "Video footage confirms this",
+      "cached_source_url": "https://web.archive.org/web/20200920201739/https://youtu.be/jgkMuE54qaY"
+     }
+    ]
+   },
+   {
+    "question": "Were the skies red just because of the flames/smoke?",
+    "answers": [
+     {
+      "answer": "Particles from smoke, meanwhile — like volatile organic compounds, dust, and soot — are much larger than gas molecules, and they scatter light with longer wavelengths. That's a phenomenon called Mie scattering, and it's why skies turn orange and red due to wildfire smoke (it doesn't have to do with the color of the flames themselves).",
+      "answer_type": "Extractive",
+      "source_url": "https://www.insider.com/oregon-california-smoke-turns-skies-apocalyptic-orange-photos-2020-9",
+      "source_medium": "Web text",
+      "cached_source_url": "https://www.insider.com/oregon-california-smoke-turns-skies-apocalyptic-orange-photos-2020-9"
+     },
+     {
+      "answer": "The reason for the sky turning red is the way smoke particles scatter sunlight. Smoke particles are fairly large and are better at scattering the longer (red) wavelengths of light, known as Mie scattering. If there a sufficient amount of smoke, Mie scattering will dominate over Rayleigh scattering, which is how light is primarily scattered in the atmosphere. This causes the red and orange colored sky.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.ssec.wisc.edu/jpss-sdoc/posts/2019-australian-wildfires/fires-near-mallacoota-over-31-december-to-1-january/",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406141108/https://www.ssec.wisc.edu/jpss-sdoc/posts/2019-australian-wildfires/fires-near-mallacoota-over-31-december-to-1-january/"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 392
+ },
+ {
+  "claim": "Over the past 40 years, the Uyghur population in Xinjiang, in China, grew from 5.55 million to 12 million.",
+  "required_reannotation": true,
+  "label": "Not Enough Evidence",
+  "justification": "There are no reliable population figures for the Uyghur population in Xinjiang.",
+  "claim_date": "4-9-2020",
+  "speaker": "Spokesperson for Chinese Ministry of Foreign affairs",
+  "original_claim_url": "https://web.archive.org/web/20201130232159/https://twitter.com/MFA_China/status/1301903192997769216",
+  "fact_checking_article": "https://web.archive.org/web/20210117092936/https://www.polygraph.info/a/china-cites-misleading-stats-to-deny-uighur-sterilization-campaign/30829478.html",
+  "reporting_source": "Twitter",
+  "location_ISO_code": "CN",
+  "claim_types": [
+   "Numerical Claim"
+  ],
+  "fact_checking_strategies": [
+   "Numerical Comparison"
+  ],
+  "questions": [
+   {
+    "question": "what is the birthrate of the Uyghur population in Xinjiang",
+    "answers": [
+     {
+      "answer": "Birth rates in the mostly Uighur regions of Hotan and Kashgar plunged by more than 60% from 2015 to 2018, the latest year available in government statistics. Across the Xinjiang region, birth rates continue to plummet, falling nearly 24% last year alone — compared to just 4.2% nationwide, statistics show.",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210116174221/https://apnews.com/article/269b3de1af34e17c1941a514f78d764c",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210116174221/https://apnews.com/article/269b3de1af34e17c1941a514f78d764c"
+     }
+    ]
+   },
+   {
+    "question": "why did the birthrates plummet",
+    "answers": [
+     {
+      "answer": "The Chinese government is taking draconian measures to slash birth rates among Uighurs and other minorities as part of a sweeping campaign to curb its Muslim population, even as it encourages some of the country’s Han majority to have more children.\n\nWhile individual women have spoken out before about forced birth control, the practice is far more widespread and systematic than previously known, according to an AP investigation based on government statistics, state documents and interviews with 30 ex-detainees, family members and a former detention camp instructor. The campaign over the past four years in the far west region of Xinjiang is leading to what some experts are calling a form of “demographic genocide.”\n\nThe state regularly subjects minority women to pregnancy checks, and forces intrauterine devices, sterilization and even abortion on hundreds of thousands, the interviews and data show. Even while the use of IUDs and sterilization has fallen nationwide, it is rising sharply in Xinjiang.\n\nThe population control measures are backed by mass detention both as a threat and as a punishment for failure to comply. Having too many children is a major reason people are sent to detention camps, the AP found, with the parents of three or more ripped away from their families unless they can pay huge fines. Police raid homes, terrifying parents as they search for hidden children.",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210116174221/https://apnews.com/article/269b3de1af34e17c1941a514f78d764c",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210116174221/https://apnews.com/article/269b3de1af34e17c1941a514f78d764c"
+     }
+    ]
+   },
+   {
+    "question": "Are there reliable population figures for the Uyghur population in Xinjiang, in China over the last 40 years?",
+    "answers": [
+     {
+      "answer": "No. There are no reliable population figures.",
+      "answer_type": "Extractive",
+      "source_url": "https://china.usc.edu/whats-stake-xinjiang",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406145321/https://china.usc.edu/whats-stake-xinjiang"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://web.archive.org/web/20201130232159/https://twitter.com/MFA_China/status/1301903192997769216",
+  "claim_id": 413
+ },
+ {
+  "claim": "Fox News is unavailable in Canada because the Radio Act makes it a crime to lie to the public via airwaves.",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "The answers and sources clearly show that Fox news is available in Canada so the claim is refuted.",
+  "claim_date": "2-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20201108183711/https://leadstories.com/hoax-alert/2020/09/fact-check-fox-news-is-not-banned-in-canada-and-the-radio-act-does-not-exist.html",
+  "reporting_source": null,
+  "location_ISO_code": "CA",
+  "claim_types": [
+   "Position Statement"
+  ],
+  "fact_checking_strategies": [
+   "Satirical Source Identification"
+  ],
+  "questions": [
+   {
+    "question": "Does Canada have a Radio Act?",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://www.laws.justice.gc.ca/eng/acts/C-22/",
+      "source_medium": "Web text",
+      "boolean_explanation": "It has the Canadian Radio-televison and Telecommunications Commission Act.",
+      "cached_source_url": "https://web.archive.org/web/20230406152231/https://www.laws.justice.gc.ca/eng/acts/C-22/"
+     }
+    ]
+   },
+   {
+    "question": "Is Fox an approved broadcaster under the CRTC?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643",
+      "source_medium": "Web text",
+      "boolean_explanation": "CBC News · Posted: Nov 18, 2004 11:17 AM ET | Last Updated: November 19, 2004\nThe conservative-leaning Fox News Channel will soon be coming to Canadian digital television channels.\n\nThe Canadian Radio-television and Telecommunications Commission (CRTC) approved an application Thursday to bring the Fox News Channel, one of the highest-rated news channels in the United States, onto Canadian digital airwaves.",
+      "cached_source_url": "https://web.archive.org/web/20230328160414/https://www.cbc.ca/news/canada/crtc-approves-fox-news-for-canada-1.492643"
+     },
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://www.foxnews.com/story/where-in-the-world-is-fox",
+      "source_medium": "Web text",
+      "boolean_explanation": "FOX News Channel is currently available internationally via the providers listed below.\nInc. Canada",
+      "cached_source_url": "https://web.archive.org/web/20230406041414/https://www.foxnews.com/story/where-in-the-world-is-fox"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 425
+ },
+ {
+  "claim": "US President Trump issued an executive order to reopen states in lockdown during COVID-19 pandemic; governors who refuse will be sued",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "There is no evidence Trump did issue any order to reopen lockdown states, and he hasn't the authority to do so anyway",
+  "claim_date": "1-9-2020",
+  "speaker": null,
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210711160610/https://www.usatoday.com/story/news/factcheck/2020/09/14/fact-check-list-10-donald-trump-accomplishments-3-true/3438025001/",
+  "reporting_source": "Facebook",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Fact-checker Reference"
+  ],
+  "questions": [
+   {
+    "question": "Did Donald Trump sign an executive order requiring states to reopen?",
+    "answers": [
+     {
+      "answer": "Not according to the Federal Register.",
+      "answer_type": "Abstractive",
+      "source_url": "https://web.archive.org/web/20210727120854/https://www.federalregister.gov/presidential-documents/executive-orders/donald-trump/2020",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210727120854/https://www.federalregister.gov/presidential-documents/executive-orders/donald-trump/2020"
+     }
+    ]
+   },
+   {
+    "question": "Does Trump have any authority as to easing social distancing and opening schools or business'?",
+    "answers": [
+     {
+      "answer": "\"Trump has no authority to ease social distancing, or to open schools or private businesses,\" she said. \"These are matters for states to decide under their power to promote public health and welfare, a power guaranteed by the 10th Amendment to the Constitution. Despite what he claims, no president has absolute authority over domestic policy, and he certainly has no power to override the type of measures that have been taken across the country that have proved successful in flattening the curve.\"",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210701135412/https://www.npr.org/2020/04/14/834040912/fact-check-trump-doesnt-have-the-authority-to-order-states-to-reopen",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210701135412/https://www.npr.org/2020/04/14/834040912/fact-check-trump-doesnt-have-the-authority-to-order-states-to-reopen"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 434
+ },
+ {
+  "claim": "Face masks cause hypoxia.",
+  "required_reannotation": true,
+  "label": "Conflicting Evidence/Cherrypicking",
+  "justification": "In some individuals prolonged use could cause build up of co2",
+  "claim_date": "1-9-2020",
+  "speaker": "Zoran Domijan",
+  "original_claim_url": "https://www.facebook.com/zoran.domijan.1/posts/1626470897503056",
+  "fact_checking_article": "https://web.archive.org/web/20210220191047/https://factcheck.afp.com/poster-shared-south-africa-makes-false-claims-about-face-masks",
+  "reporting_source": "Facebook",
+  "location_ISO_code": "ZA",
+  "claim_types": [
+   "Causal Claim"
+  ],
+  "fact_checking_strategies": [
+   "Consultation",
+   "Fact-checker Reference"
+  ],
+  "questions": [
+   {
+    "question": "Do masks cause oxygen restriction in healthy individuals?",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://www.lung.org/blog/covid-masks",
+      "source_medium": "Web text",
+      "boolean_explanation": "Masks are worn all day by medical professionals in hospital settings without issue,   The masks are designed to be breathed through and there is no evidence that low oxygen levels occur.",
+      "cached_source_url": "https://web.archive.org/web/20230219082647/https://www.lung.org/blog/covid-masks"
+     }
+    ]
+   },
+   {
+    "question": "Can masks cause oxygen restriction in individuals with previous lung and breathing problems?",
+    "answers": [
+     {
+      "answer": "There is some evidence, however, that prolonged use of N-95 masks in patients with preexisting lung disease could cause some build-up of carbon dioxide levels in the body. People with preexisting lung problems should discuss mask wearing concerns with their health care providers.",
+      "answer_type": "Abstractive",
+      "source_url": "https://www.lung.org/blog/covid-masks",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230219082647/https://www.lung.org/blog/covid-masks"
+     }
+    ]
+   },
+   {
+    "question": "What is hypoxia?",
+    "answers": [
+     {
+      "answer": "Hypoxia means “low oxygen.” In aquatic ecosystems, low oxygen usually means a concentration of\nless than 2-3 milligrams of oxygen per liter of water (mg/l).",
+      "answer_type": "Extractive",
+      "source_url": "https://www.esa.org/esa/wp-content/uploads/2012/12/hypoxia.pdf",
+      "source_medium": "PDF",
+      "cached_source_url": "https://web.archive.org/web/20220121202313/https://www.esa.org/esa/wp-content/uploads/2012/12/hypoxia.pdf"
+     },
+     {
+      "answer": "Hypoxia refers to cells or tissues not having enough oxygen to function effectively.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.medicalnewstoday.com/articles/hypoxia#definition",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230224125202/https://www.medicalnewstoday.com/articles/hypoxia"
+     }
+    ]
+   },
+   {
+    "question": "Does face masks cause hypoxia?",
+    "answers": [
+     {
+      "answer": "Absolutely not. We wear masks all day long in the hospital. The masks are designed to be breathed through and there is no evidence that low oxygen levels occur. There is some evidence, however, that prolonged use of N-95 masks in patients with preexisting lung disease could cause some build-up of carbon dioxide levels in the body. People with preexisting lung problems should discuss mask wearing concerns with their health care providers. There is absolutely no scientific evidence that mask wearing or physical distancing weakens the immune system.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.lung.org/blog/covid-masks",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230219082647/https://www.lung.org/blog/covid-masks"
+     },
+     {
+      "answer": "There is no proof that wearing a mask can reduce oxygen levels, also known as hypoxia. The United States Centers for Disease Control and Prevention (U.S. CDC) recommend wearing cloth masks over a surgical mask in public, which are not too tight on our faces and allow for easy breathing.\n\nEven doctors and healthcare professionals wearing N95 masks (which fit very tightly around the face and are made to create a seal around the edge of the mask) are not at risk of hypoxia. However, for any person with preexisting lung or breathing problems in general, they should speak with their doctors about their concerns regarding masks.",
+      "answer_type": "Extractive",
+      "source_url": "https://health-desk.org/articles/does-wearing-a-mask-reduce-your-oxygen-level",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230406162150/https://health-desk.org/articles/does-wearing-a-mask-reduce-your-oxygen-level"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://web.archive.org/web/20230406155552/https://www.facebook.com/zoran.domijan.1/posts/1626470897503056",
+  "claim_id": 454
+ },
+ {
+  "claim": "All India Institute of Medical Sciences Nursing Officer Recruitment Common Eligibility Test 2020 was postponed.",
+  "required_reannotation": false,
+  "label": "Supported",
+  "justification": "The Q&A does not give much information on the situation but it does state that is was postponed so can be supported. ",
+  "claim_date": "31-8-2020",
+  "speaker": "AIIMS",
+  "original_claim_url": "https://web.archive.org/web/20210128080554im_/https://newsmeter.in/wp-content/uploads/2020/08/AIIMS-1.jpg",
+  "fact_checking_article": "https://web.archive.org/web/20210128080554/https://newsmeter.in/aiims-nursing-officer-recruitment-common-eligibility-test-2020-postponed-is-true/",
+  "reporting_source": "WhatsApp",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Fact-checker Reference"
+  ],
+  "questions": [
+   {
+    "question": "Was the All India Institute of Medical Sciences Nursing Officer Recruitment Common Eligibility Test 2020 postponed?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://www.aiimsexams.org/pdf/Notice%20Postponed%2028.08.20.pdf",
+      "source_medium": "PDF",
+      "boolean_explanation": "All India Institute of Medical Sciences Nursing Officer Recruitment Common Eligibility Test 2020 was postponed.",
+      "cached_source_url": "https://web.archive.org/web/20230406162708/https://aiimsexams.org/"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://web.archive.org/web/20210128080554im_/https://newsmeter.in/wp-content/uploads/2020/08/AIIMS-1.jpg",
+  "claim_id": 461
+ },
+ {
+  "claim": "US cable news channel Fox News is not available in Canada due to media legislation in the country.",
+  "required_reannotation": true,
+  "label": "Refuted",
+  "justification": "Q&A 1 states Fox news is available in Canada, this refutes the claim it is not available due to media rules in the country.",
+  "claim_date": "31-8-2020",
+  "speaker": null,
+  "original_claim_url": "https://perma.cc/FJ92-V47U?type=image",
+  "fact_checking_article": "https://web.archive.org/web/20210120224322/https://factcheck.afp.com/fox-news-available-canada",
+  "reporting_source": "Facebook",
+  "location_ISO_code": "CA",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence",
+   "Consultation"
+  ],
+  "questions": [
+   {
+    "question": "Is Fox News approved for transmission in Canada?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20211111214212/https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm?_ga=2.207427606.447073514.1599668141-1761786067.1599668141",
+      "source_medium": "Web text",
+      "boolean_explanation": "The Canadian Radio-television and Telecommunications Commission (CRTC) approved the distribution in Canada of the US-based Fox News Channel in 2004 and according to the Fox News website, the channel is currently available through 16 cable or satellite providers, with two also providing the Fox Business channel.",
+      "cached_source_url": "https://web.archive.org/web/20211111214212/https://crtc.gc.ca/eng/archive/2004/pb2004-88.htm?_ga=2.207427606.447073514.1599668141-1761786067.1599668141"
+     }
+    ]
+   },
+   {
+    "question": "Does Fox news confirm this on their website?",
+    "answers": [
+     {
+      "answer": "Yes",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20210120094149/https://www.foxnews.com/story/where-in-the-world-is-fox",
+      "source_medium": "Web text",
+      "boolean_explanation": "Fox news has a list of countries where Fox News is available, and Canada is there.",
+      "cached_source_url": "https://web.archive.org/web/20210120094149/https://www.foxnews.com/story/where-in-the-world-is-fox"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": "https://perma.cc/FJ92-V47U?type=image",
+  "claim_id": 462
+ },
+ {
+  "claim": "Suresh Raina, the Chennai Super Kings (CSK) cricketer, has withdrawn from the upcoming 2020 edition of the IPL after testing positive for COVID-19.",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "Evidence provided says he went back to India for personal reasons and not because of testing positive for COVID-19",
+  "claim_date": "29-8-2020",
+  "speaker": "Dhoni Forever",
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210721091854/https://newsmobile.in/articles/2020/08/31/fact-check-suresh-raina-did-not-test-positive-for-covid-19-dont-fall-for-fake-reports/",
+  "reporting_source": "Facebook",
+  "location_ISO_code": "IN",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Consultation"
+  ],
+  "questions": [
+   {
+    "question": "Has CSK cricketer Suresh Raina withdrawn from the upcoming 2020 edition of the IPL due to testing positive for COVID-19?",
+    "answers": [
+     {
+      "answer": "No",
+      "answer_type": "Boolean",
+      "source_url": "https://web.archive.org/web/20201206174354/https://twitter.com/ChennaiIPL/status/1299582504886775808?ref_src=twsrc%5Etfw",
+      "source_medium": "Web text",
+      "boolean_explanation": "Suresh Raina has returned to India for personal reasons and will be unavailable for the remainder of the IPL season. Chennai Super Kings offers complete support to Suresh and his family during this time.\n\nKS Viswanathan\nCEO\n\n— Chennai Super Kings (@ChennaiIPL)",
+      "cached_source_url": "https://web.archive.org/web/20201206174354/https://twitter.com/ChennaiIPL/status/1299582504886775808?ref_src=twsrc%5Etfw"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 467
+ },
+ {
+  "claim": "Where President Donald Trump achieved energy independence for the United States, Joe Biden would abolish fossil fuels and end fracking.",
+  "required_reannotation": false,
+  "label": "Refuted",
+  "justification": "The claim says Joe Biden would abolish fossil fuel and end fracking for gas, Q&A pair 1 says this is not joe Bidens plan for energy at all. but that he would increase taxes on them, Q&A [pair two also states he would not abolish fracking but not allow any new fracking to commence, so overall it refutes what is said in the claim.,\n",
+  "claim_date": "26-8-2020",
+  "speaker": "Mike Pence",
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210504031017/https://www.politifact.com/article/2020/aug/27/fact-checking-night-three-2020-rnc/",
+  "reporting_source": "Republican National Convention",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "What is Joe Biden's position on energy?",
+    "answers": [
+     {
+      "answer": "Joe BIden produced a clean energy plan which does not say anything about abolishing fossil fuels and banning fracking. It is a measured document which generally encourages a move towards investment in greener energy, net-zero emissions and increasing taxes to fund these moves, but not outright bans.",
+      "answer_type": "Abstractive",
+      "source_url": "https://joebiden.com/climate-plan/",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230416030454/https://joebiden.com/climate-plan/"
+     }
+    ]
+   },
+   {
+    "question": "What does Joe Biden's administration particularly say about Fracking?",
+    "answers": [
+     {
+      "answer": "During a debate with Bernie Sanders:\n\nThere was a lot of confusion Sunday night about whether Joe Biden made a big change in his energy platform during his debate with Bernie Sanders. He didn't.\n\nWhat happened: At one point during his exchange on climate policy with Bernie Sanders, Biden said \"no new fracking.\" That raised antennae about whether he was going beyond his existing vow to end new oil-and-gas permitting on federal lands and waters.\n\nBut his campaign later clarified that Biden was re-stating his existing platform about policy on federal lands, not endorsing Sanders' call for a nationwide ban.",
+      "answer_type": "Abstractive",
+      "source_url": "https://www.axios.com/bernie-sanders-joe-biden-fracking-democratic-debate-99040579-caff-45d5-b169-402a411a57d5.html",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230418154913/https://www.axios.com/2020/03/16/bernie-sanders-joe-biden-fracking-democratic-debate"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 492
+ },
+ {
+  "claim": "As we speak the US are developing a growing number of treatments, including convalescent plasma, that are saving lives all across the country.",
+  "required_reannotation": true,
+  "label": "Not Enough Evidence",
+  "justification": "Q&A 1 shows that the claim is correct in stating that Convalescent plasma has been used in the US during what Q&A 1 shows as a covid treatment,\nQ&A 2 however shows that there is no evidence to show that it is actually saving lives so more data would be needed to say this so the claim is half correct. with not enough evidence for the 2nd part of the claim.",
+  "claim_date": "26-8-2020",
+  "speaker": "Mike Pence",
+  "original_claim_url": null,
+  "fact_checking_article": "https://web.archive.org/web/20210504031017/https://www.politifact.com/article/2020/aug/27/fact-checking-night-three-2020-rnc/",
+  "reporting_source": "Republican National Convention",
+  "location_ISO_code": "US",
+  "claim_types": [
+   "Event/Property Claim"
+  ],
+  "fact_checking_strategies": [
+   "Written Evidence"
+  ],
+  "questions": [
+   {
+    "question": "Was convalescent plasma treatment approved for use in the usa?",
+    "answers": [
+     {
+      "answer": "FDA Issues Emergency Use Authorization for Convalescent Plasma as Potential Promising COVID–19 Treatment, Another Achievement in Administration’s Fight Against Pandemic",
+      "answer_type": "Extractive",
+      "source_url": "https://web.archive.org/web/20210504041618/https://www.fda.gov/news-events/press-announcements/fda-issues-emergency-use-authorization-convalescent-plasma-potential-promising-covid-19-treatment",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20210504041618/https://www.fda.gov/news-events/press-announcements/fda-issues-emergency-use-authorization-convalescent-plasma-potential-promising-covid-19-treatment"
+     }
+    ]
+   },
+   {
+    "question": "Has the plasma been saving lots of lives?",
+    "answers": [
+     {
+      "answer": "But clinical trials have not proved whether plasma can help people fighting the coronavirus.\n\nSeveral top health officials — led by Dr. Collins, the director of the National Institutes of Health; Dr. Fauci, the government’s top infectious disease expert; and Dr. Lane — urged their colleagues last week to hold off, citing recent data from the country’s largest plasma study, run by the Mayo Clinic. They thought the study’s data to date was not strong enough to warrant an emergency approval.",
+      "answer_type": "Extractive",
+      "source_url": "https://www.nytimes.com/2020/08/19/us/politics/blood-plasma-covid-19.html",
+      "source_medium": "Web text",
+      "cached_source_url": "https://web.archive.org/web/20230322180226/https://www.nytimes.com/2020/08/19/us/politics/blood-plasma-covid-19.html"
+     }
+    ]
+   }
+  ],
+  "cached_original_claim_url": null,
+  "claim_id": 498
+ }
+]

@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field, field_validator
 from pydantic.json_schema import SkipJsonSchema
 
 # Fields annotated with ``SkipJsonSchema`` are assigned by the harness after
-# the model call (tiering, URL health, grounding, failure status, stop reason).
+# the model call (tiering, grounding, failure status, stop reason).
 # They stay out of the model-facing output schema so the model is never asked
 # to guess them. A provider that does not enforce the schema strictly still
 # accepts them when a model emits them, so model output goes through
@@ -37,22 +37,16 @@ class EvidenceSignal(str, Enum):
     INSUFFICIENT = "insufficient"
 
 
-class ReviewAction(str, Enum):
-    FINALIZE = "finalize"
-    FOLLOW_UP = "follow_up"
-
-
 class FindingStatus(str, Enum):
     """Whether a check produced an observation or the harness failed to run it.
 
-    A ``failed`` or ``budget_exhausted`` check is a missing observation, not
-    evidence of absence; downstream stages must not read it as ``insufficient``
-    evidence about the world.
+    A ``failed`` check is a missing observation, not evidence of absence;
+    downstream stages must not read it as ``insufficient`` evidence about the
+    world.
     """
 
     COMPLETED = "completed"
     FAILED = "failed"
-    BUDGET_EXHAUSTED = "budget_exhausted"
 
 
 class SourceTier(str, Enum):
@@ -64,14 +58,6 @@ class SourceTier(str, Enum):
     FACT_CHECKER = "fact_checker"  # dedicated fact-checking organizations
     USER_GENERATED = "user_generated"  # social media, forums, blogging platforms
     OTHER = "other"
-
-
-class UrlStatus(str, Enum):
-    """Result of the optional post-judge citation health check."""
-
-    LIVE = "live"
-    ARCHIVED = "archived"
-    BROKEN = "broken"
 
 
 class SourceGrounding(str, Enum):
@@ -143,8 +129,6 @@ class SourceEvidence(BaseModel):
     publisher: str | None = Field(default=None)
     published_at: str | None = Field(default=None)
     tier: SkipJsonSchema[SourceTier | None] = None
-    url_status: SkipJsonSchema[UrlStatus | None] = None
-    archived_url: SkipJsonSchema[str | None] = None
     grounding: SkipJsonSchema[SourceGrounding | None] = None
 
     @field_validator("url")
@@ -248,26 +232,3 @@ class FactCheckReport(BaseModel):
             }
         )
 
-
-class ReviewDecision(BaseModel):
-    """Controller decision for bounded review rounds before final judgment."""
-    claim: str = Field(description="Exact claim text being reviewed for follow-up research.")
-    action: ReviewAction = Field(
-        description="Whether to finalize now or request targeted follow-up research."
-    )
-    rationale: str = Field(description="Why follow-up is or is not needed.")
-    gaps: list[str] = Field(
-        default_factory=list,
-        description=(
-            "Concrete evidence gaps found when grading findings against their acceptance criteria; "
-            "each follow-up check or retry should trace back to one gap."
-        ),
-    )
-    follow_up_checks: list[VerificationCheck] = Field(
-        default_factory=list,
-        description="Additional targeted checks to run before the final judgment.",
-    )
-    retry_aspect_ids: list[str] = Field(
-        default_factory=list,
-        description="Existing aspect_ids that should be re-run due to weak or failed evidence.",
-    )

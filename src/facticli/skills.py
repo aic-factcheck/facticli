@@ -6,7 +6,7 @@ from importlib.resources import files
 
 from pydantic import BaseModel
 
-from .core.contracts import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan, ReviewDecision
+from .core.contracts import AspectFinding, ClaimExtractionResult, FactCheckReport, InvestigationPlan
 
 
 @dataclass(frozen=True)
@@ -30,9 +30,7 @@ class SkillSpec:
 SKILLS: dict[str, SkillSpec] = {
     "plan": SkillSpec(name="plan", output_model=InvestigationPlan),
     "research": SkillSpec(name="research", output_model=AspectFinding, uses_web_search=True),
-    "review": SkillSpec(name="review", output_model=ReviewDecision),
     "judge": SkillSpec(name="judge", output_model=FactCheckReport),
-    "single_agent": SkillSpec(name="single_agent", output_model=FactCheckReport, uses_web_search=True),
     "extract_claims": SkillSpec(name="extract_claims", output_model=ClaimExtractionResult),
 }
 

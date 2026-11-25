@@ -11,8 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
-from facticli.application.config import ClaimExtractionRuntimeConfig
-from facticli.application.factory import build_claim_extraction_service
+from facticli.config import ClaimExtractionRuntimeConfig
+from facticli.pipeline import build_claim_extractor
 
 # Convenience: load a local .env so the server picks up OPENAI_API_* the same
 # way the CLI does via scripts/test_routine.sh. Optional dependency; ignore if
@@ -408,7 +408,7 @@ def create_app() -> FastAPI:
             base_url=_env("OPENAI_API_BASE_URL") or None,
             max_claims=request.max_claims,
         )
-        service = build_claim_extraction_service(config)
+        service = build_claim_extractor(config)
         try:
             result = await service.extract_claims(text)
         except Exception as exc:  # surface upstream/model errors to the client

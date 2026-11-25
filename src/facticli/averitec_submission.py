@@ -9,14 +9,13 @@ from itertools import zip_longest
 from pathlib import Path
 from typing import Any
 
-from facticli.application.factory import build_fact_check_service
-from facticli.application.repository import FileRunArtifactRepository
 from facticli.check_options import add_fact_check_args, fact_check_config, missing_environment
 from facticli.cli_validators import non_negative_int, positive_int
 from facticli.core.constraints import normalize_claim_date
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
 from facticli.core.errors import classify_exception, describe_exception, is_fatal
 from facticli.core.grounding import summarize_grounding
+from facticli.pipeline import build_fact_checker
 
 GENERAL_QUESTION = "What evidence supports the final verdict for this claim?"
 # Exit code when a batch stops early on an error no retry can fix (rejected key, exhausted quota, unknown model).
@@ -226,12 +225,8 @@ def build_failed_submission_row(
 
 
 def _build_service(args: argparse.Namespace) -> Any:
-    artifact_repository = (
-        FileRunArtifactRepository(output_dir=args.artifacts_dir) if args.artifacts_dir else None
-    )
-    return build_fact_check_service(
-        config=fact_check_config(args, knowledge_store_dir=args.knowledge_store_dir),
-        artifact_repository=artifact_repository,
+    return build_fact_checker(
+        fact_check_config(args, knowledge_store_dir=args.knowledge_store_dir), artifacts_dir=args.artifacts_dir
     )
 
 
@@ -304,14 +299,9 @@ async def _run_batch(
             run_info["usage"] = artifacts.usage_summary.model_dump()
         run_info["verdict"] = run.report.verdict.value
         run_info["verdict_confidence"] = run.report.verdict_confidence
-        run_info["strategy"] = artifacts.strategy
-        if artifacts.budget is not None:
-            run_info["budget"] = artifacts.budget.model_dump()
         run_info["failed_checks"] = sum(
             1 for check in artifacts.research_checks if check.finding is not None and not check.finding.is_observation
         )
-        if artifacts.citation_check:
-            run_info["citation_check"] = artifacts.citation_check
         run_info["removed_source_count"] = sum(
             len(check.removed_sources) for check in artifacts.research_checks
         )
@@ -488,14 +478,8 @@ async def _run(args: argparse.Namespace) -> int:
             "model": args.model or os.getenv("OPENAI_API_MODEL"),
             "stage_models": args.stage_model or [],
             "stage_efforts": args.stage_effort or [],
-            "strategy": args.strategy,
             "service_tier": getattr(args, "service_tier", None),
-            "token_budget": args.token_budget,
             "model_retries": args.model_retries,
-            "retry_budget": args.retry_budget,
-            "feedback_rounds": args.feedback_rounds,
-            "follow_up_checks": args.follow_up_checks,
-            "verify_sources": args.verify_sources,
             "base_url": args.base_url or os.getenv("OPENAI_API_BASE_URL"),
             "search_provider": args.search_provider,
             "search_context_size": args.search_context_size,

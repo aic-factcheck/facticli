@@ -6,12 +6,10 @@ import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
-from unittest.mock import patch
 
-from facticli.application.config import FactCheckRuntimeConfig, parse_stage_assignments
-from facticli.application.settings_file import apply_settings, find_config_path, load_settings
+from facticli.config import FactCheckRuntimeConfig, parse_stage_assignments
 from facticli.artifacts_audit import aggregate, audit_run, load_artifacts, main as audit_main
-from facticli.cli import build_parser, main as cli_main, run_skills_command
+from facticli.cli import build_parser, run_skills_command
 from facticli.core.artifacts import ResearchCheckArtifact, RunArtifacts
 from facticli.core.constraints import ResearchConstraints
 from facticli.core.contracts import (
@@ -27,7 +25,7 @@ from facticli.core.contracts import (
     VerificationCheck,
 )
 from facticli.core.retrieval import RetrievalSummary
-from facticli.core.usage import BudgetStatus, UsageSummary
+from facticli.core.usage import UsageSummary
 from facticli.eval.label_metrics import compute_consistency_metrics
 
 
@@ -52,143 +50,6 @@ class StageAssignmentTests(unittest.TestCase):
         self.assertIsNone(config.effort_for("judge"))
 
 
-class SettingsFileTests(unittest.TestCase):
-    def _write(self, tmp: str, body: str) -> Path:
-        path = Path(tmp) / "facticli.toml"
-        path.write_text(body, encoding="utf-8")
-        return path
-
-    def test_load_settings_merges_defaults_and_profile(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            path = self._write(
-                tmp,
-                """
-                search_provider = "brave"
-                [defaults]
-                max_checks = 3
-                stage_models = { research = "small", judge = "big" }
-                blocked_domains = ["a.example", "b.example"]
-                [profiles.benchmark]
-                max_checks = 6
-                block_fact_checkers = true
-                stage_efforts = { judge = "high" }
-                """,
-            )
-            base = load_settings(path)
-            self.assertEqual(base["search_provider"], "brave")
-            self.assertEqual(base["max_checks"], 3)
-            self.assertEqual(base["stage_model"], ["research=small", "judge=big"])
-            self.assertEqual(base["blocked_domains"], ["a.example", "b.example"])
-            self.assertNotIn("block_fact_checkers", base)
-
-            bench = load_settings(path, "benchmark")
-            self.assertEqual(bench["max_checks"], 6)
-            self.assertTrue(bench["block_fact_checkers"])
-            self.assertEqual(bench["stage_effort"], ["judge=high"])
-            with self.assertRaises(ValueError):
-                load_settings(path, "missing")
-
-    def test_apply_settings_respects_explicit_flags(self):
-        parser = build_parser()
-        args = parser.parse_args(["check", "claim", "--max-checks", "7"])
-        applied = apply_settings(args, {"max_checks": 3, "parallel": 2, "unknown_key": 1, "stage_model": ["judge=x"]}, parser)
-        self.assertEqual(args.max_checks, 7)
-        self.assertEqual(args.parallel, 2)
-        self.assertEqual(args.stage_model, ["judge=x"])
-        self.assertEqual(sorted(applied), ["parallel", "stage_model"])
-
-    def test_keys_resolve_by_flag_name_as_documented(self):
-        parser = build_parser()
-        args = parser.parse_args(["check", "claim"])
-        applied = apply_settings(
-            args,
-            {
-                "search_results": 9,  # --search-results is stored as search_results_per_query
-                "blocked_domain": ["a.example"],  # --blocked-domain is stored as blocked_domains
-                "tool_call_budget": 5,
-                "search_cache_dir": "cache",
-            },
-            parser,
-        )
-        self.assertEqual((args.search_results_per_query, args.blocked_domains), (9, ["a.example"]))
-        self.assertEqual((args.tool_call_budget, args.search_cache_dir), (5, "cache"))
-        self.assertEqual(len(applied), 4)
-
-        # A profile overrides defaults even when the two layers spell the option differently,
-        # and a single value for a repeatable flag is one item, not a list of characters.
-        with tempfile.TemporaryDirectory() as tmp:
-            path = self._write(
-                tmp,
-                "[defaults]\nsearch_results = 3\nblocked_domain = \"snopes.com\"\n"
-                "[profiles.wide]\nsearch_results_per_query = 10\n",
-            )
-            args = parser.parse_args(["check", "claim"])
-            apply_settings(args, load_settings(path, "wide"), parser)
-            self.assertEqual((args.search_results_per_query, args.blocked_domains), (10, ["snopes.com"]))
-            # An explicit flag still wins over both layers.
-            args = parser.parse_args(["check", "claim", "--search-results", "7"])
-            apply_settings(args, load_settings(path, "wide"), parser)
-            self.assertEqual(args.search_results_per_query, 7)
-
-            # The later layer wins whichever spelling each layer used, and wherever the key first appeared.
-            path = self._write(
-                tmp,
-                "search_results_per_query = 10\n[defaults]\nsearch_results = 5\n"
-                "[profiles.x]\nsearch_results_per_query = 3\n[profiles.y]\nsearch-results = 4\n",
-            )
-            for profile, expected in ((None, 5), ("x", 3), ("y", 4)):
-                args = parser.parse_args(["check", "claim"])
-                apply_settings(args, load_settings(path, profile), parser)
-                self.assertEqual(args.search_results_per_query, expected, profile)
-
-    def test_file_values_pass_the_same_validation_as_flags(self):
-        parser = build_parser()
-        for key, value in (
-            ("tool_call_budget", 0),
-            ("search_results", 500),
-            ("search_provider", "bing"),
-            ("verify_sources", "false"),  # a truthy string would switch the option on
-            ("model", 5),
-            ("blocked_domains", ["a.example", 7]),
-        ):
-            with self.assertRaisesRegex(ValueError, f"Config key '{key}'"):
-                apply_settings(parser.parse_args(["check", "claim"]), {key: value}, parser)
-        with tempfile.TemporaryDirectory() as tmp:
-            path = self._write(tmp, "tool_call_budget = 0\n")
-            stderr = io.StringIO()
-            with redirect_stderr(stderr), self.assertRaises(SystemExit) as exit_info:
-                cli_main(["--config", str(path), "check", "claim"])
-        self.assertEqual(exit_info.exception.code, 2)
-        self.assertIn("Config error: Config key 'tool_call_budget'", stderr.getvalue())
-
-    def test_find_config_path_precedence_and_errors(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            explicit = self._write(tmp, "max_checks = 1\n")
-            self.assertEqual(find_config_path(str(explicit)), explicit)
-            with self.assertRaises(FileNotFoundError):
-                find_config_path(str(Path(tmp) / "nope.toml"))
-            with patch.dict("os.environ", {"FACTICLI_CONFIG": str(explicit)}, clear=False):
-                self.assertEqual(find_config_path(None), explicit)
-            with patch.dict("os.environ", {"FACTICLI_CONFIG": str(Path(tmp) / "gone.toml")}, clear=False):
-                with self.assertRaises(FileNotFoundError):
-                    find_config_path(None)
-
-    def test_cli_main_reports_config_errors(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            path = self._write(tmp, "[profiles.a]\nmax_checks = 2\n")
-            stderr = io.StringIO()
-            with redirect_stderr(stderr), self.assertRaises(SystemExit) as ctx:
-                cli_main(["--config", str(path), "--profile", "zzz", "skills"])
-            self.assertEqual(ctx.exception.code, 2)
-            self.assertIn("Profile 'zzz' not found", stderr.getvalue())
-
-            stdout = io.StringIO()
-            with redirect_stdout(stdout), self.assertRaises(SystemExit) as ctx:
-                cli_main(["--config", str(path), "--profile", "a", "skills"])
-            self.assertEqual(ctx.exception.code, 0)
-            self.assertIn("- judge:", stdout.getvalue())
-
-
 class SkillsCommandTests(unittest.TestCase):
     def test_show_prints_prompt_and_rejects_unknown(self):
         stdout = io.StringIO()
@@ -205,19 +66,15 @@ class SkillsCommandTests(unittest.TestCase):
         parser = build_parser()
         args = parser.parse_args(
             [
-                "check", "claim", "--strategy", "single_agent", "--token-budget", "5000", "--stage-model", "judge=x",
-                "--stage-effort", "research=low", "--verify-sources", "--block-fact-checkers", "--blocked-domain", "a.b",
-                "--show-usage", "--retry-budget", "0", "--model-retries", "1", "--artifacts-dir", "/tmp/x",
+                "check", "claim", "--stage-model", "judge=x", "--stage-effort", "research=low", "--block-fact-checkers",
+                "--blocked-domain", "a.b", "--show-usage", "--model-retries", "1", "--artifacts-dir", "/tmp/x",
             ]
         )
-        self.assertEqual(args.strategy, "single_agent")
-        self.assertEqual(args.token_budget, 5000)
         self.assertEqual(args.stage_model, ["judge=x"])
-        self.assertTrue(args.verify_sources)
         self.assertEqual(args.blocked_domains, ["a.b"])
-        self.assertEqual(args.retry_budget, 0)
-        with self.assertRaises(SystemExit):
-            parser.parse_args(["check", "claim", "--token-budget", "0"])
+        self.assertEqual(args.model_retries, 1)
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            parser.parse_args(["check", "claim", "--max-checks", "0"])
 
 
 def _artifact(claim_id: str, verdict: VeracityVerdict, urls: list[str], *, claim_date: str | None = "2020-10-31", removed: int = 0, failed: bool = False) -> RunArtifacts:
@@ -240,7 +97,6 @@ def _artifact(claim_id: str, verdict: VeracityVerdict, urls: list[str], *, claim
         ],
         report_final=report,
         usage_summary=UsageSummary(total_tokens=1000, input_tokens=800, cached_input_tokens=400, cache_hit_rate=0.5),
-        budget=BudgetStatus(),
         duration_seconds=3.0,
     )
     return artifacts

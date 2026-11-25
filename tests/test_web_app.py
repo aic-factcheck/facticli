@@ -66,7 +66,7 @@ class WebAppTests(unittest.TestCase):
         )
         with (
             patch.dict("os.environ", self._env(), clear=False),
-            patch("facticli.web.app.build_claim_extraction_service", return_value=fake_service),
+            patch("facticli.web.app.build_claim_extractor", return_value=fake_service),
         ):
             response = self._client().post(
                 "/api/extract", json={"text": "Inflace klesla."}, headers={"X-API-Key": "cedmo_2026"}
@@ -102,7 +102,7 @@ class WebAppTests(unittest.TestCase):
                 self._env(OPENAI_API_BASE_URL="https://api.openai.com/v1"),
                 clear=False,
             ),
-            patch("facticli.web.app.build_claim_extraction_service", fake_builder),
+            patch("facticli.web.app.build_claim_extractor", fake_builder),
         ):
             response = self._client().post(
                 "/api/extract",
@@ -137,7 +137,7 @@ class WebAppTests(unittest.TestCase):
 
         with (
             patch.dict("os.environ", self._env(), clear=False),
-            patch("facticli.web.app.build_claim_extraction_service", fake_builder),
+            patch("facticli.web.app.build_claim_extractor", fake_builder),
         ):
             response = self._client().post(
                 "/api/extract",
@@ -203,7 +203,7 @@ class WebAppTests(unittest.TestCase):
         )
         with (
             patch.dict("os.environ", self._env(FACTICLI_RATE_LIMIT_REQUESTS="2"), clear=False),
-            patch("facticli.web.app.build_claim_extraction_service", return_value=fake_service),
+            patch("facticli.web.app.build_claim_extractor", return_value=fake_service),
         ):
             client = self._client()
             codes = [
@@ -237,7 +237,7 @@ class WebAppTests(unittest.TestCase):
 
         with (
             patch.dict("os.environ", self._env(), clear=False),
-            patch("facticli.web.app.build_claim_extraction_service", return_value=fake_service),
+            patch("facticli.web.app.build_claim_extractor", return_value=fake_service),
         ):
             response = self._client().post(
                 "/api/extract",
