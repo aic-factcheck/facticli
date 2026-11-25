@@ -83,9 +83,11 @@ class _Stage:
     def __init__(self, respond) -> None:
         self.respond = respond
         self.payloads: list[dict] = []
+        self.images: list[tuple] = []
 
-    async def run(self, payload: dict):
+    async def run(self, payload: dict, images=()):
         self.payloads.append(payload)
+        self.images.append(tuple(images))
         result = self.respond(payload)
         if asyncio.iscoroutine(result):
             result = await result

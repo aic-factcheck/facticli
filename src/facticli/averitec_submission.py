@@ -15,6 +15,7 @@ from facticli.core.constraints import normalize_claim_date
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
 from facticli.core.errors import classify_exception, describe_exception, is_fatal
 from facticli.core.grounding import summarize_grounding
+from facticli.core.images import ImageError, load_images
 from facticli.pipeline import build_fact_checker
 
 GENERAL_QUESTION = "What evidence supports the final verdict for this claim?"
@@ -88,6 +89,19 @@ def build_parser() -> argparse.ArgumentParser:
         help="Input field holding the claim date; used as evidence cutoff (default: claim_date). Pass '' to disable.",
     )
     parser.add_argument(
+        "--image-field",
+        default="images",
+        help=(
+            "Input field holding the claim's images as a list of file names or URLs (default: images); records "
+            "without it are text-only."
+        ),
+    )
+    parser.add_argument(
+        "--image-dir",
+        default=None,
+        help="Directory that relative image file names are resolved against (default: the input file's directory).",
+    )
+    parser.add_argument(
         "--run-info",
         default=None,
         help="Path for the per-claim usage/latency manifest (default: <output>.runinfo.json).",
@@ -138,6 +152,23 @@ def _extract_claim_text(record: dict[str, Any], row_index: int, claim_field: str
     if not claim:
         raise ValueError(f"Input row {row_index} has empty claim in field {claim_field!r}.")
     return claim
+
+
+def image_sources(record: dict[str, Any], row_index: int, image_field: str, image_dir: Path) -> list[str]:
+    """Paths or URLs of a record's images, in order; relative names resolve against ``image_dir``."""
+    value = record.get(image_field) if image_field else None
+    if value is None:
+        return []
+    if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+        raise ValueError(f"Input row {row_index}: field {image_field!r} must be a list of file names or URLs.")
+    sources = []
+    for item in value:
+        item = item.strip()
+        if item.startswith(("http://", "https://")) or Path(item).is_absolute():
+            sources.append(item)
+        elif item:
+            sources.append(str(image_dir / item))
+    return sources
 
 
 def build_submission_evidence(
@@ -267,7 +298,12 @@ async def _run_batch(
             if abort:
                 return local_index, None, None
             try:
-                run = await service.check_claim(claim, claim_id=claim_id, claim_date=claim_date)
+                images = await asyncio.to_thread(
+                    load_images, image_sources(record, row_index, args.image_field, args.image_dir)
+                )
+                if images:
+                    run_info["images"] = len(images)
+                run = await service.check_claim(claim, claim_id=claim_id, claim_date=claim_date, images=images)
             except Exception as exc:
                 if is_fatal(classify_exception(exc)):
                     abort = abort or (EXIT_ABORTED, f"{describe_exception(exc)}. No retry can fix this error")
@@ -401,6 +437,17 @@ async def _run(args: argparse.Namespace) -> int:
             )
             return 2
 
+    args.image_dir = Path(args.image_dir) if args.image_dir else input_path.parent
+    # A missing or unusable image stops the batch before it spends anything.
+    for row_index, record in indexed_records:
+        try:
+            for source in image_sources(record, row_index, args.image_field, args.image_dir):
+                if not source.startswith(("http://", "https://")) and not Path(source).is_file():
+                    raise ImageError(f"Input row {row_index}: image file not found: {source}")
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+
     existing_rows: list[dict[str, Any]] = []
     if args.resume and output_path.is_file():
         existing_rows = json.loads(output_path.read_text(encoding="utf-8"))
@@ -493,6 +540,8 @@ async def _run(args: argparse.Namespace) -> int:
             "blocked_domains": args.blocked_domains or [],
             "claim_date_field": args.claim_date_field,
             "knowledge_store_dir": args.knowledge_store_dir,
+            "image_field": args.image_field,
+            "image_dir": str(args.image_dir),
             "artifacts_dir": args.artifacts_dir,
         },
         "claims": run_info_rows,

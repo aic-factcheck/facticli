@@ -194,7 +194,7 @@ class CLITests(unittest.IsolatedAsyncioTestCase):
         )
 
         class _FakeService:
-            async def check_claim(self, _claim: str, progress=None):
+            async def check_claim(self, _claim: str, progress=None, images=()):
                 if progress is not None:
                     progress("[progress] Plan ready with 1 check(s):")
                     progress("  - [timeline_1] Was it completed in 1889?")

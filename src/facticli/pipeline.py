@@ -12,7 +12,7 @@ import asyncio
 import hashlib
 import time
 import uuid
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -49,8 +49,17 @@ from facticli.core.retrieval import RetrievalJournal, activate_journal, deactiva
 from facticli.core.search_cache import SearchCache
 from facticli.core.source_quality import assign_source_tiers
 from facticli.core.usage import activate_usage_log, deactivate_usage_log, summarize_usage
+from facticli.core.images import ClaimImage, activate_images, deactivate_images, get_images
 from facticli.llm import StageRunner, build_search_tools, configure_client, resolve_endpoint
-from facticli.payloads import dated, extraction_payload, judge_payload, plan_payload, research_payload
+from facticli.payloads import (
+    dated,
+    extraction_payload,
+    images_payload,
+    judge_payload,
+    plan_payload,
+    research_payload,
+    with_images,
+)
 
 # Error kinds that re-running the same request cannot fix; the check fails
 # without further attempts. Fatal kinds (auth, quota, not found) do not get
@@ -65,7 +74,7 @@ Progress = Callable[[str], None]
 class Stage(Protocol):
     """What the pipeline needs from a model stage (``StageRunner`` or a test fake)."""
 
-    async def run(self, payload: dict[str, Any]) -> tuple[Any, bool]: ...
+    async def run(self, payload: dict[str, Any], images: Sequence[ClaimImage] = ()) -> tuple[Any, bool]: ...
 
 
 @dataclass
@@ -237,12 +246,14 @@ class FactChecker:
         *,
         claim_id: str | int | None = None,
         claim_date: str | None = None,
+        images: Sequence[ClaimImage] = (),
     ) -> FactCheckRun:
         """Run the pipeline on one claim.
 
         ``claim_date`` (YYYY-MM-DD or D-M-YYYY) is the evidence cutoff; a value
         that does not parse raises instead of running without the cutoff.
         ``claim_id`` selects the knowledge-store entry for that search provider.
+        ``images`` are part of the claim; every stage sees them (``facticli.core.images``).
         """
         say = progress or (lambda _line: None)
         normalized_claim = claim.strip()
@@ -266,6 +277,7 @@ class FactChecker:
             claim=claim,
             normalized_claim=normalized_claim,
             claim_id=constraints.claim_id,
+            images=list(images),
             constraints=constraints,
             started_at=started.isoformat(),
             stage_models=self.stage_models,
@@ -274,6 +286,7 @@ class FactChecker:
 
         usage_log, usage_token = activate_usage_log()
         constraints_token = activate_constraints(constraints)
+        images_token = activate_images(images)
         start = time.monotonic()
         try:
             say(f"[progress] Starting fact-check: {normalized_claim}")
@@ -281,6 +294,7 @@ class FactChecker:
             findings = await self._research(normalized_claim, plan, artifacts, say)
             report = await self._judge(normalized_claim, plan, findings, artifacts, say)
         finally:
+            deactivate_images(images_token)
             deactivate_constraints(constraints_token)
             deactivate_usage_log(usage_token)
             artifacts.duration_seconds = time.monotonic() - start
@@ -297,7 +311,12 @@ class FactChecker:
 
     async def _plan(self, claim: str, artifacts: RunArtifacts, say: Progress) -> InvestigationPlan:
         say("[progress] Planning verification checks...")
-        plan_raw, _ = await self.planner.run(plan_payload(claim=claim, max_checks=self.config.max_checks))
+        images = get_images()
+        payload = with_images(
+            plan_payload(claim=claim, max_checks=self.config.max_checks),
+            images_payload("plan", [image.image_id for image in images]) if images else None,
+        )
+        plan_raw, _ = await self.planner.run(payload, images=images)
         artifacts.plan_raw = plan_raw
         checks = normalize_plan_checks(
             claim=claim,
@@ -389,7 +408,10 @@ class FactChecker:
             constraints=constraints,
             tool_call_budget=self.config.tool_call_budget,
         )
-        finding, wrapped_up = await self.researcher.run(dated(payload, constraints))
+        images = get_images()
+        if images:
+            payload = with_images(payload, images_payload("research", [image.image_id for image in images]))
+        finding, wrapped_up = await self.researcher.run(dated(payload, constraints), images=images)
         finding = finding.without_harness_fields()
         updates: dict[str, Any] = {}
         if finding.aspect_id != check.aspect_id:
@@ -413,8 +435,12 @@ class FactChecker:
     ) -> FactCheckReport:
         """Judge the findings. The harness-held findings are authoritative in the final report."""
         say("[progress] Synthesizing final verdict...")
-        payload = judge_payload(claim=claim, plan=plan, findings=findings)
-        report_raw, _ = await self.judge.run(dated(payload, get_constraints()))
+        images = get_images()
+        payload = with_images(
+            judge_payload(claim=claim, plan=plan, findings=findings),
+            images_payload("judge", [image.image_id for image in images]) if images else None,
+        )
+        report_raw, _ = await self.judge.run(dated(payload, get_constraints()), images=images)
         report_raw = report_raw.without_harness_fields()
         artifacts.report_raw = report_raw
 
@@ -497,11 +523,16 @@ class ClaimExtractor:
         self.stage = stage
         self.max_claims = max_claims
 
-    async def extract_claims(self, input_text: str) -> ClaimExtractionResult:
+    async def extract_claims(self, input_text: str, images: Sequence[ClaimImage] = ()) -> ClaimExtractionResult:
+        """Extract claims from the text and, when given, the images that come with it."""
         normalized_text = input_text.strip()
-        if not normalized_text:
+        if not normalized_text and not images:
             raise ValueError("Input text is empty.")
-        extraction, _ = await self.stage.run(extraction_payload(input_text=normalized_text, max_claims=self.max_claims))
+        payload = with_images(
+            extraction_payload(input_text=normalized_text, max_claims=self.max_claims),
+            images_payload("extract_claims", [image.image_id for image in images]) if images else None,
+        )
+        extraction, _ = await self.stage.run(payload, images=images)
         extraction.input_text = normalized_text
         extraction.detected_language = extraction.detected_language.strip().lower()
         extraction.claims = extraction.claims[: self.max_claims]

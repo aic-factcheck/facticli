@@ -10,9 +10,26 @@ from pathlib import Path
 from .check_options import add_fact_check_args, add_inference_args, fact_check_config, missing_environment, stage_routing
 from .cli_validators import positive_int
 from .config import ClaimExtractionRuntimeConfig
+from .core.images import ClaimImage, ImageError, load_images
 from .pipeline import build_claim_extractor, build_fact_checker
 from .render import format_run_text
 from .skills import get_skill, list_skills, load_skill_prompt
+
+
+def _add_image_arg(parser: argparse.ArgumentParser, what: str) -> None:
+    parser.add_argument(
+        "--image",
+        action="append",
+        default=None,
+        dest="images",
+        metavar="PATH_OR_URL",
+        help=f"{what} (repeatable): a local file or an http(s) URL; JPEG, PNG, WebP, or GIF up to 20 MB.",
+    )
+
+
+def _load_cli_images(args: argparse.Namespace) -> list[ClaimImage]:
+    """Load --image values; raises ImageError."""
+    return load_images(args.images or [])
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,6 +47,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     check_parser = subparsers.add_parser("check", help="Fact-check a claim.")
     check_parser.add_argument("claim", help="Claim text to verify.")
+    _add_image_arg(check_parser, "Image that is part of the claim")
     add_fact_check_args(check_parser, search_providers=("openai", "brave", "exa"))
     check_parser.add_argument(
         "--show-plan",
@@ -73,6 +91,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Path to a UTF-8 text file containing the input text.",
     )
+    _add_image_arg(extract_parser, "Image that comes with the input text, e.g. a screenshot of a post")
     add_inference_args(extract_parser)
     extract_parser.add_argument(
         "--max-claims",
@@ -102,13 +121,14 @@ async def run_check_command(args: argparse.Namespace) -> int:
         print(missing, file=sys.stderr)
         return 2
     try:
+        images = _load_cli_images(args)
         checker = build_fact_checker(fact_check_config(args), artifacts_dir=args.artifacts_dir)
-    except ValueError as exc:
+    except ValueError as exc:  # ImageError is a ValueError
         print(str(exc), file=sys.stderr)
         return 2
     progress = (lambda line: print(line, file=sys.stderr, flush=True)) if args.stream_progress else None
     try:
-        run = await checker.check_claim(args.claim, progress=progress)
+        run = await checker.check_claim(args.claim, progress=progress, images=images)
     except Exception as exc:
         if getattr(args, "debug", False):
             traceback.print_exc(file=sys.stderr)
@@ -118,6 +138,8 @@ async def run_check_command(args: argparse.Namespace) -> int:
 
     if args.json:
         payload: dict[str, object] = {"report": run.report.model_dump()}
+        if images:
+            payload["images"] = [image.model_dump() for image in images]
         if args.include_artifacts:
             payload["plan"] = run.plan.model_dump()
             payload["findings"] = [finding.model_dump() for finding in run.findings]
@@ -135,7 +157,7 @@ async def run_check_command(args: argparse.Namespace) -> int:
     return 0
 
 
-def _load_extract_input_text(args: argparse.Namespace) -> str:
+def _load_extract_input_text(args: argparse.Namespace, *, allow_empty: bool = False) -> str:
     if args.from_file and args.text:
         raise ValueError("Provide input text either as positional argument or with --from-file, not both.")
 
@@ -149,8 +171,10 @@ def _load_extract_input_text(args: argparse.Namespace) -> str:
 
     if args.text:
         return args.text
+    if allow_empty:  # images alone are an input
+        return ""
 
-    raise ValueError("Provide input text as positional argument or use --from-file.")
+    raise ValueError("Provide input text as positional argument, use --from-file, or pass --image.")
 
 
 async def run_extract_claims_command(args: argparse.Namespace) -> int:
@@ -160,7 +184,8 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
         return 2
 
     try:
-        input_text = _load_extract_input_text(args)
+        input_text = _load_extract_input_text(args, allow_empty=bool(args.images))
+        images = _load_cli_images(args)
         stage_models, stage_efforts = stage_routing(args)
     except Exception as exc:
         print(str(exc), file=sys.stderr)
@@ -178,7 +203,7 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
         )
     )
     try:
-        result = await extractor.extract_claims(input_text)
+        result = await extractor.extract_claims(input_text, images=images)
     except Exception as exc:
         if getattr(args, "debug", False):
             traceback.print_exc(file=sys.stderr)
@@ -191,7 +216,10 @@ async def run_extract_claims_command(args: argparse.Namespace) -> int:
         return 0
 
     print("Input")
-    print(f"  {result.input_text}")
+    if result.input_text:
+        print(f"  {result.input_text}")
+    for image in images:
+        print(f"  [{image.image_id}] {image.source}")
     if result.detected_language:
         print("")
         print("Detected Language")

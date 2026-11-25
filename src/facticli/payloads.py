@@ -29,6 +29,55 @@ FAILED_CHECK_NOTICE = (
 )
 
 
+# Images travel as separate message parts after the JSON payload (see
+# ``llm.stage_input``). The payload names them and says, per stage, how they
+# may be used. The block exists only when the claim has images, so text-only
+# inputs are unchanged.
+IMAGE_NOTICES: dict[str, str] = {
+    "plan": (
+        "The claim comes with the images attached after this message, each after a line with its id. Read them as "
+        "part of the claim: what they show, any text in them, and what the claim presents them as. When the claim "
+        "rests on an image, plan checks on where and when the image appeared before the claim and on whether it "
+        "shows what the claim says it shows."
+    ),
+    "research": (
+        "The claim's images are attached after this message, each after a line with its id. What you see in an "
+        "image tells you what is being claimed; it is not evidence. Evidence about an image (where and when it "
+        "appeared, what it really shows) must come from sources your tools returned, cited by URL."
+    ),
+    "judge": (
+        "The claim's images are attached after this message, each after a line with its id, so you can see what "
+        "the claim presents. Base the verdict on the findings and their sources, not on your own reading of the "
+        "images."
+    ),
+    "extract_claims": (
+        "The input also includes the images attached after this message, each after a line with its id. Extract "
+        "check-worthy claims stated in them (text in the image) and claims the input makes about them (what an "
+        "image is presented as showing). For such a claim, source_fragment quotes the text in the image or the "
+        "passage of input_text that presents the image."
+    ),
+}
+
+
+def images_payload(stage: str, image_ids: list[str]) -> dict[str, Any]:
+    """The ``images`` block of a stage payload."""
+    return {"ids": list(image_ids), "instruction": IMAGE_NOTICES[stage]}
+
+
+def with_images(payload: dict[str, Any], images: dict[str, Any] | None) -> dict[str, Any]:
+    """Insert an ``images`` block right after the claim or input text; unchanged when there is none."""
+    if not images:
+        return payload
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        result[key] = value
+        if key in ("claim", "input_text"):
+            result["images"] = images
+    if "images" not in result:
+        result["images"] = images
+    return result
+
+
 def constraints_payload(constraints: ResearchConstraints | None) -> dict[str, Any] | None:
     """Render active retrieval constraints for a research-style prompt."""
     if constraints is None or not (constraints.claim_date or constraints.blocked_domains):

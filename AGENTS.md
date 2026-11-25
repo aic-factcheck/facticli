@@ -38,13 +38,17 @@ Implemented:
 - per-stage model and reasoning-effort routing (`--stage-model`, `--stage-effort`),
 - AVeriTeC batch runner, scorer (label metrics, Ev2R, pass^k consistency), artifact audit CLI
   (leakage, provenance and cut-short stats, evidence-dependence ablation),
+- claim images (`--image`): sent to every stage as tagged image parts after the JSON payload, with a
+  per-stage notice in the payload; text-only requests stay byte-identical,
 - deterministic unit tests for all of the above (no network, no model calls).
 
 Not yet implemented (see `TODO.md`):
 - recency/duplication-aware source ranking beyond tiers,
 - contradiction-specific follow-up planning and synthesis checks,
 - page fetching with Wayback-first snapshots (built and measured in 2026-11, not adopted; see `TODO.md`),
-- debate-style judging (deliberately deferred; see "Considered and not adopted" in `TODO.md`).
+- debate-style judging (deliberately deferred; see "Considered and not adopted" in `TODO.md`),
+- video claims (frames plus transcript, or video-native models) and images returned to the model by
+  tools (the Agents SDK drops tool-output images on Chat Completions).
 
 Removed in the 2026-11 simplification (code at git tag `pre-simplify`; reasons in `TODO.md`): the
 review loop, the single-agent baseline, token and retry budgets with the SDK retry policy, the
@@ -84,7 +88,7 @@ citation URL health pass, TOML config profiles, and the core/application/adapter
   (`errors.py`), usage ledger (`usage.py`), source tiers (`source_quality.py`),
   tool-output cleaning and truncation (`truncation.py`), retrieval constraints (`constraints.py`),
   retrieval journal (`retrieval.py`), provenance check (`grounding.py`), record/replay cache
-  (`search_cache.py`)
+  (`search_cache.py`), claim images (`images.py`: `ClaimImage`, loading, per-run ContextVar)
 - `src/facticli/cli.py`: CLI parser and command handlers
 - `src/facticli/check_options.py`: fact-check flags, environment checks, and runtime config shared by
   `facticli check` and the AVeriTeC runner (add a run flag there once, not to each runner)
@@ -169,8 +173,17 @@ limit, the SDK `max_turns` handler makes one more model call over the same conve
 `tool_choice="none"`. The finding is kept with `stop_reason = turn_limit`; the call is its own
 usage event (`wrap_up = True`); if it fails too, the turn-limit error propagates.
 
-Run context: every run installs retrieval constraints and a usage ledger via ContextVars (the
-search tools read them). The ledger records per-stage usage (including cached, cache-write, and
+Images (`core/images.py`, `llm.stage_input`, `payloads.IMAGE_NOTICES`): a claim's images are part
+of the claim, not evidence. `StageRunner.run(payload, images)` sends the JSON payload followed by
+each image as an `input_image` data URL after a `[image_N]` text part; with no images the message
+is the bare JSON string as before. Each stage payload gets an `images` block (ids plus a per-stage
+notice) right after the claim, only when there are images, so `tests/test_model_inputs.py` still
+pins text-only runs. Images are not resized: accepted formats are JPEG, PNG, WebP, GIF up to 20 MB,
+sniffed by content. Artifacts store image metadata (`RunArtifacts.images`: source, type, size,
+sha256), never the bytes.
+
+Run context: every run installs retrieval constraints, the claim images, and a usage ledger via
+ContextVars. The ledger records per-stage usage (including cached, cache-write, and
 reasoning tokens) for every attempt: an event is opened when a model run starts and updated after
 each response, so runs that raise or time out still count (`completed = False`). The constraints
 carry `reference_date` (the claim date when set, else the run date), which the research and judge
@@ -300,6 +313,8 @@ Claim-extraction language policy:
   `--knowledge-store-dir`), `--search-results`, `--search-context-size`
 - `--tool-call-budget`, `--search-cache-dir`
 - `--block-fact-checkers`, `--blocked-domain DOMAIN`
+- `--image PATH_OR_URL` (check and extract-claims; repeatable); the AVeriTeC runner takes
+  `--image-field` (default `images`) and `--image-dir` instead
 - `--artifacts-dir`
 - `--max-claims` (extract-claims command)
 - `--show-plan`, `--show-usage`, `--stream-progress`, `--json`, `--include-artifacts`
@@ -313,6 +328,8 @@ Input/validation rules:
 - `--tool-call-budget` is what the researcher is told to plan for; the brave, exa, and knowledge_store
   tools enforce a cap of `SEARCH_CAP_FACTOR` (2) times that. Hosted `openai` search cannot be capped.
 - `--search-cache-dir` requires `--search-provider brave` or `exa` (exit 2 otherwise).
+- `--image` must be an existing file or an http(s) URL with a JPEG/PNG/WebP/GIF of at most 20 MB
+  (exit 2 otherwise); the AVeriTeC runner checks every image file exists before the first claim.
 - `--stage-model` / `--stage-effort` require a known stage; efforts are
   `none|minimal|low|medium|high|xhigh|max`.
 - The AVeriTeC runner exits with code 3 when a fatal error aborts the batch, and with code 2

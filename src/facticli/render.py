@@ -33,6 +33,8 @@ def format_run_text(run: FactCheckRun, show_plan: bool = False, show_usage: bool
     lines: list[str] = []
     lines.append("Claim")
     lines.append(f"  {run.claim}")
+    for image in run.artifacts.images:
+        lines.append(f"  [{image.image_id}] {image.source}")
     lines.append("")
     lines.append("Verdict")
     lines.append(f"  {report.verdict.value} (confidence: {report.verdict_confidence:.2f})")

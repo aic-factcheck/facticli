@@ -180,7 +180,7 @@ class _BatchService:
         self.error = error
         self.calls = 0
 
-    async def check_claim(self, claim: str, claim_id=None, claim_date=None):
+    async def check_claim(self, claim: str, claim_id=None, claim_date=None, images=()):
         self.calls += 1
         if self.calls > 1:
             raise self.error

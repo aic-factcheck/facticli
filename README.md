@@ -158,6 +158,22 @@ Each research run keeps a journal of what its search tools returned. Every cited
 
 The label says where a source came from, not whether it is right. A source without a label was not assessed.
 
+### Images
+
+A claim can come with images: a photo it describes, a screenshot of a post, a chart. Pass each with `--image`, as a local file or an http(s) URL (JPEG, PNG, WebP, or GIF up to 20 MB):
+
+```bash
+facticli check "Photo shows a 101-year-old woman who has given birth to her 17th child." \
+  --image https://example.com/viral-photo.jpg
+```
+
+- Every stage sees the images, each after a line naming its id (`image_1`, `image_2`, ...). The planner reads them as part of the claim. Researchers and the judge are told that what an image shows is what is being claimed, not evidence: evidence about an image still has to come from a source with a URL.
+- The model has to accept image input. Images are sent as they are (no resizing); the provider scales them.
+- Text-only claims send exactly the same requests as before images were supported.
+- `extract-claims` takes `--image` too, so claims can be extracted from a screenshot alone or from a post's text together with its pictures.
+
+The AVeriTeC runner reads each record's images from a list field (`--image-field`, default `images`; file names resolve against `--image-dir`, default the input file's directory). Missing image files stop the batch before the first claim.
+
 ### Limits and failures
 
 - **Turn limit.** A research run that reaches its turn limit gets one more model call with tools disabled and answers from what it has. The finding is kept and marked `cut short at the turn limit`.
@@ -322,12 +338,13 @@ facticli check [--model MODEL] [--base-url BASE_URL]
                [--search-results N] [--search-context-size {low,medium,high}]
                [--tool-call-budget N] [--search-cache-dir DIR]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
+               [--image PATH_OR_URL ...]
                [--artifacts-dir DIR]
                [--show-plan] [--show-usage] [--stream-progress]
                [--json] [--include-artifacts]
                "<claim>"
 
-facticli extract-claims [--from-file PATH]
+facticli extract-claims [--from-file PATH] [--image PATH_OR_URL ...]
                         [--model MODEL] [--base-url BASE_URL]
                         [--stage-model STAGE=MODEL ...] [--stage-effort STAGE=EFFORT ...]
                         [--max-claims N] [--json]
@@ -342,7 +359,8 @@ Validation notes:
 - `--search-cache-dir` needs `--search-provider brave` or `exa`.
 - The `knowledge_store` provider needs a store directory and claim ids, so only the AVeriTeC runner offers it (`--knowledge-store-dir`); `check` refuses it, also when it comes from `FACTICLI_SEARCH_PROVIDER`.
 - `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `judge`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
-- For `extract-claims`, provide either positional `text` or `--from-file`, but not both.
+- For `extract-claims`, provide either positional `text` or `--from-file`, but not both; with `--image`, the text may be left out.
+- `--image` takes a local file or an http(s) URL; an image that is missing, over 20 MB, or not JPEG, PNG, WebP, or GIF exits with code 2 before any model call.
 
 ## 🧠 How the pipeline works
 
@@ -350,7 +368,7 @@ Validation notes:
 
 ```mermaid
 flowchart TD
-  claim(["Claim<br/>+ optional claim date"])
+  claim(["Claim<br/>+ optional claim date and images"])
   plan["<b>1. Plan</b><br/>split the claim into up to 4 independent checks,<br/>each with search queries and 'done when' criteria"]
   subgraph research["<b>2. Research</b>: one agent per check, run in parallel"]
     direction LR
@@ -364,7 +382,7 @@ flowchart TD
   claim --> plan --> research --> judge --> report
 ```
 
-Three model roles (planner, researcher, judge), each a separate prompt in `src/facticli/prompts/`. Only the researcher can search. Everything between the model calls is deterministic code: it never asks a model to check another model's work when a comparison can do it.
+Three model roles (planner, researcher, judge), each a separate prompt in `src/facticli/prompts/`. Only the researcher can search. A claim's images go to all three (see [Images](#images)). Everything between the model calls is deterministic code: it never asks a model to check another model's work when a comparison can do it.
 
 | Stage | What the model does | What the code does around it (no model) |
 | --- | --- | --- |
@@ -381,7 +399,7 @@ Defaults are shown in brackets.
 ```mermaid
 flowchart TD
   entry["<b>facticli check</b> or the AVeriTeC batch runner"] --> cfg["Flags + environment<br/>check API keys, build the three stages"]
-  cfg --> ctx["<b>Open the run</b><br/>constraints: blocked domains, evidence cutoff = claim date,<br/>reference date = claim date or today<br/>usage ledger; 429/5xx/timeouts retried by the client [3]"]
+  cfg --> ctx["<b>Open the run</b><br/>constraints: blocked domains, evidence cutoff = claim date,<br/>reference date = claim date or today<br/>claim images (sent to every stage after the payload)<br/>usage ledger; 429/5xx/timeouts retried by the client [3]"]
   ctx --> planner
 
   subgraph PLAN["1. Plan"]
@@ -447,6 +465,7 @@ src/facticli/
     source_quality.py  # deterministic source authority tiers
     truncation.py      # tool-output cleaning and truncation + untrusted-content notice
     constraints.py     # retrieval constraints (blocklist, claim-date cutoff)
+    images.py          # claim images: loading, format check, per-run image context
   cli.py               # command-line interface
   check_options.py     # flags, env checks, and runtime config shared by `check` and the AVeriTeC runner
   brave_search.py, exa_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)

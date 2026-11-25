@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
+from .images import ClaimImage
+
 from .constraints import ResearchConstraints
 from .contracts import AspectFinding, FactCheckReport, InvestigationPlan, SourceEvidence, VerificationCheck
 from .retrieval import RetrievalRecord, RetrievalSummary
@@ -30,6 +32,10 @@ class RunArtifacts(BaseModel):
     claim: str
     normalized_claim: str
     claim_id: str | None = None
+    images: list[ClaimImage] = Field(
+        default_factory=list,
+        description="The claim's images (id, source, type, size, hash); the image bytes are not stored.",
+    )
     constraints: ResearchConstraints | None = None
     plan_raw: InvestigationPlan | None = None
     plan_normalized: InvestigationPlan | None = None

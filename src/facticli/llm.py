@@ -30,6 +30,7 @@ from facticli.core.retrieval import OPEN_PAGE, RetrievalJournal, RetrievalRecord
 from facticli.core.search_cache import SearchCache
 from facticli.core.usage import StageUsageEvent, apply_usage, track_usage
 from facticli.exa_search import build_exa_web_search_tool
+from facticli.core.images import ClaimImage
 from facticli.knowledge_store import build_knowledge_store_search_tool
 from facticli.skills import load_skill_prompt
 
@@ -178,6 +179,22 @@ def record_hosted_search_calls(response: Any, journal: RetrievalJournal) -> None
 # --- stage runner ----------------------------------------------------------
 
 
+def stage_input(payload: dict[str, Any], images: Sequence[ClaimImage] = ()) -> str | list[Any]:
+    """The user message of a stage: the JSON payload, then each image after a line naming its id.
+
+    Without images the message is the bare JSON string, exactly as before
+    images existed, so text-only runs send byte-identical requests.
+    """
+    message = json.dumps(payload, indent=2, ensure_ascii=False)
+    if not images:
+        return message
+    content: list[dict[str, Any]] = [{"type": "input_text", "text": message}]
+    for image in images:
+        content.append({"type": "input_text", "text": f"[{image.image_id}]"})
+        content.append({"type": "input_image", "image_url": image.data_url, "detail": "auto"})
+    return [{"role": "user", "content": content}]
+
+
 class _LedgerHooks(RunHooks[Any]):
     """Keep the usage ledger and the retrieval journal current as model responses arrive.
 
@@ -246,9 +263,9 @@ class StageRunner:
         self._stage = stage
         self.model_label = model if isinstance(model, str) else type(model).__name__
 
-    async def run(self, payload: dict[str, Any]) -> tuple[Any, bool]:
+    async def run(self, payload: dict[str, Any], images: Sequence[ClaimImage] = ()) -> tuple[Any, bool]:
         """Run the stage; return the typed output and whether the wrap-up call produced it."""
-        message = json.dumps(payload, indent=2, ensure_ascii=False)
+        message = stage_input(payload, images)
         wrap_up_agent = self._wrap_up_agent
         if wrap_up_agent is None:
             return await self._tracked_run(self._agent, message, max_turns=self._max_turns), False
