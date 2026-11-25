@@ -126,6 +126,7 @@ def audit_run(artifacts: RunArtifacts) -> dict[str, Any]:
         "grounding": summarize_grounding(final_sources),
         "unresolved_citations": artifacts.unresolved_citations,
         "searches": retrieval.searches if retrieval else None,
+        "image_searches": retrieval.image_searches if retrieval else None,
     }
 
 
@@ -159,6 +160,7 @@ def aggregate(rows: list[dict[str, Any]], gold: list[dict[str, Any]] | None) -> 
         "runs_with_unmatched_source": sum(1 for row in rows if row["grounding"].get("unmatched")),
         "runs_with_unresolved_citation": sum(1 for row in rows if row["unresolved_citations"]),
         "mean_searches": _mean([row["searches"] for row in rows if row["searches"] is not None]),
+        "mean_image_searches": _mean([row["image_searches"] for row in rows if row.get("image_searches") is not None]),
         "mean_total_tokens": _mean([row["total_tokens"] for row in rows if row["total_tokens"] is not None]),
         "mean_failed_attempt_tokens": _mean(
             [row["failed_attempt_tokens"] for row in rows if row["failed_attempt_tokens"] is not None]

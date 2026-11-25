@@ -96,8 +96,8 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         "--search-cache-dir",
         default=None,
         help=(
-            "Directory that records Brave or Exa responses and replays them on identical requests, so repeated or "
-            "paired runs see the same retrieval (needs --search-provider brave or exa)."
+            "Directory that records Brave, Exa, and reverse image search responses and replays them on identical "
+            "requests, so repeated or paired runs see the same retrieval (needs --search-provider brave or exa)."
         ),
     )
     parser.add_argument(
@@ -113,6 +113,25 @@ def add_fact_check_args(parser: argparse.ArgumentParser, *, search_providers: tu
         dest="blocked_domains",
         metavar="DOMAIN",
         help="Additional domain (or domain/path prefix) to exclude from evidence (repeatable).",
+    )
+    parser.add_argument(
+        "--image-url-base",
+        default=None,
+        metavar="URL",
+        help=(
+            "Public base URL under which local image files are mirrored by file name; gives local images the URL "
+            "reverse image search needs. Images given as URLs need none."
+        ),
+    )
+    parser.add_argument(
+        "--reverse-image-search",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help=(
+            "Reverse image search tool for the researcher: Google Lens via Serper, pages dated through Exa (needs "
+            "SERPER_API_KEY and EXA_API_KEY). On by default when a claim image has a public URL (an image URL, or a "
+            "local file under --image-url-base); --no-reverse-image-search turns it off."
+        ),
     )
     parser.add_argument(
         "--artifacts-dir",
@@ -132,11 +151,40 @@ def missing_environment(args: argparse.Namespace) -> str | None:
         return "BRAVE_SEARCH_API_KEY is not set. Export it or switch to --search-provider openai."
     if provider == "exa" and not os.getenv("EXA_API_KEY"):
         return "EXA_API_KEY is not set. Export it or add it to .env."
+    if getattr(args, "reverse_image_search", None):
+        missing_keys = missing_image_search_keys()
+        if missing_keys:
+            return missing_keys
     if provider == "knowledge_store" and not getattr(args, "knowledge_store_dir", None):
         # A choices list does not cover a FACTICLI_SEARCH_PROVIDER default, so `check` gets here too.
         return (
             "--search-provider knowledge_store needs a store directory and claim ids: use "
             "python -m facticli.averitec_submission --knowledge-store-dir DIR."
+        )
+    return None
+
+
+def missing_image_search_keys() -> str | None:
+    """Message naming a missing reverse image search key, or None."""
+    for key in ("SERPER_API_KEY", "EXA_API_KEY"):
+        if not os.getenv(key):
+            return (
+                f"{key} is not set. Reverse image search (on by default for claim images with a public URL) needs "
+                "SERPER_API_KEY and EXA_API_KEY; set them or pass --no-reverse-image-search."
+            )
+    return None
+
+
+def resolve_reverse_image_search(args: argparse.Namespace, *, searchable_images: bool) -> str | None:
+    """Turn reverse image search on when it was not set and some claim image can be searched.
+
+    Returns a warning when it was asked for explicitly but no image has a public URL.
+    """
+    if args.reverse_image_search is None:
+        args.reverse_image_search = searchable_images
+    elif args.reverse_image_search and not searchable_images:
+        return (
+            "[warn] Reverse image search needs a public image URL: give the image as a URL or pass --image-url-base."
         )
     return None
 
@@ -169,5 +217,6 @@ def fact_check_config(args: argparse.Namespace, **extra: Any) -> FactCheckRuntim
         blocked_domains=tuple(args.blocked_domains or ()),
         tool_call_budget=args.tool_call_budget,
         search_cache_dir=args.search_cache_dir,
+        reverse_image_search=bool(args.reverse_image_search),
         **extra,
     )

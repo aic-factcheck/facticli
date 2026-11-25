@@ -16,6 +16,7 @@ from facticli.core.grounding import (
 )
 from facticli.core.retrieval import (
     OPEN_PAGE,
+    REVERSE_IMAGE,
     RetrievalJournal,
     RetrievalRecord,
     activate_journal,
@@ -111,11 +112,15 @@ class JournalTests(unittest.TestCase):
                 RetrievalRecord(provider="openai", kind=OPEN_PAGE, urls=["https://a.org/x?id=1"]),
                 RetrievalRecord(provider="brave", error="search request failed (HTTP 500)"),
                 RetrievalRecord(provider="brave", refused=True),
+                RetrievalRecord(provider="reverse_image_search", kind=REVERSE_IMAGE, urls=["https://b.org/p"]),
             ]
         )
         self.assertEqual(
             summary.model_dump(),
-            {"searches": 2, "pages_opened": 1, "cache_hits": 1, "refused": 1, "errors": 1, "distinct_urls": 2},
+            {
+                "searches": 2, "image_searches": 1, "pages_opened": 1, "cache_hits": 1, "refused": 1, "errors": 1,
+                "distinct_urls": 3,
+            },
         )
 
 

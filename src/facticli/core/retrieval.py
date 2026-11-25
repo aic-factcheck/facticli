@@ -26,6 +26,7 @@ _TRACKING_PARAMS: frozenset[str] = frozenset(
 
 SEARCH = "search"
 OPEN_PAGE = "open_page"
+REVERSE_IMAGE = "reverse_image"
 
 
 class RetrievalRecord(BaseModel):
@@ -48,6 +49,7 @@ class RetrievalSummary(BaseModel):
     """Counts over the receipts of one whole run."""
 
     searches: int = 0
+    image_searches: int = 0
     pages_opened: int = 0
     cache_hits: int = 0
     refused: int = 0
@@ -64,6 +66,8 @@ def summarize_retrieval(records: list[RetrievalRecord]) -> RetrievalSummary:
             continue
         if record.kind == OPEN_PAGE:
             summary.pages_opened += 1
+        elif record.kind == REVERSE_IMAGE:
+            summary.image_searches += 1
         else:
             summary.searches += 1
         summary.cache_hits += record.cached

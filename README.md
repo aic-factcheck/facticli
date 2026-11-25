@@ -50,6 +50,10 @@ Optional retrieval defaults:
 export FACTICLI_SEARCH_PROVIDER=openai
 # only needed when FACTICLI_SEARCH_PROVIDER=brave
 export BRAVE_SEARCH_API_KEY=...
+# needed for reverse image search, on by default for claim images with a public URL
+# (Serper runs Google Lens; Exa dates the pages it finds)
+export SERPER_API_KEY=...
+export EXA_API_KEY=...
 ```
 
 ## 🚀 Usage
@@ -168,11 +172,20 @@ facticli check "Photo shows a 101-year-old woman who has given birth to her 17th
 ```
 
 - Every stage sees the images, each after a line naming its id (`image_1`, `image_2`, ...). The planner reads them as part of the claim. Researchers and the judge are told that what an image shows is what is being claimed, not evidence: evidence about an image still has to come from a source with a URL.
+- Reverse image search is on by default when an image can be searched (see the next point); `--no-reverse-image-search` turns it off. It gives each researcher a `reverse_image_search(image_id, focus)` tool. Google Lens (through Serper) lists pages showing the same or a similar image; Exa then reads those pages for their publication date and a few sentences (focused on `focus`). Blocked domains are removed first, and under a claim date only pages dated on or before it are kept: a page Exa cannot date is dropped, because most later matches of a viral image are its fact-checks. Calls count against the search budget, are journaled for provenance, and are recorded by `--search-cache-dir`.
+- Lens has to fetch the image itself, so the tool needs a public URL. An image given as a URL has one. For local files, mirror them somewhere public and pass the base with `--image-url-base URL`: `photo.jpg` is then searched as `URL/photo.jpg`. Images without a URL are still shown to the models, and without any searchable image the tool is not offered.
+- On 20 AVerImaTeC dev claims (two runs each) the text alone got 8 and 9 right, the text with its images 9 and 10, and images with reverse image search 11 and 11. Images about double the tokens per claim. Details in `TODO.md`.
 - The model has to accept image input. Images are sent as they are (no resizing); the provider scales them.
 - Text-only claims send exactly the same requests as before images were supported.
 - `extract-claims` takes `--image` too, so claims can be extracted from a screenshot alone or from a post's text together with its pictures.
 
-The AVeriTeC runner reads each record's images from a list field (`--image-field`, default `images`; file names resolve against `--image-dir`, default the input file's directory). Missing image files stop the batch before the first claim.
+The AVeriTeC runner reads each record's images from a list field (`--image-field`, default `images`; file names resolve against `--image-dir`, default the input file's directory). Missing image files stop the batch before the first claim. `scripts/fetch_averimatec.py` downloads the AVerImaTeC dev split from Hugging Face (`Rui4416/AVerImaTeC`) into that format, as `data/averimatec/dev.json` (152 claims) and a 20-claim label-stratified pilot `pilot_20.json` (`claim_id` = dev row index). The data is not in the repository. With `--image-url-base` the records point at a public copy of the images (for example, the `images/` folder of a GitHub repository holding the dataset's `images.zip`, with `#` in file names replaced by `_`), so no image directory is needed:
+
+```bash
+python3 scripts/fetch_averimatec.py --image-url-base https://raw.githubusercontent.com/heruberuto/averimatec_helper/main/images
+python3 -m facticli.averitec_submission --input data/averimatec/pilot_20.json --output pilot.json \
+  --search-provider exa --block-fact-checkers
+```
 
 ### Limits and failures
 
@@ -338,7 +351,8 @@ facticli check [--model MODEL] [--base-url BASE_URL]
                [--search-results N] [--search-context-size {low,medium,high}]
                [--tool-call-budget N] [--search-cache-dir DIR]
                [--block-fact-checkers] [--blocked-domain DOMAIN ...]
-               [--image PATH_OR_URL ...]
+               [--image PATH_OR_URL ...] [--image-url-base URL]
+               [--[no-]reverse-image-search]
                [--artifacts-dir DIR]
                [--show-plan] [--show-usage] [--stream-progress]
                [--json] [--include-artifacts]
@@ -361,6 +375,7 @@ Validation notes:
 - `--stage-model` / `--stage-effort` take `STAGE=VALUE` with stages `plan`, `research`, `judge`, `extract_claims`; efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` (the provider decides which a model accepts).
 - For `extract-claims`, provide either positional `text` or `--from-file`, but not both; with `--image`, the text may be left out.
 - `--image` takes a local file or an http(s) URL; an image that is missing, over 20 MB, or not JPEG, PNG, WebP, or GIF exits with code 2 before any model call.
+- Reverse image search runs by default when a claim image has a public URL, and then needs `SERPER_API_KEY` and `EXA_API_KEY` (exit 2 without them; `--no-reverse-image-search` skips it). `--reverse-image-search` warns when no image has a public URL.
 
 ## 🧠 How the pipeline works
 
@@ -411,7 +426,7 @@ flowchart TD
   subgraph RES["2. Research, for each check"]
     fan --> attempt["Attempt [up to 2, 120 s each; 600 s on flex]<br/>with a fresh retrieval journal"]
     attempt --> rmodel["Researcher model<br/>payload: reference date, claim, check, criteria,<br/>search budget [8], cutoff and blocklist"]
-    rmodel <-->|"tool calls"| tool["Search tool<br/>brave / exa: date cutoff sent, blocked domains dropped,<br/>results and text recorded in the journal,<br/>refused past the cap [16], optional record/replay cache<br/>openai hosted [default]: consulted URLs recorded"]
+    rmodel <-->|"tool calls"| tool["Search tool<br/>brave / exa: date cutoff sent, blocked domains dropped,<br/>results and text recorded in the journal,<br/>refused past the cap [16], optional record/replay cache<br/>openai hosted [default]: consulted URLs recorded<br/>reverse image search [on for images with a public URL]: Lens matches,<br/>dated through Exa, undated or later pages dropped under a cutoff"]
     rmodel -->|"turn limit [10]"| wrap["Wrap-up: one call with tools off,<br/>answer from what was found"]
     rmodel --> outcome{"outcome"}
     wrap --> outcome
@@ -469,6 +484,7 @@ src/facticli/
   cli.py               # command-line interface
   check_options.py     # flags, env checks, and runtime config shared by `check` and the AVeriTeC runner
   brave_search.py, exa_search.py, knowledge_store.py  # search tools (bounded output, journaled, capped)
+  reverse_image_search.py  # Lens matches for a claim image, dated through Exa, same controls as search
   skills.py            # skill registry + frontmatter-aware prompt loading
   artifacts_audit.py   # leakage / robustness / evidence-ablation audit over persisted runs
   averitec_submission.py, averitec_eval.py, eval/  # AVeriTeC batch runner, scorer, Ev2R, consistency

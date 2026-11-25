@@ -34,12 +34,16 @@ Implemented:
 - retrieval journal per research run: tool-call receipts in artifacts, a tool-enforced hard search
   cap, and a deterministic provenance label on every cited source (`grounding`),
 - one tools-off wrap-up call when a research run reaches its turn limit,
-- record/replay cache for Brave and Exa responses (`--search-cache-dir`),
+- record/replay cache for Brave, Exa, and reverse image search responses (`--search-cache-dir`),
 - per-stage model and reasoning-effort routing (`--stage-model`, `--stage-effort`),
 - AVeriTeC batch runner, scorer (label metrics, Ev2R, pass^k consistency), artifact audit CLI
   (leakage, provenance and cut-short stats, evidence-dependence ablation),
 - claim images (`--image`): sent to every stage as tagged image parts after the JSON payload, with a
   per-stage notice in the payload; text-only requests stay byte-identical,
+- reverse image search (on by default when a claim image has a public URL;
+  `--no-reverse-image-search` turns it off): Google Lens via Serper, pages dated through Exa, with the
+  same blocklist / cutoff / journal / cap / cache controls as the text search tools (measured on
+  20 AVerImaTeC dev claims, see `TODO.md`),
 - deterministic unit tests for all of the above (no network, no model calls).
 
 Not yet implemented (see `TODO.md`):
@@ -48,7 +52,7 @@ Not yet implemented (see `TODO.md`):
 - page fetching with Wayback-first snapshots (built and measured in 2026-11, not adopted; see `TODO.md`),
 - debate-style judging (deliberately deferred; see "Considered and not adopted" in `TODO.md`),
 - video claims (frames plus transcript, or video-native models) and images returned to the model by
-  tools (the Agents SDK drops tool-output images on Chat Completions).
+  tools (the Agents SDK drops tool-output images on Chat Completions); see `TODO.md`.
 
 Removed in the 2026-11 simplification (code at git tag `pre-simplify`; reasons in `TODO.md`): the
 review loop, the single-agent baseline, token and retry budgets with the SDK retry policy, the
@@ -69,6 +73,8 @@ citation URL health pass, TOML config profiles, and the core/application/adapter
   - Exa search API (`exa_search.py`): blocklist and claim-date cutoff applied by the engine
     (`excludeDomains`, `endPublishedDate`); undated results are dropped under a cutoff because
     Exa lets them through its date filter
+  - Serper Google Lens API (`reverse_image_search.py`) for reverse image search; it needs a public
+    image URL and returns no dates, so matches are dated through Exa's contents endpoint
 
 ## 4) Repository Layout
 
@@ -98,6 +104,7 @@ citation URL health pass, TOML config profiles, and the core/application/adapter
 - `src/facticli/brave_search.py`, `src/facticli/exa_search.py`, `src/facticli/knowledge_store.py`:
   search tools (bounded output, journaled, capped; Brave and Exa responses optionally recorded and
   replayed)
+- `src/facticli/reverse_image_search.py`: reverse image search tool (Lens via Serper, Exa dating)
 - `src/facticli/cli_validators.py`: CLI argument validators
 - `src/facticli/skills.py`: skill registry + frontmatter-aware prompt loading
 - `src/facticli/render.py`: human-readable output formatter
@@ -180,10 +187,13 @@ is the bare JSON string as before. Each stage payload gets an `images` block (id
 notice) right after the claim, only when there are images, so `tests/test_model_inputs.py` still
 pins text-only runs. Images are not resized: accepted formats are JPEG, PNG, WebP, GIF up to 20 MB,
 sniffed by content. Artifacts store image metadata (`RunArtifacts.images`: source, type, size,
-sha256), never the bytes.
+sha256, public URL), never the bytes. Reverse image search is offered per image only when it has a
+public URL (an image given as a URL, or a local file under `--image-url-base`); the research
+payload lists the searchable ids. Under a claim date it keeps only pages Exa dates on or before
+it; undated pages are dropped.
 
 Run context: every run installs retrieval constraints, the claim images, and a usage ledger via
-ContextVars. The ledger records per-stage usage (including cached, cache-write, and
+ContextVars (the search tools read them). The ledger records per-stage usage (including cached, cache-write, and
 reasoning tokens) for every attempt: an event is opened when a model run starts and updated after
 each response, so runs that raise or time out still count (`completed = False`). The constraints
 carry `reference_date` (the claim date when set, else the run date), which the research and judge
@@ -313,8 +323,9 @@ Claim-extraction language policy:
   `--knowledge-store-dir`), `--search-results`, `--search-context-size`
 - `--tool-call-budget`, `--search-cache-dir`
 - `--block-fact-checkers`, `--blocked-domain DOMAIN`
-- `--image PATH_OR_URL` (check and extract-claims; repeatable); the AVeriTeC runner takes
-  `--image-field` (default `images`) and `--image-dir` instead
+- `--image PATH_OR_URL` (check and extract-claims; repeatable), `--image-url-base URL`,
+  `--[no-]reverse-image-search` (default: on when an image has a public URL); the AVeriTeC runner takes `--image-field` (default `images`) and
+  `--image-dir` instead of `--image`
 - `--artifacts-dir`
 - `--max-claims` (extract-claims command)
 - `--show-plan`, `--show-usage`, `--stream-progress`, `--json`, `--include-artifacts`
@@ -330,6 +341,9 @@ Input/validation rules:
 - `--search-cache-dir` requires `--search-provider brave` or `exa` (exit 2 otherwise).
 - `--image` must be an existing file or an http(s) URL with a JPEG/PNG/WebP/GIF of at most 20 MB
   (exit 2 otherwise); the AVeriTeC runner checks every image file exists before the first claim.
+- Reverse image search, when on (by default for an image with a public URL, or by the flag),
+  requires `SERPER_API_KEY` and `EXA_API_KEY` (exit 2 otherwise, naming `--no-reverse-image-search`).
+  Text-only claims and images without a public URL never turn it on, so they need neither key.
 - `--stage-model` / `--stage-effort` require a known stage; efforts are
   `none|minimal|low|medium|high|xhigh|max`.
 - The AVeriTeC runner exits with code 3 when a fatal error aborts the batch, and with code 2
@@ -342,6 +356,7 @@ Input/validation rules:
 - `OPENAI_API_KEY` (required for live checks)
 - `OPENAI_API_MODEL` (required unless passed with `--model`)
 - `FACTICLI_SEARCH_PROVIDER`, `BRAVE_SEARCH_API_KEY`, `EXA_API_KEY` (retrieval)
+- `SERPER_API_KEY` (reverse image search; also needs `EXA_API_KEY`)
 - `FACTICLI_SERVICE_TIER` (OpenAI processing tier, e.g. `flex`)
 
 ## 9) Important Design Constraints

@@ -34,7 +34,7 @@ class RunArtifacts(BaseModel):
     claim_id: str | None = None
     images: list[ClaimImage] = Field(
         default_factory=list,
-        description="The claim's images (id, source, type, size, hash); the image bytes are not stored.",
+        description="The claim's images (id, source, type, size, hash, public URL); the image bytes are not stored.",
     )
     constraints: ResearchConstraints | None = None
     plan_raw: InvestigationPlan | None = None

@@ -410,7 +410,12 @@ class FactChecker:
         )
         images = get_images()
         if images:
-            payload = with_images(payload, images_payload("research", [image.image_id for image in images]))
+            searchable = (
+                [image.image_id for image in images if image.public_url] if self.config.reverse_image_search else None
+            )
+            payload = with_images(
+                payload, images_payload("research", [image.image_id for image in images], searchable_ids=searchable)
+            )
         finding, wrapped_up = await self.researcher.run(dated(payload, constraints), images=images)
         finding = finding.without_harness_fields()
         updates: dict[str, Any] = {}
@@ -489,6 +494,7 @@ def build_fact_checker(config: FactCheckRuntimeConfig, *, artifacts_dir: str | N
         max_total_chars=config.max_tool_output_chars,
         search_results_per_query=config.search_results_per_query,
         cache=SearchCache(config.search_cache_dir) if config.search_cache_dir else None,
+        reverse_image_search=config.reverse_image_search,
     )
 
     def runner(name: str, stage: str, output_type: type[Any], tools: list[Any] | None = None) -> StageRunner:

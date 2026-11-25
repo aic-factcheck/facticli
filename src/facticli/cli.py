@@ -7,7 +7,14 @@ import sys
 import traceback
 from pathlib import Path
 
-from .check_options import add_fact_check_args, add_inference_args, fact_check_config, missing_environment, stage_routing
+from .check_options import (
+    add_fact_check_args,
+    add_inference_args,
+    fact_check_config,
+    missing_environment,
+    resolve_reverse_image_search,
+    stage_routing,
+)
 from .cli_validators import positive_int
 from .config import ClaimExtractionRuntimeConfig
 from .core.images import ClaimImage, ImageError, load_images
@@ -28,8 +35,13 @@ def _add_image_arg(parser: argparse.ArgumentParser, what: str) -> None:
 
 
 def _load_cli_images(args: argparse.Namespace) -> list[ClaimImage]:
-    """Load --image values; raises ImageError."""
-    return load_images(args.images or [])
+    """Load --image values (raises ImageError) and settle whether reverse image search runs."""
+    images = load_images(args.images or [], url_base=getattr(args, "image_url_base", None))
+    if hasattr(args, "reverse_image_search"):
+        warning = resolve_reverse_image_search(args, searchable_images=any(image.public_url for image in images))
+        if warning:
+            print(warning, file=sys.stderr)
+    return images
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -116,14 +128,18 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 async def run_check_command(args: argparse.Namespace) -> int:
+    try:
+        images = _load_cli_images(args)  # before the environment check: images decide the image-search keys
+    except ValueError as exc:  # ImageError is a ValueError
+        print(str(exc), file=sys.stderr)
+        return 2
     missing = missing_environment(args)
     if missing:
         print(missing, file=sys.stderr)
         return 2
     try:
-        images = _load_cli_images(args)
         checker = build_fact_checker(fact_check_config(args), artifacts_dir=args.artifacts_dir)
-    except ValueError as exc:  # ImageError is a ValueError
+    except ValueError as exc:
         print(str(exc), file=sys.stderr)
         return 2
     progress = (lambda line: print(line, file=sys.stderr, flush=True)) if args.stream_progress else None

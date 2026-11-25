@@ -32,6 +32,7 @@ from facticli.core.usage import StageUsageEvent, apply_usage, track_usage
 from facticli.exa_search import build_exa_web_search_tool
 from facticli.core.images import ClaimImage
 from facticli.knowledge_store import build_knowledge_store_search_tool
+from facticli.reverse_image_search import build_reverse_image_search_tool
 from facticli.skills import load_skill_prompt
 
 ApiMode = Literal["chat_completions", "responses"]
@@ -132,17 +133,19 @@ def build_search_tools(
     max_total_chars: int,
     search_results_per_query: int,
     cache: SearchCache | None = None,
+    reverse_image_search: bool = False,
 ) -> list[Tool]:
-    """The research stage's search tool for the chosen provider."""
-    if search_provider == HOSTED_SEARCH_PROVIDER:
-        return [WebSearchTool(search_context_size=search_context_size)]  # type: ignore[arg-type]
+    """The research stage's search tool for the chosen provider, plus reverse image search when enabled."""
     shared = dict(max_chars_per_field=max_chars_per_field, max_total_chars=max_total_chars, default_count=search_results_per_query)
+    image_tools: list[Tool] = [build_reverse_image_search_tool(**shared, cache=cache)] if reverse_image_search else []
+    if search_provider == HOSTED_SEARCH_PROVIDER:
+        return [WebSearchTool(search_context_size=search_context_size), *image_tools]  # type: ignore[arg-type]
     if search_provider == "brave":
-        return [build_brave_web_search_tool(**shared, cache=cache)]
+        return [build_brave_web_search_tool(**shared, cache=cache), *image_tools]
     if search_provider == "exa":
-        return [build_exa_web_search_tool(**shared, cache=cache)]
+        return [build_exa_web_search_tool(**shared, cache=cache), *image_tools]
     if search_provider == "knowledge_store":
-        return [build_knowledge_store_search_tool(**shared)]
+        return [build_knowledge_store_search_tool(**shared), *image_tools]
     raise ValueError(f"Unsupported search provider: {search_provider}")
 
 

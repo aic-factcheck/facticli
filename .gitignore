@@ -220,3 +220,6 @@ kuba-cluster.yaml
 kubeconfig*
 *.kubeconfig
 .kube/
+
+# AVerImaTeC data: fetched with scripts/fetch_averimatec.py, not distributed here
+data/averimatec/

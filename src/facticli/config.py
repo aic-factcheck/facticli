@@ -62,6 +62,8 @@ class FactCheckRuntimeConfig(InferenceConfig):
     knowledge_store_dir: str | None = None
     tool_call_budget: int = 8
     search_cache_dir: str | None = None
+    # Give the researcher a reverse image search tool (Serper Lens, dated through Exa).
+    reverse_image_search: bool = False
 
     @property
     def effective_research_timeout_seconds(self) -> float:

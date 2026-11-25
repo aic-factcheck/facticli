@@ -9,7 +9,13 @@ from itertools import zip_longest
 from pathlib import Path
 from typing import Any
 
-from facticli.check_options import add_fact_check_args, fact_check_config, missing_environment
+from facticli.check_options import (
+    add_fact_check_args,
+    fact_check_config,
+    missing_environment,
+    missing_image_search_keys,
+    resolve_reverse_image_search,
+)
 from facticli.cli_validators import non_negative_int, positive_int
 from facticli.core.constraints import normalize_claim_date
 from facticli.core.contracts import FactCheckReport, VeracityVerdict
@@ -299,7 +305,9 @@ async def _run_batch(
                 return local_index, None, None
             try:
                 images = await asyncio.to_thread(
-                    load_images, image_sources(record, row_index, args.image_field, args.image_dir)
+                    load_images,
+                    image_sources(record, row_index, args.image_field, args.image_dir),
+                    url_base=args.image_url_base,
                 )
                 if images:
                     run_info["images"] = len(images)
@@ -439,14 +447,24 @@ async def _run(args: argparse.Namespace) -> int:
 
     args.image_dir = Path(args.image_dir) if args.image_dir else input_path.parent
     # A missing or unusable image stops the batch before it spends anything.
+    searchable_images = False
     for row_index, record in indexed_records:
         try:
             for source in image_sources(record, row_index, args.image_field, args.image_dir):
-                if not source.startswith(("http://", "https://")) and not Path(source).is_file():
+                is_url = source.startswith(("http://", "https://"))
+                if not is_url and not Path(source).is_file():
                     raise ImageError(f"Input row {row_index}: image file not found: {source}")
+                searchable_images = searchable_images or is_url or bool(args.image_url_base)
         except ValueError as exc:
             print(str(exc), file=sys.stderr)
             return 2
+    warning = resolve_reverse_image_search(args, searchable_images=searchable_images)
+    if warning:
+        print(warning, file=sys.stderr)
+    missing = missing_image_search_keys() if args.reverse_image_search else None
+    if missing:
+        print(missing, file=sys.stderr)
+        return 2
 
     existing_rows: list[dict[str, Any]] = []
     if args.resume and output_path.is_file():
@@ -542,6 +560,8 @@ async def _run(args: argparse.Namespace) -> int:
             "knowledge_store_dir": args.knowledge_store_dir,
             "image_field": args.image_field,
             "image_dir": str(args.image_dir),
+            "image_url_base": args.image_url_base,
+            "reverse_image_search": args.reverse_image_search,
             "artifacts_dir": args.artifacts_dir,
         },
         "claims": run_info_rows,

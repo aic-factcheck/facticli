@@ -8,6 +8,10 @@ stable id (``image_1``) so prompts, tool calls, and findings can refer to one.
 Nothing is resized. Every accepted format is one the OpenAI API takes as is,
 and the provider scales an image to its own token budget; a file above
 ``MAX_IMAGE_BYTES`` is refused with a message instead of being sent.
+
+Reverse image search needs a URL the search engine can fetch. A URL given as
+the image source is used as is; a local file gets one only when the caller
+names a public base URL under which the file is mirrored by name.
 """
 
 from __future__ import annotations
@@ -16,7 +20,7 @@ import base64
 import hashlib
 from contextvars import ContextVar, Token
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 import httpx
 from pydantic import BaseModel, Field
@@ -45,6 +49,10 @@ class ClaimImage(BaseModel):
     mime_type: str
     byte_size: int
     sha256: str
+    public_url: str | None = Field(
+        default=None,
+        description="URL a reverse image search engine can fetch; None when the image has none.",
+    )
     data: bytes = Field(default=b"", exclude=True, repr=False)
 
     @property
@@ -66,6 +74,13 @@ def _is_url(source: str) -> bool:
     return urlparse(source).scheme in ("http", "https")
 
 
+def public_url_for(path: str, url_base: str | None) -> str | None:
+    """URL of a local file mirrored by file name under ``url_base``, or None without a base."""
+    if not url_base:
+        return None
+    return url_base.rstrip("/") + "/" + quote(Path(path).name)
+
+
 def _download(url: str) -> bytes:
     try:
         with httpx.Client(timeout=DOWNLOAD_TIMEOUT_SECONDS, follow_redirects=True) as client:
@@ -83,13 +98,14 @@ def _download(url: str) -> bytes:
     return b"".join(chunks)
 
 
-def load_image(source: str, *, image_id: str) -> ClaimImage:
+def load_image(source: str, *, image_id: str, url_base: str | None = None) -> ClaimImage:
     """Read an image from a local path or an http(s) URL; raise ``ImageError`` when it cannot be used."""
     source = source.strip()
     if not source:
         raise ImageError("Empty image path.")
     if _is_url(source):
         data = _download(source)
+        public_url: str | None = source
     else:
         path = Path(source).expanduser()
         if not path.is_file():
@@ -97,6 +113,7 @@ def load_image(source: str, *, image_id: str) -> ClaimImage:
         if path.stat().st_size > MAX_IMAGE_BYTES:
             raise ImageError(f"Image {source} is larger than {MAX_IMAGE_BYTES // (1024 * 1024)} MB.")
         data = path.read_bytes()
+        public_url = public_url_for(source, url_base)
     mime_type = sniff_mime_type(data)
     if mime_type is None:
         raise ImageError(f"Unsupported image format: {source} (supported: JPEG, PNG, WebP, GIF).")
@@ -106,13 +123,17 @@ def load_image(source: str, *, image_id: str) -> ClaimImage:
         mime_type=mime_type,
         byte_size=len(data),
         sha256=hashlib.sha256(data).hexdigest(),
+        public_url=public_url,
         data=data,
     )
 
 
-def load_images(sources: list[str] | tuple[str, ...]) -> list[ClaimImage]:
+def load_images(sources: list[str] | tuple[str, ...], *, url_base: str | None = None) -> list[ClaimImage]:
     """Load the claim's images in order, numbered ``image_1``, ``image_2``, ..."""
-    return [load_image(source, image_id=f"image_{index}") for index, source in enumerate(sources, start=1)]
+    return [
+        load_image(source, image_id=f"image_{index}", url_base=url_base)
+        for index, source in enumerate(sources, start=1)
+    ]
 
 
 # --- per-run context -----------------------------------------------------------
@@ -121,7 +142,7 @@ _active_images: ContextVar[tuple[ClaimImage, ...]] = ContextVar("facticli_claim_
 
 
 def activate_images(images: list[ClaimImage] | tuple[ClaimImage, ...]) -> Token:
-    """Install the claim's images for the current run."""
+    """Install the claim's images for the current run, so image tools can resolve ids."""
     return _active_images.set(tuple(images))
 
 
@@ -132,3 +153,8 @@ def deactivate_images(token: Token) -> None:
 def get_images() -> tuple[ClaimImage, ...]:
     """The images of the claim the current run is checking (empty for a text-only claim)."""
     return _active_images.get()
+
+
+def get_image(image_id: str) -> ClaimImage | None:
+    wanted = image_id.strip().lower()
+    return next((image for image in _active_images.get() if image.image_id == wanted), None)

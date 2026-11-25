@@ -57,11 +57,18 @@ IMAGE_NOTICES: dict[str, str] = {
         "passage of input_text that presents the image."
     ),
 }
+REVERSE_IMAGE_SEARCH_NOTICE = (
+    "reverse_image_search(image_id) lists pages that show the same or a similar image, with publication dates. "
+    "Use it to find where and when an image appeared before the claim and what it was said to show there."
+)
 
 
-def images_payload(stage: str, image_ids: list[str]) -> dict[str, Any]:
-    """The ``images`` block of a stage payload."""
-    return {"ids": list(image_ids), "instruction": IMAGE_NOTICES[stage]}
+def images_payload(stage: str, image_ids: list[str], *, searchable_ids: list[str] | None = None) -> dict[str, Any]:
+    """The ``images`` block of a stage payload; ``searchable_ids`` lists images reverse image search can take."""
+    block: dict[str, Any] = {"ids": list(image_ids), "instruction": IMAGE_NOTICES[stage]}
+    if searchable_ids is not None:
+        block["reverse_image_search"] = {"image_ids": list(searchable_ids), "instruction": REVERSE_IMAGE_SEARCH_NOTICE}
+    return block
 
 
 def with_images(payload: dict[str, Any], images: dict[str, Any] | None) -> dict[str, Any]:

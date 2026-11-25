@@ -145,6 +145,7 @@ def _format_usage(run: FactCheckRun) -> list[str]:
     if retrieval is not None:
         counts = {
             "search(es)": retrieval.searches,
+            "reverse image search(es)": retrieval.image_searches,
             "page(s) opened": retrieval.pages_opened,
             "distinct URL(s)": retrieval.distinct_urls,
             "served from cache": retrieval.cache_hits,

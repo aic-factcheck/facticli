@@ -19,6 +19,7 @@ DEFAULT_MAX_CHARS_PER_FIELD = 1500
 DEFAULT_MAX_TOTAL_CHARS = 12000
 DEFAULT_RESULT_COUNT = 5
 EXA_SEARCH_URL = "https://api.exa.ai/search"
+EXA_CONTENTS_URL = "https://api.exa.ai/contents"
 PROVIDER = "exa"
 # "fast" answered in about 0.2 s against about 5 s for "auto" at the same price
 # (one probe, 2026-11-19) and led the OpenBenchmarks company-news board.
@@ -52,11 +53,11 @@ def _tool_failure(context: RunContextWrapper[Any], error: Exception) -> str:
     return default_tool_error_function(context, error)
 
 
-async def _request_exa(body: dict[str, Any], api_key: str) -> dict[str, Any]:
+async def _request_exa(body: dict[str, Any], api_key: str, url: str = EXA_SEARCH_URL) -> dict[str, Any]:
     async with httpx.AsyncClient(timeout=30) as client:
         for attempt in range(_RATE_LIMIT_RETRIES + 1):
             response = await client.post(
-                EXA_SEARCH_URL,
+                url,
                 headers={"x-api-key": api_key, "Content-Type": "application/json"},
                 json=body,
             )

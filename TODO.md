@@ -260,6 +260,64 @@ After the simplification (same settings, one run): 12/20, inside the baseline's 
 over the three runs 0.7, no failed attempts or checks, 68k tokens (14.8 searches vs 12-13) and 47 s
 per claim. With byte-identical model inputs these differences are sampling.
 
+## Images (2026-11-25)
+
+Claim images became a modality: `--image` on `check` and `extract-claims`, image fields in the
+AVeriTeC runner, and an optional reverse image search tool. Design notes (from DEFAME, the VeriTaS
+baselines, Codex, pi, Gemini CLI):
+- Images go into the stage's user message as `input_image` data URLs, each after an `[image_N]`
+  text part, and the payload gets an `images` block (ids + per-stage notice). Text-only requests are
+  byte-identical to before, so `tests/test_model_inputs.py` still pins AVeriTeC behaviour.
+- What an image shows is the claim, not evidence; evidence about it needs a source URL.
+- No resizing (Codex and pi resize; the providers already scale, and no measurement asked for it).
+- Reverse image search: Serper Lens (needs a public image URL; inline data is refused with
+  "The url is invalid") plus Exa `/contents` for publication dates and focused highlights. Lens
+  matches carry no dates, so under a claim date undated pages are dropped, as for Exa search.
+  Probe on AVerImaTeC dev claim 0: 60 Lens matches; Exa dated about 70% of them at $0.001 a page.
+- Lens matches are memoized per image URL for the life of the tool: researchers re-call it on the
+  same image with a new `focus` (claim 16: 3 calls on one image in one check).
+
+### Measured (AVerImaTeC dev pilot, `data/averimatec/pilot_20.json`)
+Built by `scripts/fetch_averimatec.py` (not in the repository). 20 label-stratified dev claims (9 Refuted, 6 NEE, 4 Supported, 1 Conflicting; all non-Refuted dev
+claims plus every 15th Refuted), gpt-6.1-terra, Exa, default tier (flex was unavailable), max 4
+checks, budget 8, fact-checkers blocked, claim-date cutoff, two runs per arm
+(`experiments/2026-11-25_images/run.sh`):
+
+| Arm | Correct, run 1 / run 2 | Agreement | Tokens per claim | Time per claim | Searches / image searches per claim |
+| --- | --- | --- | --- | --- | --- |
+| Text only (images withheld) | 8 / 9 | 0.95 | 53k | 74 s | 9.8 / 0 |
+| Images | 9 / 10 | 0.85 | 121k | 90 s | 18.4 / 0 |
+| Images + reverse image search | 11 / 11 | 1.00 | 112k | 105 s | 14.3 / 3.5 |
+
+- Reverse image search is the part that moves verdicts: claims 36, 70, and 86 were right in both
+  runs with it, and in at most one images-only run and no text-only run. Images alone fixed 135
+  (both runs). Claim 19 (NEE) went wrong in 3 of the 4 runs that showed the image and in neither
+  text-only run.
+- Reverse-image pages were about 40% of the sources cited in the final reports.
+- Images double the cost mostly through planning, not image tokens: the planner makes 2.6 checks
+  per claim with images against 1.6 without (it adds provenance checks), so researchers search more.
+- 7 claims are wrong in all six runs (16, 45, 68, 69, 104, 119, 151). The judge answers Not Enough Evidence where AVerImaTeC's gold
+  says Refuted because the image is unrelated to the claim (104, 119) or Supported because the event
+  is real (68, 151); under the cutoff reverse image search finds no dated page for 16 and 104.
+- Cost of the tool: about 3.5 calls per claim, 3 Serper credits each (fewer with the memo), and
+  Exa page reads at $0.001 a page.
+
+### Open
+- [ ] Judge calibration on image claims: "image does not show what the claim says" should refute
+  (AVerImaTeC gold), not leave the claim unproven. Measure a judge notice before adopting one.
+- [ ] Undated reverse-image matches (social media, Lens-only pages) are dropped under a cutoff;
+  a date from the page itself (meta tags, Wayback first capture) could keep some.
+- [ ] Video claims: VeriTaS Q3-2026 has 369 of 1000 claims with video (395 videos, median 3 MB).
+  Options: Gemini native video, or N frames + transcript for other models (the VeriTaS baselines
+  use 5 frames; their paper says a transcript, their code has none).
+- [ ] Images returned by tools (page images, Codex `view_image`): the Agents SDK drops them on Chat
+  Completions unless moved into a user message (as pi does). DEFAME's "Unimodal Develop" ablation
+  costs only 2-4 points, so not first.
+- [ ] Score against VeriTaS once a labelled split (verdicts included in the export) is available;
+  its target is an Integrity score in [-1, 1], not the four AVeriTeC labels.
+- [x] Reverse image search on by default when a claim image has a public URL (measured gain above);
+  `--no-reverse-image-search` opts out. Missing keys then exit 2 instead of silently skipping it.
+
 ## Testing operations
 
 - [x] Add opt-in live smoke test guarded by environment flags.
